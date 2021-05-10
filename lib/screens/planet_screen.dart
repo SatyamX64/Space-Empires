@@ -76,9 +76,8 @@ class _PlanetScreenState extends State<PlanetScreen> {
                     indicatorSize: TabBarIndicatorSize.tab,
                     indicator: BoxDecoration(
                         gradient: LinearGradient(
-                            colors: [Colors.black, Colors.indigo]),
+                            colors: [Colors.pink.withOpacity(0.5), Theme.of(context).primaryColor.withOpacity(0.5)]),
                         borderRadius: BorderRadius.circular(50),
-                        // color: Colors.redAccent
                         ),
                     tabs: List.generate(
                         _displayMode.keys.length,

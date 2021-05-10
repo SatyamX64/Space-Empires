@@ -1,7 +1,9 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_animated_dialog/flutter_animated_dialog.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:some_game/models/planet_model.dart';
 
 showAttackMenu(BuildContext context) {
   final size = MediaQuery.of(context).size;
@@ -24,7 +26,7 @@ showAttackMenu(BuildContext context) {
                 borderRadius: BorderRadius.circular(8),
                 gradient: LinearGradient(colors: [
                   Colors.black.withOpacity(0.8),
-                  Colors.indigo.withOpacity(0.8)
+                  Theme.of(context).primaryColor.withOpacity(0.8)
                 ]),
               ),
               child: Column(
@@ -32,51 +34,17 @@ showAttackMenu(BuildContext context) {
                 children: [
                   Text(
                     'Attack',
-                    style: Theme.of(context).textTheme.headline5.copyWith(
-                        color: Colors.white, fontWeight: FontWeight.bold),
+                    style: Theme.of(context)
+                        .textTheme
+                        .headline5
+                        .copyWith(fontWeight: FontWeight.bold),
                   ),
                   Expanded(
                       flex: 4,
-                      child: Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(4),
-                          color: Colors.black26,
-                        ),
-                        padding: EdgeInsets.all(8),
-                        child: Column(
-                          children: [
-                            Expanded(
-                              child: Row(
-                                children: [
-                                  Expanded(
-                                      child: Image.asset(
-                                          'assets/img/planets/arth.png')),
-                                  Expanded(
-                                      child: Image.asset(
-                                          'assets/img/planets/eno.png')),
-                                  Expanded(
-                                      child: Image.asset(
-                                          'assets/img/planets/miavis.png'))
-                                ],
-                              ),
-                            ),
-                            Expanded(
-                              child: Row(
-                                children: [
-                                  Expanded(
-                                      child: Image.asset(
-                                          'assets/img/planets/musk.png')),
-                                  Expanded(
-                                      child: Image.asset(
-                                          'assets/img/planets/ocorix.png')),
-                                  Expanded(
-                                      child: Image.asset(
-                                          'assets/img/planets/jupinot.png'))
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
+                      child: LayoutBuilder(
+                        builder: (context, constraints) {
+                          return _EnemyPlanets(constraints: constraints);
+                        },
                       )),
                   Padding(
                     padding: const EdgeInsets.all(4.0),
@@ -87,85 +55,9 @@ showAttackMenu(BuildContext context) {
                   ),
                   Expanded(
                     flex: 3,
-                    child: Container(
-                      // color: Colors.red,
-                      child: Row(
-                        children: [
-                          Expanded(
-                              child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Container(
-                                padding: const EdgeInsets.all(2.0),
-                                margin: const EdgeInsets.all(8),
-                                decoration: BoxDecoration(
-                                  border:
-                                      Border.all(color: Colors.indigoAccent),
-                                  shape: BoxShape.circle,
-                                ),
-                                child: CircleAvatar(
-                                  // radius: double.maxFinite,
-                                  backgroundColor: Colors.black12,
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: SvgPicture.asset(
-                                        'assets/img/ships/attack/astro.svg'),
-                                  ),
-                                ),
-                              ),
-                              Text('45',
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .headline3
-                                      .copyWith(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.bold))
-                            ],
-                          )),
-                          Expanded(
-                              child: Container(
-                            padding: const EdgeInsets.all(2.0),
-                            margin: const EdgeInsets.all(8),
-                            decoration: BoxDecoration(
-                              border: Border.all(color: Colors.indigoAccent),
-                              shape: BoxShape.circle,
-                            ),
-                            child: CircleAvatar(
-                              radius: double.maxFinite,
-                              backgroundColor: Colors.black12,
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: SvgPicture.asset(
-                                    'assets/img/ships/attack/magnum.svg'),
-                              ),
-                            ),
-                          )),
-                          Expanded(
-                              child: Container(
-                            padding: const EdgeInsets.all(2.0),
-                            margin: const EdgeInsets.all(8),
-                            decoration: BoxDecoration(
-                              border: Border.all(color: Colors.indigoAccent),
-                              shape: BoxShape.circle,
-                            ),
-                            child: CircleAvatar(
-                              radius: double.maxFinite,
-                              backgroundColor: Colors.black12,
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: SvgPicture.asset(
-                                    'assets/img/ships/attack/rover.svg'),
-                              ),
-                            ),
-                          )),
-                        ],
-                      ),
-                    ),
+                    child: _MyForce(),
                   ),
                   Expanded(
-                    flex: 1,
                     child: Container(),
                   ),
                 ],
@@ -176,30 +68,108 @@ showAttackMenu(BuildContext context) {
       });
 }
 
-class _UpgradeDialogStatsBox extends StatelessWidget {
-  const _UpgradeDialogStatsBox({Key key, this.header, this.value})
-      : super(key: key);
+class _MyForce extends StatelessWidget {
+  const _MyForce({
+    Key key,
+  }) : super(key: key);
 
-  final String header;
-  final String value;
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: Row(
+        children: [
+          _MyForceCard(
+            name: 'astro',
+            quantity: 45,
+          ),
+          _MyForceCard(
+            name: 'magnum',
+            quantity: 45,
+          ),
+          _MyForceCard(
+            name: 'rover',
+            quantity: 45,
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _MyForceCard extends StatelessWidget {
+  const _MyForceCard({
+    Key key,
+    this.name,
+    this.quantity,
+  }) : super(key: key);
+
+  final name;
+  final quantity;
+
   @override
   Widget build(BuildContext context) {
     return Expanded(
-      child: Container(
-        margin: EdgeInsets.all(8),
-        padding: EdgeInsets.symmetric(vertical: 4, horizontal: 8),
-        decoration: BoxDecoration(
-            color: Colors.black87, borderRadius: BorderRadius.circular(4)),
-        child: Column(
-          children: [
-            Text(header),
-            Text(value,
-                style: Theme.of(context)
-                    .textTheme
-                    .headline3
-                    .copyWith(fontSize: 24, fontWeight: FontWeight.bold)),
-          ],
-        ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Expanded(
+            child: Container(
+              height: double.maxFinite,
+              width: double.maxFinite,
+              margin: EdgeInsets.all(4),
+              decoration: BoxDecoration(
+                border: Border.all(color: Color(0xFF0A2D4B)),
+                shape: BoxShape.circle,
+              ),
+              child: CircleAvatar(
+                backgroundColor: Colors.black54,
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: SvgPicture.asset('assets/img/ships/attack/$name.svg'),
+                ),
+              ),
+            ),
+          ),
+          Text(quantity.toString(),
+              style: Theme.of(context)
+                  .textTheme
+                  .headline3
+                  .copyWith(fontSize: 20, fontWeight: FontWeight.bold))
+        ],
+      ),
+    );
+  }
+}
+
+class _EnemyPlanets extends StatelessWidget {
+  _EnemyPlanets({Key key, this.constraints}) : super(key: key);
+
+  final BoxConstraints constraints;
+  final List<Planet> _availablePlanets =
+      List.from(planetsList.where((planet) => planet.ruler != Ruler.Zapp));
+
+  _planetCard(String planetName) {
+    return Container(
+      width: constraints.maxWidth / 3,
+      height: constraints.maxHeight / 2,
+      padding: EdgeInsets.all(4),
+      alignment: Alignment.center,
+      child: Image.asset('assets/img/planets/$planetName.png'),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(4),
+        color: Colors.black26,
+      ),
+      child: Wrap(
+        children: List.generate(
+            _availablePlanets.length,
+            (index) => _planetCard(
+                describeEnum(_availablePlanets[index].name).toLowerCase())),
       ),
     );
   }

@@ -6,6 +6,7 @@ import 'package:some_game/screens/planet_screen.dart';
 import 'package:some_game/widgets/control_deck.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:some_game/widgets/control_deck/attack.dart';
+import 'package:some_game/widgets/gradient_fab.dart';
 
 class GameScreen extends StatelessWidget {
   static const route = '/game-screen';
@@ -13,37 +14,12 @@ class GameScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: SizedBox(
-        height: 80,
-        width: 80,
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: FloatingActionButton(
-            onPressed: () {},
-            tooltip: 'Next Turn',
-            child: Container(
-              alignment: Alignment.center,
-              width: 60,
-              height: 60,
-              child: SvgPicture.asset(
-                'assets/img/control_deck/next.svg',
-                height: 48,
-                width: 48,
-              ),
-              decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  gradient:
-                      LinearGradient(colors: [Colors.black, Colors.indigo])),
-            ),
-            backgroundColor: Theme.of(context).accentColor,
-          ),
-        ),
-      ),
+      floatingActionButton: _NextTurnFAB(onTap: () {}),
       bottomNavigationBar: ControlDeck(
         onPressed: (index) {
           showAttackMenu(context);
         },
-        backgroundColor: Theme.of(context).primaryColor,
+        backgroundColor: Color(0xFF0A2D4B),
         notchedShape: CircularNotchedRectangle(),
         showText: false,
         iconSize: 48,
@@ -65,31 +41,64 @@ class GameScreen extends StatelessWidget {
   }
 }
 
+class _NextTurnFAB extends StatelessWidget {
+  const _NextTurnFAB({
+    Key key,
+    @required this.onTap,
+  }) : super(key: key);
+
+  final Function onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 80,
+      width: 80,
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: GradientFAB(
+            onTap: onTap,
+            toolTip: 'Next Turn',
+            image: 'assets/img/control_deck/next.svg'),
+      ),
+    );
+  }
+}
+
+
 class _StatsBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
       height: 36,
-      width: double.maxFinite,
-      decoration: BoxDecoration(
-        gradient: LinearGradient(colors: [
-          Theme.of(context).primaryColor.withOpacity(0.8),
-          Colors.black,
-          Theme.of(context).primaryColor.withOpacity(0.8)
-        ], stops: [
-          0.0,
-          0.5,
-          1.0
-        ]),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text('10,000 💲 |  '),
-            Text('Days : 1/999'),
-          ],
+      color: Colors.black,
+      child: Container(
+        height: double.maxFinite,
+        width: double.maxFinite,
+        decoration: BoxDecoration(
+          gradient: LinearGradient(colors: [
+            Colors.black,
+            Theme.of(context).primaryColor.withOpacity(0.4),
+            Colors.black
+          ], stops: [
+            0.0,
+            0.7,
+            1.0
+          ]),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                '10,000 💲 |  ',
+                style: TextStyle(fontWeight: FontWeight.w600),
+              ),
+              Text('Days : 1/999',
+                  style: TextStyle(fontWeight: FontWeight.w600)),
+            ],
+          ),
         ),
       ),
     );

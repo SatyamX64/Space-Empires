@@ -35,7 +35,7 @@ class _UpgradeCard extends StatelessWidget {
         _showUpgradeDetails(context, upgrade);
       },
       child: Card(
-          // color: Theme.of(context).accentColor,
+          color: Colors.blueGrey.withOpacity(0.4),
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Center(
