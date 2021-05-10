@@ -41,7 +41,7 @@ List<Planet> planetsList = [
     name: PlanetName.Miavis,
     ruler: Ruler.Morbo,
     description:
-        'Part of an failed experiment\nThe Planet goes close to doom every day',
+        'Part of an failed experiment\nThe Planet gets closer to doom every day',
   ),
   Planet(
     name: PlanetName.Hounus,

@@ -5,6 +5,7 @@ import 'package:some_game/models/planet_model.dart';
 import 'package:some_game/screens/planet_screen.dart';
 import 'package:some_game/widgets/control_deck.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:some_game/widgets/control_deck/attack.dart';
 
 class GameScreen extends StatelessWidget {
   static const route = '/game-screen';
@@ -20,17 +21,28 @@ class GameScreen extends StatelessWidget {
           child: FloatingActionButton(
             onPressed: () {},
             tooltip: 'Next Turn',
-            child: SvgPicture.asset(
-              'assets/img/control_deck/next.svg',
-              height: 48,
-              width: 48,
+            child: Container(
+              alignment: Alignment.center,
+              width: 60,
+              height: 60,
+              child: SvgPicture.asset(
+                'assets/img/control_deck/next.svg',
+                height: 48,
+                width: 48,
+              ),
+              decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  gradient:
+                      LinearGradient(colors: [Colors.black, Colors.indigo])),
             ),
             backgroundColor: Theme.of(context).accentColor,
           ),
         ),
       ),
       bottomNavigationBar: ControlDeck(
-        onPressed: (index) {},
+        onPressed: (index) {
+          showAttackMenu(context);
+        },
         backgroundColor: Theme.of(context).primaryColor,
         notchedShape: CircularNotchedRectangle(),
         showText: false,
@@ -97,7 +109,7 @@ class _SolarSystem extends StatelessWidget {
       ),
       child: StaggeredGridView.count(
         crossAxisCount: 4,
-        children: List.generate(8, (index) => PlanetCard(index)),
+        children: List.generate(8, (index) => _PlanetCard(index)),
         mainAxisSpacing: 16,
         staggeredTiles: [
           StaggeredTile.count(3, 1),
@@ -114,9 +126,9 @@ class _SolarSystem extends StatelessWidget {
   }
 }
 
-class PlanetCard extends StatelessWidget {
+class _PlanetCard extends StatelessWidget {
   final int index;
-  PlanetCard(this.index);
+  _PlanetCard(this.index);
   @override
   Widget build(BuildContext context) {
     return Container(

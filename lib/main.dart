@@ -16,6 +16,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData.dark().copyWith(
         scaffoldBackgroundColor: Colors.black,
+        
         primaryColor: Color(0xFF0A2D4B),
         accentColor: Color(0xFFE18D01),
         elevatedButtonTheme: ElevatedButtonThemeData(

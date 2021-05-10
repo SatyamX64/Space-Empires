@@ -62,10 +62,15 @@ class ControlDeckState extends State<ControlDeck> {
 
     return BottomAppBar(
       shape: widget.notchedShape,
-      child: Row(
-        mainAxisSize: MainAxisSize.max,
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: items,
+      child: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(colors: [Colors.black.withOpacity(0.5), Colors.indigo.withOpacity(0.5)]),
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: items,
+        ),
       ),
       color: widget.backgroundColor,
     );
