@@ -36,3 +36,9 @@ flutter:
       - assets/img/control_deck/
       - assets/img/avatar/
 
+  fonts:
+    - family: Italianno
+      fonts:
+        - asset: assets/fonts/Italianno-Regular.ttf
+          style: italic
+
