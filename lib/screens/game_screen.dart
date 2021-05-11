@@ -7,6 +7,8 @@ import 'package:some_game/widgets/control_deck.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:some_game/widgets/control_deck/attack.dart';
 import 'package:some_game/widgets/control_deck/military.dart';
+import 'package:some_game/widgets/control_deck/rivals_chat.dart';
+import 'package:some_game/widgets/control_deck/stats.dart';
 import 'package:some_game/widgets/gradient_fab.dart';
 
 class GameScreen extends StatelessWidget {
@@ -18,11 +20,19 @@ class GameScreen extends StatelessWidget {
       floatingActionButton: _NextTurnFAB(onTap: () {}),
       bottomNavigationBar: ControlDeck(
         onPressed: (index) {
-          switch(index){
-            case 0: showAttackMenu(context);
-                    return;
-            case 1: showMilitaryMenu(context);
-                    return;
+          switch (index) {
+            case 0:
+              showAttackMenu(context);
+              return;
+            case 1:
+              showMilitaryMenu(context);
+              return;
+            case 2:
+              showStatsMenu(context);
+              return;
+            case 3:
+              showRivalsChatMenu(context);
+              return;
           }
         },
         backgroundColor: Color(0xFF0A2D4B),
