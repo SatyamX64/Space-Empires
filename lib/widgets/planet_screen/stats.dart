@@ -35,6 +35,7 @@ class PlanetStats extends StatelessWidget {
                         Expanded(
                           flex: 2,
                           child: Container(
+                            alignment: Alignment.center,
                             child: Image.asset(
                               'assets/img/avatar/${describeEnum(_planet.ruler).toLowerCase()}.png',
                             ),

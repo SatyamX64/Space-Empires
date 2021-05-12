@@ -2,9 +2,9 @@ import 'dart:ui';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:some_game/models/planet_model.dart';
-import 'package:some_game/widgets/planet/defence.dart';
-import 'package:some_game/widgets/planet/stats.dart';
-import 'package:some_game/widgets/planet/upgrades.dart';
+import 'package:some_game/widgets/planet_screen/defence.dart';
+import 'package:some_game/widgets/planet_screen/stats.dart';
+import 'package:some_game/widgets/planet_screen/upgrades.dart';
 
 class PlanetScreen extends StatefulWidget {
   static const route = '/planet-screen';

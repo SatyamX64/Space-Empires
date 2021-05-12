@@ -1,51 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_animated_dialog/flutter_animated_dialog.dart';
+import 'package:some_game/widgets/gradient_dialog.dart';
 
 showStatsMenu(BuildContext context) {
-  final size = MediaQuery.of(context).size;
-
-  return showAnimatedDialog(
+  return showGradientDialog(
       context: context,
-      animationType: DialogTransitionType.size,
-      barrierDismissible: true,
-      curve: Curves.fastOutSlowIn,
-      duration: Duration(seconds: 1),
-      builder: (BuildContext context) {
-        return Material(
-          type: MaterialType.transparency,
-          child: DefaultTabController(
-            length: 3,
-            child: Center(
-              child: Container(
-                alignment: Alignment.center,
-                height: size.height * 0.6,
-                width: size.width * 0.8,
-                padding: EdgeInsets.all(12),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(8),
-                  gradient: LinearGradient(colors: [
-                    Colors.black.withOpacity(0.8),
-                    Theme.of(context).primaryColor.withOpacity(0.8)
-                  ]),
-                ),
-                child: Column(
-                  children: [
-                    Text(
-                      'Stats',
-                      style: Theme.of(context)
-                          .textTheme
-                          .headline5
-                          .copyWith(fontWeight: FontWeight.bold),
-                    ),
-                    _ResourceAllocator(),
-                    _RivalsOpinion()
-                  ],
-                ),
-              ),
-            ),
+      child: Column(
+        children: [
+          Text(
+            'Stats',
+            style: Theme.of(context)
+                .textTheme
+                .headline5
+                .copyWith(fontWeight: FontWeight.bold),
           ),
-        );
-      });
+          _ResourceAllocator(),
+          _RivalsOpinion()
+        ],
+      ));
 }
 
 class _ResourceAllocator extends StatelessWidget {
@@ -67,7 +38,12 @@ class _ResourceAllocator extends StatelessWidget {
               _InfoBar(text: 'Luxury', value: _PlusMinus()),
               _InfoBar(text: 'Culture', value: _PlusMinus()),
               _InfoBar(text: 'Military', value: _PlusMinus()),
-              _InfoBar(text: 'Total', value: Text('12324 AP',style: TextStyle(fontWeight: FontWeight.bold),)),
+              _InfoBar(
+                  text: 'Total',
+                  value: Text(
+                    '12324 AP',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  )),
             ],
           ),
         ));

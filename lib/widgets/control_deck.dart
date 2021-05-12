@@ -17,7 +17,7 @@ class ControlDeck extends StatefulWidget {
     this.height: 60.0,
     this.iconSize: 24.0,
     this.backgroundColor,
-    this.color,
+    this.unselectedColor,
     this.selectedColor,
     this.notchedShape,
     this.onPressed,
@@ -30,7 +30,7 @@ class ControlDeck extends StatefulWidget {
   final double height;
   final double iconSize;
   final Color backgroundColor;
-  final Color color;
+  final Color unselectedColor;
   final Color selectedColor;
   final NotchedShape notchedShape;
   final ValueChanged<int> onPressed;
@@ -87,7 +87,7 @@ class ControlDeckState extends State<ControlDeck> {
             SizedBox(height: widget.iconSize),
             Text(
               widget.centerItemText ?? '',
-              style: TextStyle(color: widget.color),
+              style: TextStyle(color: widget.unselectedColor),
             ),
           ],
         ),
@@ -108,7 +108,7 @@ class ControlDeckState extends State<ControlDeck> {
     int index,
     ValueChanged<int> onPressed,
   }) {
-    Color color = _selectedIndex == index ? widget.selectedColor : widget.color;
+    Color color = _selectedIndex == index ? widget.selectedColor : widget.unselectedColor;
     return Expanded(
       child: SizedBox(
         height: widget.height,

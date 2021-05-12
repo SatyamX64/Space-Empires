@@ -1,133 +1,44 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter_animated_dialog/flutter_animated_dialog.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:some_game/models/attack_ships_model.dart';
+import 'package:some_game/widgets/gradient_dialog.dart';
+
+import '../circle_tab_indicator.dart';
 
 showMilitaryMenu(BuildContext context) {
-  final size = MediaQuery.of(context).size;
-
-  return showAnimatedDialog(
+  return showGradientDialog(
       context: context,
-      animationType: DialogTransitionType.size,
-      barrierDismissible: true,
-      curve: Curves.fastOutSlowIn,
-      duration: Duration(seconds: 1),
-      builder: (BuildContext context) {
-        return Material(
-          type: MaterialType.transparency,
-          child: DefaultTabController(
-            length: 3,
-            child: Center(
-              child: Container(
-                alignment: Alignment.center,
-                height: size.height * 0.6,
-                width: size.width * 0.8,
-                padding: EdgeInsets.all(12),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(8),
-                  gradient: LinearGradient(colors: [
-                    Colors.black.withOpacity(0.8),
-                    Theme.of(context).primaryColor.withOpacity(0.8)
-                  ]),
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Expanded(
-                        child: TabBarView(
-                            children: List.generate(
-                      attackShips.length,
-                      (index) => AttackShipInfo(
-                        attackShip: attackShips[index],
-                      ),
-                    ))),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 8.0),
-                      child: TabBar(
-                          unselectedLabelColor: Colors.white,
-                          indicatorSize: TabBarIndicatorSize.tab,
-                          indicator: CircleTabIndicator(
-                              color: Colors.white, radius: 3),
-                          tabs: List.generate(
-                              attackShips.length,
-                              (index) => Tab(
-                                    text: describeEnum(attackShips[index].type),
-                                  ))),
-                    ),
-                    // Expanded(
-                    //     child: Column(
-                    //   children: [
-                    //     Expanded(
-                    //         child: Container(
-                    //       margin: EdgeInsets.all(4),
-                    //       decoration: BoxDecoration(
-                    //         borderRadius: BorderRadius.circular(4),
-                    //         color: Colors.black12,
-                    //       ),
-                    //       child: Column(
-                    //         children: [
-                    //           Expanded(
-                    //               child: Container(
-                    //             alignment: Alignment.center,
-                    //             child: Row(
-                    //               mainAxisSize: MainAxisSize.min,
-                    //               children: [
-                    //                 InkWell(
-                    //                   customBorder: const CircleBorder(),
-                    //                   onTap: () {},
-                    //                   child: Container(
-                    //                     padding: const EdgeInsets.all(6.0),
-                    //                     decoration: const BoxDecoration(
-                    //                       color: Colors.black26,
-                    //                       shape: BoxShape.circle,
-                    //                     ),
-                    //                     child:
-                    //                         const Icon(Icons.add, size: 24.0),
-                    //                   ),
-                    //                 ),
-                    //                 Container(
-                    //                   alignment: Alignment.center,
-                    //                   margin: EdgeInsets.symmetric(
-                    //                       horizontal: 4, vertical: 8),
-                    //                   width: 32,
-                    //                   child: Text(
-                    //                     '23',
-                    //                     style: TextStyle(
-                    //                         fontSize: 16,
-                    //                         fontWeight: FontWeight.bold),
-                    //                   ),
-                    //                 ),
-                    //                 InkWell(
-                    //                   customBorder: const CircleBorder(),
-                    //                   onTap: () {},
-                    //                   child: Container(
-                    //                     alignment: Alignment.center,
-                    //                     padding: const EdgeInsets.all(6.0),
-                    //                     decoration: const BoxDecoration(
-                    //                       color: Colors.black26,
-                    //                       shape: BoxShape.circle,
-                    //                     ),
-                    //                     child: const Icon(Icons.remove,
-                    //                         size: 24.0),
-                    //                   ),
-                    //                 ),
-                    //               ],
-                    //             ),
-                    //           )),
-                    //         ],
-                    //       ),
-                    //     )),
-                    //   ],
-                    // )),
-                  ],
-                ),
+      padding: 8,
+      child: DefaultTabController(
+        length: 3,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Expanded(
+                child: TabBarView(
+                    children: List.generate(
+              attackShips.length,
+              (index) => AttackShipInfo(
+                attackShip: attackShips[index],
               ),
+            ))),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8.0),
+              child: TabBar(
+                  unselectedLabelColor: Colors.white,
+                  indicatorSize: TabBarIndicatorSize.tab,
+                  indicator: CircleTabIndicator(color: Colors.white, radius: 3),
+                  tabs: List.generate(
+                      attackShips.length,
+                      (index) => Tab(
+                            text: describeEnum(attackShips[index].type),
+                          ))),
             ),
-          ),
-        );
-      });
+          ],
+        ),
+      ));
 }
 
 class AttackShipInfo extends StatelessWidget {
@@ -349,32 +260,5 @@ class _MilitaryDialogStatsBox extends StatelessWidget {
         ),
       ),
     );
-  }
-}
-
-class CircleTabIndicator extends Decoration {
-  final BoxPainter _painter;
-
-  CircleTabIndicator({@required Color color, @required double radius})
-      : _painter = _CirclePainter(color, radius);
-
-  @override
-  BoxPainter createBoxPainter([onChanged]) => _painter;
-}
-
-class _CirclePainter extends BoxPainter {
-  final Paint _paint;
-  final double radius;
-
-  _CirclePainter(Color color, this.radius)
-      : _paint = Paint()
-          ..color = color
-          ..isAntiAlias = true;
-
-  @override
-  void paint(Canvas canvas, Offset offset, ImageConfiguration cfg) {
-    final Offset circleOffset =
-        offset + Offset(cfg.size.width / 2, cfg.size.height - radius - 5);
-    canvas.drawCircle(circleOffset, radius, _paint);
   }
 }

@@ -91,27 +91,25 @@ _showUpgradeDetails(BuildContext context, Upgrade upgrade) {
                           'assets/img/buildings/${upgrade.name.toLowerCase()}.svg')),
                   Expanded(
                     flex: 2,
-                    child: Container(
-                      child: Column(
-                        children: [
-                          Text(
-                            upgrade.description,
-                            style: TextStyle(fontWeight: FontWeight.w600),
+                    child: Column(
+                      children: [
+                        Text(
+                          upgrade.description,
+                          style: TextStyle(fontWeight: FontWeight.w600),
+                        ),
+                        Expanded(
+                          child: Row(
+                            children: [
+                              _UpgradeDialogStatsBox(
+                                  header: upgrade.effect,
+                                  value: upgrade.effectValue),
+                              _UpgradeDialogStatsBox(
+                                  header: 'Cost',
+                                  value: upgrade.cost.toString()),
+                            ],
                           ),
-                          Expanded(
-                            child: Row(
-                              children: [
-                                _UpgradeDialogStatsBox(
-                                    header: upgrade.effect,
-                                    value: upgrade.effectValue),
-                                _UpgradeDialogStatsBox(
-                                    header: 'Cost',
-                                    value: upgrade.cost.toString()),
-                              ],
-                            ),
-                          )
-                        ],
-                      ),
+                        )
+                      ],
                     ),
                   ),
                   Expanded(
