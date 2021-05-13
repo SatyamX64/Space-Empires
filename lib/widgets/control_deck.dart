@@ -2,40 +2,35 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class ControlDeckItem {
-  ControlDeckItem({this.iconData, this.text, this.isPng: false}) {
+  ControlDeckItem({this.text, this.isPng: false}) {
     assert(text != null);
   }
-  IconData iconData;
   String text;
   bool isPng;
 }
 
 // Bottom App Bar
-// child Priority if clash happens : icon > svg > png
+// child Priority if clash happens : svg > png
 
 class ControlDeck extends StatefulWidget {
   ControlDeck({
     this.items,
-    this.showText: true,
-    this.centerItemText,
+    this.showLabel: true,
     this.height: 60.0,
     this.iconSize: 24.0,
     this.backgroundColor,
-    this.unselectedIconColor,
-    this.selectedIconColor,
+    this.labelColor: Colors.white,
     this.notchedShape,
     this.onPressed,
   }) {
     assert(this.items.length == 2 || this.items.length == 4);
   }
   final List<ControlDeckItem> items;
-  final bool showText;
-  final String centerItemText;
+  final bool showLabel;
   final double height;
   final double iconSize;
+  final Color labelColor;
   final Color backgroundColor;
-  final Color unselectedIconColor;
-  final Color selectedIconColor;
   final NotchedShape notchedShape;
   final ValueChanged<int> onPressed;
 
@@ -87,17 +82,6 @@ class ControlDeckState extends State<ControlDeck> {
     return Expanded(
       child: SizedBox(
         height: widget.height,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            SizedBox(height: widget.iconSize),
-            Text(
-              widget.centerItemText ?? '',
-              style: TextStyle(color: widget.unselectedIconColor),
-            ),
-          ],
-        ),
       ),
     );
   }
@@ -122,8 +106,6 @@ class ControlDeckState extends State<ControlDeck> {
     int index,
     ValueChanged<int> onPressed,
   }) {
-    Color color =
-        _selectedIndex == index ? widget.selectedIconColor : widget.unselectedIconColor;
     return Expanded(
       child: SizedBox(
         height: widget.height,
@@ -135,13 +117,14 @@ class ControlDeckState extends State<ControlDeck> {
               mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                item.iconData == null
-                    ? _image(item.text, item.isPng)
-                    : Icon(item.iconData, color: color, size: widget.iconSize),
-                widget.showText
+                if (widget.showLabel == false) _image(item.text, item.isPng),
+                widget.showLabel
                     ? Text(
                         item.text,
-                        style: TextStyle(color: color),
+                        style: TextStyle(
+                          color: widget.labelColor,
+                          fontWeight: FontWeight.w600,
+                        ),
                       )
                     : Container(),
               ],

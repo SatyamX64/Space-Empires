@@ -2,6 +2,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:some_game/screens/game_screen.dart';
+import 'package:some_game/widgets/static_stars_bg.dart';
 
 class WelcomeScreen extends StatelessWidget {
   static const route = '/welcome-screen';
@@ -87,36 +88,18 @@ class WelcomeScreen extends StatelessWidget {
       );
     }
 
-    return OrientationBuilder(builder: (ctx, orientation) {
-      return Scaffold(
-        body: Stack(
-          children: [
-            _StaticStarsBackGround(orientation),
-            _animatedStars(),
-            _spaceLights(),
-            _saturn(),
-            _xeno(),
-            _menu(),
-          ],
-        ),
-      );
-    });
-  }
-}
-
-class _StaticStarsBackGround extends StatelessWidget {
-  final Orientation orientation;
-  _StaticStarsBackGround(this.orientation);
-  @override
-  Widget build(BuildContext context) {
-    return RotatedBox(
-      quarterTurns: orientation == Orientation.landscape ? 1 : 0,
-      child: Container(
-        constraints: BoxConstraints.expand(),
-        decoration: BoxDecoration(
-          image: DecorationImage(image: AssetImage('assets/img/stars_bg.png')),
-        ),
+    return Scaffold(
+      body: Stack(
+        children: [
+          StaticStarsBackGround(),
+          _animatedStars(),
+          _spaceLights(),
+          _saturn(),
+          _xeno(),
+          _menu(),
+        ],
       ),
     );
+    
   }
 }

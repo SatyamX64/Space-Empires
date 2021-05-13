@@ -4,7 +4,6 @@ class StatsBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 36,
       color: Colors.black,
       child: Container(
         height: double.maxFinite,
