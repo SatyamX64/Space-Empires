@@ -4,6 +4,8 @@ import 'package:some_game/screens/game_screen.dart';
 import 'package:some_game/screens/planet_screen.dart';
 import 'package:some_game/screens/welcome_screen.dart';
 
+import 'utility/constants.dart';
+
 void main() {
   runApp(MyApp());
 }
@@ -17,10 +19,10 @@ class MyApp extends StatelessWidget {
       theme: ThemeData.dark().copyWith(
           scaffoldBackgroundColor: Colors.black,
           primaryColor: Colors.indigo,
-          accentColor: Color(0xFFE18D01),
+          accentColor: kBrightOrange,
           elevatedButtonTheme: ElevatedButtonThemeData(
               style: ButtonStyle(
-            backgroundColor: MaterialStateProperty.all<Color>(Color(0xFF0A2D4B)),
+            backgroundColor: MaterialStateProperty.all<Color>(kDeepBlue),
           ))),
       initialRoute: WelcomeScreen.route,
       routes: {

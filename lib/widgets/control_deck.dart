@@ -2,12 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class ControlDeckItem {
-  ControlDeckItem({this.iconData, this.text}) {
+  ControlDeckItem({this.iconData, this.text, this.isPng: false}) {
     assert(text != null);
   }
   IconData iconData;
   String text;
+  bool isPng;
 }
+
+// Bottom App Bar
+// child Priority if clash happens : icon > svg > png
 
 class ControlDeck extends StatefulWidget {
   ControlDeck({
@@ -17,8 +21,8 @@ class ControlDeck extends StatefulWidget {
     this.height: 60.0,
     this.iconSize: 24.0,
     this.backgroundColor,
-    this.unselectedColor,
-    this.selectedColor,
+    this.unselectedIconColor,
+    this.selectedIconColor,
     this.notchedShape,
     this.onPressed,
   }) {
@@ -30,8 +34,8 @@ class ControlDeck extends StatefulWidget {
   final double height;
   final double iconSize;
   final Color backgroundColor;
-  final Color unselectedColor;
-  final Color selectedColor;
+  final Color unselectedIconColor;
+  final Color selectedIconColor;
   final NotchedShape notchedShape;
   final ValueChanged<int> onPressed;
 
@@ -64,7 +68,10 @@ class ControlDeckState extends State<ControlDeck> {
       shape: widget.notchedShape,
       child: Container(
         decoration: BoxDecoration(
-          gradient: LinearGradient(colors: [Colors.black.withOpacity(0.5), Theme.of(context).primaryColor.withOpacity(0.5)]),
+          gradient: LinearGradient(colors: [
+            Colors.black.withOpacity(0.5),
+            Theme.of(context).primaryColor.withOpacity(0.5)
+          ]),
         ),
         child: Row(
           mainAxisSize: MainAxisSize.max,
@@ -87,7 +94,7 @@ class ControlDeckState extends State<ControlDeck> {
             SizedBox(height: widget.iconSize),
             Text(
               widget.centerItemText ?? '',
-              style: TextStyle(color: widget.unselectedColor),
+              style: TextStyle(color: widget.unselectedIconColor),
             ),
           ],
         ),
@@ -95,7 +102,14 @@ class ControlDeckState extends State<ControlDeck> {
     );
   }
 
-  Widget _image(String text) {
+  Widget _image(String text, bool isPng) {
+    if (isPng) {
+      return Image.asset(
+        'assets/img/control_deck/${text.toLowerCase()}.png',
+        height: widget.iconSize,
+        width: widget.iconSize,
+      );
+    }
     return SvgPicture.asset(
       'assets/img/control_deck/${text.toLowerCase()}.svg',
       height: widget.iconSize,
@@ -108,7 +122,8 @@ class ControlDeckState extends State<ControlDeck> {
     int index,
     ValueChanged<int> onPressed,
   }) {
-    Color color = _selectedIndex == index ? widget.selectedColor : widget.unselectedColor;
+    Color color =
+        _selectedIndex == index ? widget.selectedIconColor : widget.unselectedIconColor;
     return Expanded(
       child: SizedBox(
         height: widget.height,
@@ -121,7 +136,7 @@ class ControlDeckState extends State<ControlDeck> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 item.iconData == null
-                    ? _image(item.text)
+                    ? _image(item.text, item.isPng)
                     : Icon(item.iconData, color: color, size: widget.iconSize),
                 widget.showText
                     ? Text(

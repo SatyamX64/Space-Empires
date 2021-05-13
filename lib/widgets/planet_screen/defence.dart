@@ -35,6 +35,7 @@ class _DefenceShipCard extends StatelessWidget {
         _showDefenceDetails(context, _defenceShip);
       },
       child: Card(
+        color: Colors.blueGrey.withOpacity(0.4),
         child: Padding(
           padding: EdgeInsets.all(8),
           child: ListTile(

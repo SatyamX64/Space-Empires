@@ -195,8 +195,10 @@ class _ShipOverview extends StatelessWidget {
                         height: double.maxFinite,
                         width: double.maxFinite,
                         margin: EdgeInsets.all(4),
-                        child: SvgPicture.asset(
-                            'assets/img/ships/attack/${describeEnum(attackShip.type).toLowerCase()}.svg'),
+                        child:Image.asset(
+                            'assets/img/ships/attack/${describeEnum(attackShip.type).toLowerCase()}.png'),
+                        // SvgPicture.asset(
+                        //     'assets/img/ships/attack/${describeEnum(attackShip.type).toLowerCase()}.svg'),
                       ),
                     ),
                     Expanded(

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:some_game/models/planet_model.dart';
+import 'package:some_game/utility/constants.dart';
 import 'package:some_game/widgets/gradient_dialog.dart';
 
 showAttackMenu(BuildContext context) {
@@ -94,7 +95,7 @@ class _MyForceCard extends StatelessWidget {
               width: double.maxFinite,
               margin: EdgeInsets.all(4),
               decoration: BoxDecoration(
-                border: Border.all(color: Color(0xFF0A2D4B)),
+                border: Border.all(color: kDeepBlue),
                 shape: BoxShape.circle,
               ),
               child: CircleAvatar(

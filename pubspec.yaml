@@ -18,6 +18,7 @@ dependencies:
   flutter_svg: ^0.22.0
   provider: ^5.0.0
   flutter_animated_dialog: ^1.2.0
+  lottie: ^1.0.1
 
 dev_dependencies:
   flutter_test:
@@ -28,6 +29,7 @@ flutter:
   uses-material-design: true
 
   assets:
+      - assets/animations/
       - assets/img/
       - assets/img/planets/
       - assets/img/buildings/
@@ -41,4 +43,7 @@ flutter:
       fonts:
         - asset: assets/fonts/Italianno-Regular.ttf
           style: italic
+    - family: Astral
+      fonts:
+        - asset: assets/fonts/Astral-Delight.ttf  
 
