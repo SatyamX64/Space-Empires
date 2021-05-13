@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:some_game/utility/constants.dart';
 
 class GradientFAB extends StatelessWidget {
   const GradientFAB({
@@ -32,7 +33,7 @@ class GradientFAB extends StatelessWidget {
             gradient: LinearGradient(
                 colors: [Colors.black, Theme.of(context).primaryColor])),
       ),
-      backgroundColor: Theme.of(context).accentColor,
+      backgroundColor: kBrightOrange,
     );
   }
 }

@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData.dark().copyWith(
           scaffoldBackgroundColor: Colors.black,
           primaryColor: Colors.indigo,
-          accentColor: kBrightOrange,
+          accentColor: kDeepBlue,
           elevatedButtonTheme: ElevatedButtonThemeData(
               style: ButtonStyle(
             backgroundColor: MaterialStateProperty.all<Color>(kDeepBlue),
