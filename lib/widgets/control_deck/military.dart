@@ -1,7 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:some_game/models/attack_ships_model.dart';
 import 'package:some_game/widgets/gradient_dialog.dart';
 
@@ -24,18 +23,15 @@ showMilitaryMenu(BuildContext context) {
                 attackShip: attackShips[index],
               ),
             ))),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8.0),
-              child: TabBar(
-                  unselectedLabelColor: Colors.white,
-                  indicatorSize: TabBarIndicatorSize.tab,
-                  indicator: CircleTabIndicator(color: Colors.white, radius: 3),
-                  tabs: List.generate(
-                      attackShips.length,
-                      (index) => Tab(
-                            text: describeEnum(attackShips[index].type),
-                          ))),
-            ),
+            TabBar(
+                unselectedLabelColor: Colors.white,
+                indicatorSize: TabBarIndicatorSize.tab,
+                indicator: CircleTabIndicator(color: Colors.white, radius: 3),
+                tabs: List.generate(
+                    attackShips.length,
+                    (index) => Tab(
+                          text: describeEnum(attackShips[index].type),
+                        ))),
           ],
         ),
       ));
@@ -48,34 +44,90 @@ class AttackShipInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final Orientation orientation = MediaQuery.of(context).orientation;
     return Column(
-      children: [
-        Text(
-          describeEnum(attackShip.type),
-          style: Theme.of(context)
-              .textTheme
-              .headline5
-              .copyWith(fontWeight: FontWeight.bold),
-        ),
-        _ShipOverview(
-          attackShip: attackShip,
-        ),
-        _ShipStats(
-          attackShip: attackShip,
-        ),
-        Expanded(
-          child: Row(children: [
-            _TransactionButton(
-              text: 'Buy',
-              onTap: () {},
-            ),
-            _TransactionButton(
-              text: 'Sell',
-              onTap: () {},
-            ),
-          ]),
-        ),
-      ],
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: orientation == Orientation.landscape
+          ? [
+              Text(
+                describeEnum(attackShip.type),
+                style: Theme.of(context)
+                    .textTheme
+                    .headline5
+                    .copyWith(fontWeight: FontWeight.bold),
+              ),
+              _ShipOverview(
+                attackShip: attackShip,
+              ),
+
+              Expanded(
+                flex: 2,
+                child: Row(
+                  children: [
+                    _ShipStats(
+                      attackShip: attackShip,
+                      flex: 4,
+                    ),
+                    Expanded(
+                      child: Column(
+                        children: [
+                          _TransactionButton(
+                            text: 'Buy',
+                            onTap: () {},
+                          ),
+                          _TransactionButton(
+                            text: 'Sell',
+                            onTap: () {},
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              // Expanded(
+              //   child: Row(children: [
+              //     _TransactionButton(
+              //       text: 'Buy',
+              //       onTap: () {},
+              //     ),
+              //     _TransactionButton(
+              //       text: 'Sell',
+              //       onTap: () {},
+              //     ),
+              //   ]),
+              // ),
+            ]
+          : [
+              Text(
+                describeEnum(attackShip.type),
+                style: Theme.of(context)
+                    .textTheme
+                    .headline5
+                    .copyWith(fontWeight: FontWeight.bold),
+              ),
+              _ShipOverview(
+                attackShip: attackShip,
+              ),
+              _ShipStats(
+                attackShip: attackShip,
+                flex: 2,
+              ),
+              Expanded(
+                child: Row(
+                  children: [
+                    _TransactionButton(
+                      text: 'Buy',
+                      onTap: () {},
+                    ),
+                    _TransactionButton(
+                      text: 'Sell',
+                      onTap: () {},
+                    ),
+                  ],
+                ),
+              ),
+            ],
     );
   }
 }
@@ -99,8 +151,8 @@ class _TransactionButton extends StatelessWidget {
         child: Text(this.text,
             style: Theme.of(context)
                 .textTheme
-                .headline3
-                .copyWith(fontSize: 18, fontWeight: FontWeight.bold)),
+                .headline5
+                .copyWith( fontWeight: FontWeight.bold,color: Colors.grey)),
       ),
     ));
   }
@@ -110,9 +162,11 @@ class _ShipStats extends StatelessWidget {
   const _ShipStats({
     Key key,
     this.attackShip,
+    this.flex,
   }) : super(key: key);
 
   final AttackShip attackShip;
+  final int flex;
 
   _statsText(String text) {
     return Padding(
@@ -127,14 +181,14 @@ class _ShipStats extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Expanded(
-        flex: 2,
+        flex: flex,
         child: Container(
           margin: EdgeInsets.all(4),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(4),
             color: Colors.black12,
           ),
-          padding: EdgeInsets.all(16),
+          padding: EdgeInsets.all(8),
           child: Row(
             children: [
               Expanded(
@@ -195,7 +249,7 @@ class _ShipOverview extends StatelessWidget {
                         height: double.maxFinite,
                         width: double.maxFinite,
                         margin: EdgeInsets.all(4),
-                        child:Image.asset(
+                        child: Image.asset(
                             'assets/img/ships/attack/${describeEnum(attackShip.type).toLowerCase()}.png'),
                         // SvgPicture.asset(
                         //     'assets/img/ships/attack/${describeEnum(attackShip.type).toLowerCase()}.svg'),
@@ -253,11 +307,15 @@ class _MilitaryDialogStatsBox extends StatelessWidget {
               header,
               style: TextStyle(fontWeight: FontWeight.w600),
             ),
-            Text(value,
-                style: Theme.of(context)
-                    .textTheme
-                    .headline3
-                    .copyWith(fontSize: 18, fontWeight: FontWeight.bold)),
+            Expanded(
+              child: Center(
+                child: Text(value,
+                    style: Theme.of(context)
+                        .textTheme
+                        .headline5
+                        .copyWith(fontWeight: FontWeight.bold)),
+              ),
+            ),
           ],
         ),
       ),
