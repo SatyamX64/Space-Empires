@@ -19,7 +19,7 @@ class SolarSystem extends StatelessWidget {
           : ((size.height - (6 * cellSize)));
       final double mainAxisPadding =
           orientation == Orientation.landscape ? spaceLeft / 2 : spaceLeft / 6;
-          
+
       // crossAxisPadding = (crossAxisCount*(spaceLeft/mainAxisCount))/2
       final double crossAxisPadding = spaceLeft < 0
           ? (orientation == Orientation.landscape
@@ -52,7 +52,6 @@ class SolarSystem extends StatelessWidget {
         alignment: Alignment.center,
         height: size.height,
         width: size.width,
-        padding: EdgeInsets.symmetric(horizontal: crossAxisPadding),
         child: Stack(
           children: [
             StaticStarsBackGround(),
@@ -60,6 +59,7 @@ class SolarSystem extends StatelessWidget {
               crossAxisCount: 4,
               physics: NeverScrollableScrollPhysics(),
               mainAxisSpacing: mainAxisPadding > 0 ? mainAxisPadding : 0,
+              padding: EdgeInsets.symmetric(horizontal: crossAxisPadding),
               children: List.generate(8, (index) => _PlanetCard(index)),
               staggeredTiles: orientation == Orientation.landscape
                   ? _landscapeTilesLayout

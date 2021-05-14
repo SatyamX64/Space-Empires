@@ -2,9 +2,11 @@ import 'dart:ui';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:some_game/models/planet_model.dart';
+import 'package:some_game/utility/constants.dart';
 import 'package:some_game/widgets/planet_screen/defence.dart';
 import 'package:some_game/widgets/planet_screen/stats.dart';
 import 'package:some_game/widgets/planet_screen/upgrades.dart';
+import 'package:some_game/widgets/static_stars_bg.dart';
 
 class PlanetScreen extends StatefulWidget {
   static const route = '/planet-screen';
@@ -43,59 +45,88 @@ class _PlanetScreenState extends State<PlanetScreen> {
     super.didChangeDependencies();
   }
 
+  Widget _planetImage() {
+    return Expanded(
+      child: Hero(
+          tag: _planet.name,
+          child: Image.asset(
+              'assets/img/planets/${describeEnum(_planet.name).toLowerCase()}.png')),
+    );
+  }
+
+  Widget _tabBar() {
+    return TabBar(
+        unselectedLabelColor: Colors.white,
+        indicatorSize: TabBarIndicatorSize.tab,
+        indicator: BoxDecoration(
+          gradient: LinearGradient(colors: [
+            Colors.pink[700],
+            opacityPrimaryColor(0.5)
+          ]),
+          borderRadius: BorderRadius.circular(50),
+        ),
+        tabs: List.generate(
+            _displayMode.keys.length,
+            (index) => Tab(
+                  text: List.from(_displayMode.keys)[index],
+                )));
+  }
+
+  Widget _tabView() {
+    return Expanded(
+      child: Padding(
+        padding: EdgeInsets.all(16),
+        child: TabBarView(
+          children: List.generate(_displayMode.values.length,
+              (index) => List.from(_displayMode.values)[index]),
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
+    final Orientation orientation = MediaQuery.of(context).orientation;
     return DefaultTabController(
       length: 3,
       child: Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.transparent,
-          leading: Container(),
           centerTitle: true,
           title: Text(describeEnum(_planet.name)),
         ),
-        body: Container(
-          constraints: BoxConstraints.expand(),
-          decoration: BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage('assets/img/stars_bg.png'),
-            ),
-          ),
-          child: Column(
-            children: [
-              Expanded(
-                child: Hero(
-                    tag: _planet.name,
-                    child: Image.asset(
-                        'assets/img/planets/${describeEnum(_planet.name).toLowerCase()}.png')),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8),
-                child: TabBar(
-                    unselectedLabelColor: Colors.white,
-                    indicatorSize: TabBarIndicatorSize.tab,
-                    indicator: BoxDecoration(
-                        gradient: LinearGradient(
-                            colors: [Colors.pink.withOpacity(0.5), Theme.of(context).primaryColor.withOpacity(0.5)]),
-                        borderRadius: BorderRadius.circular(50),
+        body: Stack(
+          children: [
+            StaticStarsBackGround(),
+            orientation == Orientation.landscape
+                ? Row(
+                    children: [
+                      Expanded(
+                        child: Column(
+                          children: [
+                            _planetImage(),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 8, vertical: 8),
+                              child: _tabBar(),
+                            ),
+                          ],
                         ),
-                    tabs: List.generate(
-                        _displayMode.keys.length,
-                        (index) => Tab(
-                              text: List.from(_displayMode.keys)[index],
-                            ))),
-              ),
-              Expanded(
-                child: Padding(
-                  padding: EdgeInsets.all(16),
-                  child: TabBarView(
-                    children: List.generate(_displayMode.values.length,
-                        (index) => List.from(_displayMode.values)[index]),
+                      ),
+                      _tabView(),
+                    ],
+                  )
+                : Column(
+                    children: [
+                      _planetImage(),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 8),
+                        child: _tabBar(),
+                      ),
+                      _tabView(),
+                    ],
                   ),
-                ),
-              )
-            ],
-          ),
+          ],
         ),
       ),
     );

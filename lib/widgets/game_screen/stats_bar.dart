@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:some_game/utility/constants.dart';
 
 class StatsBar extends StatelessWidget {
   @override
@@ -11,7 +12,7 @@ class StatsBar extends StatelessWidget {
         decoration: BoxDecoration(
           gradient: LinearGradient(colors: [
             Colors.black,
-            Theme.of(context).primaryColor.withOpacity(0.4),
+            opacityPrimaryColor(0.4),
             Colors.black
           ], stops: [
             0.0,

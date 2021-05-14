@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:some_game/utility/constants.dart';
 
 class ControlDeckItem {
   ControlDeckItem({this.text, this.isPng: false}) {
@@ -64,8 +65,8 @@ class ControlDeckState extends State<ControlDeck> {
       child: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(colors: [
-            Colors.black.withOpacity(0.5),
-            Theme.of(context).primaryColor.withOpacity(0.5)
+            opacityBlack(0.5),
+            opacityPrimaryColor(0.5)
           ]),
         ),
         child: Row(

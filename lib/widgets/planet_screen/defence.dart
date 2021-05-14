@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animated_dialog/flutter_animated_dialog.dart';
@@ -11,22 +13,29 @@ class PlanetDefence extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-        itemCount: defenceShips.length,
-        itemBuilder: (_, index) {
-          return _DefenceShipCard(defenceShip: defenceShips[index]);
-        });
+    return LayoutBuilder(builder: (context, constraints) {
+      return ListView.builder(
+          itemCount: defenceShips.length,
+          itemExtent:
+              min(120, max(constraints.maxHeight / defenceShips.length, 90)),
+          itemBuilder: (_, index) {
+            return _DefenceShipCard(
+              defenceShip: defenceShips[index],
+              width: constraints.maxWidth,
+            );
+          });
+    });
   }
 }
 
 class _DefenceShipCard extends StatelessWidget {
-  const _DefenceShipCard({
-    Key key,
-    @required DefenceShip defenceShip,
-  })  : _defenceShip = defenceShip,
+  const _DefenceShipCard(
+      {Key key, @required DefenceShip defenceShip, this.width})
+      : _defenceShip = defenceShip,
         super(key: key);
 
   final DefenceShip _defenceShip;
+  final double width;
 
   @override
   Widget build(BuildContext context) {
@@ -38,60 +47,31 @@ class _DefenceShipCard extends StatelessWidget {
         color: Colors.blueGrey.withOpacity(0.4),
         child: Padding(
           padding: EdgeInsets.all(8),
-          child: ListTile(
-            leading: Container(
-              height: 60,
-              width: 60,
-              child: SvgPicture.asset(
-                  'assets/img/ships/defence/${describeEnum(_defenceShip.type).toLowerCase()}.svg'),
-            ),
-            title: Text(
-              describeEnum(_defenceShip.type),
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
-            ),
-            trailing: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 0.0),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  InkWell(
-                    customBorder: const CircleBorder(),
-                    onTap: () {},
-                    child: Container(
-                      padding: const EdgeInsets.all(6.0),
-                      decoration: const BoxDecoration(
-                        color: Colors.black26,
-                        shape: BoxShape.circle,
-                      ),
-                      child: const Icon(Icons.add, size: 24.0),
-                    ),
+          child: Row(
+            children: [
+              Expanded(
+                  child: Center(
+                child: SvgPicture.asset(
+                    'assets/img/ships/defence/${describeEnum(_defenceShip.type).toLowerCase()}.svg'),
+              )),
+              Expanded(
+                flex: 2,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    describeEnum(_defenceShip.type),
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
                   ),
-                  Container(
-                    alignment: Alignment.center,
-                    margin: EdgeInsets.symmetric(horizontal: 4, vertical: 8),
-                    width: 32,
-                    child: Text(
-                      '23',
-                      style:
-                          TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                  InkWell(
-                    customBorder: const CircleBorder(),
-                    onTap: () {},
-                    child: Container(
-                      alignment: Alignment.center,
-                      padding: const EdgeInsets.all(6.0),
-                      decoration: const BoxDecoration(
-                        color: Colors.black26,
-                        shape: BoxShape.circle,
-                      ),
-                      child: const Icon(Icons.remove, size: 24.0),
-                    ),
-                  ),
-                ],
+                ),
               ),
-            ),
+              Visibility(
+                visible: width > 210 ? true : false,
+                child: Expanded(
+                  flex: 3,
+                  child: _BuyMoreShips(),
+                ),
+              )
+            ],
           ),
         ),
       ),
@@ -99,8 +79,63 @@ class _DefenceShipCard extends StatelessWidget {
   }
 }
 
+class _BuyMoreShips extends StatelessWidget {
+  const _BuyMoreShips({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(4),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          InkWell(
+            customBorder: const CircleBorder(),
+            onTap: () {},
+            child: Container(
+              padding: const EdgeInsets.all(6.0),
+              decoration: const BoxDecoration(
+                color: Colors.black26,
+                shape: BoxShape.circle,
+              ),
+              child: const Icon(Icons.add),
+            ),
+          ),
+          Container(
+            alignment: Alignment.center,
+            margin: EdgeInsets.all(4),
+            child: Text(
+              '243',
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+          ),
+          InkWell(
+            customBorder: const CircleBorder(),
+            onTap: () {},
+            child: Container(
+              alignment: Alignment.center,
+              padding: const EdgeInsets.all(6.0),
+              decoration: const BoxDecoration(
+                color: Colors.black26,
+                shape: BoxShape.circle,
+              ),
+              child: const Icon(Icons.remove, size: 24.0),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
 _showDefenceDetails(BuildContext context, DefenceShip defenceShip) {
   final size = MediaQuery.of(context).size;
+  final Orientation orientation = (size.width / size.height > 1.7)
+      ? Orientation.landscape
+      : Orientation.portrait;
   return showAnimatedDialog(
       context: context,
       animationType: DialogTransitionType.size,
@@ -113,14 +148,17 @@ _showDefenceDetails(BuildContext context, DefenceShip defenceShip) {
           child: Center(
             child: Container(
               alignment: Alignment.center,
-              height: size.height * 0.5,
-              width: size.width * 0.8,
+              height: orientation == Orientation.landscape
+                  ? size.height * 0.8
+                  : size.height * 0.5,
+              width: orientation == Orientation.landscape
+                  ? size.width * 0.5
+                  : size.width * 0.8,
               padding: EdgeInsets.all(16),
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(8),
                   color: Colors.black54),
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Text(
                     describeEnum(defenceShip.type),
@@ -128,46 +166,30 @@ _showDefenceDetails(BuildContext context, DefenceShip defenceShip) {
                         color: Colors.white, fontWeight: FontWeight.bold),
                   ),
                   Expanded(
-                      flex: 4,
                       child: SvgPicture.asset(
                           'assets/img/ships/defence/${describeEnum(defenceShip.type).toLowerCase()}.svg')),
-                  Expanded(
-                    flex: 2,
-                    child: Container(
-                      child: Column(
-                        children: [
-                          Text(
-                            defenceShip.description,
-                            style: TextStyle(fontWeight: FontWeight.w600),
-                          ),
-                          Expanded(
-                            child: Row(
-                              children: [
-                                _DefenceDialogStatsBox(
-                                    header: 'Morale',
-                                    value: defenceShip.morale.toString()),
-                                _DefenceDialogStatsBox(
-                                    header: 'Cost',
-                                    value: defenceShip.cost.toString()),
-                              ],
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
+                  Text(
+                    defenceShip.description,
+                    style: TextStyle(fontWeight: FontWeight.w600),
                   ),
-                  Expanded(
-                    child: SizedBox(
-                      width: double.maxFinite,
-                      child: Padding(
-                        padding:
-                            EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                        child: ElevatedButton(
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                          },
-                          child: Text('Okey'),
-                        ),
+                  Row(
+                    children: [
+                      _DefenceDialogStatsBox(
+                          header: 'Morale',
+                          value: defenceShip.morale.toString()),
+                      _DefenceDialogStatsBox(
+                          header: 'Cost', value: defenceShip.cost.toString()),
+                    ],
+                  ),
+                  SizedBox(
+                    width: 360,
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                      child: ElevatedButton(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                        child: Text('Okey'),
                       ),
                     ),
                   ),
@@ -194,13 +216,16 @@ class _DefenceDialogStatsBox extends StatelessWidget {
         decoration: BoxDecoration(
             color: Colors.black87, borderRadius: BorderRadius.circular(4)),
         child: Column(
+          mainAxisSize: MainAxisSize.min,
           children: [
             Text(header),
-            Text(value,
-                style: Theme.of(context)
-                    .textTheme
-                    .headline3
-                    .copyWith(fontSize: 24, fontWeight: FontWeight.bold)),
+            Center(
+              child: Text(value,
+                  style: Theme.of(context)
+                      .textTheme
+                      .headline5
+                      .copyWith(fontWeight: FontWeight.bold)),
+            ),
           ],
         ),
       ),

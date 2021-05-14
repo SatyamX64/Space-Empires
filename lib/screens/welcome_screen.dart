@@ -2,6 +2,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:some_game/screens/game_screen.dart';
+import 'package:some_game/utility/constants.dart';
 import 'package:some_game/widgets/static_stars_bg.dart';
 
 class WelcomeScreen extends StatelessWidget {
@@ -16,8 +17,8 @@ class WelcomeScreen extends StatelessWidget {
         constraints: BoxConstraints.expand(),
         decoration: BoxDecoration(
           gradient: LinearGradient(colors: [
-            Colors.black.withOpacity(0.3),
-            Color.fromRGBO(63, 81, 181, 0.4),
+            opacityBlack(0.3),
+            opacityPrimaryColor(0.4),
           ]),
         ));
   }
