@@ -1,3 +1,5 @@
+import 'dart:math';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -19,13 +21,11 @@ showAttackMenu(BuildContext context) {
               .headline5
               .copyWith(fontWeight: FontWeight.bold),
         ),
-        Expanded(
-            flex: 4,
-            child: LayoutBuilder(
-              builder: (context, constraints) {
-                return _EnemyPlanets(constraints: constraints);
-              },
-            )),
+        Expanded(child: LayoutBuilder(
+          builder: (context, constraints) {
+            return _EnemyPlanets(constraints: constraints);
+          },
+        )),
         Padding(
           padding: const EdgeInsets.all(4.0),
           child: Text(
@@ -33,13 +33,7 @@ showAttackMenu(BuildContext context) {
             style: TextStyle(fontWeight: FontWeight.bold),
           ),
         ),
-        Expanded(
-          flex: 3,
-          child: _MyForce(),
-        ),
-        Expanded(
-          child: Container(),
-        ),
+        _MyForce(),
       ],
     ),
   );
@@ -52,7 +46,8 @@ class _MyForce extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 16),
       child: Row(
         children: [
           _MyForceCard(
@@ -85,14 +80,18 @@ class _MyForceCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final Size size = MediaQuery.of(context).size;
     return Expanded(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisSize: MainAxisSize.min,
         children: [
-          Expanded(
-            child: Container(
-              height: double.maxFinite,
-              width: double.maxFinite,
+          LayoutBuilder(builder: (context, constraints) {
+            return Container(
+              height:
+                  min(max(size.width, size.height) / 8, constraints.maxWidth),
+              width:
+                  min(max(size.width, size.height) / 8, constraints.maxWidth),
               margin: EdgeInsets.all(4),
               decoration: BoxDecoration(
                 border: Border.all(color: kDeepBlue),
@@ -105,13 +104,13 @@ class _MyForceCard extends StatelessWidget {
                   child: SvgPicture.asset('assets/img/ships/attack/$name.svg'),
                 ),
               ),
-            ),
-          ),
+            );
+          }),
           Text(quantity.toString(),
               style: Theme.of(context)
                   .textTheme
-                  .headline3
-                  .copyWith(fontSize: 20, fontWeight: FontWeight.bold))
+                  .headline5
+                  .copyWith(fontWeight: FontWeight.bold))
         ],
       ),
     );
@@ -127,8 +126,7 @@ class _EnemyPlanets extends StatelessWidget {
 
   _planetCard(String planetName) {
     return Container(
-      width: constraints.maxWidth / 3,
-      height: constraints.maxHeight / 2,
+      width: constraints.maxWidth * 0.6,
       padding: EdgeInsets.all(4),
       alignment: Alignment.center,
       child: Image.asset('assets/img/planets/$planetName.png'),
@@ -137,17 +135,24 @@ class _EnemyPlanets extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(4),
-        color: Colors.black26,
-      ),
-      child: Wrap(
-        children: List.generate(
-            _availablePlanets.length,
-            (index) => _planetCard(
-                describeEnum(_availablePlanets[index].name).toLowerCase())),
-      ),
+    return Stack(
+      children: [
+        Container(
+          constraints: BoxConstraints.expand(),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(4),
+            color: Colors.black26,
+          ),
+          child: CarouselSlider.builder(
+            options: CarouselOptions(),
+            itemCount: _availablePlanets.length,
+            itemBuilder: (BuildContext context, int index, _) => _planetCard(
+                describeEnum(_availablePlanets[index].name).toLowerCase()),
+          ),
+        ),
+        Align(alignment: Alignment.centerLeft, child: Icon(Icons.arrow_left)),
+        Align(alignment: Alignment.centerRight, child: Icon(Icons.arrow_right)),
+      ],
     );
   }
 }

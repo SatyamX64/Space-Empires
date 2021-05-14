@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animated_dialog/flutter_animated_dialog.dart';
 
-showGradientDialog({@required BuildContext context, Widget child,double padding : 16.0}) {
+showGradientDialog(
+    {@required BuildContext context, Widget child, double padding: 16.0}) {
   final size = MediaQuery.of(context).size;
+  final Orientation orientation = (size.width / size.height > 1.7)
+      ? Orientation.landscape
+      : Orientation.portrait;
   return showAnimatedDialog(
       context: context,
       animationType: DialogTransitionType.size,
@@ -15,8 +19,12 @@ showGradientDialog({@required BuildContext context, Widget child,double padding 
           child: Center(
             child: Container(
                 alignment: Alignment.center,
-                height: size.height * 0.6,
-                width: size.width * 0.8,
+                height: orientation == Orientation.landscape
+                  ? size.height * 0.90
+                  : size.height * 0.6,
+              width: orientation == Orientation.landscape
+                  ? size.width * 0.5
+                  : size.width * 0.8,
                 padding: EdgeInsets.all(padding),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(8),

@@ -92,60 +92,57 @@ _showUpgradeDetails(BuildContext context, Upgrade upgrade) {
       builder: (BuildContext context) {
         return Material(
           type: MaterialType.transparency,
-          child: Center(child: OrientationBuilder(
-            builder: (context, orientation) {
-              return Container(
-                alignment: Alignment.center,
-                height: orientation == Orientation.landscape
-                    ? size.height * 0.8
-                    : size.height * 0.5,
-                width: orientation == Orientation.landscape
-                    ? size.width * 0.5
-                    : size.width * 0.8,
-                padding: EdgeInsets.all(16),
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(8),
-                    color: Colors.black54),
-                child: Column(
-                  children: [
-                    Text(
-                      upgrade.name,
-                      style: Theme.of(context).textTheme.headline5.copyWith(
-                          color: Colors.white, fontWeight: FontWeight.bold),
-                    ),
-                    Expanded(
-                        child: SvgPicture.asset(
-                            'assets/img/buildings/${upgrade.name.toLowerCase()}.svg')),
-                    Text(
-                      upgrade.description,
-                      style: TextStyle(fontWeight: FontWeight.w600),
-                    ),
-                    Row(
-                      children: [
-                        _UpgradeDialogStatsBox(
-                            header: upgrade.effect, value: upgrade.effectValue),
-                        _UpgradeDialogStatsBox(
-                            header: 'Cost', value: upgrade.cost.toString()),
-                      ],
-                    ),
-                    SizedBox(
-                      width: 360,
-                      child: Padding(
-                        padding:
-                            EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                        child: ElevatedButton(
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                          },
-                          child: Text('Buy'),
-                        ),
+          child: Center(
+            child: Container(
+              alignment: Alignment.center,
+              height: orientation == Orientation.landscape
+                  ? size.height * 0.8
+                  : size.height * 0.5,
+              width: orientation == Orientation.landscape
+                  ? size.width * 0.5
+                  : size.width * 0.8,
+              padding: EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(8),
+                  color: Colors.black54),
+              child: Column(
+                children: [
+                  Text(
+                    upgrade.name,
+                    style: Theme.of(context).textTheme.headline5.copyWith(
+                        color: Colors.white, fontWeight: FontWeight.bold),
+                  ),
+                  Expanded(
+                      child: SvgPicture.asset(
+                          'assets/img/buildings/${upgrade.name.toLowerCase()}.svg')),
+                  Text(
+                    upgrade.description,
+                    style: TextStyle(fontWeight: FontWeight.w600),
+                  ),
+                  Row(
+                    children: [
+                      _UpgradeDialogStatsBox(
+                          header: upgrade.effect, value: upgrade.effectValue),
+                      _UpgradeDialogStatsBox(
+                          header: 'Cost', value: upgrade.cost.toString()),
+                    ],
+                  ),
+                  SizedBox(
+                    width: 360,
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                      child: ElevatedButton(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                        child: Text('Buy'),
                       ),
                     ),
-                  ],
-                ),
-              );
-            },
-          )),
+                  ),
+                ],
+              ),
+            ),
+          ),
         );
       });
 }
@@ -173,7 +170,7 @@ class _UpgradeDialogStatsBox extends StatelessWidget {
                   style: Theme.of(context)
                       .textTheme
                       .headline5
-                      .copyWith( fontWeight: FontWeight.bold)),
+                      .copyWith(fontWeight: FontWeight.bold)),
             ),
           ],
         ),
