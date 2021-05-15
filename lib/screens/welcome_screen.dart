@@ -26,7 +26,6 @@ class WelcomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-
     _menu() {
       return Align(
         alignment: Alignment.center,
@@ -101,6 +100,5 @@ class WelcomeScreen extends StatelessWidget {
         ],
       ),
     );
-    
   }
 }

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:some_game/models/attack_ships_model.dart';
 import 'package:some_game/widgets/gradient_dialog.dart';
-
+import 'package:sizer/sizer.dart';
 import '../circle_tab_indicator.dart';
 
 showMilitaryMenu(BuildContext context) {
@@ -267,11 +267,11 @@ class _ShipOverview extends StatelessWidget {
                     child: Container(
                         alignment: Alignment.center,
                         child: Text(attackShip.description,
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontFamily: 'Italianno',
-                              fontSize: 24,
-                            )))),
+                            style:
+                                Theme.of(context).textTheme.headline6.copyWith(
+                                      fontWeight: FontWeight.w600,
+                                      fontFamily: 'Italianno',
+                                    )))),
               ],
             )));
   }
@@ -287,26 +287,43 @@ class _MilitaryDialogStatsBox extends StatelessWidget {
   Widget build(BuildContext context) {
     return Expanded(
       child: Container(
-        margin: EdgeInsets.symmetric(horizontal: 4, vertical: 8),
+        margin: EdgeInsets.symmetric(horizontal: 4, vertical: 12),
         padding: EdgeInsets.symmetric(vertical: 4, horizontal: 8),
         decoration: BoxDecoration(
             color: Colors.black54, borderRadius: BorderRadius.circular(4)),
-        child: Column(
-          children: [
-            Text(
-              header,
-              style: TextStyle(fontWeight: FontWeight.w600),
-            ),
-            Expanded(
-              child: Center(
-                child: Text(value,
-                    style: Theme.of(context)
-                        .textTheme
-                        .headline6
-                        .copyWith(fontWeight: FontWeight.bold)),
-              ),
-            ),
-          ],
+        child: LayoutBuilder(
+          builder: (_, constraints) {
+            return constraints.maxHeight - 28.sp > 0
+                ? Column(
+                    children: [
+                      Text(
+                        header,
+                        style: TextStyle(
+                            fontWeight: FontWeight.w600, color: Colors.white54),
+                      ),
+                      Expanded(
+                        child: Center(
+                          child: Text(
+                            value,
+                            style: Theme.of(context)
+                                .textTheme
+                                .headline6
+                                .copyWith(fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                      ),
+                    ],
+                  )
+                : FittedBox(
+                    child: Text(
+                      value,
+                      style: Theme.of(context)
+                          .textTheme
+                          .headline6
+                          .copyWith(fontWeight: FontWeight.bold),
+                    ),
+                  );
+          },
         ),
       ),
     );

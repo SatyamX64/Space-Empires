@@ -76,6 +76,7 @@ class _RivalsOpinion extends StatelessWidget {
             Text('The Aliens choose to ignore us\nHave better things at hand',
                 style: Theme.of(context).textTheme.headline6.copyWith(
                       fontFamily: 'Italianno',
+                      // fontWeight: FontWeight.w600
                     )),
       ),
     ));

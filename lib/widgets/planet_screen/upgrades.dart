@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animated_dialog/flutter_animated_dialog.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:some_game/models/upgrade_model.dart';
+import 'package:sizer/sizer.dart';
 
 class PlanetUpgrades extends StatelessWidget {
   PlanetUpgrades({
@@ -128,7 +129,7 @@ _showUpgradeDetails(BuildContext context, Upgrade upgrade) {
                     ],
                   ),
                   SizedBox(
-                    width: 360,
+                    width: 360.sp,
                     child: Padding(
                       padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                       child: ElevatedButton(
@@ -161,19 +162,30 @@ class _UpgradeDialogStatsBox extends StatelessWidget {
         padding: EdgeInsets.symmetric(vertical: 4, horizontal: 8),
         decoration: BoxDecoration(
             color: Colors.black87, borderRadius: BorderRadius.circular(4)),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(header),
-            Center(
-              child: Text(value,
-                  style: Theme.of(context)
-                      .textTheme
-                      .headline5
-                      .copyWith(fontWeight: FontWeight.bold)),
-            ),
-          ],
-        ),
+        child: LayoutBuilder(builder: (_, constraints) {
+          return constraints.maxHeight - 28.sp > 4
+              ? Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(header),
+                    Center(
+                      child: Text(value,
+                          style: Theme.of(context)
+                              .textTheme
+                              .headline6
+                              .copyWith(fontWeight: FontWeight.bold)),
+                    ),
+                  ],
+                )
+              : FittedBox(
+                  fit: BoxFit.fitWidth,
+                  child: Text(value,
+                      style: Theme.of(context)
+                          .textTheme
+                          .headline6
+                          .copyWith(fontWeight: FontWeight.bold)),
+                );
+        }),
       ),
     );
   }

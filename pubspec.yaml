@@ -20,6 +20,7 @@ dependencies:
   flutter_animated_dialog: ^1.2.0
   lottie: ^1.0.1
   carousel_slider: ^3.0.0
+  sizer: ^2.0.13
 
 dev_dependencies:
   flutter_test:

@@ -1,5 +1,5 @@
 import 'dart:math';
-
+import 'package:sizer/sizer.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -87,7 +87,7 @@ class _ChatOptions extends StatelessWidget {
                 Visibility(
                   visible: constraints.maxHeight >= 90,
                   child: Container(
-                    height: min(120, max(constraints.maxHeight*0.25 , 72)),
+                    height: min(120, max(constraints.maxHeight * 0.25, 72)),
                     child: Row(children: [
                       Expanded(
                         child: Container(
@@ -117,7 +117,7 @@ class _ChatOptions extends StatelessWidget {
                 ),
                 Expanded(
                   child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 16),
+                    padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                     child: ListView.separated(
                         itemBuilder: (ctx, index) {
                           return Container(
@@ -202,28 +202,36 @@ class _MoodStatusBox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    TextStyle _textStyle = TextStyle(
-        fontWeight: FontWeight.bold, fontSize: 18, color: _getColor());
+    TextStyle _textStyle = Theme.of(context)
+        .textTheme
+        .headline6
+        .copyWith(fontWeight: FontWeight.bold, color: _getColor());
 
     return Expanded(
       child: Container(
-        margin: EdgeInsets.symmetric(horizontal: 4, vertical: 8),
-        padding: EdgeInsets.symmetric(vertical: 4, horizontal: 8),
-        decoration: BoxDecoration(
-            color: Colors.black54, borderRadius: BorderRadius.circular(4)),
-        child: Column(
-          children: [
-            Text(
-              'Mood',
-              style:
-                  TextStyle(fontWeight: FontWeight.w600, color: Colors.white54),
-            ),
-            Expanded(
-                child:
-                    Center(child: Text(describeEnum(mood), style: _textStyle))),
-          ],
-        ),
-      ),
+          margin: EdgeInsets.symmetric(horizontal: 4, vertical: 8),
+          padding: EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+          decoration: BoxDecoration(
+              color: Colors.black54, borderRadius: BorderRadius.circular(4)),
+          child: LayoutBuilder(builder: (_, constraints) {
+            return constraints.maxHeight - 28.sp > 4
+                ? Column(
+                    children: [
+                      Text(
+                        'Mood',
+                        style: TextStyle(
+                            fontWeight: FontWeight.w600, color: Colors.white54),
+                      ),
+                      Expanded(
+                          child: Center(
+                              child:
+                                  Text(describeEnum(mood), style: _textStyle))),
+                    ],
+                  )
+                : FittedBox(
+                    child: Text(describeEnum(mood), style: _textStyle),
+                  );
+          })),
     );
   }
 }
@@ -246,8 +254,10 @@ class _RelationStatusBox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    TextStyle _textStyle = TextStyle(
-        fontWeight: FontWeight.bold, fontSize: 18, color: _getColor());
+    TextStyle _textStyle = Theme.of(context)
+        .textTheme
+        .headline6
+        .copyWith(fontWeight: FontWeight.bold, color: _getColor());
 
     return Expanded(
       child: Container(
@@ -255,19 +265,25 @@ class _RelationStatusBox extends StatelessWidget {
         padding: EdgeInsets.symmetric(vertical: 4, horizontal: 8),
         decoration: BoxDecoration(
             color: Colors.black54, borderRadius: BorderRadius.circular(4)),
-        child: Column(
-          children: [
-            Text(
-              'Relation',
-              style:
-                  TextStyle(fontWeight: FontWeight.w600, color: Colors.white54),
-            ),
-            Expanded(
-                child: Center(
-                    child: Text(describeEnum(relation), style: _textStyle))),
-          ],
-        ),
-      ),
+        child: LayoutBuilder(builder: (_, constraints) {
+            return constraints.maxHeight - 28.sp > 4
+                ? Column(
+                    children: [
+                      Text(
+                        'Mood',
+                        style: TextStyle(
+                            fontWeight: FontWeight.w600, color: Colors.white54),
+                      ),
+                      Expanded(
+                          child: Center(
+                              child:
+                                  Text(describeEnum(relation), style: _textStyle))),
+                    ],
+                  )
+                : FittedBox(
+                    child: Text(describeEnum(relation), style: _textStyle),
+                  );
+          })),
     );
   }
 }

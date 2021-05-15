@@ -1,5 +1,5 @@
 import 'dart:math';
-
+import 'package:sizer/sizer.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animated_dialog/flutter_animated_dialog.dart';
@@ -60,7 +60,7 @@ class _DefenceShipCard extends StatelessWidget {
                   padding: const EdgeInsets.all(8.0),
                   child: Text(
                     describeEnum(_defenceShip.type),
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+                    style: TextStyle(fontWeight: FontWeight.bold),
                   ),
                 ),
               ),
@@ -182,7 +182,7 @@ _showDefenceDetails(BuildContext context, DefenceShip defenceShip) {
                     ],
                   ),
                   SizedBox(
-                    width: 360,
+                    width: 360.sp,
                     child: Padding(
                       padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                       child: ElevatedButton(
@@ -215,19 +215,30 @@ class _DefenceDialogStatsBox extends StatelessWidget {
         padding: EdgeInsets.symmetric(vertical: 4, horizontal: 8),
         decoration: BoxDecoration(
             color: Colors.black87, borderRadius: BorderRadius.circular(4)),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(header),
-            Center(
-              child: Text(value,
-                  style: Theme.of(context)
-                      .textTheme
-                      .headline5
-                      .copyWith(fontWeight: FontWeight.bold)),
-            ),
-          ],
-        ),
+        child: LayoutBuilder(builder: (_, constraints) {
+          return constraints.maxHeight - 28.sp > 4
+              ? Column(
+                mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(header),
+                    Center(
+                      child: Text(value,
+                          style: Theme.of(context)
+                              .textTheme
+                              .headline6
+                              .copyWith(fontWeight: FontWeight.bold)),
+                    ),
+                  ],
+                )
+              : FittedBox(
+                fit: BoxFit.fitWidth,
+                  child: Text(value,
+                      style: Theme.of(context)
+                          .textTheme
+                          .headline6
+                          .copyWith(fontWeight: FontWeight.bold)),
+                );
+        }),
       ),
     );
   }
