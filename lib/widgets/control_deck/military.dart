@@ -59,7 +59,6 @@ class AttackShipInfo extends StatelessWidget {
               _ShipOverview(
                 attackShip: attackShip,
               ),
-
               Expanded(
                 flex: 2,
                 child: Row(
@@ -85,18 +84,6 @@ class AttackShipInfo extends StatelessWidget {
                   ],
                 ),
               ),
-              // Expanded(
-              //   child: Row(children: [
-              //     _TransactionButton(
-              //       text: 'Buy',
-              //       onTap: () {},
-              //     ),
-              //     _TransactionButton(
-              //       text: 'Sell',
-              //       onTap: () {},
-              //     ),
-              //   ]),
-              // ),
             ]
           : [
               Text(
@@ -151,8 +138,8 @@ class _TransactionButton extends StatelessWidget {
         child: Text(this.text,
             style: Theme.of(context)
                 .textTheme
-                .headline5
-                .copyWith( fontWeight: FontWeight.bold,color: Colors.grey)),
+                .headline6
+                .copyWith(fontWeight: FontWeight.bold)),
       ),
     ));
   }
@@ -312,7 +299,7 @@ class _MilitaryDialogStatsBox extends StatelessWidget {
                 child: Text(value,
                     style: Theme.of(context)
                         .textTheme
-                        .headline5
+                        .headline6
                         .copyWith(fontWeight: FontWeight.bold)),
               ),
             ),

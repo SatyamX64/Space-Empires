@@ -25,7 +25,7 @@ class _ResourceAllocator extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Expanded(
-        flex: 2,
+        flex: 3,
         child: Container(
           margin: EdgeInsets.all(4),
           decoration: BoxDecoration(
@@ -34,10 +34,18 @@ class _ResourceAllocator extends StatelessWidget {
           ),
           child: Column(
             children: [
-              _InfoBar(text: 'Propoganda', value: _PlusMinus()),
-              _InfoBar(text: 'Luxury', value: _PlusMinus()),
-              _InfoBar(text: 'Culture', value: _PlusMinus()),
-              _InfoBar(text: 'Military', value: _PlusMinus()),
+              Expanded(
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      _InfoBar(text: 'Propoganda', value: _PlusMinus()),
+                      _InfoBar(text: 'Luxury', value: _PlusMinus()),
+                      _InfoBar(text: 'Culture', value: _PlusMinus()),
+                      _InfoBar(text: 'Military', value: _PlusMinus()),
+                    ],
+                  ),
+                ),
+              ),
               _InfoBar(
                   text: 'Total',
                   value: Text(
@@ -63,12 +71,13 @@ class _RivalsOpinion extends StatelessWidget {
         borderRadius: BorderRadius.circular(4),
         color: Colors.black12,
       ),
-      child: Text('The Aliens choose to ignore us\nHave better things at hand',
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            fontFamily: 'Italianno',
-            fontSize: 24,
-          )),
+      child: SingleChildScrollView(
+        child:
+            Text('The Aliens choose to ignore us\nHave better things at hand',
+                style: Theme.of(context).textTheme.headline6.copyWith(
+                      fontFamily: 'Italianno',
+                    )),
+      ),
     ));
   }
 }
@@ -86,65 +95,70 @@ class _InfoBar extends StatelessWidget {
   final value;
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-        child: Row(
-      children: [
-        Expanded(
-            child: Container(
-          alignment: Alignment.centerLeft,
-          child: _statsText(text),
-        )),
-        Expanded(
-            child: Container(
-          alignment: Alignment.center,
-          child: value,
-        )),
-      ],
-    ));
+    return Padding(
+      padding: const EdgeInsets.all(4.0),
+      child: Row(
+        children: [
+          Expanded(
+              child: Container(
+            alignment: Alignment.centerLeft,
+            child: _statsText(text),
+          )),
+          Expanded(
+              child: Container(
+            alignment: Alignment.center,
+            child: value,
+          )),
+        ],
+      ),
+    );
   }
 }
 
 class _PlusMinus extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        InkWell(
-          customBorder: const CircleBorder(),
-          onTap: () {},
-          child: Container(
-            padding: const EdgeInsets.all(6.0),
-            decoration: const BoxDecoration(
-              color: Colors.black26,
-              shape: BoxShape.circle,
+    return Padding(
+      padding: const EdgeInsets.all(4),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          InkWell(
+            customBorder: const CircleBorder(),
+            onTap: () {},
+            child: Container(
+              padding: const EdgeInsets.all(6.0),
+              decoration: const BoxDecoration(
+                color: Colors.black26,
+                shape: BoxShape.circle,
+              ),
+              child: const Icon(Icons.add),
             ),
-            child: const Icon(Icons.add, size: 24.0),
           ),
-        ),
-        Container(
-          alignment: Alignment.center,
-          margin: EdgeInsets.symmetric(horizontal: 4, vertical: 8),
-          width: 32,
-          child: Text(
-            '23',
-            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-          ),
-        ),
-        InkWell(
-          customBorder: const CircleBorder(),
-          onTap: () {},
-          child: Container(
+          Container(
             alignment: Alignment.center,
-            padding: const EdgeInsets.all(6.0),
-            decoration: const BoxDecoration(
-              color: Colors.black26,
-              shape: BoxShape.circle,
+            margin: EdgeInsets.all(4),
+            child: Text(
+              '243',
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(fontWeight: FontWeight.bold),
             ),
-            child: const Icon(Icons.remove, size: 24.0),
           ),
-        ),
-      ],
+          InkWell(
+            customBorder: const CircleBorder(),
+            onTap: () {},
+            child: Container(
+              alignment: Alignment.center,
+              padding: const EdgeInsets.all(6.0),
+              decoration: const BoxDecoration(
+                color: Colors.black26,
+                shape: BoxShape.circle,
+              ),
+              child: const Icon(Icons.remove),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

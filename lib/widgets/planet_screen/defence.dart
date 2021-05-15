@@ -122,7 +122,7 @@ class _BuyMoreShips extends StatelessWidget {
                 color: Colors.black26,
                 shape: BoxShape.circle,
               ),
-              child: const Icon(Icons.remove, size: 24.0),
+              child: const Icon(Icons.remove),
             ),
           ),
         ],
