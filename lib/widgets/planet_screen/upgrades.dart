@@ -129,7 +129,7 @@ _showUpgradeDetails(BuildContext context, Upgrade upgrade) {
                     ],
                   ),
                   SizedBox(
-                    width: 360.sp,
+                    width: 360,
                     child: Padding(
                       padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                       child: ElevatedButton(

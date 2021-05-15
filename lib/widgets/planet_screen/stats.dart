@@ -38,48 +38,50 @@ class PlanetStats extends StatelessWidget {
                   color: Colors.white10,
                   borderRadius: BorderRadius.circular(8),
                 ),
-                child: Row(
-                  children: [
-                    Expanded(
-                      flex: 2,
-                      child: Container(
-                        alignment: Alignment.center,
-                        child: Image.asset(
-                          'assets/img/avatar/${describeEnum(_planet.ruler).toLowerCase()}.png',
+                child: SingleChildScrollView(
+                  child: Row(
+                    children: [
+                      Expanded(
+                        flex: 2,
+                        child: Container(
+                          alignment: Alignment.center,
+                          child: Image.asset(
+                            'assets/img/avatar/${describeEnum(_planet.ruler).toLowerCase()}.png',
+                          ),
                         ),
                       ),
-                    ),
-                    Expanded(
-                      flex: 3,
-                      child: Container(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            _statsText('Income : '),
-                            _statsText('Morale : '),
-                            _statsText('Defence : '),
-                            _statsText('Trade : '),
-                          ],
+                      Expanded(
+                        flex: 3,
+                        child: Container(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              _statsText('Income : '),
+                              _statsText('Morale : '),
+                              _statsText('Defence : '),
+                              _statsText('Trade : '),
+                            ],
+                          ),
                         ),
                       ),
-                    ),
-                    Expanded(
-                      flex: 3,
-                      child: Container(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            _statsText(_planet.income.toString()),
-                            _statsText(_planet.morale.toString() + '%'),
-                            _statsText(_planet.defence.toString()),
-                            _statsText(_planet.trade.toString() + '%'),
-                          ],
+                      Expanded(
+                        flex: 3,
+                        child: Container(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              _statsText(_planet.income.toString()),
+                              _statsText(_planet.morale.toString() + '%'),
+                              _statsText(_planet.defence.toString()),
+                              _statsText(_planet.trade.toString() + '%'),
+                            ],
+                          ),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -89,10 +91,12 @@ class PlanetStats extends StatelessWidget {
               child: Container(
                 alignment: Alignment.center,
                 padding: EdgeInsets.all(16),
-                child: Text(
-                  _planet.description,
-                  textAlign: TextAlign.center,
-                  style: TextStyle(fontWeight: FontWeight.w600),
+                child: SingleChildScrollView(
+                  child: Text(
+                    _planet.description,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontWeight: FontWeight.w600),
+                  ),
                 ),
               ),
             ))
