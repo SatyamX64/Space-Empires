@@ -89,9 +89,9 @@ class _MyForceCard extends StatelessWidget {
           LayoutBuilder(builder: (context, constraints) {
             return Container(
               height:
-                  min(max(size.width, size.height) / 8, constraints.maxWidth),
+                  min(max(size.width, size.height) / 10, constraints.maxWidth),
               width:
-                  min(max(size.width, size.height) / 8, constraints.maxWidth),
+                  min(max(size.width, size.height) / 10, constraints.maxWidth),
               margin: EdgeInsets.all(4),
               decoration: BoxDecoration(
                 border: Border.all(color: kDeepBlue),
@@ -109,7 +109,7 @@ class _MyForceCard extends StatelessWidget {
           Text(quantity.toString(),
               style: Theme.of(context)
                   .textTheme
-                  .headline5
+                  .headline6
                   .copyWith(fontWeight: FontWeight.bold))
         ],
       ),

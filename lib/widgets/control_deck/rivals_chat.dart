@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -21,18 +23,15 @@ showRivalsChatMenu(BuildContext context) {
                       (index) => RivalsInfo(
                             rival: rivalsList[index],
                           )))),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 8.0),
-            child: TabBar(
-                unselectedLabelColor: Colors.white,
-                indicatorSize: TabBarIndicatorSize.tab,
-                indicator: CircleTabIndicator(color: Colors.white, radius: 3),
-                tabs: List.generate(
-                    rivalsList.length,
-                    (index) => Tab(
-                          text: describeEnum(rivalsList[index].ruler),
-                        ))),
-          ),
+          TabBar(
+              unselectedLabelColor: Colors.white,
+              indicatorSize: TabBarIndicatorSize.tab,
+              indicator: CircleTabIndicator(color: Colors.white, radius: 3),
+              tabs: List.generate(
+                  rivalsList.length,
+                  (index) => Tab(
+                        text: describeEnum(rivalsList[index].ruler),
+                      ))),
         ],
       ),
     ),
@@ -47,7 +46,7 @@ class RivalsInfo extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        _ScoreAllocator(
+        _ChatOptions(
           rival: rival,
         ),
         _RivalsOpinion(
@@ -58,12 +57,12 @@ class RivalsInfo extends StatelessWidget {
   }
 }
 
-class _ScoreAllocator extends StatelessWidget {
-  _ScoreAllocator({Key key, @required this.rival}) : super(key: key);
+class _ChatOptions extends StatelessWidget {
+  _ChatOptions({Key key, @required this.rival}) : super(key: key);
 
   final Rival rival;
 
-  List _actions = [
+  final List _actions = [
     'Give a gift',
     'Trade',
     'Ask financial help',
@@ -72,63 +71,76 @@ class _ScoreAllocator extends StatelessWidget {
   ];
   @override
   Widget build(BuildContext context) {
+    final Size size = MediaQuery.of(context).size;
     return Expanded(
-        flex: 2,
-        child: Container(
-            margin: EdgeInsets.all(4),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(4),
-              color: Colors.black12,
-            ),
-            child: Column(
+      flex: 2,
+      child: Container(
+        margin: EdgeInsets.all(4),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(4),
+          color: Colors.black12,
+        ),
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            return Column(
               children: [
-                Expanded(
-                  flex: 1,
-                  child: Row(children: [
-                    Expanded(
-                      child: Container(
-                        height: double.maxFinite,
-                        width: double.maxFinite,
-                        margin: EdgeInsets.all(4),
-                        child: Image.asset(
-                          'assets/img/avatar/zapp.png',
+                Visibility(
+                  visible: constraints.maxHeight >= 90,
+                  child: Container(
+                    height: min(120, max(constraints.maxHeight*0.25 , 72)),
+                    child: Row(children: [
+                      Expanded(
+                        child: Container(
+                          height: double.maxFinite,
+                          width: double.maxFinite,
+                          margin: EdgeInsets.all(4),
+                          child: Image.asset(
+                            'assets/img/avatar/zapp.png',
+                          ),
                         ),
                       ),
-                    ),
-                    Expanded(
-                      flex: 3,
-                      child: Row(
-                        children: [
-                          _MoodStatusBox(
-                            mood: rival.mood,
-                          ),
-                          _RelationStatusBox(
-                            relation: rival.relation,
-                          )
-                        ],
-                      ),
-                    )
-                  ]),
+                      Expanded(
+                        flex: 3,
+                        child: Row(
+                          children: [
+                            _MoodStatusBox(
+                              mood: rival.mood,
+                            ),
+                            _RelationStatusBox(
+                              relation: rival.relation,
+                            )
+                          ],
+                        ),
+                      )
+                    ]),
+                  ),
                 ),
                 Expanded(
-                    flex: 2,
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 16),
-                      child: ListView.separated(
-                          itemBuilder: (ctx, index) {
-                            return Container(
-                                child: Text(
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 16),
+                    child: ListView.separated(
+                        itemBuilder: (ctx, index) {
+                          return Container(
+                            child: Text(
                               _actions[index],
-                              style: TextStyle(fontWeight: FontWeight.w600,color: Colors.white70),
-                            ));
-                          },
-                          separatorBuilder: (ctx, index) {
-                            return Divider();
-                          },
-                          itemCount: _actions.length),
-                    )),
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.white70),
+                            ),
+                          );
+                        },
+                        separatorBuilder: (ctx, index) {
+                          return Divider();
+                        },
+                        itemCount: _actions.length),
+                  ),
+                ),
               ],
-            )));
+            );
+          },
+        ),
+      ),
+    );
   }
 }
 
@@ -150,15 +162,15 @@ class _RivalsOpinion extends StatelessWidget {
           flex: 3,
           child: Container(
             alignment: Alignment.center,
-        
-            child: Text('No',style: TextStyle(fontWeight: FontWeight.w600),),
+            child: Text(
+              'No',
+              style: TextStyle(fontWeight: FontWeight.w600),
+            ),
           ),
         ),
         Expanded(
-          child: Container(
-            height: double.maxFinite,
-            width: double.maxFinite,
-            margin: EdgeInsets.all(4),
+          child: Padding(
+            padding: EdgeInsets.all(4),
             child: Image.asset(
               'assets/img/avatar/${describeEnum(rival.ruler).toLowerCase()}.png',
             ),

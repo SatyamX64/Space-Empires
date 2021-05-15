@@ -170,43 +170,46 @@ class _ShipStats extends StatelessWidget {
     return Expanded(
         flex: flex,
         child: Container(
+          height: double.maxFinite,
           margin: EdgeInsets.all(4),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(4),
             color: Colors.black12,
           ),
           padding: EdgeInsets.all(8),
-          child: Row(
-            children: [
-              Expanded(
-                child: Container(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      _statsText('Damage'),
-                      _statsText('Health'),
-                      _statsText('Morale'),
-                      _statsText('Cost'),
-                    ],
+          child: SingleChildScrollView(
+            child: Row(
+              children: [
+                Expanded(
+                  child: Container(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        _statsText('Damage'),
+                        _statsText('Health'),
+                        _statsText('Morale'),
+                        _statsText('Cost'),
+                      ],
+                    ),
                   ),
                 ),
-              ),
-              Expanded(
-                child: Container(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      _statsText(': ${attackShip.damage}'),
-                      _statsText(': ${attackShip.health}'),
-                      _statsText(': ${attackShip.morale}'),
-                      _statsText(': ${attackShip.cost}'),
-                    ],
+                Expanded(
+                  child: Container(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        _statsText(': ${attackShip.damage}'),
+                        _statsText(': ${attackShip.health}'),
+                        _statsText(': ${attackShip.morale}'),
+                        _statsText(': ${attackShip.cost}'),
+                      ],
+                    ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ));
   }
