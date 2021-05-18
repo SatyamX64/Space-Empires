@@ -1,10 +1,13 @@
 import 'dart:math';
+import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animated_dialog/flutter_animated_dialog.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:some_game/models/defence_ships_model.dart';
+import 'package:some_game/models/planet_model.dart';
+import 'package:some_game/models/player_model.dart';
 
 class PlanetDefence extends StatelessWidget {
   PlanetDefence({
@@ -15,12 +18,13 @@ class PlanetDefence extends StatelessWidget {
   Widget build(BuildContext context) {
     return LayoutBuilder(builder: (context, constraints) {
       return ListView.builder(
-          itemCount: defenceShips.length,
-          itemExtent:
-              min(120, max(constraints.maxHeight / defenceShips.length, 90)),
+          itemCount: kDefenseShipsData.length,
+          itemExtent: min(
+              120, max(constraints.maxHeight / kDefenseShipsData.length, 90)),
           itemBuilder: (_, index) {
             return _DefenceShipCard(
-              defenceShip: defenceShips[index],
+              defenceShip:
+                  List<DefenceShip>.from(kDefenseShipsData.values)[index],
               width: constraints.maxWidth,
             );
           });
@@ -39,6 +43,8 @@ class _DefenceShipCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final PlanetName planetName =
+        Provider.of<PlanetName>(context, listen: false);
     return GestureDetector(
       onTap: () {
         _showDefenceDetails(context, _defenceShip);
@@ -64,13 +70,24 @@ class _DefenceShipCard extends StatelessWidget {
                   ),
                 ),
               ),
-              Visibility(
-                visible: width > 210 ? true : false,
-                child: Expanded(
-                  flex: 3,
-                  child: _BuyMoreShips(),
-                ),
-              )
+              Consumer<Player>(
+                builder: (_, player, __) {
+                  return Visibility(
+                    visible: width > 210 ? true : false,
+                    child: Expanded(
+                      flex: 3,
+                      child: _BuyMoreShips(
+                        increment: () => player.buyDefenseShip(
+                            type: _defenceShip.type, name: planetName),
+                        decrement: () => player.sellDefenseShip(
+                            type: _defenceShip.type, name: planetName),
+                        value: player.planetShipCount(
+                            type: _defenceShip.type, name: planetName),
+                      ),
+                    ),
+                  );
+                },
+              ),
             ],
           ),
         ),
@@ -80,10 +97,12 @@ class _DefenceShipCard extends StatelessWidget {
 }
 
 class _BuyMoreShips extends StatelessWidget {
-  const _BuyMoreShips({
-    Key key,
-  }) : super(key: key);
+  const _BuyMoreShips({Key key, this.decrement, this.increment, this.value})
+      : super(key: key);
 
+  final Function increment;
+  final Function decrement;
+  final int value;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -93,7 +112,7 @@ class _BuyMoreShips extends StatelessWidget {
         children: [
           InkWell(
             customBorder: const CircleBorder(),
-            onTap: () {},
+            onTap: increment,
             child: Container(
               padding: const EdgeInsets.all(6.0),
               decoration: const BoxDecoration(
@@ -107,14 +126,14 @@ class _BuyMoreShips extends StatelessWidget {
             alignment: Alignment.center,
             margin: EdgeInsets.all(4),
             child: Text(
-              '243',
+              value.toString(),
               overflow: TextOverflow.ellipsis,
               style: TextStyle(fontWeight: FontWeight.bold),
             ),
           ),
           InkWell(
             customBorder: const CircleBorder(),
-            onTap: () {},
+            onTap: decrement,
             child: Container(
               alignment: Alignment.center,
               padding: const EdgeInsets.all(6.0),
@@ -175,8 +194,8 @@ _showDefenceDetails(BuildContext context, DefenceShip defenceShip) {
                   Row(
                     children: [
                       _DefenceDialogStatsBox(
-                          header: 'Morale',
-                          value: defenceShip.morale.toString()),
+                          header: 'Maintainance',
+                          value: defenceShip.maintainance.toString()),
                       _DefenceDialogStatsBox(
                           header: 'Cost', value: defenceShip.cost.toString()),
                     ],
@@ -218,7 +237,7 @@ class _DefenceDialogStatsBox extends StatelessWidget {
         child: LayoutBuilder(builder: (_, constraints) {
           return constraints.maxHeight - 28.sp > 4
               ? Column(
-                mainAxisSize: MainAxisSize.min,
+                  mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(header),
                     Center(
@@ -231,7 +250,7 @@ class _DefenceDialogStatsBox extends StatelessWidget {
                   ],
                 )
               : FittedBox(
-                fit: BoxFit.fitWidth,
+                  fit: BoxFit.fitWidth,
                   child: Text(value,
                       style: Theme.of(context)
                           .textTheme

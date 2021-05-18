@@ -8,6 +8,17 @@ import 'package:some_game/widgets/static_stars_bg.dart';
 class SolarSystem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    
+    List<PlanetName> _planetList = [
+      PlanetName.Miavis,
+      PlanetName.Hounus,
+      PlanetName.Drukunides,
+      PlanetName.Eno,
+      PlanetName.Musk,
+      PlanetName.Jupinot,
+      PlanetName.Ocorix,
+      PlanetName.Arth
+    ];
     return LayoutBuilder(builder: (context, constraints) {
       final size = Size(constraints.maxWidth, constraints.maxHeight);
       final Orientation orientation = MediaQuery.of(context).orientation;
@@ -60,7 +71,7 @@ class SolarSystem extends StatelessWidget {
               physics: NeverScrollableScrollPhysics(),
               mainAxisSpacing: mainAxisPadding > 0 ? mainAxisPadding : 0,
               padding: EdgeInsets.symmetric(horizontal: crossAxisPadding),
-              children: List.generate(8, (index) => _PlanetCard(index)),
+              children: List.generate(_planetList.length, (index) => _PlanetCard(_planetList[index])),
               staggeredTiles: orientation == Orientation.landscape
                   ? _landscapeTilesLayout
                   : _portraitTilesLayout,
@@ -73,23 +84,23 @@ class SolarSystem extends StatelessWidget {
 }
 
 class _PlanetCard extends StatelessWidget {
-  final int index;
-  _PlanetCard(this.index);
+  final PlanetName planetName;
+  _PlanetCard(this.planetName);
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
         Navigator.pushNamed(context, PlanetScreen.route,
-            arguments: planetsList[index]);
+            arguments: planetName);
       },
       child: Column(
         children: [
           Flexible(
               child: Hero(
-                  tag: planetsList[index].name,
+                  tag: describeEnum(planetName),
                   child: Image.asset(
-                      'assets/img/planets/${describeEnum(planetsList[index].name).toLowerCase()}.png'))),
-          Text(describeEnum(planetsList[index].name)),
+                      'assets/img/planets/${describeEnum(planetName).toLowerCase()}.png'))),
+          Text(describeEnum(planetName)),
         ],
       ),
     );

@@ -1,7 +1,10 @@
 import 'dart:math';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animated_dialog/flutter_animated_dialog.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
+import 'package:some_game/models/planet_model.dart';
 import 'package:some_game/models/upgrade_model.dart';
 import 'package:sizer/sizer.dart';
 
@@ -31,10 +34,10 @@ class PlanetUpgrades extends StatelessWidget {
       return Container(
         alignment: Alignment.center,
         child: Wrap(
-          children: List.generate(upgradesList.length, (index) {
+          children: List.generate(kUpgradesData.length, (index) {
             return _UpgradeCard(
-                upgrade: upgradesList[index],
-                side: _getSize(upgradesList.length.toDouble(),
+                upgrade: List<Upgrade>.from(kUpgradesData.values)[index],
+                side: _getSize(kUpgradesData.length.toDouble(),
                     constraints.maxWidth, constraints.maxHeight));
           }),
         ),
@@ -65,10 +68,10 @@ class _UpgradeCard extends StatelessWidget {
           child: Column(children: <Widget>[
             Expanded(
                 child: SvgPicture.asset(
-                    'assets/img/buildings/${upgrade.name.toLowerCase()}.svg')),
+                    'assets/img/buildings/${describeEnum(upgrade.type).toLowerCase()}.svg')),
             FittedBox(
               child: Text(
-                upgrade.name,
+                describeEnum(upgrade.type),
                 style: TextStyle(fontWeight: FontWeight.w600),
               ),
             ),
@@ -84,6 +87,7 @@ _showUpgradeDetails(BuildContext context, Upgrade upgrade) {
   final Orientation orientation = (size.width / size.height > 1.7)
       ? Orientation.landscape
       : Orientation.portrait;
+  
   return showAnimatedDialog(
       context: context,
       animationType: DialogTransitionType.size,
@@ -109,13 +113,13 @@ _showUpgradeDetails(BuildContext context, Upgrade upgrade) {
               child: Column(
                 children: [
                   Text(
-                    upgrade.name,
+                    describeEnum(upgrade.type),
                     style: Theme.of(context).textTheme.headline5.copyWith(
                         color: Colors.white, fontWeight: FontWeight.bold),
                   ),
                   Expanded(
                       child: SvgPicture.asset(
-                          'assets/img/buildings/${upgrade.name.toLowerCase()}.svg')),
+                          'assets/img/buildings/${describeEnum(upgrade.type).toLowerCase()}.svg')),
                   Text(
                     upgrade.description,
                     style: TextStyle(fontWeight: FontWeight.w600),

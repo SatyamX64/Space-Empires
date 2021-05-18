@@ -1,7 +1,9 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:provider/provider.dart';
 import 'package:some_game/models/attack_ships_model.dart';
+import 'package:some_game/models/player_model.dart';
 import 'package:some_game/widgets/gradient_dialog.dart';
 import 'package:sizer/sizer.dart';
 import '../circle_tab_indicator.dart';
@@ -18,9 +20,9 @@ showMilitaryMenu(BuildContext context) {
             Expanded(
                 child: TabBarView(
                     children: List.generate(
-              attackShips.length,
+              kAttackShipsData.length,
               (index) => AttackShipInfo(
-                attackShip: attackShips[index],
+                attackShip: List.from(kAttackShipsData.values)[index],
               ),
             ))),
             TabBar(
@@ -28,9 +30,9 @@ showMilitaryMenu(BuildContext context) {
                 indicatorSize: TabBarIndicatorSize.tab,
                 indicator: CircleTabIndicator(color: Colors.white, radius: 3),
                 tabs: List.generate(
-                    attackShips.length,
+                    kAttackShipsData.length,
                     (index) => Tab(
-                          text: describeEnum(attackShips[index].type),
+                          text: describeEnum(List.from(kAttackShipsData.keys)[index]),
                         ))),
           ],
         ),
@@ -45,6 +47,21 @@ class AttackShipInfo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Orientation orientation = MediaQuery.of(context).orientation;
+    final Player player = Provider.of<Player>(context, listen: false);
+    final List<_TransactionButton> transactionButtons = [
+      _TransactionButton(
+        text: 'Buy',
+        onTap: () {
+          player.buyAttackShip(attackShip.type);
+        },
+      ),
+      _TransactionButton(
+        text: 'Sell',
+        onTap: () {
+          player.sellAttackShip(attackShip.type);
+        },
+      ),
+    ];
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: orientation == Orientation.landscape
@@ -69,16 +86,7 @@ class AttackShipInfo extends StatelessWidget {
                     ),
                     Expanded(
                       child: Column(
-                        children: [
-                          _TransactionButton(
-                            text: 'Buy',
-                            onTap: () {},
-                          ),
-                          _TransactionButton(
-                            text: 'Sell',
-                            onTap: () {},
-                          ),
-                        ],
+                        children: transactionButtons,
                       ),
                     ),
                   ],
@@ -102,16 +110,7 @@ class AttackShipInfo extends StatelessWidget {
               ),
               Expanded(
                 child: Row(
-                  children: [
-                    _TransactionButton(
-                      text: 'Buy',
-                      onTap: () {},
-                    ),
-                    _TransactionButton(
-                      text: 'Sell',
-                      onTap: () {},
-                    ),
-                  ],
+                  children: transactionButtons,
                 ),
               ),
             ],
@@ -189,7 +188,7 @@ class _ShipStats extends StatelessWidget {
                         _statsText('Damage'),
                         _statsText('Health'),
                         _statsText('Morale'),
-                        _statsText('Cost'),
+                        _statsText('Maintainence'),
                       ],
                     ),
                   ),
@@ -203,7 +202,7 @@ class _ShipStats extends StatelessWidget {
                         _statsText(': ${attackShip.damage}'),
                         _statsText(': ${attackShip.health}'),
                         _statsText(': ${attackShip.morale}'),
-                        _statsText(': ${attackShip.cost}'),
+                        _statsText(': ${attackShip.maintainance}'),
                       ],
                     ),
                   ),
@@ -249,9 +248,13 @@ class _ShipOverview extends StatelessWidget {
                       flex: 3,
                       child: Row(
                         children: [
-                          _MilitaryDialogStatsBox(
-                            header: 'You have',
-                            value: '45',
+                          Consumer<Player>(
+                            builder: (_, player, __) {
+                              return _MilitaryDialogStatsBox(
+                                header: 'You have',
+                                value: player.militaryShipCount(attackShip.type).toString(),
+                              );
+                            },
                           ),
                           _MilitaryDialogStatsBox(
                             header: 'Cost',

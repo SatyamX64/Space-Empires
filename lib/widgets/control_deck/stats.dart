@@ -1,4 +1,7 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:some_game/models/player_model.dart';
 import 'package:some_game/widgets/gradient_dialog.dart';
 
 showStatsMenu(BuildContext context) {
@@ -24,6 +27,7 @@ class _ResourceAllocator extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final Player player = Provider.of<Player>(context);
     return Expanded(
         flex: 3,
         child: Container(
@@ -37,19 +41,25 @@ class _ResourceAllocator extends StatelessWidget {
               Expanded(
                 child: SingleChildScrollView(
                   child: Column(
-                    children: [
-                      _InfoBar(text: 'Propoganda', value: _PlusMinus()),
-                      _InfoBar(text: 'Luxury', value: _PlusMinus()),
-                      _InfoBar(text: 'Culture', value: _PlusMinus()),
-                      _InfoBar(text: 'Military', value: _PlusMinus()),
-                    ],
+                    children: List.generate(
+                        player.statsList.length,
+                        (index) => _InfoBar(
+                              text: describeEnum(player.statsList[index]),
+                              value: _PlusMinus(
+                                  increment: () => player
+                                      .increaseStat(player.statsList[index]),
+                                  decrement: () => player
+                                      .decreaseStat(player.statsList[index]),
+                                  value: player
+                                      .statValue(player.statsList[index])),
+                            )),
                   ),
                 ),
               ),
               _InfoBar(
                   text: 'Total',
                   value: Text(
-                    '12324 AP',
+                    '${player.income} AP',
                     style: TextStyle(fontWeight: FontWeight.bold),
                   )),
             ],
@@ -63,6 +73,7 @@ class _RivalsOpinion extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final Player player = Provider.of<Player>(context, listen: false);
     return Expanded(
         child: Container(
       alignment: Alignment.center,
@@ -72,12 +83,11 @@ class _RivalsOpinion extends StatelessWidget {
         color: Colors.black12,
       ),
       child: SingleChildScrollView(
-        child:
-            Text('The Aliens choose to ignore us\nHave better things at hand',
-                style: Theme.of(context).textTheme.headline6.copyWith(
-                      fontFamily: 'Italianno',
-                      // fontWeight: FontWeight.w600
-                    )),
+        child: Text('op',
+            style: Theme.of(context).textTheme.headline6.copyWith(
+                  fontFamily: 'Italianno',
+                  // fontWeight: FontWeight.w600
+                )),
       ),
     ));
   }
@@ -117,6 +127,15 @@ class _InfoBar extends StatelessWidget {
 }
 
 class _PlusMinus extends StatelessWidget {
+  final Function increment;
+  final Function decrement;
+  final int value;
+
+  _PlusMinus(
+      {@required this.decrement,
+      @required this.increment,
+      @required this.value});
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -126,7 +145,7 @@ class _PlusMinus extends StatelessWidget {
         children: [
           InkWell(
             customBorder: const CircleBorder(),
-            onTap: () {},
+            onTap: increment,
             child: Container(
               padding: const EdgeInsets.all(6.0),
               decoration: const BoxDecoration(
@@ -140,14 +159,14 @@ class _PlusMinus extends StatelessWidget {
             alignment: Alignment.center,
             margin: EdgeInsets.all(4),
             child: Text(
-              '243',
+              value.toString(),
               overflow: TextOverflow.ellipsis,
               style: TextStyle(fontWeight: FontWeight.bold),
             ),
           ),
           InkWell(
             customBorder: const CircleBorder(),
-            onTap: () {},
+            onTap: decrement,
             child: Container(
               alignment: Alignment.center,
               padding: const EdgeInsets.all(6.0),

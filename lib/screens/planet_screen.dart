@@ -1,7 +1,9 @@
 import 'dart:ui';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:some_game/models/planet_model.dart';
+import 'package:some_game/models/player_model.dart';
 import 'package:some_game/utility/constants.dart';
 import 'package:some_game/widgets/planet_screen/defence.dart';
 import 'package:some_game/widgets/planet_screen/stats.dart';
@@ -19,7 +21,7 @@ class PlanetScreen extends StatefulWidget {
 
 class _PlanetScreenState extends State<PlanetScreen> {
   bool _loadedInitData = false;
-  Planet _planet;
+  PlanetName _planetName;
 
   Map<String, Widget> _displayMode;
 
@@ -31,26 +33,33 @@ class _PlanetScreenState extends State<PlanetScreen> {
   @override
   void didChangeDependencies() {
     if (!_loadedInitData) {
-      final routeArgs = ModalRoute.of(context).settings.arguments as Planet;
-      _planet = routeArgs;
+      final routeArgs = ModalRoute.of(context).settings.arguments as PlanetName;
+      _planetName = routeArgs;
       _loadedInitData = true;
       _displayMode = {
-        'Stats': PlanetStats(
-          planet: _planet,
-        ),
-        'Upgrades': PlanetUpgrades(),
-        'Defence': PlanetDefence(),
+        'Stats': wrapWithProvider(PlanetStats()),
+        'Upgrades': wrapWithProvider(PlanetUpgrades()),
+        'Defence': wrapWithProvider(PlanetDefence()),
       };
     }
     super.didChangeDependencies();
   }
 
+  Widget wrapWithProvider(Widget child) {
+    return Provider<PlanetName>.value(
+      value: _planetName,
+      builder: (_, __) {
+        return child;
+      },
+    );
+  }
+
   Widget _planetImage() {
     return Expanded(
       child: Hero(
-          tag: _planet.name,
+          tag: describeEnum(_planetName),
           child: Image.asset(
-              'assets/img/planets/${describeEnum(_planet.name).toLowerCase()}.png')),
+              'assets/img/planets/${describeEnum(_planetName).toLowerCase()}.png')),
     );
   }
 
@@ -59,10 +68,8 @@ class _PlanetScreenState extends State<PlanetScreen> {
         unselectedLabelColor: Colors.white,
         indicatorSize: TabBarIndicatorSize.tab,
         indicator: BoxDecoration(
-          gradient: LinearGradient(colors: [
-            Colors.pink[700],
-            opacityPrimaryColor(0.5)
-          ]),
+          gradient: LinearGradient(
+              colors: [Colors.pink[700], opacityPrimaryColor(0.5)]),
           borderRadius: BorderRadius.circular(50),
         ),
         tabs: List.generate(
@@ -93,7 +100,19 @@ class _PlanetScreenState extends State<PlanetScreen> {
         appBar: AppBar(
           backgroundColor: Colors.transparent,
           centerTitle: true,
-          title: Text(describeEnum(_planet.name)),
+          title: Text(describeEnum(_planetName)),
+          actions: [
+            Consumer<Player>(
+              builder: (_, player, __) {
+                return Center(
+                  child: Text(
+                    '${player.money} 💲 ',
+                    style: TextStyle(fontWeight: FontWeight.w600),
+                  ),
+                );
+              },
+            ),
+          ],
         ),
         body: Stack(
           children: [

@@ -4,7 +4,11 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
+import 'package:some_game/models/attack_ships_model.dart';
+import 'package:some_game/models/game_data.dart';
 import 'package:some_game/models/planet_model.dart';
+import 'package:some_game/models/player_model.dart';
 import 'package:some_game/utility/constants.dart';
 import 'package:some_game/widgets/gradient_dialog.dart';
 
@@ -46,24 +50,18 @@ class _MyForce extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final Player player = Provider.of<Player>(context, listen: false);
     return Padding(
       padding: const EdgeInsets.only(bottom: 16),
       child: Row(
-        children: [
-          _MyForceCard(
-            name: 'astro',
-            quantity: 45,
-          ),
-          _MyForceCard(
-            name: 'magnum',
-            quantity: 45,
-          ),
-          _MyForceCard(
-            name: 'rover',
-            quantity: 45,
-          ),
-        ],
-      ),
+          children: List.generate(
+              kAttackShipsData.length,
+              (index) => _MyForceCard(
+                    name: describeEnum(List.from(kAttackShipsData.keys)[index])
+                        .toLowerCase(),
+                    quantity: player.militaryShipCount(
+                        List.from(kAttackShipsData.keys)[index]),
+                  ))),
     );
   }
 }
@@ -75,8 +73,8 @@ class _MyForceCard extends StatelessWidget {
     this.quantity,
   }) : super(key: key);
 
-  final name;
-  final quantity;
+  final String name;
+  final int quantity;
 
   @override
   Widget build(BuildContext context) {
@@ -121,8 +119,6 @@ class _EnemyPlanets extends StatelessWidget {
   _EnemyPlanets({Key key, this.constraints}) : super(key: key);
 
   final BoxConstraints constraints;
-  final List<Planet> _availablePlanets =
-      List.from(planetsList.where((planet) => planet.ruler != Ruler.Zapp));
 
   _planetCard(String planetName) {
     return Container(
@@ -135,24 +131,37 @@ class _EnemyPlanets extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        Container(
-          constraints: BoxConstraints.expand(),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(4),
-            color: Colors.black26,
-          ),
-          child: CarouselSlider.builder(
-            options: CarouselOptions(),
-            itemCount: _availablePlanets.length,
-            itemBuilder: (BuildContext context, int index, _) => _planetCard(
-                describeEnum(_availablePlanets[index].name).toLowerCase()),
-          ),
-        ),
-        Align(alignment: Alignment.centerLeft, child: Icon(Icons.arrow_left)),
-        Align(alignment: Alignment.centerRight, child: Icon(Icons.arrow_right)),
-      ],
-    );
+    final GameData _gameData = Provider.of<GameData>(context, listen: false);
+    final List<Planet> _availablePlanets =
+        _gameData.getEnemyPlanets(_gameData.currentPlayer.ruler);
+    return _availablePlanets.length <= 0
+        ? Container(
+            alignment: Alignment.center,
+            child: Text('No Enemy Planets'),
+          )
+        : Stack(
+            children: [
+              Container(
+                constraints: BoxConstraints.expand(),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(4),
+                  color: Colors.black26,
+                ),
+                child: CarouselSlider.builder(
+                  options: CarouselOptions(),
+                  itemCount: _availablePlanets.length,
+                  itemBuilder: (BuildContext context, int index, _) =>
+                      _planetCard(describeEnum(_availablePlanets[index].name)
+                          .toLowerCase()),
+                ),
+              ),
+              Align(
+                  alignment: Alignment.centerLeft,
+                  child: Icon(Icons.arrow_left)),
+              Align(
+                  alignment: Alignment.centerRight,
+                  child: Icon(Icons.arrow_right)),
+            ],
+          );
   }
 }
