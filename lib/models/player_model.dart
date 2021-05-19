@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:some_game/models/attack_ships_model.dart';
 import 'package:some_game/models/planet_model.dart';
@@ -24,12 +26,22 @@ class Player extends ChangeNotifier with Stats, Military, Planets {
   }
 
   nextTurn() {
+    int _baseMorale =
+        min(0, (statValue(StatsType.Propoganda) * 5 - militaryMoraleImpact)) +
+            (statValue(StatsType.Luxury) * 10) -
+            min(0, 100 - statValue(StatsType.Culture));
+    planets.forEach((planet) {
+      planet.morale = _baseMorale;
+      planet.nextTurn();
+    });
     money += income;
     notifyListeners();
   }
 
   int get income {
-    return planetsIncome - statsExpenditure - militaryExpenditure;
+    return planetsIncome -
+        planets.length * statsExpenditure -
+        militaryExpenditure;
   }
 
   buyAttackShip(AttackShipType type) {
@@ -133,6 +145,14 @@ mixin Military {
     return expense;
   }
 
+  int get militaryMoraleImpact {
+    int impact = 0;
+    for (var type in List.from(_ownedShips.keys)) {
+      impact += _ownedShips[type] * kAttackShipsData[type].morale;
+    }
+    return impact;
+  }
+
   int militaryShipCount(AttackShipType type) {
     return _ownedShips[type];
   }
@@ -162,10 +182,11 @@ mixin Planets {
   planetsInit(List<Planet> planets) {
     _planets = planets;
   }
-  
-  List<Planet> get planets{
+
+  List<Planet> get planets {
     return _planets;
   }
+
   int get planetsIncome {
     int income = 0;
     for (var planet in _planets) {
@@ -187,13 +208,39 @@ mixin Planets {
   }
 
   planetAddUpgrade({UpgradeType type, PlanetName name}) {
-    _planets.firstWhere((planet) => planet.name == name).upgradeBuy(type);
+    _planets.firstWhere((planet) => planet.name == name).upgradeAdd(type);
   }
-  
-  planetStats({PlanetName name}){
+
+  planetUpgradeAvailable({UpgradeType type, PlanetName name}) {
+    return !_planets
+        .firstWhere((planet) => planet.name == name)
+        .upgradePresent(type);
+  }
+
+  isPlanetMy({PlanetName name}) {
+    bool result = false;
+    for (Planet planet in planets) {
+      if (planet.name == name) {
+        result = true;
+        break;
+      }
+    }
+    return result;
+  }
+
+  planetsThatCanTrade() {
+    int result = 0;
+    for (Planet planet in planets) {
+      result += planet.planetTradeBoost;
+    }
+    return result;
+  }
+
+  planetStats({PlanetName name}) {
     return _planets.firstWhere((planet) => planet.name == name).stats;
   }
-  int planetShipCount({DefenseShipType type, PlanetName name}) {
+
+  planetShipCount({DefenseShipType type, PlanetName name}) {
     return _planets
         .firstWhere((planet) => planet.name == name)
         .defenseShipCount(type);

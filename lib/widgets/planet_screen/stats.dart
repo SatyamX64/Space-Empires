@@ -39,6 +39,7 @@ class PlanetStats extends StatelessWidget {
                     color: Colors.white10,
                     borderRadius: BorderRadius.circular(8),
                   ),
+                  alignment: Alignment.center,
                   child: Consumer<Player>(
                     builder: (_, player, __) {
                       return SingleChildScrollView(
@@ -63,7 +64,6 @@ class PlanetStats extends StatelessWidget {
                                     _statsText('Income : '),
                                     _statsText('Morale : '),
                                     _statsText('Defence : '),
-                                    _statsText('Trade : '),
                                   ],
                                 ),
                               ),
@@ -82,17 +82,11 @@ class PlanetStats extends StatelessWidget {
                                     _statsText(player
                                             .planetStats(
                                                 name: _planetName)['morale']
-                                            .toString() +
-                                        '%'),
+                                            .toString()),
                                     _statsText(player
                                         .planetStats(
-                                            name: _planetName)['defence']
+                                            name: _planetName)['defense']
                                         .toString()),
-                                    _statsText(player
-                                            .planetStats(
-                                                name: _planetName)['trade']
-                                            .toString() +
-                                        '%'),
                                   ],
                                 ),
                               ),

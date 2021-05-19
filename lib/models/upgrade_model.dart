@@ -6,7 +6,7 @@ enum UpgradeType {
   WatchTower,
   Industry,
   TradeCenter,
-  Embassy
+  Moske
 }
 
 class Upgrade {
@@ -30,7 +30,7 @@ Map<UpgradeType, Upgrade> kUpgradesData = {
       cost: 30000,
       description: 'The People\'s Hang out',
       effect: 'Morale',
-      effectValue: '+15%'),
+      effectValue: '+10%'),
   UpgradeType.Turret: const Upgrade(
       type: UpgradeType.Turret,
       cost: 25000,
@@ -52,13 +52,13 @@ Map<UpgradeType, Upgrade> kUpgradesData = {
   UpgradeType.TradeCenter: const Upgrade(
       type: UpgradeType.TradeCenter,
       cost: 40000,
-      description: 'Money flows',
-      effect: 'Income',
-      effectValue: '+20%'),
-  UpgradeType.Embassy: const Upgrade(
-      type: UpgradeType.Embassy,
-      cost: 70000,
-      description: 'Everyone needs Friends',
-      effect: 'Trust',
+      description: 'Opens door to Trading',
+      effect: 'Trade',
       effectValue: '+1'),
+  UpgradeType.Moske: const Upgrade(
+      type: UpgradeType.Moske,
+      cost: 70000,
+      description: 'Atheist no more ',
+      effect: 'Morale',
+      effectValue: '+15%'),
 };

@@ -137,7 +137,13 @@ class _EnemyPlanets extends StatelessWidget {
     return _availablePlanets.length <= 0
         ? Container(
             alignment: Alignment.center,
-            child: Text('No Enemy Planets'),
+            margin: EdgeInsets.all(16),
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(8), color: Colors.black26),
+            child: Text(
+              'No Enemy Planets',
+              style: TextStyle(fontWeight: FontWeight.w600),
+            ),
           )
         : Stack(
             children: [

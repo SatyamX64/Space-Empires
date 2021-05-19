@@ -5,6 +5,7 @@ import 'package:flutter_animated_dialog/flutter_animated_dialog.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:some_game/models/planet_model.dart';
+import 'package:some_game/models/player_model.dart';
 import 'package:some_game/models/upgrade_model.dart';
 import 'package:sizer/sizer.dart';
 
@@ -52,9 +53,13 @@ class _UpgradeCard extends StatelessWidget {
   final double side;
   @override
   Widget build(BuildContext context) {
+    final Player player = Provider.of<Player>(context,listen: false);
+    final PlanetName planetName = Provider.of<PlanetName>(context,listen: false);
     return GestureDetector(
       onTap: () {
-        _showUpgradeDetails(context, upgrade);
+        _showUpgradeDetails(context, upgrade, () {
+          player.buyUpgrade(type: upgrade.type, name: planetName);
+        }, player.planetUpgradeAvailable(type: upgrade.type, name: planetName));
       },
       child: Container(
         width: side,
@@ -82,12 +87,13 @@ class _UpgradeCard extends StatelessWidget {
   }
 }
 
-_showUpgradeDetails(BuildContext context, Upgrade upgrade) {
+_showUpgradeDetails(
+    BuildContext context, Upgrade upgrade, Function buy, bool available) {
   final size = MediaQuery.of(context).size;
   final Orientation orientation = (size.width / size.height > 1.7)
       ? Orientation.landscape
       : Orientation.portrait;
-  
+
   return showAnimatedDialog(
       context: context,
       animationType: DialogTransitionType.size,
@@ -132,15 +138,19 @@ _showUpgradeDetails(BuildContext context, Upgrade upgrade) {
                           header: 'Cost', value: upgrade.cost.toString()),
                     ],
                   ),
-                  SizedBox(
-                    width: 360,
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                      child: ElevatedButton(
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        },
-                        child: Text('Buy'),
+                  Visibility(
+                    visible: available,
+                    child: SizedBox(
+                      width: 360,
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                        child: ElevatedButton(
+                          onPressed: () {
+                            buy();
+                            Navigator.of(context).pop();
+                          },
+                          child: Text('Buy'),
+                        ),
                       ),
                     ),
                   ),

@@ -1,5 +1,4 @@
 import 'package:some_game/models/defence_ships_model.dart';
-import 'package:flutter/material.dart';
 import 'package:some_game/models/upgrade_model.dart';
 
 enum PlanetName {
@@ -16,10 +15,8 @@ enum PlanetName {
 class Planet with Defense, PlanetUpgrade {
   PlanetName name;
   String description;
-  int defence;
-  int trade;
-  int morale;
-  int revenue;
+  int _morale;
+  int _revenue;
 
   init() {
     initStats();
@@ -28,23 +25,38 @@ class Planet with Defense, PlanetUpgrade {
   }
 
   initStats() {
-    revenue = 2000;
-    defence = 0;
-    morale = 60;
-    trade = 20;
+    _revenue = 2000;
+    _morale = 600;
+  }
+
+  nextTurn() {
+    morale = (_morale * planetMoraleBoost).round();
+    revenue = (_revenue * planetIncomeBoost).round();
   }
 
   int get income {
-    return revenue - defenseExpenditure;
+    return (_revenue * (1 + (_morale - 400) / 1000)).round() -
+        defenseExpenditure;
+  }
+
+  int get defense {
+    return planetDefenseQuotient;
   }
 
   Map get stats {
     return {
-      'morale': morale,
+      'morale': _morale,
       'income': income,
-      'defence': defence,
-      'trade': trade,
+      'defense': defense,
     };
+  }
+
+  set morale(int value) {
+    _morale = value;
+  }
+
+  set revenue(int value) {
+    _revenue = value;
   }
 
   Planet.miavis() {
@@ -106,20 +118,48 @@ mixin PlanetUpgrade {
     _planetUpgrade[UpgradeType.WatchTower] = false;
     _planetUpgrade[UpgradeType.Industry] = false;
     _planetUpgrade[UpgradeType.TradeCenter] = false;
-    _planetUpgrade[UpgradeType.Embassy] = false;
+    _planetUpgrade[UpgradeType.Moske] = false;
   }
 
   bool upgradePresent(UpgradeType type) {
     return _planetUpgrade[type];
   }
 
-  upgradeBuy(UpgradeType type) {
+  int get planetDefenseQuotient {
+    int turret = upgradePresent(UpgradeType.Turret) ? 1 : 0;
+    int watchTower = upgradePresent(UpgradeType.WatchTower) ? 2 : 0;
+    return turret + watchTower;
+  }
+
+  double get planetMoraleBoost {
+    double townCenter = upgradePresent(UpgradeType.TownCenter) ? 0.1 : 0;
+    double moske = upgradePresent(UpgradeType.Moske) ? 0.15 : 0;
+    return 1 + moske + townCenter;
+  }
+
+  double get planetIncomeBoost {
+    double boost = upgradePresent(UpgradeType.Industry) ? 1.15 : 1;
+    return boost;
+  }
+
+  int get planetTradeBoost {
+    int boost = upgradePresent(UpgradeType.TradeCenter) ? 1 : 0;
+    return boost;
+  }
+
+  upgradeAdd(UpgradeType type) {
     _planetUpgrade[type] = true;
   }
 }
 
 mixin Defense {
   Map<DefenseShipType, int> _ownedShips = {};
+
+  void defenseInit() {
+    _ownedShips[DefenseShipType.Battleship] = 3;
+    _ownedShips[DefenseShipType.Artillery] = 3;
+    _ownedShips[DefenseShipType.Rover] = 5;
+  }
 
   int get defenseExpenditure {
     int expense = 0;
@@ -131,12 +171,6 @@ mixin Defense {
 
   int defenseShipCount(DefenseShipType type) {
     return _ownedShips[type];
-  }
-
-  void defenseInit() {
-    _ownedShips[DefenseShipType.Battleship] = 3;
-    _ownedShips[DefenseShipType.Artillery] = 3;
-    _ownedShips[DefenseShipType.Rover] = 5;
   }
 
   defenseAddShip(DefenseShipType type, int value) {

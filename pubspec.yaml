@@ -22,6 +22,7 @@ dependencies:
   carousel_slider: ^3.0.0
   sizer: ^2.0.13
   fluttertoast: ^8.0.6
+  rive: ^0.7.10
 
 dev_dependencies:
   flutter_test:

@@ -2,6 +2,7 @@ import 'dart:ui';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:some_game/models/game_data.dart';
 import 'package:some_game/models/planet_model.dart';
 import 'package:some_game/models/player_model.dart';
 import 'package:some_game/utility/constants.dart';
@@ -91,6 +92,20 @@ class _PlanetScreenState extends State<PlanetScreen> {
     );
   }
 
+  Widget _description() {
+    return Expanded(
+        child: Container(
+      margin: EdgeInsets.all(16),
+      padding: EdgeInsets.all(16),
+      decoration: BoxDecoration(
+          color: Colors.black54, borderRadius: BorderRadius.circular(8)),
+      child: Text(
+        Provider.of<GameData>(context, listen: false)
+            .getPlanetDescription(_planetName),
+      ),
+    ));
+  }
+
   @override
   Widget build(BuildContext context) {
     final Orientation orientation = MediaQuery.of(context).orientation;
@@ -114,39 +129,63 @@ class _PlanetScreenState extends State<PlanetScreen> {
             ),
           ],
         ),
-        body: Stack(
-          children: [
-            StaticStarsBackGround(),
-            orientation == Orientation.landscape
-                ? Row(
-                    children: [
-                      Expanded(
-                        child: Column(
+        body: Provider.of<Player>(context).isPlanetMy(name: _planetName)
+            ? Stack(
+                children: [
+                  StaticStarsBackGround(),
+                  orientation == Orientation.landscape
+                      ? Row(
+                          children: [
+                            Expanded(
+                              child: Column(
+                                children: [
+                                  _planetImage(),
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 8, vertical: 8),
+                                    child: _tabBar(),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            _tabView(),
+                          ],
+                        )
+                      : Column(
+                          children: [
+                            _planetImage(),
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 8),
+                              child: _tabBar(),
+                            ),
+                            _tabView(),
+                          ],
+                        ),
+                ],
+              )
+            : Stack(
+                children: [
+                  StaticStarsBackGround(),
+                  orientation == Orientation.landscape
+                      ? Row(
                           children: [
                             _planetImage(),
                             Padding(
                               padding: const EdgeInsets.symmetric(
                                   horizontal: 8, vertical: 8),
-                              child: _tabBar(),
+                              child: _description(),
                             ),
                           ],
+                        )
+                      : Column(
+                          children: [
+                            _planetImage(),
+                            _description(),
+                          ],
                         ),
-                      ),
-                      _tabView(),
-                    ],
-                  )
-                : Column(
-                    children: [
-                      _planetImage(),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 8),
-                        child: _tabBar(),
-                      ),
-                      _tabView(),
-                    ],
-                  ),
-          ],
-        ),
+                ],
+              ),
       ),
     );
   }

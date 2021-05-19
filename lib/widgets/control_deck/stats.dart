@@ -73,7 +73,7 @@ class _RivalsOpinion extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Player player = Provider.of<Player>(context, listen: false);
+    // This Shall Come from GameData, since it is a relative constraint
     return Expanded(
         child: Container(
       alignment: Alignment.center,
