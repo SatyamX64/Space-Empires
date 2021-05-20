@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:rive/rive.dart';
 import 'package:sizer/sizer.dart';
+import 'package:some_game/screens/crystal_screen.dart';
+import 'package:some_game/screens/welcome_screen.dart';
 import 'package:some_game/utility/constants.dart';
 
 class EtherScreen extends StatefulWidget {
@@ -34,14 +36,14 @@ class _EtherScreenState extends State<EtherScreen> {
 
   @override
   dispose() {
-    lockOrientation();
+    _controller.dispose();
     super.dispose();
   }
 
   List<String> _dialogueList = const [
     'Oh Hi there, your highness..',
     'Now I am sure none of this makes sense',
-    'Will Probably never will',
+    'It Probably never will',
     'and I am sure you have some doubts',
     'The obvious one being where are we',
     'and who the hell am I ?',
@@ -70,7 +72,10 @@ class _EtherScreenState extends State<EtherScreen> {
     return Positioned(
       child: AnimatedOpacity(
         child: TextButton(
-            onPressed: () {},
+            onPressed: () {
+              lockOrientation();
+              Navigator.of(context).pushReplacementNamed(WelcomeScreen.route);
+            },
             child: Text(
               'Skip',
               style:
@@ -88,7 +93,10 @@ class _EtherScreenState extends State<EtherScreen> {
     return Padding(
       padding: EdgeInsets.all(16.sp),
       child: GestureDetector(
-        onTap: () {},
+        onTap: () {
+          Navigator.of(context).pushReplacement(
+              new MaterialPageRoute(builder: (context) => CrystalScreen()));
+        },
         child: Container(
             height: 40.sp,
             width: 160.sp,

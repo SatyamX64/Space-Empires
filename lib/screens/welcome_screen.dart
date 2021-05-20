@@ -1,13 +1,10 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
-import 'package:provider/provider.dart';
-import 'package:some_game/models/game_data.dart';
-import 'package:some_game/models/planet_model.dart';
-import 'package:some_game/screens/game_screen.dart';
-import 'package:some_game/screens/intro_screen.dart';
 import 'package:some_game/utility/constants.dart';
 import 'package:some_game/widgets/static_stars_bg.dart';
+
+import 'ether_screen.dart';
 
 class WelcomeScreen extends StatelessWidget {
   static const route = '/welcome-screen';
@@ -51,7 +48,7 @@ class WelcomeScreen extends StatelessWidget {
             TextButton(
                 onPressed: () {
                   // gameData.initCurrentPlayer(Ruler.Zapp);
-                  Navigator.pushNamed(context, IntroScreen.route);
+                  // Navigator.pushNamed(context, IntroScreen.route);
                 },
                 child: Text(
                   'Play',
@@ -61,7 +58,11 @@ class WelcomeScreen extends StatelessWidget {
                       .copyWith(fontFamily: 'Italianno'),
                 )),
             TextButton(
-                onPressed: () {},
+                onPressed: () {
+                  final Orientation orientation = MediaQuery.of(context).orientation;
+                  Navigator.of(context).pushReplacement(new MaterialPageRoute(
+                      builder: (context) => EtherScreen(orientation)));
+                },
                 child: Text(
                   'Story',
                   style: Theme.of(context)

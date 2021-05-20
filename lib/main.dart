@@ -5,11 +5,12 @@ import 'package:provider/provider.dart';
 import 'package:some_game/models/game_data.dart';
 import 'package:some_game/screens/ether_screen.dart';
 import 'package:some_game/screens/game_screen.dart';
-import 'package:some_game/screens/intro_screen.dart';
 import 'package:some_game/screens/planet_screen.dart';
+import 'package:some_game/screens/splash_screen.dart';
 import 'package:some_game/screens/welcome_screen.dart';
 import 'package:sizer/sizer.dart';
 import 'models/player_model.dart';
+import 'screens/crystal_screen.dart';
 import 'utility/constants.dart';
 
 void main() {
@@ -53,12 +54,11 @@ class MyApp extends StatelessWidget {
                     textStyle: MaterialStateProperty.all<TextStyle>(
                       TextStyle(fontSize: 12.sp, fontWeight: FontWeight.bold),
                     )))),
-        home: EtherScreen(Orientation.portrait),
+        home: SplashScreen(),
         routes: {
           WelcomeScreen.route: (ctx) => WelcomeScreen(),
           GameScreen.route: (ctx) => GameScreen(),
           PlanetScreen.route: (ctx) => PlanetScreen(),
-          IntroScreen.route: (ctx) => IntroScreen(),
         },
       );
     });

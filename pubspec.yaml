@@ -24,7 +24,8 @@ dependencies:
   fluttertoast: ^8.0.6
   rive: ^0.7.10
   animated_text_kit: ^4.2.1
-  rect_getter: ^1.0.0
+  after_layout: ^1.1.0
+  shared_preferences: ^2.0.5
 
 dev_dependencies:
   flutter_test:
