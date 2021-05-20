@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:some_game/models/game_data.dart';
 import 'package:some_game/models/planet_model.dart';
 import 'package:some_game/screens/game_screen.dart';
+import 'package:some_game/screens/intro_screen.dart';
 import 'package:some_game/utility/constants.dart';
 import 'package:some_game/widgets/static_stars_bg.dart';
 
@@ -29,7 +30,7 @@ class WelcomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    final gameData = Provider.of<GameData>(context,listen: false);
+    // final gameData = Provider.of<GameData>(context,listen: false);
     _menu() {
       return Align(
         alignment: Alignment.center,
@@ -49,8 +50,8 @@ class WelcomeScreen extends StatelessWidget {
             ),
             TextButton(
                 onPressed: () {
-                  gameData.initCurrentPlayer(Ruler.Zapp);
-                  Navigator.pushNamed(context, GameScreen.route);
+                  // gameData.initCurrentPlayer(Ruler.Zapp);
+                  Navigator.pushNamed(context, IntroScreen.route);
                 },
                 child: Text(
                   'Play',
