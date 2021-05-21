@@ -17,15 +17,26 @@ enum StatsType {
 class Player extends ChangeNotifier with Stats, Military, Planets {
   Ruler ruler;
   int money;
+  Map<Ruler, bool> _communicationAvailable = {};
 
   Player({this.ruler, List<Planet> planets}) {
     money = 10000;
     planetsInit(planets);
     statsInit();
     militaryInit();
+    initCommunication();
+  }
+
+  initCommunication() {
+    for (Ruler rival in Ruler.values) {
+      if (ruler != rival) {
+        _communicationAvailable[rival] = true;
+      }
+    }
   }
 
   nextTurn() {
+    initCommunication();
     int _baseMorale =
         min(0, (statValue(StatsType.Propoganda) * 5 - militaryMoraleImpact)) +
             (statValue(StatsType.Luxury) * 10) -
@@ -36,6 +47,15 @@ class Player extends ChangeNotifier with Stats, Military, Planets {
     });
     money += income;
     notifyListeners();
+  }
+
+  changeCommunicationStatus(Ruler rival) {
+    _communicationAvailable[rival] = false;
+    notifyListeners();
+  }
+
+  bool reqCommunicationStatus(Ruler rival) {
+    return _communicationAvailable[rival];
   }
 
   int get income {

@@ -31,7 +31,16 @@ class GameData extends ChangeNotifier {
   GameData() {
     initPlayers();
     initGlobalRelations();
-    days = 999;
+    days = 365;
+  }
+
+  resetAllData() {
+    players = [];
+    globalRelations = {};
+    selectedPlayerIndex = null;
+    days = 365;
+    initPlayers();
+    initGlobalRelations();
   }
 
   initPlayers() {
@@ -155,7 +164,6 @@ class GameData extends ChangeNotifier {
     return planets.firstWhere((planet) => planet.name == name).description;
   }
 
-
   RivalRelation getRelation(Ruler A, Ruler B) {
     return globalRelations[A][B]['relation'];
   }
@@ -173,7 +181,7 @@ class GameData extends ChangeNotifier {
   }
 
   // A sends to B
-  interactWithRival({RivalInteractions action, Ruler A, Ruler B}) {
+  String interactWithRival({RivalInteractions action, Ruler A, Ruler B}) {
     RivalMood _mood = getMood(B, A);
     RivalRelation _relation = getRelation(A, B);
     double chance =
@@ -182,15 +190,39 @@ class GameData extends ChangeNotifier {
     if (chanceSuccedds(chance)) {
       Map map = yesEffectOfAction(
           mood: _mood, relation: _relation, interactions: action);
-      setMood(A, B, map['mood']);
+      setMood(B, A, map['mood']);
       setRelation(A, B, map['relation']);
+      notifyListeners();
+      return map['response'];
     } else {
       Map map = noEffectOfAction(
           mood: _mood, relation: _relation, interactions: action);
-      setMood(A, B, map['mood']);
+      setMood(B, A, map['mood']);
       setRelation(A, B, map['relation']);
+      notifyListeners();
+      return map['response'];
     }
-    notifyListeners();
+  }
+
+  possibleActions(RivalRelation relation) {
+    List<RivalInteractions> _list = [
+      RivalInteractions.Gift, // Give money to improve Mood
+    ];
+    switch (relation) {
+      case RivalRelation.War:
+        _list.add(RivalInteractions.Peace);
+        _list.add(RivalInteractions.Extort); // Will take money for Peace
+        break;
+      case RivalRelation.Trade:
+        _list.add(RivalInteractions.CancelTrade);
+        _list.add(RivalInteractions.Help);
+        break;
+      case RivalRelation.Peace:
+        _list.add(RivalInteractions.Trade);
+        _list.add(RivalInteractions.War);
+        break;
+    }
+    return _list;
   }
 
   bool chanceSuccedds(double chance) {
@@ -211,7 +243,8 @@ Map yesEffectOfAction(
     {RivalMood mood, RivalRelation relation, RivalInteractions interactions}) {
   Map map = {
     'relation': relation,
-    'mood': mood,
+    'mood': RivalMood.Cordial,
+    'response': 'Ah, fair enough',
   };
 
   return map;
@@ -289,6 +322,7 @@ Map noEffectOfAction(
   Map map = {
     'relation': RivalRelation.War,
     'mood': RivalMood.Resents,
+    'response': 'no u'
   };
 
   return map;
@@ -489,5 +523,7 @@ double calculateChance(
           }
       }
       break;
+    default:
+      return 0.0;
   }
 }

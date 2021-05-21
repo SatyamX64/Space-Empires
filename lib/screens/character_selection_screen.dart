@@ -59,10 +59,12 @@ class CharacterSelectionScreen extends StatelessWidget {
         padding: EdgeInsets.all(16.sp),
         decoration: BoxDecoration(
             color: Colors.black26, borderRadius: BorderRadius.circular(16.sp)),
-        child: Text(
-          _descriptionData[ruler],
-          style: TextStyle(fontWeight: FontWeight.w600),
-          textAlign: TextAlign.center,
+        child: SingleChildScrollView(
+          child: Text(
+            _descriptionData[ruler],
+            style: TextStyle(fontWeight: FontWeight.w600),
+            textAlign: TextAlign.center,
+          ),
         ),
       );
     }
