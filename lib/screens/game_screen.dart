@@ -23,7 +23,6 @@ class GameScreen extends StatelessWidget {
         ? _size.height * 0.1
         : _size.height * 0.05;
     final double _controlDeckHeight = _size.height * 0.10;
-    print('25 game screen');
     return Scaffold(
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: _NextTurnFAB(),

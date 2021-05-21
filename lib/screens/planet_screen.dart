@@ -92,23 +92,27 @@ class _PlanetScreenState extends State<PlanetScreen> {
     );
   }
 
-  Widget _description() {
-    return Expanded(
-        child: Container(
-      margin: EdgeInsets.all(16),
-      padding: EdgeInsets.all(16),
-      decoration: BoxDecoration(
-          color: Colors.black54, borderRadius: BorderRadius.circular(8)),
-      child: Text(
-        Provider.of<GameData>(context, listen: false)
-            .getPlanetDescription(_planetName),
-      ),
-    ));
-  }
 
   @override
   Widget build(BuildContext context) {
     final Orientation orientation = MediaQuery.of(context).orientation;
+
+    
+  Widget _description() {
+      return Expanded(
+          child: Container(
+        alignment: Alignment.center,
+        margin: EdgeInsets.all(16),
+        padding: EdgeInsets.all(16),
+        child: Text(
+          Provider.of<GameData>(context, listen: false)
+              .getPlanetDescription(_planetName),
+          style: Theme.of(context).textTheme.headline6.copyWith(fontWeight: FontWeight.w600),
+          textAlign: TextAlign.center,
+        ),
+      ));
+    }
+
     return DefaultTabController(
       length: 3,
       child: Scaffold(
@@ -171,11 +175,7 @@ class _PlanetScreenState extends State<PlanetScreen> {
                       ? Row(
                           children: [
                             _planetImage(),
-                            Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 8, vertical: 8),
-                              child: _description(),
-                            ),
+                            _description(),
                           ],
                         )
                       : Column(

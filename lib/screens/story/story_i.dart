@@ -3,19 +3,25 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:rive/rive.dart';
 import 'package:sizer/sizer.dart';
-import 'package:some_game/screens/crystal_screen.dart';
 import 'package:some_game/screens/welcome_screen.dart';
+import 'package:some_game/utility/utility.dart';
 import 'package:some_game/utility/constants.dart';
 
-class EtherScreen extends StatefulWidget {
-  static const route = '/ether-screen.dart';
+import 'story_ii.dart';
+
+class StoryScreenI extends StatefulWidget {
+  static const route = '/story-i-screen.dart';
+  // The Screen works well in both orientation
+  // But if orientation changes b/w animation than it resets
+  // To avoid this bug we lock the Screen to the orientation we entered with
+  // and reset is back to normal after we leave the story section
   final Orientation orientation;
-  EtherScreen(this.orientation);
+  StoryScreenI(this.orientation);
   @override
-  _EtherScreenState createState() => _EtherScreenState();
+  _StoryScreenIState createState() => _StoryScreenIState();
 }
 
-class _EtherScreenState extends State<EtherScreen> {
+class _StoryScreenIState extends State<StoryScreenI> {
   Artboard _riveArtboard;
   RiveAnimationController _controller;
   double _proceedButtonOpactity = 0.0;
@@ -23,7 +29,7 @@ class _EtherScreenState extends State<EtherScreen> {
   @override
   void initState() {
     super.initState();
-    lockOrientation(orientation: widget.orientation);
+    Utility.lockOrientation(orientation: widget.orientation);
     rootBundle.load('assets/animations/stym.riv').then(
       (data) async {
         final file = RiveFile.import(data);
@@ -73,7 +79,7 @@ class _EtherScreenState extends State<EtherScreen> {
       child: AnimatedOpacity(
         child: TextButton(
             onPressed: () {
-              lockOrientation();
+              Utility.lockOrientation(); // resets orientation to normal
               Navigator.of(context).pushReplacementNamed(WelcomeScreen.route);
             },
             child: Text(
@@ -94,16 +100,14 @@ class _EtherScreenState extends State<EtherScreen> {
       padding: EdgeInsets.all(16.sp),
       child: GestureDetector(
         onTap: () {
-          Navigator.of(context).pushReplacement(
-              new MaterialPageRoute(builder: (context) => CrystalScreen()));
+          Navigator.of(context).pushReplacementNamed(StoryScreenII.route);
         },
         child: Container(
             height: 40.sp,
             width: 160.sp,
             alignment: Alignment.center,
             decoration: BoxDecoration(
-                color: Color(0xFF4B0626),
-                borderRadius: BorderRadius.circular(50.sp)),
+                color: kMaroon, borderRadius: BorderRadius.circular(50.sp)),
             child: Text(
               'Proceed',
               style: TextStyle(fontWeight: FontWeight.w600),

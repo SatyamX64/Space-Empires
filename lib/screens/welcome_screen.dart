@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:some_game/utility/constants.dart';
 import 'package:some_game/widgets/static_stars_bg.dart';
-
-import 'ether_screen.dart';
+import 'character_selection_screen.dart';
+import 'story/story_i.dart';
 
 class WelcomeScreen extends StatelessWidget {
   static const route = '/welcome-screen';
@@ -27,7 +27,6 @@ class WelcomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    // final gameData = Provider.of<GameData>(context,listen: false);
     _menu() {
       return Align(
         alignment: Alignment.center,
@@ -35,20 +34,22 @@ class WelcomeScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(
-              'SPACE EMPIRE',
-              style: Theme.of(context)
-                  .textTheme
-                  .headline4
-                  .copyWith(fontFamily: 'Astral'),
+            Hero(
+              tag: 'space-empire',
+              child: Text(
+                'SPACE EMPIRE',
+                style: Theme.of(context)
+                    .textTheme
+                    .headline4
+                    .copyWith(fontFamily: 'Astral'),
+              ),
             ),
             SizedBox(
               height: size.height / 6,
             ),
             TextButton(
                 onPressed: () {
-                  // gameData.initCurrentPlayer(Ruler.Zapp);
-                  // Navigator.pushNamed(context, IntroScreen.route);
+                  Navigator.pushNamed(context, CharacterSelectionScreen.route);
                 },
                 child: Text(
                   'Play',
@@ -61,7 +62,7 @@ class WelcomeScreen extends StatelessWidget {
                 onPressed: () {
                   final Orientation orientation = MediaQuery.of(context).orientation;
                   Navigator.of(context).pushReplacement(new MaterialPageRoute(
-                      builder: (context) => EtherScreen(orientation)));
+                      builder: (context) => StoryScreenI(orientation)));
                 },
                 child: Text(
                   'Story',

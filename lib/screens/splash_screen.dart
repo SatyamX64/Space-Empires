@@ -1,8 +1,9 @@
 import 'package:after_layout/after_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:some_game/screens/ether_screen.dart';
 import 'package:some_game/screens/welcome_screen.dart';
+
+import 'story/story_i.dart';
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -21,7 +22,7 @@ class SplashScreenState extends State<SplashScreen>
     } else {
       await prefs.setBool('seen', true);
       Navigator.of(context).pushReplacement(new MaterialPageRoute(
-          builder: (context) => EtherScreen(orientation)));
+          builder: (context) => StoryScreenI(orientation)));
     }
   }
 
@@ -31,7 +32,18 @@ class SplashScreenState extends State<SplashScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(child: Text(':)',style: TextStyle(color: Colors.white24),)),
+      body: Center(
+        child: Hero(
+          tag: 'space-empire',
+          child: Text(
+            'SPACE EMPIRE',
+            style: Theme.of(context)
+                .textTheme
+                .headline4
+                .copyWith(fontFamily: 'Astral'),
+          ),
+        ),
+      ),
     );
   }
 }

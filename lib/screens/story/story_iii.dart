@@ -4,36 +4,35 @@ import 'package:flutter/services.dart';
 import 'package:rive/rive.dart';
 import 'package:sizer/sizer.dart';
 import 'package:some_game/utility/constants.dart';
+import 'package:some_game/utility/utility.dart';
 
-import 'space_screen.dart';
-import 'welcome_screen.dart';
+import '../welcome_screen.dart';
 
-class CrystalScreen extends StatefulWidget {
-  static const route = '/crystal-screen.dart';
+
+class StoryScreenIII extends StatefulWidget {
+  static const route = '/story-iii-screen.dart';
   @override
-  _CrystalScreenState createState() => _CrystalScreenState();
+  _StoryScreenIIIState createState() => _StoryScreenIIIState();
 }
 
-class _CrystalScreenState extends State<CrystalScreen> {
+class _StoryScreenIIIState extends State<StoryScreenIII> {
   double _proceedButtonOpactity = 0.0;
 
   @override
   dispose() {
+    Utility.lockOrientation();
     super.dispose();
   }
 
   List<String> _dialogueList = const [
-    'The only way to stop the doom',
-    'Is the paradox Jewel ',
-    'The Jewel carries the power..',
-    'to restore the balance once again',
-    'Now YOU must find it',
-    'The Jewel only reveals iteself',
-    'When all 8 Planets are sync',
-    'So O mighty ruler, please take command',
-    'and bring all 8 Planets under your Empire',
-    'for this is the time to ascend',
-    '* The Strange figure vanishes *'
+    'According to rumours',
+    'The 3 other rulers saw it as well ',
+    'Now you must fight ',
+    'and bring all planets under your name',
+    'all in 365 Days',
+    'If you ever need my help',
+    'Just dream and I\'ll appear',
+    'Go now..\nyour fate awaits',
   ];
 
   _skipButton() {
@@ -41,7 +40,6 @@ class _CrystalScreenState extends State<CrystalScreen> {
       child: AnimatedOpacity(
         child: TextButton(
             onPressed: () {
-              lockOrientation();
               Navigator.of(context).pushReplacementNamed(WelcomeScreen.route);
             },
             child: Text(
@@ -62,18 +60,17 @@ class _CrystalScreenState extends State<CrystalScreen> {
       padding: EdgeInsets.all(16.sp),
       child: GestureDetector(
         onTap: () {
-          Navigator.of(context).pushReplacement(
-              new MaterialPageRoute(builder: (context) => SpaceScreen()));
+          Navigator.of(context).pushReplacementNamed(WelcomeScreen.route);
         },
         child: Container(
             height: 40.sp,
             width: 160.sp,
             alignment: Alignment.center,
             decoration: BoxDecoration(
-                color: Color(0xFF4B0626),
+                color: kMaroon,
                 borderRadius: BorderRadius.circular(50.sp)),
             child: Text(
-              'Continue',
+              'I am ready',
               style: TextStyle(fontWeight: FontWeight.w600),
             )),
       ),
@@ -113,7 +110,7 @@ class _CrystalScreenState extends State<CrystalScreen> {
         children: [
           Center(
             child: AnimatedOpacity(
-              child: ParadoxCrystal(),
+              child: _Planets(),
               duration: Duration(seconds: 2),
               opacity: 1 - _proceedButtonOpactity,
             ),
@@ -139,7 +136,7 @@ class _CrystalScreenState extends State<CrystalScreen> {
             children: [
               Expanded(
                 child: AnimatedOpacity(
-                  child: ParadoxCrystal(),
+                  child: _Planets(),
                   duration: Duration(seconds: 2),
                   opacity: 1 - _proceedButtonOpactity,
                 ),
@@ -172,31 +169,31 @@ class _CrystalScreenState extends State<CrystalScreen> {
   }
 }
 
-class ParadoxCrystal extends StatefulWidget {
+class _Planets extends StatefulWidget {
   @override
-  _ParadoxCrystalState createState() => _ParadoxCrystalState();
+  __PlanetsState createState() => __PlanetsState();
 }
 
-class _ParadoxCrystalState extends State<ParadoxCrystal> {
+class __PlanetsState extends State<_Planets> {
   Artboard _riveArtboard;
   RiveAnimationController _controller;
 
   @override
   void initState() {
     super.initState();
-    rootBundle.load('assets/animations/paradox.riv').then(
+    rootBundle.load('assets/animations/planet.riv').then(
       (data) async {
         final file = RiveFile.import(data);
         final artboard = file.mainArtboard;
-        artboard.addController(_controller = SimpleAnimation('in'));
+        artboard.addController(_controller = SimpleAnimation('Idle'));
         setState(() => _riveArtboard = artboard);
       },
     );
-    Future.delayed(Duration(seconds: 3), () {
-      setState(() {
-        _controller.isActive = false;
-      });
-    });
+    // Future.delayed(Duration(seconds: 3), () {
+    //   setState(() {
+    //     _controller.isActive = false;
+    //   });
+    // });
   }
 
   @override
