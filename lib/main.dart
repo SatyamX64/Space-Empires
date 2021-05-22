@@ -11,6 +11,7 @@ import 'package:some_game/screens/story/story_ii.dart';
 import 'package:some_game/screens/welcome_screen.dart';
 import 'package:sizer/sizer.dart';
 import 'models/player_model.dart';
+import 'screens/attack_screen.dart';
 import 'screens/story/story_iii.dart';
 import 'utility/constants.dart';
 
@@ -72,7 +73,7 @@ class MyApp extends StatelessWidget {
                 ),
               ),
             ),
-            home: SplashScreen(),
+            home: AttackScreen(),
             routes: {
               WelcomeScreen.route: (ctx) => WelcomeScreen(),
               GameScreen.route: (ctx) => GameScreen(),
