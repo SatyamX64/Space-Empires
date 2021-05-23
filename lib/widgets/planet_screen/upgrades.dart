@@ -15,6 +15,7 @@ class PlanetUpgrades extends StatelessWidget {
   }) : super(key: key);
 
   _getSize(double n, double w, double h) {
+    // Finds the biggest square size , such that "n" squares can fit in a w*h rectangle
     double sw, sh;
     var pw = (sqrt(n * w / h)).ceilToDouble();
     if ((pw * h / w).floorToDouble() * pw < n)
@@ -53,8 +54,9 @@ class _UpgradeCard extends StatelessWidget {
   final double side;
   @override
   Widget build(BuildContext context) {
-    final Player player = Provider.of<Player>(context,listen: false);
-    final PlanetName planetName = Provider.of<PlanetName>(context,listen: false);
+    final Player player = Provider.of<Player>(context, listen: false);
+    final PlanetName planetName =
+        Provider.of<PlanetName>(context, listen: false);
     return GestureDetector(
       onTap: () {
         _showUpgradeDetails(context, upgrade, () {
@@ -64,10 +66,10 @@ class _UpgradeCard extends StatelessWidget {
       child: Container(
         width: side,
         height: side,
-        padding: EdgeInsets.all(4),
+        padding: const EdgeInsets.all(4),
         child: Container(
           alignment: Alignment.center,
-          padding: EdgeInsets.all(8),
+          padding: const EdgeInsets.all(8),
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(4), color: Colors.white12),
           child: Column(children: <Widget>[
@@ -143,7 +145,8 @@ _showUpgradeDetails(
                     child: SizedBox(
                       width: 360,
                       child: Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                         child: ElevatedButton(
                           onPressed: () {
                             buy();

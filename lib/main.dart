@@ -3,10 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:some_game/models/game_data.dart';
+import 'package:some_game/models/planet_model.dart';
+import 'package:some_game/screens/attack_conclusion_screen.dart';
 import 'package:some_game/screens/character_selection_screen.dart';
 import 'package:some_game/screens/game_screen.dart';
 import 'package:some_game/screens/planet_screen.dart';
 import 'package:some_game/screens/splash_screen.dart';
+import 'package:some_game/screens/story/story_i.dart';
 import 'package:some_game/screens/story/story_ii.dart';
 import 'package:some_game/screens/welcome_screen.dart';
 import 'package:sizer/sizer.dart';
@@ -28,8 +31,15 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider<GameData>.value(
           value: GameData(),
         ),
+
+        // It is lazily build, i.e unless someone requests it, it won't be created
+        // It is requested for first Time on gameScreen (as we navigate from characterSelectionScreen)
+        // As soon as gameScreen is called create is called
+        // But since we notify GameData too (in characterSelectionScreen)
+        // So update is called too
+        // finally the value obtained is provided in gameScreen
         ChangeNotifierProxyProvider<GameData, Player>(
-          update: (_, gameData, currentPlayer) {
+          update: (_, gameData, __) {
             return gameData.currentPlayer;
           },
           create: (ctx) {
@@ -73,15 +83,37 @@ class MyApp extends StatelessWidget {
                 ),
               ),
             ),
-            home: AttackScreen(),
+            home: SplashScreen(),
             routes: {
               WelcomeScreen.route: (ctx) => WelcomeScreen(),
               GameScreen.route: (ctx) => GameScreen(),
-              PlanetScreen.route: (ctx) => PlanetScreen(),
               StoryScreenII.route: (ctx) => StoryScreenII(),
               StoryScreenIII.route: (ctx) => StoryScreenIII(),
               CharacterSelectionScreen.route: (ctx) =>
-                  CharacterSelectionScreen()
+                  CharacterSelectionScreen(),
+              AttackConclusionScreen.route: (ctx) => AttackConclusionScreen()
+            },
+            onGenerateRoute: (routeSettings) {
+              if (routeSettings.name == PlanetScreen.route) {
+                final PlanetName _planetName = routeSettings.arguments;
+                return MaterialPageRoute(
+                  builder: (context) => PlanetScreen(_planetName),
+                );
+              } else if (routeSettings.name == StoryScreenI.route) {
+                final Orientation _orientation = routeSettings.arguments;
+                return MaterialPageRoute(
+                  builder: (context) => StoryScreenI(_orientation),
+                );
+              } else if (routeSettings.name == AttackScreen.route) {
+                final args = routeSettings.arguments as Map;
+                final Planet _planet = args['planet'];
+                final Player _attacker = args['attacker'];
+                return MaterialPageRoute(
+                  builder: (context) =>
+                      AttackScreen(attacker: _attacker, planet: _planet),
+                );
+              }
+              return null;
             },
           );
         });

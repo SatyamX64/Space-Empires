@@ -6,7 +6,7 @@ enum DefenseShipType {
   Rover,
 }
 
-class DefenceShip {
+class DefenseShip {
   final DefenseShipType type;
   final String description;
   final int cost;
@@ -14,7 +14,7 @@ class DefenceShip {
   final int damage;
   final int health;
 
-  const DefenceShip(
+  const DefenseShip(
       {@required this.cost,
       @required this.description,
       @required this.type,
@@ -23,22 +23,22 @@ class DefenceShip {
       @required this.health});
 }
 
-Map<DefenseShipType, DefenceShip> kDefenseShipsData = {
-  DefenseShipType.Artillery: const DefenceShip(
+const Map<DefenseShipType, DefenseShip> kDefenseShipsData = const {
+  DefenseShipType.Artillery: const DefenseShip(
       cost: 3000,
       description: 'Boom Boom everything',
       type: DefenseShipType.Artillery,
       maintainance: 40,
       health: 1200,
       damage: 200),
-  DefenseShipType.Battleship: const DefenceShip(
+  DefenseShipType.Battleship: const DefenseShip(
       cost: 2500,
       description: 'The workhorse',
       type: DefenseShipType.Battleship,
       maintainance: 30,
       health: 2500,
       damage: 120),
-  DefenseShipType.Rover: const DefenceShip(
+  DefenseShipType.Rover: const DefenseShip(
       cost: 1000,
       description: 'It aint much..but its good',
       type: DefenseShipType.Rover,

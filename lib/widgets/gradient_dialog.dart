@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animated_dialog/flutter_animated_dialog.dart';
 
 showGradientDialog(
-    {@required BuildContext context, Widget child, double padding: 16.0}) {
+    {@required BuildContext context, Widget child, double padding: 16.0, Color color}) {
   final size = MediaQuery.of(context).size;
   final Orientation orientation = (size.width / size.height > 1.7)
       ? Orientation.landscape
@@ -30,7 +30,7 @@ showGradientDialog(
                   borderRadius: BorderRadius.circular(8),
                   gradient: LinearGradient(colors: [
                     Colors.black.withOpacity(0.8),
-                    Theme.of(context).primaryColor.withOpacity(0.8)
+                    color != null ? color : Theme.of(context).primaryColor.withOpacity(0.8)
                   ]),
                 ),
                 child: child),

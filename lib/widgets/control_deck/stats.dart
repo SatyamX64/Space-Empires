@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:some_game/models/game_data.dart';
 import 'package:some_game/models/player_model.dart';
 import 'package:some_game/widgets/gradient_dialog.dart';
 
@@ -59,7 +60,7 @@ class _ResourceAllocator extends StatelessWidget {
               _InfoBar(
                   text: 'Total',
                   value: Text(
-                    '${player.income} AP',
+                    '${player.income} 💲',
                     style: TextStyle(fontWeight: FontWeight.bold),
                   )),
             ],
@@ -74,6 +75,8 @@ class _RivalsOpinion extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // This Shall Come from GameData, since it is a relative constraint
+    final GameData _gameData = Provider.of<GameData>(context, listen: false);
+    final Player _player = Provider.of<Player>(context, listen: false);
     return Expanded(
         child: Container(
       alignment: Alignment.center,
@@ -83,7 +86,7 @@ class _RivalsOpinion extends StatelessWidget {
         color: Colors.black12,
       ),
       child: SingleChildScrollView(
-        child: Text('op',
+        child: Text(_gameData.getRivalsOpinion(_player.ruler),
             style: Theme.of(context).textTheme.headline6.copyWith(
                   fontFamily: 'Italianno',
                   // fontWeight: FontWeight.w600
@@ -111,15 +114,17 @@ class _InfoBar extends StatelessWidget {
       child: Row(
         children: [
           Expanded(
-              child: Container(
-            alignment: Alignment.centerLeft,
-            child: _statsText(text),
-          )),
+            child: Container(
+              alignment: Alignment.centerLeft,
+              child: _statsText(text),
+            ),
+          ),
           Expanded(
-              child: Container(
-            alignment: Alignment.center,
-            child: value,
-          )),
+            child: Container(
+              alignment: Alignment.center,
+              child: value,
+            ),
+          ),
         ],
       ),
     );

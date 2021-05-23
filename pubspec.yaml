@@ -41,7 +41,7 @@ flutter:
       - assets/img/planets/
       - assets/img/buildings/
       - assets/img/ships/attack/
-      - assets/img/ships/defence/
+      - assets/img/ships/defense/
       - assets/img/control_deck/
       - assets/img/avatar/
 

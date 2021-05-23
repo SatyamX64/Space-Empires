@@ -9,16 +9,7 @@ class SolarSystem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     
-    List<PlanetName> _planetList = [
-      PlanetName.Miavis,
-      PlanetName.Hounus,
-      PlanetName.Drukunides,
-      PlanetName.Eno,
-      PlanetName.Musk,
-      PlanetName.Jupinot,
-      PlanetName.Ocorix,
-      PlanetName.Arth
-    ];
+    List<PlanetName> _planetList = PlanetName.values;
     return LayoutBuilder(builder: (context, constraints) {
       final size = Size(constraints.maxWidth, constraints.maxHeight);
       final Orientation orientation = MediaQuery.of(context).orientation;

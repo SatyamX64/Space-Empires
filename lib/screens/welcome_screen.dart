@@ -34,15 +34,12 @@ class WelcomeScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Hero(
-              tag: 'space-empire',
-              child: Text(
-                'SPACE EMPIRE',
-                style: Theme.of(context)
-                    .textTheme
-                    .headline4
-                    .copyWith(fontFamily: 'Astral'),
-              ),
+            Text(
+              'SPACE EMPIRE',
+              style: Theme.of(context)
+                  .textTheme
+                  .headline4
+                  .copyWith(fontFamily: 'Astral'),
             ),
             SizedBox(
               height: size.height / 6,
@@ -60,9 +57,10 @@ class WelcomeScreen extends StatelessWidget {
                 )),
             TextButton(
                 onPressed: () {
-                  final Orientation orientation = MediaQuery.of(context).orientation;
-                  Navigator.of(context).pushReplacement(new MaterialPageRoute(
-                      builder: (context) => StoryScreenI(orientation)));
+                  final Orientation orientation =
+                      MediaQuery.of(context).orientation;
+                  Navigator.of(context).pushReplacementNamed(StoryScreenI.route,
+                      arguments: orientation);
                 },
                 child: Text(
                   'Story',

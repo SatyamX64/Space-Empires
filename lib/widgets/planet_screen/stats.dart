@@ -27,7 +27,7 @@ class PlanetStats extends StatelessWidget {
             gradient: LinearGradient(
                 colors: [Colors.black, opacityPrimaryColor(0.3)]),
             borderRadius: BorderRadius.circular(8)),
-        padding: EdgeInsets.all(16),
+        padding: const EdgeInsets.all(16),
         child: Column(
           children: [
             Expanded(
@@ -63,7 +63,7 @@ class PlanetStats extends StatelessWidget {
                                   children: [
                                     _statsText('Income : '),
                                     _statsText('Morale : '),
-                                    _statsText('Defence : '),
+                                    _statsText('Defense : '),
                                   ],
                                 ),
                               ),
@@ -80,9 +80,9 @@ class PlanetStats extends StatelessWidget {
                                             name: _planetName)['income']
                                         .toString()),
                                     _statsText(player
-                                            .planetStats(
-                                                name: _planetName)['morale']
-                                            .toString()),
+                                        .planetStats(
+                                            name: _planetName)['morale']
+                                        .toString()),
                                     _statsText(player
                                         .planetStats(
                                             name: _planetName)['defense']

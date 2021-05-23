@@ -12,6 +12,16 @@ import 'package:sizer/sizer.dart';
 class CharacterSelectionScreen extends StatelessWidget {
   static const route = '/character-selection-screen';
 
+  final Map<Ruler, String> _descriptionData = const {
+    Ruler.NdNd:
+        'The last standing heir from the Royal Family of Jupinot. Hates Everyone except himself .',
+    Ruler.Nudar:
+        'The Ruler of the strongest warrior race of this Universe. They socialize through fights .',
+    Ruler.Zapp: 'Weak fragile Creatures, with limitless potential for growth',
+    Ruler.Morbo:
+        'The Master Tactician himself, the guy once held 6 planets in his prime',
+  };
+
   _animatedStars() {
     return Lottie.asset('assets/animations/stars.json');
   }
@@ -26,16 +36,6 @@ class CharacterSelectionScreen extends StatelessWidget {
           ]),
         ));
   }
-
-  final Map<Ruler, String> _descriptionData = const {
-    Ruler.NdNd:
-        'The last standing heir from the Royal Family of Jupinot. Hates Everyone except himself .',
-    Ruler.Nudar:
-        'The Ruler of the strongest warrior race of this Universe. They socialize through fights .',
-    Ruler.Zapp: 'Weak fragile Creatures, with limitless potential for growth',
-    Ruler.Morbo:
-        'The Master Tactician himself, the guy once held 6 planets in his prime',
-  };
 
   @override
   Widget build(BuildContext context) {
@@ -79,7 +79,8 @@ class CharacterSelectionScreen extends StatelessWidget {
                 backgroundColor:
                     MaterialStateProperty.all<Color>(Color(0xFF120530))),
             onPressed: () {
-              Provider.of<GameData>(context,listen: false).initCurrentPlayer(ruler);
+              Provider.of<GameData>(context, listen: false)
+                  .initCurrentPlayer(ruler);
               Navigator.pushReplacementNamed(context, GameScreen.route);
             },
             child: Text('Continue'),
@@ -118,7 +119,7 @@ class CharacterSelectionScreen extends StatelessWidget {
       );
     }
 
-    _alien(Ruler ruler, Orientation orientation) {
+    _characterCard(Ruler ruler, Orientation orientation) {
       return Container(
         padding: EdgeInsets.all(16.sp),
         margin: EdgeInsets.all(16.sp),
@@ -159,7 +160,7 @@ class CharacterSelectionScreen extends StatelessWidget {
       );
     }
 
-    _slider(Orientation orientation) {
+    _characterMenu(Orientation orientation) {
       final Size size = MediaQuery.of(context).size;
       return Align(
         alignment: Alignment.center,
@@ -170,7 +171,7 @@ class CharacterSelectionScreen extends StatelessWidget {
                   : size.height * 0.5),
           itemCount: Ruler.values.length,
           itemBuilder: (BuildContext context, int index, _) =>
-              _alien(Ruler.values[index], orientation),
+              _characterCard(Ruler.values[index], orientation),
         ),
       );
     }
@@ -184,7 +185,7 @@ class CharacterSelectionScreen extends StatelessWidget {
           _heading(),
           OrientationBuilder(
             builder: (context, orientation) {
-              return _slider(orientation);
+              return _characterMenu(orientation);
             },
           ),
         ],

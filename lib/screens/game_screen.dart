@@ -1,10 +1,9 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:some_game/models/game_data.dart';
-import 'package:some_game/models/planet_model.dart';
-import 'package:some_game/models/player_model.dart';
-import 'package:some_game/widgets/gradient_dialog.dart';
+import '../models/game_data.dart';
+import '../models/player_model.dart';
+import '../widgets/gradient_dialog.dart';
 import '../utility/constants.dart';
 import '../widgets/control_deck.dart';
 import '../widgets/control_deck/attack.dart';
@@ -26,30 +25,8 @@ class GameScreen extends StatelessWidget {
         : _size.height * 0.05;
     final double _controlDeckHeight = _size.height * 0.10;
 
-    Future<bool> _requestPop() {
-      // showDialog<Null>(
-      //   context: context,
-      //   barrierDismissible: false,
-      //   child: new AlertDialog(
-      //     title: new Text('Discard your changes?'),
-      //     content: new Text(''),
-      //     actions: <Widget>[
-      //       new FlatButton(
-      //         child: new Text('NO'),
-      //         onPressed: () {
-      //           Navigator.of(context).pop();
-      //         },
-      //       ),
-      //       new FlatButton(
-      //         child: new Text('DISCARD'),
-      //         onPressed: () {
-      //           Navigator.of(context).pop();
-      //           Navigator.of(context).pop();
-      //         },
-      //       ),
-      //     ],
-      //   ),
-      // );
+     _quitGame() {
+
       showGradientDialog(
           context: context,
           child: Column(
@@ -149,7 +126,7 @@ class GameScreen extends StatelessWidget {
             ],
           ),
         ),
-        onWillPop: _requestPop);
+        onWillPop: _quitGame);
   }
 }
 

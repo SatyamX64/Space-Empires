@@ -5,12 +5,12 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animated_dialog/flutter_animated_dialog.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:some_game/models/defence_ships_model.dart';
+import 'package:some_game/models/defense_ships_model.dart';
 import 'package:some_game/models/planet_model.dart';
 import 'package:some_game/models/player_model.dart';
 
-class PlanetDefence extends StatelessWidget {
-  PlanetDefence({
+class PlanetDefense extends StatelessWidget {
+  PlanetDefense({
     Key key,
   }) : super(key: key);
 
@@ -22,9 +22,9 @@ class PlanetDefence extends StatelessWidget {
           itemExtent: min(
               120, max(constraints.maxHeight / kDefenseShipsData.length, 90)),
           itemBuilder: (_, index) {
-            return _DefenceShipCard(
-              defenceShip:
-                  List<DefenceShip>.from(kDefenseShipsData.values)[index],
+            return _DefenseShipCard(
+              defenseShip:
+                  List<DefenseShip>.from(kDefenseShipsData.values)[index],
               width: constraints.maxWidth,
             );
           });
@@ -32,13 +32,13 @@ class PlanetDefence extends StatelessWidget {
   }
 }
 
-class _DefenceShipCard extends StatelessWidget {
-  const _DefenceShipCard(
-      {Key key, @required DefenceShip defenceShip, this.width})
-      : _defenceShip = defenceShip,
+class _DefenseShipCard extends StatelessWidget {
+  const _DefenseShipCard(
+      {Key key, @required DefenseShip defenseShip, this.width})
+      : _defenseShip = defenseShip,
         super(key: key);
 
-  final DefenceShip _defenceShip;
+  final DefenseShip _defenseShip;
   final double width;
 
   @override
@@ -47,25 +47,25 @@ class _DefenceShipCard extends StatelessWidget {
         Provider.of<PlanetName>(context, listen: false);
     return GestureDetector(
       onTap: () {
-        _showDefenceDetails(context, _defenceShip);
+        _showDefenseDetails(context, _defenseShip);
       },
       child: Card(
         color: Colors.blueGrey.withOpacity(0.4),
         child: Padding(
-          padding: EdgeInsets.all(8),
+          padding: const EdgeInsets.all(8),
           child: Row(
             children: [
               Expanded(
                   child: Center(
                 child: SvgPicture.asset(
-                    'assets/img/ships/defence/${describeEnum(_defenceShip.type).toLowerCase()}.svg'),
+                    'assets/img/ships/defense/${describeEnum(_defenseShip.type).toLowerCase()}.svg'),
               )),
               Expanded(
                 flex: 2,
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Text(
-                    describeEnum(_defenceShip.type),
+                    describeEnum(_defenseShip.type),
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
                 ),
@@ -78,11 +78,11 @@ class _DefenceShipCard extends StatelessWidget {
                       flex: 3,
                       child: _BuyMoreShips(
                         increment: () => player.buyDefenseShip(
-                            type: _defenceShip.type, name: planetName),
+                            type: _defenseShip.type, name: planetName),
                         decrement: () => player.sellDefenseShip(
-                            type: _defenceShip.type, name: planetName),
+                            type: _defenseShip.type, name: planetName),
                         value: player.planetShipCount(
-                            type: _defenceShip.type, name: planetName),
+                            type: _defenseShip.type, name: planetName),
                       ),
                     ),
                   );
@@ -150,7 +150,7 @@ class _BuyMoreShips extends StatelessWidget {
   }
 }
 
-_showDefenceDetails(BuildContext context, DefenceShip defenceShip) {
+_showDefenseDetails(BuildContext context, DefenseShip defenseShip) {
   final size = MediaQuery.of(context).size;
   final Orientation orientation = (size.width / size.height > 1.7)
       ? Orientation.landscape
@@ -180,24 +180,24 @@ _showDefenceDetails(BuildContext context, DefenceShip defenceShip) {
               child: Column(
                 children: [
                   Text(
-                    describeEnum(defenceShip.type),
+                    describeEnum(defenseShip.type),
                     style: Theme.of(context).textTheme.headline5.copyWith(
                         color: Colors.white, fontWeight: FontWeight.bold),
                   ),
                   Expanded(
                       child: SvgPicture.asset(
-                          'assets/img/ships/defence/${describeEnum(defenceShip.type).toLowerCase()}.svg')),
+                          'assets/img/ships/defense/${describeEnum(defenseShip.type).toLowerCase()}.svg')),
                   Text(
-                    defenceShip.description,
+                    defenseShip.description,
                     style: TextStyle(fontWeight: FontWeight.w600),
                   ),
                   Row(
                     children: [
-                      _DefenceDialogStatsBox(
+                      _DefenseDialogStatsBox(
                           header: 'Maintainance',
-                          value: defenceShip.maintainance.toString()),
-                      _DefenceDialogStatsBox(
-                          header: 'Cost', value: defenceShip.cost.toString()),
+                          value: defenseShip.maintainance.toString()),
+                      _DefenseDialogStatsBox(
+                          header: 'Cost', value: defenseShip.cost.toString()),
                     ],
                   ),
                   SizedBox(
@@ -220,8 +220,8 @@ _showDefenceDetails(BuildContext context, DefenceShip defenceShip) {
       });
 }
 
-class _DefenceDialogStatsBox extends StatelessWidget {
-  const _DefenceDialogStatsBox({Key key, this.header, this.value})
+class _DefenseDialogStatsBox extends StatelessWidget {
+  const _DefenseDialogStatsBox({Key key, this.header, this.value})
       : super(key: key);
 
   final String header;

@@ -18,13 +18,15 @@ showMilitaryMenu(BuildContext context) {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Expanded(
-                child: TabBarView(
-                    children: List.generate(
-              kAttackShipsData.length,
-              (index) => AttackShipInfo(
-                attackShip: List.from(kAttackShipsData.values)[index],
+              child: TabBarView(
+                children: List.generate(
+                  kAttackShipsData.length,
+                  (index) => AttackShipInfo(
+                    attackShip: List.from(kAttackShipsData.values)[index],
+                  ),
+                ),
               ),
-            ))),
+            ),
             TabBar(
                 unselectedLabelColor: Colors.white,
                 indicatorSize: TabBarIndicatorSize.tab,
@@ -32,7 +34,8 @@ showMilitaryMenu(BuildContext context) {
                 tabs: List.generate(
                     kAttackShipsData.length,
                     (index) => Tab(
-                          text: describeEnum(List.from(kAttackShipsData.keys)[index]),
+                          text: describeEnum(
+                              List.from(kAttackShipsData.keys)[index]),
                         ))),
           ],
         ),
@@ -221,62 +224,65 @@ class _ShipOverview extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Expanded(
-        flex: 2,
-        child: Container(
-            margin: EdgeInsets.all(4),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(4),
-              color: Colors.black12,
-            ),
-            child: Column(
-              children: [
+      flex: 2,
+      child: Container(
+        margin: EdgeInsets.all(4),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(4),
+          color: Colors.black12,
+        ),
+        child: Column(
+          children: [
+            Expanded(
+              flex: 3,
+              child: Row(children: [
                 Expanded(
-                  flex: 3,
-                  child: Row(children: [
-                    Expanded(
-                      child: Container(
-                        height: double.maxFinite,
-                        width: double.maxFinite,
-                        margin: EdgeInsets.all(4),
-                        child: Image.asset(
-                            'assets/img/ships/attack/${describeEnum(attackShip.type).toLowerCase()}.png'),
-                        // SvgPicture.asset(
-                        //     'assets/img/ships/attack/${describeEnum(attackShip.type).toLowerCase()}.svg'),
-                      ),
-                    ),
-                    Expanded(
-                      flex: 3,
-                      child: Row(
-                        children: [
-                          Consumer<Player>(
-                            builder: (_, player, __) {
-                              return _MilitaryDialogStatsBox(
-                                header: 'You have',
-                                value: player.militaryShipCount(attackShip.type).toString(),
-                              );
-                            },
-                          ),
-                          _MilitaryDialogStatsBox(
-                            header: 'Cost',
-                            value: attackShip.cost.toString(),
-                          )
-                        ],
-                      ),
-                    )
-                  ]),
+                  child: Container(
+                    height: double.maxFinite,
+                    width: double.maxFinite,
+                    margin: EdgeInsets.all(4),
+                    child: Image.asset(
+                        'assets/img/ships/attack/${describeEnum(attackShip.type).toLowerCase()}.png'),
+                    // SvgPicture.asset(
+                    //     'assets/img/ships/attack/${describeEnum(attackShip.type).toLowerCase()}.svg'),
+                  ),
                 ),
                 Expanded(
-                    flex: 2,
-                    child: Container(
-                        alignment: Alignment.center,
-                        child: Text(attackShip.description,
-                            style:
-                                Theme.of(context).textTheme.headline6.copyWith(
-                                      fontWeight: FontWeight.w600,
-                                      fontFamily: 'Italianno',
-                                    )))),
-              ],
-            )));
+                  flex: 3,
+                  child: Row(
+                    children: [
+                      Consumer<Player>(
+                        builder: (_, player, __) {
+                          return _MilitaryDialogStatsBox(
+                            header: 'You have',
+                            value: player
+                                .militaryShipCount(attackShip.type)
+                                .toString(),
+                          );
+                        },
+                      ),
+                      _MilitaryDialogStatsBox(
+                        header: 'Cost',
+                        value: attackShip.cost.toString(),
+                      )
+                    ],
+                  ),
+                )
+              ]),
+            ),
+            Expanded(
+                flex: 2,
+                child: Container(
+                    alignment: Alignment.center,
+                    child: Text(attackShip.description,
+                        style: Theme.of(context).textTheme.headline6.copyWith(
+                              fontWeight: FontWeight.w600,
+                              fontFamily: 'Italianno',
+                            )))),
+          ],
+        ),
+      ),
+    );
   }
 }
 

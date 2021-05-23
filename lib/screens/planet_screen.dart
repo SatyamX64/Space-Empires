@@ -6,47 +6,19 @@ import 'package:some_game/models/game_data.dart';
 import 'package:some_game/models/planet_model.dart';
 import 'package:some_game/models/player_model.dart';
 import 'package:some_game/utility/constants.dart';
-import 'package:some_game/widgets/planet_screen/defence.dart';
+import 'package:some_game/widgets/planet_screen/defense.dart';
 import 'package:some_game/widgets/planet_screen/stats.dart';
 import 'package:some_game/widgets/planet_screen/upgrades.dart';
 import 'package:some_game/widgets/static_stars_bg.dart';
 
-class PlanetScreen extends StatefulWidget {
+class PlanetScreen extends StatelessWidget {
   static const route = '/planet-screen';
 
-  PlanetScreen();
+  PlanetScreen(this._planetName);
 
-  @override
-  _PlanetScreenState createState() => _PlanetScreenState();
-}
+  final PlanetName _planetName;
 
-class _PlanetScreenState extends State<PlanetScreen> {
-  bool _loadedInitData = false;
-  PlanetName _planetName;
-
-  Map<String, Widget> _displayMode;
-
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
-  void didChangeDependencies() {
-    if (!_loadedInitData) {
-      final routeArgs = ModalRoute.of(context).settings.arguments as PlanetName;
-      _planetName = routeArgs;
-      _loadedInitData = true;
-      _displayMode = {
-        'Stats': wrapWithProvider(PlanetStats()),
-        'Upgrades': wrapWithProvider(PlanetUpgrades()),
-        'Defence': wrapWithProvider(PlanetDefence()),
-      };
-    }
-    super.didChangeDependencies();
-  }
-
-  Widget wrapWithProvider(Widget child) {
+  Widget _wrapWithProvider(Widget child) {
     return Provider<PlanetName>.value(
       value: _planetName,
       builder: (_, __) {
@@ -55,17 +27,26 @@ class _PlanetScreenState extends State<PlanetScreen> {
     );
   }
 
-  Widget _planetImage() {
-    return Expanded(
-      child: Hero(
-          tag: describeEnum(_planetName),
-          child: Image.asset(
-              'assets/img/planets/${describeEnum(_planetName).toLowerCase()}.png')),
-    );
-  }
+  @override
+  Widget build(BuildContext context) {
+    final Orientation orientation = MediaQuery.of(context).orientation;
+    final Map<String, Widget> _displayMode = {
+      'Stats': _wrapWithProvider(PlanetStats()),
+      'Upgrades': _wrapWithProvider(PlanetUpgrades()),
+      'Defense': _wrapWithProvider(PlanetDefense()),
+    };
 
-  Widget _tabBar() {
-    return TabBar(
+    Widget _planetImage() {
+      return Expanded(
+        child: Hero(
+            tag: describeEnum(_planetName),
+            child: Image.asset(
+                'assets/img/planets/${describeEnum(_planetName).toLowerCase()}.png')),
+      );
+    }
+
+    Widget _tabBar() {
+      return TabBar(
         unselectedLabelColor: Colors.white,
         indicatorSize: TabBarIndicatorSize.tab,
         indicator: BoxDecoration(
@@ -74,31 +55,27 @@ class _PlanetScreenState extends State<PlanetScreen> {
           borderRadius: BorderRadius.circular(50),
         ),
         tabs: List.generate(
-            _displayMode.keys.length,
-            (index) => Tab(
-                  text: List.from(_displayMode.keys)[index],
-                )));
-  }
-
-  Widget _tabView() {
-    return Expanded(
-      child: Padding(
-        padding: EdgeInsets.all(16),
-        child: TabBarView(
-          children: List.generate(_displayMode.values.length,
-              (index) => List.from(_displayMode.values)[index]),
+          _displayMode.keys.length,
+          (index) => Tab(
+            text: List.from(_displayMode.keys)[index],
+          ),
         ),
-      ),
-    );
-  }
+      );
+    }
 
+    Widget _tabView() {
+      return Expanded(
+        child: Padding(
+          padding: EdgeInsets.all(16),
+          child: TabBarView(
+            children: List.generate(_displayMode.values.length,
+                (index) => List.from(_displayMode.values)[index]),
+          ),
+        ),
+      );
+    }
 
-  @override
-  Widget build(BuildContext context) {
-    final Orientation orientation = MediaQuery.of(context).orientation;
-
-    
-  Widget _description() {
+    Widget _description() {
       return Expanded(
           child: Container(
         alignment: Alignment.center,
@@ -107,7 +84,10 @@ class _PlanetScreenState extends State<PlanetScreen> {
         child: Text(
           Provider.of<GameData>(context, listen: false)
               .getPlanetDescription(_planetName),
-          style: Theme.of(context).textTheme.headline6.copyWith(fontWeight: FontWeight.w600),
+          style: Theme.of(context)
+              .textTheme
+              .headline6
+              .copyWith(fontWeight: FontWeight.w600),
           textAlign: TextAlign.center,
         ),
       ));
@@ -135,6 +115,7 @@ class _PlanetScreenState extends State<PlanetScreen> {
         ),
         body: Provider.of<Player>(context).isPlanetMy(name: _planetName)
             ? Stack(
+                // If Planet is owned by Player
                 children: [
                   StaticStarsBackGround(),
                   orientation == Orientation.landscape
@@ -169,6 +150,7 @@ class _PlanetScreenState extends State<PlanetScreen> {
                 ],
               )
             : Stack(
+                // If Planet is not owned by Player
                 children: [
                   StaticStarsBackGround(),
                   orientation == Orientation.landscape

@@ -19,11 +19,6 @@ class StoryScreenII extends StatefulWidget {
 class _StoryScreenIIState extends State<StoryScreenII> {
   double _proceedButtonOpactity = 0.0;
 
-  @override
-  dispose() {
-    super.dispose();
-  }
-
   List<String> _dialogueList = const [
     'The only way to stop the doom',
     'Is the paradox Jewel ',

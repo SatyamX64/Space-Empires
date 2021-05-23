@@ -5,7 +5,6 @@ import 'package:rive/rive.dart';
 import 'package:sizer/sizer.dart';
 import 'package:some_game/utility/constants.dart';
 import 'package:some_game/utility/utility.dart';
-
 import '../welcome_screen.dart';
 
 
@@ -20,7 +19,7 @@ class _StoryScreenIIIState extends State<StoryScreenIII> {
 
   @override
   dispose() {
-    Utility.lockOrientation();
+    Utility.lockOrientation(); // unlocks rotation
     super.dispose();
   }
 
@@ -189,11 +188,6 @@ class __PlanetsState extends State<_Planets> {
         setState(() => _riveArtboard = artboard);
       },
     );
-    // Future.delayed(Duration(seconds: 3), () {
-    //   setState(() {
-    //     _controller.isActive = false;
-    //   });
-    // });
   }
 
   @override

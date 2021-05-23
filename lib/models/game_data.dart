@@ -44,16 +44,20 @@ class GameData extends ChangeNotifier {
   }
 
   initPlayers() {
+    players.add(Player(planets: <Planet>[
+      Planet(PlanetName.Miavis),
+      Planet(PlanetName.Drukunides)
+    ], ruler: Ruler.Morbo));
     players.add(Player(
-        planets: <Planet>[Planet.miavis(), Planet.drukunides()],
-        ruler: Ruler.Morbo));
+        planets: <Planet>[Planet(PlanetName.Arth), Planet(PlanetName.Musk)],
+        ruler: Ruler.Zapp));
+    players.add(Player(planets: <Planet>[
+      Planet(PlanetName.Jupinot),
+      Planet(PlanetName.Ocorix)
+    ], ruler: Ruler.NdNd));
     players.add(Player(
-        planets: <Planet>[Planet.arth(), Planet.musk()], ruler: Ruler.Zapp));
-    players.add(Player(
-        planets: <Planet>[Planet.jupinot(), Planet.ocorix()],
-        ruler: Ruler.NdNd));
-    players.add(Player(
-        planets: <Planet>[Planet.eno(), Planet.hounus()], ruler: Ruler.Nudar));
+        planets: <Planet>[Planet(PlanetName.Eno), Planet(PlanetName.Hounus)],
+        ruler: Ruler.Nudar));
   }
 
   initGlobalRelations() {
@@ -138,6 +142,20 @@ class GameData extends ChangeNotifier {
       _planets.addAll(player.planets);
     });
     return _planets;
+  }
+
+  Player playerFromRuler(Ruler ruler) {
+    return players.firstWhere((player) => player.ruler == ruler);
+  }
+
+  Player playerForPlanet(PlanetName planetName) {
+    return players.firstWhere((player) => player.isPlanetMy(name: planetName));
+  }
+
+  changeOwnerOfPlanet({Ruler newRuler, PlanetName name}) {
+    playerForPlanet(name).removePlanet(name);
+    playerFromRuler(newRuler).addPlanet(Planet(name));
+    notifyListeners();
   }
 
   nextTurn() {
@@ -229,7 +247,7 @@ class GameData extends ChangeNotifier {
     return Random().nextInt(100) < (chance * 100).round();
   }
 
-  String getRivalsOpinion() {
+  String getRivalsOpinion(Ruler ruler) {
     // ideally compare the currentPlayers with other players and give decision based on that
     // can also take Player as a parameter
     return 'The Aliens choose to ignore us\nHave better things at hand';

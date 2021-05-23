@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:some_game/models/attack_ships_model.dart';
 import 'package:some_game/models/planet_model.dart';
 import 'package:some_game/models/upgrade_model.dart';
-import 'defence_ships_model.dart';
+import 'defense_ships_model.dart';
 import 'game_data.dart';
 
 enum StatsType {
@@ -62,6 +62,32 @@ class Player extends ChangeNotifier with Stats, Military, Planets {
     return planetsIncome -
         planets.length * statsExpenditure -
         militaryExpenditure;
+  }
+
+  attack(List<int> positions) {
+    List<int> damageOutput = List.generate(positions.length,
+        (index) => 0); // What Damage will ship at pos[i] reciveve
+    for (int i = 0; i < positions.length; i++) {
+      damageOutput[positions[i]] +=
+          militaryShipCount(List.from(allShips.keys)[i]) *
+              kAttackShipsData[List.from(allShips.keys)[i]].damage;
+    }
+    return damageOutput;
+  }
+
+  defend(List<int> damageOutputs) {
+    for (int i = 0; i < damageOutputs.length; i++) {
+      int shipsLost = (damageOutputs[i] /
+              kAttackShipsData[List.from(allShips.keys)[i]].health)
+          .ceil();
+      militaryRemoveShip(List.from(allShips.keys)[i], shipsLost);
+    }
+    notifyListeners();
+    int shipsLeft = 0;
+    for (var ship in List.from(allShips.keys)) {
+      shipsLeft += militaryShipCount(ship);
+    }
+    return shipsLeft;
   }
 
   buyAttackShip(AttackShipType type) {
@@ -177,6 +203,10 @@ mixin Military {
     return _ownedShips[type];
   }
 
+  get allShips {
+    return _ownedShips;
+  }
+
   void militaryInit() {
     _ownedShips[AttackShipType.Astro] = 3;
     _ownedShips[AttackShipType.Magnum] = 3;
@@ -213,6 +243,14 @@ mixin Planets {
       income += planet.income;
     }
     return income;
+  }
+
+  addPlanet(Planet planet) {
+    _planets.add(planet);
+  }
+
+  removePlanet(PlanetName name) {
+    _planets.removeWhere((element) => element.name == name);
   }
 
   planetAddShip({DefenseShipType type, PlanetName name, int quantity}) {

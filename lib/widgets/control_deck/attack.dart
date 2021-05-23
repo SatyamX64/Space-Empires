@@ -9,6 +9,7 @@ import 'package:some_game/models/attack_ships_model.dart';
 import 'package:some_game/models/game_data.dart';
 import 'package:some_game/models/planet_model.dart';
 import 'package:some_game/models/player_model.dart';
+import 'package:some_game/screens/attack_screen.dart';
 import 'package:some_game/utility/constants.dart';
 import 'package:some_game/widgets/gradient_dialog.dart';
 
@@ -43,6 +44,75 @@ showAttackMenu(BuildContext context) {
   );
 }
 
+class _EnemyPlanets extends StatelessWidget {
+  _EnemyPlanets({Key key, this.constraints}) : super(key: key);
+
+  final BoxConstraints constraints;
+
+  _planetCard(String planetName) {
+    return Container(
+      width: constraints.maxWidth * 0.6,
+      padding: EdgeInsets.all(4),
+      alignment: Alignment.center,
+      child: Image.asset('assets/img/planets/$planetName.png'),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final GameData _gameData = Provider.of<GameData>(context, listen: false);
+    final Player player = Provider.of(context,listen: false);
+    final List<Planet> _availablePlanets =
+        _gameData.getEnemyPlanets(player.ruler);
+    return _availablePlanets.length <= 0
+        ? Container(
+            alignment: Alignment.center,
+            margin: EdgeInsets.all(16),
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(8), color: Colors.black26),
+            child: Text(
+              'No Enemy Planets',
+              style: TextStyle(fontWeight: FontWeight.w600),
+            ),
+          )
+        : Stack(
+            children: [
+              Container(
+                constraints: BoxConstraints.expand(),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(4),
+                  color: Colors.black26,
+                ),
+                child: CarouselSlider.builder(
+                  options: CarouselOptions(),
+                  itemCount: _availablePlanets.length,
+                  itemBuilder: (BuildContext context, int index, _) =>
+                      GestureDetector(
+                    onTap: () {
+                      Navigator.of(context).pop();
+                      Navigator.of(context).pushNamed(AttackScreen.route,
+                          arguments: {
+                            'planet': _availablePlanets[index],
+                            'attacker': Provider.of<Player>(context,listen : false),
+                          });
+                    },
+                    child: _planetCard(
+                        describeEnum(_availablePlanets[index].name)
+                            .toLowerCase()),
+                  ),
+                ),
+              ),
+              Align(
+                  alignment: Alignment.centerLeft,
+                  child: Icon(Icons.arrow_left)),
+              Align(
+                  alignment: Alignment.centerRight,
+                  child: Icon(Icons.arrow_right)),
+            ],
+          );
+  }
+}
+
 class _MyForce extends StatelessWidget {
   const _MyForce({
     Key key,
@@ -54,14 +124,16 @@ class _MyForce extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(bottom: 16),
       child: Row(
-          children: List.generate(
-              kAttackShipsData.length,
-              (index) => _MyForceCard(
-                    name: describeEnum(List.from(kAttackShipsData.keys)[index])
-                        .toLowerCase(),
-                    quantity: player.militaryShipCount(
-                        List.from(kAttackShipsData.keys)[index]),
-                  ))),
+        children: List.generate(
+          kAttackShipsData.length,
+          (index) => _MyForceCard(
+            name: describeEnum(List.from(kAttackShipsData.keys)[index])
+                .toLowerCase(),
+            quantity: player
+                .militaryShipCount(List.from(kAttackShipsData.keys)[index]),
+          ),
+        ),
+      ),
     );
   }
 }
@@ -112,62 +184,5 @@ class _MyForceCard extends StatelessWidget {
         ],
       ),
     );
-  }
-}
-
-class _EnemyPlanets extends StatelessWidget {
-  _EnemyPlanets({Key key, this.constraints}) : super(key: key);
-
-  final BoxConstraints constraints;
-
-  _planetCard(String planetName) {
-    return Container(
-      width: constraints.maxWidth * 0.6,
-      padding: EdgeInsets.all(4),
-      alignment: Alignment.center,
-      child: Image.asset('assets/img/planets/$planetName.png'),
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final GameData _gameData = Provider.of<GameData>(context, listen: false);
-    final List<Planet> _availablePlanets =
-        _gameData.getEnemyPlanets(_gameData.currentPlayer.ruler);
-    return _availablePlanets.length <= 0
-        ? Container(
-            alignment: Alignment.center,
-            margin: EdgeInsets.all(16),
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(8), color: Colors.black26),
-            child: Text(
-              'No Enemy Planets',
-              style: TextStyle(fontWeight: FontWeight.w600),
-            ),
-          )
-        : Stack(
-            children: [
-              Container(
-                constraints: BoxConstraints.expand(),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(4),
-                  color: Colors.black26,
-                ),
-                child: CarouselSlider.builder(
-                  options: CarouselOptions(),
-                  itemCount: _availablePlanets.length,
-                  itemBuilder: (BuildContext context, int index, _) =>
-                      _planetCard(describeEnum(_availablePlanets[index].name)
-                          .toLowerCase()),
-                ),
-              ),
-              Align(
-                  alignment: Alignment.centerLeft,
-                  child: Icon(Icons.arrow_left)),
-              Align(
-                  alignment: Alignment.centerRight,
-                  child: Icon(Icons.arrow_right)),
-            ],
-          );
   }
 }

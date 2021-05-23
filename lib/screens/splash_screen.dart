@@ -6,6 +6,7 @@ import 'package:some_game/screens/welcome_screen.dart';
 import 'story/story_i.dart';
 
 class SplashScreen extends StatefulWidget {
+  static const route = '/splash-screen';
   @override
   SplashScreenState createState() => new SplashScreenState();
 }
@@ -21,8 +22,8 @@ class SplashScreenState extends State<SplashScreen>
           MaterialPageRoute(builder: (context) => WelcomeScreen()));
     } else {
       await prefs.setBool('seen', true);
-      Navigator.of(context).pushReplacement(new MaterialPageRoute(
-          builder: (context) => StoryScreenI(orientation)));
+      Navigator.of(context)
+          .pushReplacementNamed(StoryScreenI.route, arguments: orientation);
     }
   }
 
@@ -33,15 +34,12 @@ class SplashScreenState extends State<SplashScreen>
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: Hero(
-          tag: 'space-empire',
-          child: Text(
-            'SPACE EMPIRE',
-            style: Theme.of(context)
-                .textTheme
-                .headline4
-                .copyWith(fontFamily: 'Astral'),
-          ),
+        child: Text(
+          'SPACE EMPIRE',
+          style: Theme.of(context)
+              .textTheme
+              .headline4
+              .copyWith(fontFamily: 'Astral'),
         ),
       ),
     );

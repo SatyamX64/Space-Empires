@@ -50,7 +50,7 @@ showRivalsChatMenu(BuildContext context) {
   );
 }
 
-class _RivalResponse extends ChangeNotifier {
+class _RivalResponseProvider extends ChangeNotifier {
   String response = "So what is it ?";
 
   updateResponse(String value) {
@@ -63,7 +63,7 @@ class RivalsInfo extends StatelessWidget {
   RivalsInfo({this.rival});
 
   final Ruler rival;
-  final _RivalResponse _rivalResponse = _RivalResponse();
+  final _RivalResponseProvider _rivalResponse = _RivalResponseProvider();
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider.value(
@@ -172,7 +172,7 @@ class _ChatOptions extends StatelessWidget {
                                           A: _currentPlayer.ruler,
                                           B: rival,
                                           action: _possibleActions[index]);
-                                  Provider.of<_RivalResponse>(context,
+                                  Provider.of<_RivalResponseProvider>(context,
                                           listen: false)
                                       .updateResponse(_response);
                                 },
@@ -207,7 +207,7 @@ class _RivalsOpinion extends StatelessWidget {
   final Ruler rival;
   @override
   Widget build(BuildContext context) {
-    final _RivalResponse _rivalResponse = Provider.of<_RivalResponse>(context);
+    final _RivalResponseProvider _rivalResponse = Provider.of<_RivalResponseProvider>(context);
     return Expanded(
         child: Container(
       margin: EdgeInsets.all(4),

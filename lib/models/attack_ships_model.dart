@@ -25,11 +25,7 @@ class AttackShip {
       @required this.maintainance});
 }
 
-
-// This is like global data, bound by no players
-// Should be accessible throughout
-
-Map<AttackShipType,AttackShip> kAttackShipsData = {
+const Map<AttackShipType,AttackShip> kAttackShipsData = const {
   AttackShipType.Rover : const AttackShip(
     cost: 800,
     description: 'Small angry boi',

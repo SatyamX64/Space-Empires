@@ -35,13 +35,13 @@ Map<UpgradeType, Upgrade> kUpgradesData = {
       type: UpgradeType.Turret,
       cost: 25000,
       description: 'Blow em to smitherens',
-      effect: 'Defence',
+      effect: 'Defense',
       effectValue: '+1'),
   UpgradeType.WatchTower: const Upgrade(
       type: UpgradeType.WatchTower,
       cost: 40000,
       description: 'Fry the Intruders',
-      effect: 'Defence',
+      effect: 'Defense',
       effectValue: '+2'),
   UpgradeType.Industry: const Upgrade(
       type: UpgradeType.Industry,

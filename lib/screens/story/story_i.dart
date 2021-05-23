@@ -13,7 +13,7 @@ class StoryScreenI extends StatefulWidget {
   static const route = '/story-i-screen.dart';
   // The Screen works well in both orientation
   // But if orientation changes b/w animation than it resets
-  // To avoid this bug we lock the Screen to the orientation we entered with
+  // To avoid this potentially unwanted behavviour we lock the Screen to the orientation we entered with
   // and reset is back to normal after we leave the story section
   final Orientation orientation;
   StoryScreenI(this.orientation);
@@ -90,7 +90,7 @@ class _StoryScreenIState extends State<StoryScreenI> {
         duration: Duration(seconds: 2),
         opacity: 1 - _proceedButtonOpactity,
       ),
-      right: 16.sp,
+      right: 16.sp, // sp is relative size given to us by Sizer class
       bottom: 16.sp,
     );
   }
