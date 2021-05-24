@@ -7,6 +7,8 @@ import 'package:some_game/models/planet_model.dart';
 import 'package:some_game/screens/attack_conclusion_screen.dart';
 import 'package:some_game/screens/character_selection_screen.dart';
 import 'package:some_game/screens/game_screen.dart';
+import 'package:some_game/screens/help/help-screen.dart';
+import 'package:some_game/screens/help/instructions-screen.dart';
 import 'package:some_game/screens/planet_screen.dart';
 import 'package:some_game/screens/splash_screen.dart';
 import 'package:some_game/screens/story/story_i.dart';
@@ -91,7 +93,9 @@ class MyApp extends StatelessWidget {
               StoryScreenIII.route: (ctx) => StoryScreenIII(),
               CharacterSelectionScreen.route: (ctx) =>
                   CharacterSelectionScreen(),
-              AttackConclusionScreen.route: (ctx) => AttackConclusionScreen()
+              AttackConclusionScreen.route: (ctx) => AttackConclusionScreen(),
+              HelpScreen.route: (ctx) => HelpScreen(),
+              InstructionScreen.route: (ctx) => InstructionScreen(),
             },
             onGenerateRoute: (routeSettings) {
               if (routeSettings.name == PlanetScreen.route) {

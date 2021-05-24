@@ -191,6 +191,7 @@ class _StoryScreenIState extends State<StoryScreenI> {
         ],
       );
     }
+    
 
     return Scaffold(
         backgroundColor: Color(0xFF190620),

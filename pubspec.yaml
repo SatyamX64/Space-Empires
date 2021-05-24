@@ -26,6 +26,7 @@ dependencies:
   animated_text_kit: ^4.2.1
   after_layout: ^1.1.0
   shared_preferences: ^2.0.5
+  url_launcher: ^6.0.4
 
 dev_dependencies:
   flutter_test:

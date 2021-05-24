@@ -45,7 +45,8 @@ class AttackConclusionScreen extends StatelessWidget {
                 textStyle: Theme.of(context)
                     .textTheme
                     .headline5
-                    .copyWith(fontWeight: FontWeight.bold),textAlign: TextAlign.center)
+                    .copyWith(fontWeight: FontWeight.bold),
+                textAlign: TextAlign.center)
           ],
           isRepeatingAnimation: true,
           pause: const Duration(milliseconds: 1000),

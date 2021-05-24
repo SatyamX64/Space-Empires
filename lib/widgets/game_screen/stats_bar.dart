@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:some_game/models/game_data.dart';
 import 'package:some_game/models/player_model.dart';
+import 'package:some_game/screens/help/help-screen.dart';
 import 'package:some_game/utility/constants.dart';
 
 class StatsBar extends StatelessWidget {
@@ -19,7 +20,9 @@ class StatsBar extends StatelessWidget {
         padding: const EdgeInsets.all(8.0),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
+            Expanded(child: Container()),
             Consumer<Player>(
               builder: (_, player, __) {
                 return Text(
@@ -34,6 +37,23 @@ class StatsBar extends StatelessWidget {
                     style: TextStyle(fontWeight: FontWeight.w600));
               },
             ),
+            Expanded(
+              child: Container(
+                alignment: Alignment.centerRight,
+                child: GestureDetector(
+                  child: Text(
+                    'Help',
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyText2
+                        .copyWith(fontWeight: FontWeight.w600),
+                  ),
+                  onTap: () {
+                    Navigator.of(context).pushNamed(HelpScreen.route);
+                  },
+                ),
+              ),
+            )
           ],
         ),
       ),
