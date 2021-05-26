@@ -22,11 +22,11 @@ class CharacterSelectionScreen extends StatelessWidget {
         'The Master Tactician himself, the guy once held 6 planets in his prime',
   };
 
-  _animatedStars() {
+  Widget get _animatedStars {
     return Lottie.asset('assets/animations/stars.json');
   }
 
-  _spaceLights() {
+  Widget get _spaceLights {
     return Container(
         constraints: BoxConstraints.expand(),
         decoration: BoxDecoration(
@@ -180,8 +180,8 @@ class CharacterSelectionScreen extends StatelessWidget {
       body: Stack(
         children: [
           StaticStarsBackGround(),
-          _animatedStars(),
-          _spaceLights(),
+          _animatedStars,
+          _spaceLights,
           _heading(),
           OrientationBuilder(
             builder: (context, orientation) {

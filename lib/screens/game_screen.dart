@@ -25,8 +25,7 @@ class GameScreen extends StatelessWidget {
         : _size.height * 0.05;
     final double _controlDeckHeight = _size.height * 0.10;
 
-     _quitGame() {
-
+    _quitGame() {
       showGradientDialog(
           context: context,
           child: Column(
@@ -130,10 +129,80 @@ class GameScreen extends StatelessWidget {
   }
 }
 
-class _NextTurnFAB extends StatelessWidget {
+class _NextTurnFAB extends StatefulWidget {
   const _NextTurnFAB({
     Key key,
   }) : super(key: key);
+
+  @override
+  __NextTurnFABState createState() => __NextTurnFABState();
+}
+
+class __NextTurnFABState extends State<_NextTurnFAB>
+    with TickerProviderStateMixin {
+  OverlayEntry _overlayEntry;
+  GlobalKey _fabKey = GlobalKey();
+  AnimationController _animationController;
+  Animation<double> _animation;
+  @override
+  void initState() {
+    super.initState();
+    super.initState();
+    _animationController =
+        AnimationController(vsync: this, duration: Duration(seconds: 1));
+    _animation =
+        Tween<double>(begin: 0.0, end: 1.0).animate(_animationController);
+  }
+
+  @override
+  void dispose() {
+    _animationController.dispose();
+    super.dispose();
+  }
+
+  showOverlay(String value) async {
+    OverlayState _overlayState = Overlay.of(context);
+    RenderBox _renderBox = _fabKey.currentContext.findRenderObject();
+    Offset offset = _renderBox.localToGlobal(Offset.zero);
+    if (_overlayEntry != null) {
+      _overlayEntry.remove();
+      _overlayEntry = null;
+    }
+    _overlayEntry = OverlayEntry(
+      builder: (context) => Positioned(
+          top: offset.dy - _renderBox.size.height / 2 - _animation.value * 60,
+          left: offset.dx,
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Material(
+                color: Colors.transparent,
+                child: Opacity(
+                  opacity: 1 - _animation.value,
+                  child: Text(
+                    value,
+                    style: TextStyle(
+                        fontSize: 18,
+                        color: Colors.green,
+                        fontWeight: FontWeight.bold),
+                  ),
+                )),
+          )),
+    );
+    _animationController.addListener(() {
+      _overlayState.setState(() {});
+    });
+    _overlayState.insert(_overlayEntry);
+    _animationController.forward();
+    _animation.addStatusListener((status) {
+      if (status == AnimationStatus.completed) {
+        _animationController.reset();
+        if (_overlayEntry != null) {
+          _overlayEntry.remove();
+          _overlayEntry = null;
+        }
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -141,11 +210,13 @@ class _NextTurnFAB extends StatelessWidget {
     return SizedBox(
       height: 80,
       width: 80,
+      key: _fabKey,
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: GradientFAB(
             onTap: () {
               _gameData.nextTurn();
+              showOverlay('+${_gameData.currentPlayer.income}\$');
             },
             toolTip: 'Next Turn',
             image: 'assets/img/control_deck/next.svg'),

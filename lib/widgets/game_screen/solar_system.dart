@@ -1,6 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:provider/provider.dart';
+import 'package:some_game/models/game_data.dart';
 import 'package:some_game/models/planet_model.dart';
 import 'package:some_game/screens/planet_screen.dart';
 import 'package:some_game/widgets/static_stars_bg.dart';
@@ -8,7 +10,6 @@ import 'package:some_game/widgets/static_stars_bg.dart';
 class SolarSystem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    
     List<PlanetName> _planetList = PlanetName.values;
     return LayoutBuilder(builder: (context, constraints) {
       final size = Size(constraints.maxWidth, constraints.maxHeight);
@@ -62,7 +63,8 @@ class SolarSystem extends StatelessWidget {
               physics: NeverScrollableScrollPhysics(),
               mainAxisSpacing: mainAxisPadding > 0 ? mainAxisPadding : 0,
               padding: EdgeInsets.symmetric(horizontal: crossAxisPadding),
-              children: List.generate(_planetList.length, (index) => _PlanetCard(_planetList[index])),
+              children: List.generate(_planetList.length,
+                  (index) => _PlanetCard(_planetList[index])),
               staggeredTiles: orientation == Orientation.landscape
                   ? _landscapeTilesLayout
                   : _portraitTilesLayout,
@@ -81,8 +83,7 @@ class _PlanetCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.pushNamed(context, PlanetScreen.route,
-            arguments: planetName);
+        Navigator.pushNamed(context, PlanetScreen.route, arguments: planetName);
       },
       child: Column(
         children: [
@@ -91,7 +92,30 @@ class _PlanetCard extends StatelessWidget {
                   tag: describeEnum(planetName),
                   child: Image.asset(
                       'assets/img/planets/${describeEnum(planetName).toLowerCase()}.png'))),
-          Text(describeEnum(planetName)),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Consumer<GameData>(
+                builder: (_, _gameData, ___) {
+                  var _ruler = _gameData.playerForPlanet(planetName).ruler;
+                  var _color = _gameData.colorForRuler(_ruler);
+                  return Container(
+                    height: 6,
+                    width: 6,
+                    margin: EdgeInsets.symmetric(horizontal: 4),
+                    decoration:
+                        BoxDecoration(color: _color, shape: BoxShape.circle),
+                  );
+                },
+              ),
+              Flexible(
+                  child: Text(
+                describeEnum(planetName),
+                overflow: TextOverflow.ellipsis,
+                maxLines: 1,
+              )),
+            ],
+          ),
         ],
       ),
     );

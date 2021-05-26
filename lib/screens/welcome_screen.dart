@@ -9,11 +9,11 @@ import 'story/story_i.dart';
 class WelcomeScreen extends StatelessWidget {
   static const route = '/welcome-screen';
 
-  _animatedStars() {
+  Widget get _animatedStars {
     return Lottie.asset('assets/animations/stars.json');
   }
 
-  _spaceLights() {
+  Widget get _spaceLights {
     return Container(
         constraints: BoxConstraints.expand(),
         decoration: BoxDecoration(
@@ -27,6 +27,7 @@ class WelcomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+
     _menu() {
       return Align(
         alignment: Alignment.center,
@@ -98,8 +99,8 @@ class WelcomeScreen extends StatelessWidget {
       body: Stack(
         children: [
           StaticStarsBackGround(),
-          _animatedStars(),
-          _spaceLights(),
+          _animatedStars,
+          _spaceLights,
           _saturn(),
           _xeno(),
           _menu(),

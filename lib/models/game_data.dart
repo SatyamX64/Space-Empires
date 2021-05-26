@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:some_game/models/planet_model.dart';
 import 'package:some_game/models/player_model.dart';
 import 'package:some_game/models/rivals_model.dart';
@@ -144,6 +145,19 @@ class GameData extends ChangeNotifier {
     return _planets;
   }
 
+  Color colorForRuler(Ruler ruler) {
+    switch (ruler) {
+      case Ruler.Morbo:
+        return Colors.green[900];
+      case Ruler.Nudar:
+        return Colors.pink;
+      case Ruler.NdNd:
+        return Colors.deepPurple;
+      case Ruler.Zapp:
+        return Colors.orange[600];
+    }
+  }
+
   Player playerFromRuler(Ruler ruler) {
     return players.firstWhere((player) => player.ruler == ruler);
   }
@@ -205,7 +219,8 @@ class GameData extends ChangeNotifier {
     double chance =
         calculateChance(mood: _mood, relation: _relation, interactions: action);
 
-    if (chanceSuccedds(chance)) {
+    if (!chanceSuccedds(chance)) {
+      // remove !
       Map map = yesEffectOfAction(
           mood: _mood, relation: _relation, interactions: action);
       setMood(B, A, map['mood']);
@@ -340,7 +355,7 @@ Map noEffectOfAction(
   Map map = {
     'relation': RivalRelation.War,
     'mood': RivalMood.Resents,
-    'response': 'no u'
+    'response': 'now you\'ll die'
   };
 
   return map;

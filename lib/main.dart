@@ -87,10 +87,11 @@ class MyApp extends StatelessWidget {
             ),
             home: SplashScreen(),
             routes: {
-              WelcomeScreen.route: (ctx) => WelcomeScreen(),
-              GameScreen.route: (ctx) => GameScreen(),
+              SplashScreen.route: (ctx) => SplashScreen(),
               StoryScreenII.route: (ctx) => StoryScreenII(),
               StoryScreenIII.route: (ctx) => StoryScreenIII(),
+              WelcomeScreen.route: (ctx) => WelcomeScreen(),
+              GameScreen.route: (ctx) => GameScreen(),
               CharacterSelectionScreen.route: (ctx) =>
                   CharacterSelectionScreen(),
               AttackConclusionScreen.route: (ctx) => AttackConclusionScreen(),
