@@ -50,6 +50,7 @@ class AttackConclusionScreen extends StatelessWidget {
                 textAlign: TextAlign.center)
           ],
           isRepeatingAnimation: true,
+          repeatForever: true,
           pause: const Duration(milliseconds: 1000),
           displayFullTextOnTap: false,
           stopPauseOnTap: false,

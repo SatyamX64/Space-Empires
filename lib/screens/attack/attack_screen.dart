@@ -129,10 +129,10 @@ class AttackScreen extends StatelessWidget {
                             child: Column(
                               children: [
                                 Expanded(child: Battlefield()),
-                                Divider(
-                                  color: Colors.white38,
-                                ),
-                                _attackerDefenderImage(),
+                                // Divider(
+                                //   color: Colors.white38,
+                                // ),
+                                // _attackerDefenderImage(),
                               ],
                             ),
                           ),

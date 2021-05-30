@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:some_game/models/game_data.dart';
 import 'package:some_game/models/player_model.dart';
+import 'package:some_game/utility/utility.dart';
 import 'package:some_game/widgets/gradient_dialog.dart';
 
 showStatsMenu(BuildContext context) {
@@ -47,10 +48,22 @@ class _ResourceAllocator extends StatelessWidget {
                         (index) => _InfoBar(
                               text: describeEnum(player.statsList[index]),
                               value: _PlusMinus(
-                                  increment: () => player
-                                      .increaseStat(player.statsList[index]),
-                                  decrement: () => player
-                                      .decreaseStat(player.statsList[index]),
+                                  increment: () {
+                                    try {
+                                      player.increaseStat(
+                                          player.statsList[index]);
+                                    } catch (e) {
+                                      Utility.showToast(e.toString());
+                                    }
+                                  },
+                                  decrement: () {
+                                    try {
+                                      player.decreaseStat(
+                                          player.statsList[index]);
+                                    } catch (e) {
+                                      Utility.showToast(e.toString());
+                                    }
+                                  },
                                   value: player
                                       .statValue(player.statsList[index])),
                             )),

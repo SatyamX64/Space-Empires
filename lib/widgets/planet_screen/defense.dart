@@ -8,6 +8,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:some_game/models/defense_ships_model.dart';
 import 'package:some_game/models/planet_model.dart';
 import 'package:some_game/models/player_model.dart';
+import 'package:some_game/utility/utility.dart';
 
 class PlanetDefense extends StatelessWidget {
   PlanetDefense({
@@ -77,10 +78,22 @@ class _DefenseShipCard extends StatelessWidget {
                     child: Expanded(
                       flex: 3,
                       child: _BuyMoreShips(
-                        increment: () => player.buyDefenseShip(
-                            type: _defenseShip.type, name: planetName),
-                        decrement: () => player.sellDefenseShip(
-                            type: _defenseShip.type, name: planetName),
+                        increment: () {
+                          try {
+                            player.buyDefenseShip(
+                                type: _defenseShip.type, name: planetName);
+                          } catch (e) {
+                            Utility.showToast(e.toString());
+                          }
+                        },
+                        decrement: () {
+                          try {
+                            player.sellDefenseShip(
+                                type: _defenseShip.type, name: planetName);
+                          } catch (e) {
+                            Utility.showToast(e.toString());
+                          }
+                        },
                         value: player.planetShipCount(
                             type: _defenseShip.type, name: planetName),
                       ),

@@ -8,6 +8,7 @@ import 'package:some_game/models/planet_model.dart';
 import 'package:some_game/models/player_model.dart';
 import 'package:some_game/models/upgrade_model.dart';
 import 'package:sizer/sizer.dart';
+import 'package:some_game/utility/utility.dart';
 
 class PlanetUpgrades extends StatelessWidget {
   PlanetUpgrades({
@@ -60,7 +61,11 @@ class _UpgradeCard extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         _showUpgradeDetails(context, upgrade, () {
-          player.buyUpgrade(type: upgrade.type, name: planetName);
+          try{
+            player.buyUpgrade(type: upgrade.type, name: planetName);
+          }catch(e){
+            Utility.showToast(e.toString());
+          }
         }, player.planetUpgradeAvailable(type: upgrade.type, name: planetName));
       },
       child: Container(

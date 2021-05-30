@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+
+import 'constants.dart';
 
 class Utility {
   static lockOrientation({Orientation orientation}) {
@@ -24,5 +27,15 @@ class Utility {
           DeviceOrientation.portraitDown,
         ]);
     }
+  }
+
+  static showToast(String text) {
+    Fluttertoast.showToast(
+        msg: text,
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Palette.deepBlue,
+        textColor: Colors.white);
   }
 }

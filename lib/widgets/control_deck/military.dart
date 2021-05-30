@@ -4,6 +4,7 @@ import 'package:flutter/rendering.dart';
 import 'package:provider/provider.dart';
 import 'package:some_game/models/attack_ships_model.dart';
 import 'package:some_game/models/player_model.dart';
+import 'package:some_game/utility/utility.dart';
 import 'package:some_game/widgets/gradient_dialog.dart';
 import 'package:sizer/sizer.dart';
 import '../circle_tab_indicator.dart';
@@ -55,13 +56,21 @@ class AttackShipInfo extends StatelessWidget {
       _TransactionButton(
         text: 'Buy',
         onTap: () {
-          player.buyAttackShip(attackShip.type);
+          try {
+            player.buyAttackShip(attackShip.type);
+          } catch (e) {
+            Utility.showToast(e.toString());
+          }
         },
       ),
       _TransactionButton(
         text: 'Sell',
         onTap: () {
-          player.sellAttackShip(attackShip.type);
+          try {
+            player.sellAttackShip(attackShip.type);
+          } catch (e) {
+            Utility.showToast(e.toString());
+          }
         },
       ),
     ];

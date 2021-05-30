@@ -1,5 +1,4 @@
 import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:some_game/models/attack_ships_model.dart';
 import 'package:some_game/models/planet_model.dart';
@@ -95,6 +94,8 @@ class Player extends ChangeNotifier with Stats, Military, Planets {
       militaryAddShip(type, 1);
       money -= kAttackShipsData[type].cost;
       notifyListeners();
+    } else {
+      throw 'Out of Funds';
     }
   }
 
@@ -103,6 +104,8 @@ class Player extends ChangeNotifier with Stats, Military, Planets {
       militaryRemoveShip(type, 1);
       money += (kAttackShipsData[type].cost * 0.8).round();
       notifyListeners();
+    } else {
+      throw 'Out of Ships';
     }
   }
 
@@ -111,6 +114,8 @@ class Player extends ChangeNotifier with Stats, Military, Planets {
       planetAddShip(type: type, name: name, quantity: 1);
       money -= kDefenseShipsData[type].cost;
       notifyListeners();
+    }else{
+      throw 'Out of Funds';
     }
   }
 
@@ -120,6 +125,8 @@ class Player extends ChangeNotifier with Stats, Military, Planets {
       planetRemoveShip(type: type, name: name, quantity: 1);
       money += (kDefenseShipsData[type].cost * 0.8).round();
       notifyListeners();
+    }else {
+      throw 'Out of Ships';
     }
   }
 
@@ -128,19 +135,29 @@ class Player extends ChangeNotifier with Stats, Military, Planets {
       planetAddUpgrade(type: type, name: name);
       money -= kUpgradesData[type].cost;
       notifyListeners();
+    } else {
+      throw 'Out of Funds';
     }
   }
 
   increaseStat(StatsType type) {
-    statIncrement(type);
-    notifyListeners();
+    if (statValue(type) < 100) {
+      statIncrement(type);
+      notifyListeners();
+    } else {
+      throw 'Already at Max';
+    }
   }
 
   decreaseStat(StatsType type) {
-    if (statValue(type) <= 0) return;
-    statDecrement(type);
-    notifyListeners();
+    if (statValue(type) > 0) {
+      statDecrement(type);
+      notifyListeners();
+    } else {
+      throw 'Already Minimum';
+    }
   }
+
 }
 
 mixin Stats {
