@@ -9,7 +9,7 @@ import 'package:some_game/models/attack_ships_model.dart';
 import 'package:some_game/models/game_data.dart';
 import 'package:some_game/models/planet_model.dart';
 import 'package:some_game/models/player_model.dart';
-import 'package:some_game/screens/attack_screen.dart';
+import 'package:some_game/screens/attack/attack_screen.dart';
 import 'package:some_game/utility/constants.dart';
 import 'package:some_game/widgets/gradient_dialog.dart';
 
@@ -164,7 +164,7 @@ class _MyForceCard extends StatelessWidget {
                   min(max(size.width, size.height) / 10, constraints.maxWidth),
               margin: EdgeInsets.all(4),
               decoration: BoxDecoration(
-                border: Border.all(color: kDeepBlue),
+                border: Border.all(color: Palette.deepBlue),
                 shape: BoxShape.circle,
               ),
               child: CircleAvatar(

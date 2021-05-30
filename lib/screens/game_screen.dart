@@ -90,7 +90,7 @@ class GameScreen extends StatelessWidget {
                   return;
               }
             },
-            backgroundColor: kDeepBlue,
+            backgroundColor: Palette.deepBlue,
             notchedShape: CircularNotchedRectangle(),
             showLabel: _controlDeckHeight > 48 ? false : true,
             height: _controlDeckHeight,
@@ -180,10 +180,8 @@ class __NextTurnFABState extends State<_NextTurnFAB>
                   opacity: 1 - _animation.value,
                   child: Text(
                     value,
-                    style: TextStyle(
-                        fontSize: 18,
-                        color: Colors.green,
-                        fontWeight: FontWeight.bold),
+                    style: Theme.of(context).textTheme.headline5.copyWith(
+                        color: Colors.green, fontWeight: FontWeight.bold),
                   ),
                 )),
           )),

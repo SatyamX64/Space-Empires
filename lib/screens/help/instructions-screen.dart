@@ -14,7 +14,7 @@ class InstructionScreen extends StatelessWidget {
         decoration: BoxDecoration(
           gradient: LinearGradient(colors: [
             opacityBlack(0.3),
-            kMaroon,
+            Palette.maroon,
           ], begin: Alignment.topCenter, end: Alignment.bottomCenter),
         ));
   }

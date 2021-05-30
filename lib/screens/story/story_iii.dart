@@ -7,7 +7,6 @@ import 'package:some_game/utility/constants.dart';
 import 'package:some_game/utility/utility.dart';
 import '../welcome_screen.dart';
 
-
 class StoryScreenIII extends StatefulWidget {
   static const route = '/story-iii-screen.dart';
   @override
@@ -66,7 +65,7 @@ class _StoryScreenIIIState extends State<StoryScreenIII> {
             width: 160.sp,
             alignment: Alignment.center,
             decoration: BoxDecoration(
-                color: kMaroon,
+                color: Palette.maroon,
                 borderRadius: BorderRadius.circular(50.sp)),
             child: Text(
               'I am ready',

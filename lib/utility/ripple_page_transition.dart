@@ -5,7 +5,7 @@ class RipplePageTransition extends StatefulWidget {
   RipplePageTransition(
     this._originalWidgetKey, {
     Color color,
-  }) : color = color ?? kMaroon;
+  }) : color = color ?? Palette.maroon;
 
   final GlobalKey _originalWidgetKey;
   final Color color;

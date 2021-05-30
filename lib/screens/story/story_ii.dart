@@ -66,7 +66,7 @@ class _StoryScreenIIState extends State<StoryScreenII> {
             width: 160.sp,
             alignment: Alignment.center,
             decoration: BoxDecoration(
-                color: kMaroon,
+                color: Palette.maroon,
                 borderRadius: BorderRadius.circular(50.sp)),
             child: Text(
               'Continue',

@@ -24,7 +24,8 @@ class AttackConclusionScreen extends StatelessWidget {
               width: 160.sp,
               alignment: Alignment.center,
               decoration: BoxDecoration(
-                  color: kMaroon, borderRadius: BorderRadius.circular(50.sp)),
+                  color: Palette.maroon,
+                  borderRadius: BorderRadius.circular(50.sp)),
               child: Text(
                 'Continue',
                 style: TextStyle(fontWeight: FontWeight.w600),

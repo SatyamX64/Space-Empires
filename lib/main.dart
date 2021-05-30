@@ -2,21 +2,21 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
-import 'package:some_game/models/game_data.dart';
-import 'package:some_game/models/planet_model.dart';
-import 'package:some_game/screens/attack_conclusion_screen.dart';
-import 'package:some_game/screens/character_selection_screen.dart';
-import 'package:some_game/screens/game_screen.dart';
-import 'package:some_game/screens/help/help-screen.dart';
-import 'package:some_game/screens/help/instructions-screen.dart';
-import 'package:some_game/screens/planet_screen.dart';
-import 'package:some_game/screens/splash_screen.dart';
-import 'package:some_game/screens/story/story_i.dart';
-import 'package:some_game/screens/story/story_ii.dart';
-import 'package:some_game/screens/welcome_screen.dart';
+import './models/game_data.dart';
+import './models/planet_model.dart';
+import 'screens/attack/attack_conclusion_screen.dart';
+import './screens/character_selection_screen.dart';
+import './screens/game_screen.dart';
+import './screens/help/help-screen.dart';
+import './screens/help/instructions-screen.dart';
+import './screens/planet_screen.dart';
+import './screens/splash_screen.dart';
+import './screens/story/story_i.dart';
+import './screens/story/story_ii.dart';
+import './screens/welcome_screen.dart';
 import 'package:sizer/sizer.dart';
 import 'models/player_model.dart';
-import 'screens/attack_screen.dart';
+import 'screens/attack/attack_screen.dart';
 import 'screens/story/story_iii.dart';
 import 'utility/constants.dart';
 
@@ -56,7 +56,7 @@ class MyApp extends StatelessWidget {
             theme: ThemeData.dark().copyWith(
               scaffoldBackgroundColor: Colors.black,
               primaryColor: Colors.indigo,
-              accentColor: kDeepBlue,
+              accentColor: Palette.deepBlue,
               textTheme: TextTheme(
                 headline4: TextStyle(fontSize: 28.sp, color: Colors.white),
                 bodyText2: TextStyle(fontSize: 12.sp, color: Colors.white),
@@ -78,7 +78,8 @@ class MyApp extends StatelessWidget {
                 style: ButtonStyle(
                   padding: MaterialStateProperty.all<EdgeInsets>(
                       EdgeInsets.all(4.sp)),
-                  backgroundColor: MaterialStateProperty.all<Color>(kDeepBlue),
+                  backgroundColor:
+                      MaterialStateProperty.all<Color>(Palette.deepBlue),
                   textStyle: MaterialStateProperty.all<TextStyle>(
                     TextStyle(fontSize: 12.sp, fontWeight: FontWeight.bold),
                   ),
@@ -91,9 +92,9 @@ class MyApp extends StatelessWidget {
               StoryScreenII.route: (ctx) => StoryScreenII(),
               StoryScreenIII.route: (ctx) => StoryScreenIII(),
               WelcomeScreen.route: (ctx) => WelcomeScreen(),
-              GameScreen.route: (ctx) => GameScreen(),
               CharacterSelectionScreen.route: (ctx) =>
                   CharacterSelectionScreen(),
+              GameScreen.route: (ctx) => GameScreen(),
               AttackConclusionScreen.route: (ctx) => AttackConclusionScreen(),
               HelpScreen.route: (ctx) => HelpScreen(),
               InstructionScreen.route: (ctx) => InstructionScreen(),

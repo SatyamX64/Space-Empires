@@ -18,7 +18,7 @@ class _HelpScreenState extends State<HelpScreen> {
   final GlobalKey _fabButtonKey = GlobalKey();
   RipplePageTransition _ripplePageTransition;
 
-  static const _FabButtonColor = kMaroon;
+  static const _FabButtonColor = Palette.maroon;
 
   @override
   void initState() {

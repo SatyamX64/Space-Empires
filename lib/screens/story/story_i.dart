@@ -58,7 +58,7 @@ class _StoryScreenIState extends State<StoryScreenI> {
     'and at the moment we are in your Dream',
     'So considering YOU are the ruler of one of the 4 Major Races',
     'I have come to inform you that',
-    'The Solar System is going to explode',
+    'The Solar System is going to collapse',
     '365 days from now',
     'Now I know this is quite shocking..obviously',
     'and you must be confused',
@@ -107,7 +107,7 @@ class _StoryScreenIState extends State<StoryScreenI> {
             width: 160.sp,
             alignment: Alignment.center,
             decoration: BoxDecoration(
-                color: kMaroon, borderRadius: BorderRadius.circular(50.sp)),
+                color: Palette.maroon, borderRadius: BorderRadius.circular(50.sp)),
             child: Text(
               'Proceed',
               style: TextStyle(fontWeight: FontWeight.w600),

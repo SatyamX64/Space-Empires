@@ -6,6 +6,7 @@ import 'package:some_game/models/game_data.dart';
 import 'package:some_game/models/planet_model.dart';
 import 'package:some_game/screens/planet_screen.dart';
 import 'package:some_game/widgets/static_stars_bg.dart';
+import 'package:sizer/sizer.dart';
 
 class SolarSystem extends StatelessWidget {
   @override
@@ -100,8 +101,8 @@ class _PlanetCard extends StatelessWidget {
                   var _ruler = _gameData.playerForPlanet(planetName).ruler;
                   var _color = _gameData.colorForRuler(_ruler);
                   return Container(
-                    height: 6,
-                    width: 6,
+                    height: 6.sp,
+                    width: 6.sp,
                     margin: EdgeInsets.symmetric(horizontal: 4),
                     decoration:
                         BoxDecoration(color: _color, shape: BoxShape.circle),

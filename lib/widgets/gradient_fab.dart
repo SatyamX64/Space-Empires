@@ -33,7 +33,7 @@ class GradientFAB extends StatelessWidget {
             gradient: LinearGradient(
                 colors: [Colors.black, Theme.of(context).primaryColor])),
       ),
-      backgroundColor: kBrightOrange,
+      backgroundColor: Palette.brightOrange,
     );
   }
 }
