@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:some_game/models/game_data.dart';
+import 'package:some_game/models/game.dart';
 import 'package:some_game/models/player_model.dart';
 import 'package:some_game/utility/utility.dart';
 import 'package:some_game/widgets/gradient_dialog.dart';
@@ -88,7 +88,7 @@ class _RivalsOpinion extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // This Shall Come from GameData, since it is a relative constraint
-    final GameData _gameData = Provider.of<GameData>(context, listen: false);
+    final Game _gameData = Provider.of<Game>(context, listen: false);
     final Player _player = Provider.of<Player>(context, listen: false);
     return Expanded(
         child: Container(

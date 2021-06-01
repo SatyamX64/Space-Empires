@@ -3,7 +3,7 @@ import 'package:some_game/models/attack_ships_model.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:some_game/models/game_data.dart';
+import 'package:some_game/models/game.dart';
 import 'package:some_game/models/planet_model.dart';
 import 'package:some_game/models/player_model.dart';
 import 'package:sizer/sizer.dart';
@@ -111,7 +111,7 @@ class _ControlPanelState extends State<ControlPanel>
     final bool _isPlayerAttacker = Provider.of<bool>(context);
     final Planet _planet = Provider.of<Planet>(context, listen: false);
     final Player _attacker = Provider.of<Player>(context, listen: false);
-    final GameData _gameData = Provider.of<GameData>(context, listen: false);
+    final Game _gameData = Provider.of<Game>(context, listen: false);
     final FormationProvider _formationProvider =
         Provider.of<FormationProvider>(context, listen: false);
     return Container(

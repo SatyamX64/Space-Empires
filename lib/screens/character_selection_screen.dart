@@ -3,7 +3,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
-import 'package:some_game/models/game_data.dart';
+import 'package:some_game/models/game.dart';
+import 'package:some_game/models/ruler_model.dart';
 import 'package:some_game/screens/game_screen.dart';
 import 'package:some_game/utility/constants.dart';
 import 'package:some_game/widgets/static_stars_bg.dart';
@@ -29,7 +30,7 @@ class CharacterSelectionScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final GameData _gameData = Provider.of<GameData>(context, listen: false);
+    final Game _gameData = Provider.of<Game>(context, listen: false);
     _heading() {
       return Align(
         alignment: Alignment.topCenter,
@@ -70,7 +71,7 @@ class CharacterSelectionScreen extends StatelessWidget {
                 backgroundColor:
                     MaterialStateProperty.all<Color>(Color(0xFF120530))),
             onPressed: () {
-              Provider.of<GameData>(context, listen: false)
+              Provider.of<Game>(context, listen: false)
                   .initCurrentPlayer(ruler);
               Navigator.pushReplacementNamed(context, GameScreen.route);
             },

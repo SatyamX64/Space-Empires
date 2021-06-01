@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:some_game/screens/game_end/game_lost.dart';
 import 'package:some_game/screens/game_end/game_won.dart';
 import 'package:some_game/widgets/control_deck/global_news.dart';
-import '../models/game_data.dart';
+import '../models/game.dart';
 import '../models/player_model.dart';
 import '../widgets/gradient_dialog.dart';
 import '../utility/constants.dart';
@@ -56,7 +56,7 @@ class GameScreen extends StatelessWidget {
                   onPressed: () {
                     Navigator.of(context).pop();
                     Navigator.of(context).pop();
-                    Provider.of<GameData>(context, listen: false)
+                    Provider.of<Game>(context, listen: false)
                         .resetAllData();
                     return Future.value(true);
                   },
@@ -207,7 +207,7 @@ class __NextTurnFABState extends State<_NextTurnFAB>
 
   @override
   Widget build(BuildContext context) {
-    final GameData _gameData = Provider.of<GameData>(context, listen: false);
+    final Game _gameData = Provider.of<Game>(context, listen: false);
     return SizedBox(
       height: 80,
       width: 80,

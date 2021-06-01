@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:some_game/models/game_data.dart';
+import 'package:some_game/models/game.dart';
 import 'package:some_game/screens/welcome_screen.dart';
 
 class GameLostScreen extends StatelessWidget {
   static const route = '/game-lost-screen';
   @override
   Widget build(BuildContext context) {
-    final GameData _gameData = Provider.of<GameData>(context,listen: false);
+    final Game _gameData = Provider.of<Game>(context,listen: false);
     return WillPopScope(
         child: Scaffold(
           body: Center(

@@ -4,7 +4,7 @@ import 'package:some_game/models/attack_ships_model.dart';
 import 'package:some_game/models/planet_model.dart';
 import 'package:some_game/models/upgrade_model.dart';
 import 'defense_ships_model.dart';
-import 'game_data.dart';
+import 'ruler_model.dart';
 
 enum StatsType {
   Propoganda,
@@ -26,7 +26,7 @@ class Player extends ChangeNotifier with Stats, Military, Planets {
     initCommunication();
   }
 
-  initCommunication() {
+  void initCommunication() {
     for (Ruler rival in Ruler.values) {
       if (ruler != rival) {
         _communicationAvailable[rival] = true;
@@ -34,7 +34,7 @@ class Player extends ChangeNotifier with Stats, Military, Planets {
     }
   }
 
-  nextTurn() {
+  void nextTurn() {
     initCommunication();
     int _baseMorale =
         min(0, (statValue(StatsType.Propoganda) * 5 - militaryMoraleImpact)) +
@@ -48,12 +48,12 @@ class Player extends ChangeNotifier with Stats, Military, Planets {
     notifyListeners();
   }
 
-  changeCommunicationStatus(Ruler rival) {
+  void closeCommunicationChannel(Ruler rival) {
     _communicationAvailable[rival] = false;
     notifyListeners();
   }
 
-  bool reqCommunicationStatus(Ruler rival) {
+  bool communicationStatusOpen(Ruler rival) {
     return _communicationAvailable[rival];
   }
 
@@ -63,7 +63,7 @@ class Player extends ChangeNotifier with Stats, Military, Planets {
         militaryExpenditure;
   }
 
-  attack(List<int> positions) {
+  List<int> attack(List<int> positions) {
     List<int> damageOutput = List.generate(positions.length,
         (index) => 0); // What Damage will ship at pos[i] reciveve
     for (int i = 0; i < positions.length; i++) {
@@ -74,7 +74,7 @@ class Player extends ChangeNotifier with Stats, Military, Planets {
     return damageOutput;
   }
 
-  defend(List<int> damageOutputs) {
+  int defend(List<int> damageOutputs) {
     for (int i = 0; i < damageOutputs.length; i++) {
       int shipsLost = (damageOutputs[i] /
               kAttackShipsData[List.from(allShips.keys)[i]].health)
@@ -89,7 +89,7 @@ class Player extends ChangeNotifier with Stats, Military, Planets {
     return shipsLeft;
   }
 
-  buyAttackShip(AttackShipType type) {
+  void buyAttackShip(AttackShipType type) {
     if (money > kAttackShipsData[type].cost) {
       militaryAddShip(type, 1);
       money -= kAttackShipsData[type].cost;
@@ -99,7 +99,7 @@ class Player extends ChangeNotifier with Stats, Military, Planets {
     }
   }
 
-  sellAttackShip(AttackShipType type) {
+  void sellAttackShip(AttackShipType type) {
     if (militaryShipCount(type) > 0) {
       militaryRemoveShip(type, 1);
       money += (kAttackShipsData[type].cost * 0.8).round();
@@ -109,7 +109,7 @@ class Player extends ChangeNotifier with Stats, Military, Planets {
     }
   }
 
-  buyDefenseShip({DefenseShipType type, PlanetName name}) {
+  void buyDefenseShip({DefenseShipType type, PlanetName name}) {
     if (money > kDefenseShipsData[type].cost) {
       planetAddShip(type: type, name: name, quantity: 1);
       money -= kDefenseShipsData[type].cost;
@@ -119,7 +119,7 @@ class Player extends ChangeNotifier with Stats, Military, Planets {
     }
   }
 
-  sellDefenseShip({DefenseShipType type, PlanetName name}) {
+  void sellDefenseShip({DefenseShipType type, PlanetName name}) {
     int ships = planetShipCount(type: type, name: name);
     if (ships > 0) {
       planetRemoveShip(type: type, name: name, quantity: 1);
@@ -130,7 +130,7 @@ class Player extends ChangeNotifier with Stats, Military, Planets {
     }
   }
 
-  buyUpgrade({UpgradeType type, PlanetName name}) {
+  void buyUpgrade({UpgradeType type, PlanetName name}) {
     if (money > kUpgradesData[type].cost) {
       planetAddUpgrade(type: type, name: name);
       money -= kUpgradesData[type].cost;
@@ -140,7 +140,7 @@ class Player extends ChangeNotifier with Stats, Military, Planets {
     }
   }
 
-  increaseStat(StatsType type) {
+  void increaseStat(StatsType type) {
     if (statValue(type) < 100) {
       statIncrement(type);
       notifyListeners();
@@ -149,7 +149,7 @@ class Player extends ChangeNotifier with Stats, Military, Planets {
     }
   }
 
-  decreaseStat(StatsType type) {
+  void decreaseStat(StatsType type) {
     if (statValue(type) > 0) {
       statDecrement(type);
       notifyListeners();
@@ -165,7 +165,7 @@ mixin Stats {
 
   int get statsExpenditure {
     int expense = 0;
-    for (var type in List.from(_stats.keys)) {
+    for (StatsType type in List.from(_stats.keys)) {
       expense += _stats[type] * 5;
     }
     return expense;
@@ -182,11 +182,11 @@ mixin Stats {
     return _stats[type];
   }
 
-  statIncrement(StatsType type) {
+  void statIncrement(StatsType type) {
     _stats[type]++;
   }
 
-  statDecrement(StatsType type) {
+  void statDecrement(StatsType type) {
     if (_stats[type] > 0) {
       _stats[type]--;
     }
@@ -202,7 +202,7 @@ mixin Military {
 
   int get militaryExpenditure {
     int expense = 0;
-    for (var type in List.from(_ownedShips.keys)) {
+    for (AttackShipType type in List.from(_ownedShips.keys)) {
       expense += _ownedShips[type] * kAttackShipsData[type].maintainance;
     }
     return expense;
@@ -210,7 +210,7 @@ mixin Military {
 
   int get militaryMoraleImpact {
     int impact = 0;
-    for (var type in List.from(_ownedShips.keys)) {
+    for (AttackShipType type in List.from(_ownedShips.keys)) {
       impact += _ownedShips[type] * kAttackShipsData[type].morale;
     }
     return impact;
@@ -220,7 +220,7 @@ mixin Military {
     return _ownedShips[type];
   }
 
-  get allShips {
+  Map<AttackShipType,int> get allShips {
     return _ownedShips;
   }
 
@@ -230,11 +230,11 @@ mixin Military {
     _ownedShips[AttackShipType.Rover] = 5;
   }
 
-  militaryAddShip(AttackShipType type, int quantity) {
+  void militaryAddShip(AttackShipType type, int quantity) {
     _ownedShips[type] += quantity;
   }
 
-  militaryRemoveShip(AttackShipType type, int quantity) {
+  void militaryRemoveShip(AttackShipType type, int quantity) {
     if (_ownedShips[type] > quantity) {
       _ownedShips[type] -= quantity;
     } else {
@@ -246,7 +246,7 @@ mixin Military {
 mixin Planets {
   List<Planet> _planets;
 
-  planetsInit(List<Planet> planets) {
+  void planetsInit(List<Planet> planets) {
     _planets = planets;
   }
 
@@ -256,43 +256,43 @@ mixin Planets {
 
   int get planetsIncome {
     int income = 0;
-    for (var planet in _planets) {
+    for (Planet planet in _planets) {
       income += planet.income;
     }
     return income;
   }
 
-  addPlanet(Planet planet) {
+  void addPlanet(Planet planet) {
     _planets.add(planet);
   }
 
-  removePlanet(PlanetName name) {
+  void removePlanet(PlanetName name) {
     _planets.removeWhere((element) => element.name == name);
   }
 
-  planetAddShip({DefenseShipType type, PlanetName name, int quantity}) {
+  void planetAddShip({DefenseShipType type, PlanetName name, int quantity}) {
     _planets
         .firstWhere((planet) => planet.name == name)
         .defenseAddShip(type, quantity);
   }
 
-  planetRemoveShip({DefenseShipType type, PlanetName name, int quantity}) {
+  void planetRemoveShip({DefenseShipType type, PlanetName name, int quantity}) {
     _planets
         .firstWhere((planet) => planet.name == name)
         .defenseRemoveShip(type, quantity);
   }
 
-  planetAddUpgrade({UpgradeType type, PlanetName name}) {
+  void planetAddUpgrade({UpgradeType type, PlanetName name}) {
     _planets.firstWhere((planet) => planet.name == name).upgradeAdd(type);
   }
 
-  planetUpgradeAvailable({UpgradeType type, PlanetName name}) {
+  bool planetUpgradeAvailable({UpgradeType type, PlanetName name}) {
     return !_planets
         .firstWhere((planet) => planet.name == name)
         .upgradePresent(type);
   }
 
-  isPlanetMy({PlanetName name}) {
+  bool isPlanetMy({PlanetName name}) {
     bool result = false;
     for (Planet planet in planets) {
       if (planet.name == name) {
@@ -303,7 +303,7 @@ mixin Planets {
     return result;
   }
 
-  planetsThatCanTrade() {
+  int planetsThatCanTrade() {
     int result = 0;
     for (Planet planet in planets) {
       result += planet.planetTradeBoost;
@@ -311,11 +311,11 @@ mixin Planets {
     return result;
   }
 
-  planetStats({PlanetName name}) {
+  Map<String,int> planetStats({PlanetName name}) {
     return _planets.firstWhere((planet) => planet.name == name).stats;
   }
 
-  planetShipCount({DefenseShipType type, PlanetName name}) {
+  int planetShipCount({DefenseShipType type, PlanetName name}) {
     return _planets
         .firstWhere((planet) => planet.name == name)
         .defenseShipCount(type);

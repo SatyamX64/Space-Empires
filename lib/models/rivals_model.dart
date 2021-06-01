@@ -11,3 +11,12 @@ enum RivalMood {
   Resents,
 }
 
+enum RivalInteractions {
+  Gift,
+  Trade,
+  Help,
+  ExtortForPeace,
+  Peace,
+  CancelTrade,
+  War,
+}

@@ -4,15 +4,16 @@ import 'package:sizer/sizer.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:some_game/models/game_data.dart';
+import 'package:some_game/models/game.dart';
 import 'package:some_game/models/player_model.dart';
 import 'package:some_game/models/rivals_model.dart';
+import 'package:some_game/models/ruler_model.dart';
 import 'package:some_game/widgets/gradient_dialog.dart';
 import '../circle_tab_indicator.dart';
 
 showRivalsChatMenu(BuildContext context) {
   List<Ruler> rivalsList = [];
-  final GameData _gameData = Provider.of<GameData>(context, listen: false);
+  final Game _gameData = Provider.of<Game>(context, listen: false);
   for (Player computerPlayer in _gameData.computerPlayers) {
     rivalsList.add(computerPlayer.ruler);
   }
@@ -93,7 +94,7 @@ class _ChatOptions extends StatelessWidget {
     RivalInteractions.Gift: 'Give a gift',
     RivalInteractions.Trade: 'Trade',
     RivalInteractions.Help: 'Ask financial Help',
-    RivalInteractions.Extort: 'Extort Money',
+    RivalInteractions.ExtortForPeace: 'Extort Money',
     RivalInteractions.Peace: 'Suggest Peace',
     RivalInteractions.CancelTrade: 'Cancel Trade',
     RivalInteractions.War: 'Declare War',
@@ -101,7 +102,7 @@ class _ChatOptions extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final GameData _gameData = Provider.of<GameData>(context);
+    final Game _gameData = Provider.of<Game>(context);
     final Player _currentPlayer = Provider.of<Player>(context);
     List<RivalInteractions> _possibleActions = _gameData
         .possibleActions(_gameData.getRelation(_currentPlayer.ruler, rival));
@@ -153,7 +154,7 @@ class _ChatOptions extends StatelessWidget {
                 Expanded(
                   child: Padding(
                     padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                    child: !_currentPlayer.reqCommunicationStatus(rival)
+                    child: !_currentPlayer.communicationStatusOpen(rival)
                         ? Center(
                             child: Text(
                               'Enough Talkin\' for Today',
@@ -165,7 +166,7 @@ class _ChatOptions extends StatelessWidget {
                               return GestureDetector(
                                 onTap: () {
                                   _currentPlayer
-                                      .changeCommunicationStatus(rival);
+                                      .closeCommunicationChannel(rival);
                                   String _response =
                                       _gameData.interactWithRival(
                                           A: _currentPlayer.ruler,
@@ -223,6 +224,7 @@ class _RivalsOpinion extends StatelessWidget {
             child: Text(
               _rivalResponse.response,
               style: TextStyle(fontWeight: FontWeight.w600),
+              textAlign: TextAlign.center,
             ),
           ),
         ),
@@ -329,7 +331,7 @@ class _RelationStatusBox extends StatelessWidget {
                 ? Column(
                     children: [
                       Text(
-                        'Mood',
+                        'Relation',
                         style: TextStyle(
                             fontWeight: FontWeight.w600, color: Colors.white54),
                       ),

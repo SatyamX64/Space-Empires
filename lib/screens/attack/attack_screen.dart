@@ -2,7 +2,7 @@ import 'dart:ui';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:some_game/models/game_data.dart';
+import 'package:some_game/models/game.dart';
 import 'package:some_game/models/planet_model.dart';
 import 'package:some_game/models/player_model.dart';
 import 'package:some_game/utility/constants.dart';
@@ -66,7 +66,7 @@ class AttackScreen extends StatelessWidget {
 
     final Orientation _orientation = MediaQuery.of(context).orientation;
     final FormationProvider _formationProvider = FormationProvider();
-    final GameData _gameData = Provider.of<GameData>(context);
+    final Game _gameData = Provider.of<Game>(context);
     final Player _defender = _gameData.playerForPlanet(planet.name);
 
     _attackerDefenderImage() {

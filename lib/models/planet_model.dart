@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:some_game/models/defense_ships_model.dart';
 import 'package:some_game/models/upgrade_model.dart';
 
+
 enum PlanetName {
   Miavis,
   Hounus,
@@ -43,18 +44,18 @@ class Planet with ChangeNotifier, Defense, PlanetUpgrade {
     init();
   }
 
-  init() {
+  void init() {
     statsInit();
     upgradesInit();
     defenseInit();
   }
 
-  statsInit() {
+  void statsInit() {
     _revenue = 2000;
     _morale = 600;
   }
 
-  nextTurn() {
+  void nextTurn() {
     morale = (_morale * planetMoraleBoost).round();
     revenue = (_revenue * planetIncomeBoost).round();
   }
@@ -68,7 +69,7 @@ class Planet with ChangeNotifier, Defense, PlanetUpgrade {
     return planetDefenseQuotient;
   }
 
-  Map get stats {
+  Map<String,int> get stats {
     return {
       'morale': _morale,
       'income': income,
@@ -84,7 +85,7 @@ class Planet with ChangeNotifier, Defense, PlanetUpgrade {
     _revenue = value;
   }
 
-  attack(List<int> positions) {
+  List<int> attack(List<int> positions) {
     List<int> damageOutput = List.generate(positions.length,
         (index) => 0); // What Damage will ship at pos[i] reciveve
     for (int i = 0; i < positions.length; i++) {
@@ -95,7 +96,7 @@ class Planet with ChangeNotifier, Defense, PlanetUpgrade {
     return damageOutput;
   }
 
-  defend(List<int> damageOutputs) {
+  int defend(List<int> damageOutputs) {
     for (int i = 0; i < damageOutputs.length; i++) {
       int shipsLost = (damageOutputs[i] /
               kDefenseShipsData[List.from(allShips.keys)[i]].health)
@@ -115,20 +116,20 @@ mixin PlanetUpgrade {
   Map<UpgradeType, bool> _planetUpgrade = {};
 
   void upgradesInit() {
-    for (var upgrade in UpgradeType.values) {
+    for (UpgradeType upgrade in UpgradeType.values) {
       _planetUpgrade[upgrade] = false;
     }
   }
 
-  get allUpgrades {
+  Map<UpgradeType, bool> get allUpgrades {
     return _planetUpgrade;
   }
 
-  upgradePresent(UpgradeType type) {
+  bool upgradePresent(UpgradeType type) {
     return _planetUpgrade[type];
   }
 
-  upgradeAdd(UpgradeType type) {
+  void upgradeAdd(UpgradeType type) {
     _planetUpgrade[type] = true;
   }
 
@@ -166,13 +167,13 @@ mixin Defense {
 
   int get defenseExpenditure {
     int expense = 0;
-    for (var type in List.from(_ownedShips.keys)) {
+    for (DefenseShipType type in List.from(_ownedShips.keys)) {
       expense += _ownedShips[type] * kDefenseShipsData[type].maintainance;
     }
     return expense;
   }
 
-  get allShips {
+  Map<DefenseShipType, int> get allShips {
     return _ownedShips;
   }
 
@@ -180,11 +181,11 @@ mixin Defense {
     return _ownedShips[type];
   }
 
-  defenseAddShip(DefenseShipType type, int value) {
+  void defenseAddShip(DefenseShipType type, int value) {
     _ownedShips[type] += value;
   }
 
-  defenseRemoveShip(DefenseShipType type, int value) {
+  void defenseRemoveShip(DefenseShipType type, int value) {
     if (_ownedShips[type] > value) {
       _ownedShips[type] -= value;
     } else {

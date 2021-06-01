@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:some_game/models/game_data.dart';
+import 'package:some_game/models/game.dart';
 import 'package:some_game/widgets/gradient_dialog.dart';
 
 showGlobalNews(context) {
   final List<String> news =
-      Provider.of<GameData>(context, listen: false).globalNews;
+      Provider.of<Game>(context, listen: false).globalNews;
   return showGradientDialog(
     context: context,
     child: Column(

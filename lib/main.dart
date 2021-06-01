@@ -4,7 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:some_game/screens/game_end/game_lost.dart';
 import 'package:some_game/screens/game_end/game_won.dart';
-import './models/game_data.dart';
+import 'models/game.dart';
 import './models/planet_model.dart';
 import 'screens/attack/attack_conclusion_screen.dart';
 import './screens/character_selection_screen.dart';
@@ -32,8 +32,8 @@ class MyApp extends StatelessWidget {
     SystemChrome.setEnabledSystemUIOverlays([]);
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider<GameData>.value(
-          value: GameData(),
+        ChangeNotifierProvider<Game>.value(
+          value: Game(),
         ),
 
         // It is lazily build, i.e unless someone requests it, it won't be created
@@ -42,7 +42,7 @@ class MyApp extends StatelessWidget {
         // But since we notify GameData too (in characterSelectionScreen)
         // So update is called too
         // finally the value obtained is provided in gameScreen
-        ChangeNotifierProxyProvider<GameData, Player>(
+        ChangeNotifierProxyProvider<Game, Player>(
           update: (_, gameData, __) {
             return gameData.currentPlayer;
           },
