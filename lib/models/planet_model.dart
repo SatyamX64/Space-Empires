@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:some_game/models/defense_ships_model.dart';
 import 'package:some_game/models/upgrade_model.dart';
 
-
 enum PlanetName {
   Miavis,
   Hounus,
@@ -69,7 +68,7 @@ class Planet with ChangeNotifier, Defense, PlanetUpgrade {
     return planetDefenseQuotient;
   }
 
-  Map<String,int> get stats {
+  Map<String, int> get stats {
     return {
       'morale': _morale,
       'income': income,
@@ -85,7 +84,24 @@ class Planet with ChangeNotifier, Defense, PlanetUpgrade {
     _revenue = value;
   }
 
+  int likeabilityFactor(List<int> damageOutputs) {
+    // Calculates the likeablility factor for this Position
+    int likeabilityFactor = 0;
+    Map<DefenseShipType, int> shipDestroyed = {};
+    for (int i = 0; i < damageOutputs.length; i++) {
+      int shipsLost = (damageOutputs[i] /
+              kDefenseShipsData[List.from(allShips.keys)[i]].health)
+          .ceil();
+      shipDestroyed[List.from(allShips.keys)[i]] = shipsLost;
+    }
+    for (var ship in List.from(allShips.keys)) {
+      likeabilityFactor += shipDestroyed[ship] * kDefenseShipsData[ship].point;
+    }
+    return likeabilityFactor;
+  }
+
   List<int> attack(List<int> positions) {
+    // Calculates how much damage will be done at pos[i] if ships assume this formation
     List<int> damageOutput = List.generate(positions.length,
         (index) => 0); // What Damage will ship at pos[i] reciveve
     for (int i = 0; i < positions.length; i++) {
@@ -97,6 +113,7 @@ class Planet with ChangeNotifier, Defense, PlanetUpgrade {
   }
 
   int defend(List<int> damageOutputs) {
+    // Takes the list of how much damage each ship at pos 'i' will take
     for (int i = 0; i < damageOutputs.length; i++) {
       int shipsLost = (damageOutputs[i] /
               kDefenseShipsData[List.from(allShips.keys)[i]].health)

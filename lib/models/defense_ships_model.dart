@@ -9,6 +9,7 @@ enum DefenseShipType {
 class DefenseShip {
   final DefenseShipType type;
   final String description;
+  final int point; // Higher the Points, more the Computer AI will target it
   final int cost;
   final int maintainance;
   final int damage;
@@ -16,6 +17,7 @@ class DefenseShip {
 
   const DefenseShip(
       {@required this.cost,
+      @required this.point,
       @required this.description,
       @required this.type,
       @required this.maintainance,
@@ -28,6 +30,7 @@ const Map<DefenseShipType, DefenseShip> kDefenseShipsData = const {
       cost: 3000,
       description: 'Boom Boom everything',
       type: DefenseShipType.Artillery,
+      point: 3,
       maintainance: 40,
       health: 1200,
       damage: 200),
@@ -36,6 +39,7 @@ const Map<DefenseShipType, DefenseShip> kDefenseShipsData = const {
       description: 'The workhorse',
       type: DefenseShipType.Battleship,
       maintainance: 30,
+      point: 1,
       health: 2500,
       damage: 120),
   DefenseShipType.Rover: const DefenseShip(
@@ -43,6 +47,7 @@ const Map<DefenseShipType, DefenseShip> kDefenseShipsData = const {
       description: 'It aint much..but its good',
       type: DefenseShipType.Rover,
       maintainance: 10,
+      point: 2,
       health: 500,
       damage: 100),
 };

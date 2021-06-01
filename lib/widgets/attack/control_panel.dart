@@ -114,6 +114,35 @@ class _ControlPanelState extends State<ControlPanel>
     final Game _gameData = Provider.of<Game>(context, listen: false);
     final FormationProvider _formationProvider =
         Provider.of<FormationProvider>(context, listen: false);
+
+    List<int> bestDefenderPosition() {
+      int maxLikeabilityFactor = 0;
+      List<int> bestFormation = _formationProvider.formations[0];
+      for (List<int> formation in _formationProvider.formations) {
+        List<int> damageOutputs = _planet.attack(formation);
+        int likeablilityFactor = _attacker.likeabilityFactor(damageOutputs);
+        if (likeablilityFactor > maxLikeabilityFactor) {
+          maxLikeabilityFactor = likeablilityFactor;
+          bestFormation = formation;
+        }
+      }
+      return bestFormation;
+    }
+
+    List<int> bestAttackerPosition() {
+      int maxLikeabilityFactor = 0;
+      List<int> bestFormation = _formationProvider.formations[0];
+      for (List<int> formation in _formationProvider.formations) {
+        List<int> damageOutputs = _attacker.attack(formation);
+        int likeablilityFactor = _planet.likeabilityFactor(damageOutputs);
+        if (likeablilityFactor > maxLikeabilityFactor) {
+          maxLikeabilityFactor = likeablilityFactor;
+          bestFormation = formation;
+        }
+      }
+      return bestFormation;
+    }
+
     return Container(
       margin: EdgeInsets.all(16.sp),
       padding: EdgeInsets.all(8.sp),
@@ -213,9 +242,10 @@ class _ControlPanelState extends State<ControlPanel>
                         MaterialStateProperty.all<Color>(Palette.maroon),
                   ),
                   onPressed: () {
-                    final computerPosition = _formationProvider.formations[5];
                     final playerFormation = _formationProvider.currentFormation;
-
+                    final computerPosition = _isPlayerAttacker
+                        ? bestAttackerPosition()
+                        : bestDefenderPosition();
                     final attackFormation =
                         _isPlayerAttacker ? playerFormation : computerPosition;
                     final defenseFormation =

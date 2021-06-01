@@ -63,6 +63,22 @@ class Player extends ChangeNotifier with Stats, Military, Planets {
         militaryExpenditure;
   }
 
+  int likeabilityFactor(List<int> damageOutputs) {
+    // Calculates the likeablility factor for this Position
+    int likeabilityFactor = 0;
+    Map<AttackShipType, int> shipDestroyed = {};
+    for (int i = 0; i < damageOutputs.length; i++) {
+      int shipsLost = (damageOutputs[i] /
+              kAttackShipsData[List.from(allShips.keys)[i]].health)
+          .ceil();
+      shipDestroyed[List.from(allShips.keys)[i]] = shipsLost;
+    }
+    for (var ship in List.from(allShips.keys)) {
+      likeabilityFactor += shipDestroyed[ship] * kAttackShipsData[ship].point;
+    }
+    return likeabilityFactor;
+  }
+
   List<int> attack(List<int> positions) {
     List<int> damageOutput = List.generate(positions.length,
         (index) => 0); // What Damage will ship at pos[i] reciveve
@@ -114,7 +130,7 @@ class Player extends ChangeNotifier with Stats, Military, Planets {
       planetAddShip(type: type, name: name, quantity: 1);
       money -= kDefenseShipsData[type].cost;
       notifyListeners();
-    }else{
+    } else {
       throw 'Out of Funds';
     }
   }
@@ -125,7 +141,7 @@ class Player extends ChangeNotifier with Stats, Military, Planets {
       planetRemoveShip(type: type, name: name, quantity: 1);
       money += (kDefenseShipsData[type].cost * 0.8).round();
       notifyListeners();
-    }else {
+    } else {
       throw 'Out of Ships';
     }
   }
@@ -157,7 +173,6 @@ class Player extends ChangeNotifier with Stats, Military, Planets {
       throw 'Already Minimum';
     }
   }
-
 }
 
 mixin Stats {
@@ -220,7 +235,7 @@ mixin Military {
     return _ownedShips[type];
   }
 
-  Map<AttackShipType,int> get allShips {
+  Map<AttackShipType, int> get allShips {
     return _ownedShips;
   }
 
@@ -311,7 +326,7 @@ mixin Planets {
     return result;
   }
 
-  Map<String,int> planetStats({PlanetName name}) {
+  Map<String, int> planetStats({PlanetName name}) {
     return _planets.firstWhere((planet) => planet.name == name).stats;
   }
 
