@@ -84,6 +84,9 @@ class Planet with ChangeNotifier, Defense, PlanetUpgrade {
     _revenue = value;
   }
 
+  
+
+  void autoBuyUpgrades(int moneyAllotted) {}
   int likeabilityFactor(List<int> damageOutputs) {
     // Calculates the likeablility factor for this Position
     int likeabilityFactor = 0;

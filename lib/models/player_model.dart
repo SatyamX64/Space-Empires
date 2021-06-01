@@ -48,6 +48,77 @@ class Player extends ChangeNotifier with Stats, Military, Planets {
     notifyListeners();
   }
 
+  void autoTurn() {
+    List<double> expendeiture = [0.25, 0.4, 0.3]..shuffle();
+    autoBuyMilitary((money * expendeiture[0]).floor());
+    autoBuyUpgrade((money * expendeiture[1]).floor());
+    autoBuyDefense((money * expendeiture[2]).floor());
+    autoUpdateStats();
+  }
+
+  void autoBuyMilitary(int moneyAllotted) {
+    List<double> budgets = [0.5, 0.2, 0.3]..shuffle();
+    List<AttackShip> _attackShips = List.from(kAttackShipsData.values);
+    for (int i = 0; i < _attackShips.length; i++) {
+      int shipsToBuy =
+          ((moneyAllotted * budgets[i]) / _attackShips[i].cost).floor();
+      for (int j = 0; j < shipsToBuy; j++) {
+        buyAttackShip(_attackShips[i].type);
+      }
+    }
+  }
+
+  void autoBuyDefenseShipsForPlanet(
+      {int moneyAllotted, PlanetName planetName}) {
+    List<double> budgets = [0.5, 0.2, 0.3]..shuffle();
+    List<DefenseShip> _defenseShips = List.from(kDefenseShipsData.values);
+    for (int i = 0; i < _defenseShips.length; i++) {
+      int shipsToBuy =
+          ((moneyAllotted * budgets[i]) / _defenseShips[i].cost).floor();
+      for (int j = 0; j < shipsToBuy; j++) {
+        buyDefenseShip(type: _defenseShips[i].type, name: planetName);
+      }
+    }
+  }
+
+  void autoBuyUpgradeForPlanet({int moneyAllotted, PlanetName planetName}) {
+    int moneyLeft = moneyAllotted;
+    for (UpgradeType upgradeType in UpgradeType.values) {
+      if (planetUpgradeAvailable(type: upgradeType, name: planetName) &&
+          moneyLeft > kUpgradesData[upgradeType].cost) {
+        buyUpgrade(type: upgradeType, name: planetName);
+        moneyLeft -= kUpgradesData[upgradeType].cost;
+      }
+    }
+  }
+
+  void autoBuyDefense(int moneyAllotted) {
+    double _planetBudgetAllotment = 1 / _planets.length;
+    for (Planet planet in _planets) {
+      autoBuyDefenseShipsForPlanet(
+          moneyAllotted: (moneyAllotted * _planetBudgetAllotment).floor(),
+          planetName: planet.name);
+    }
+  }
+
+  void autoBuyUpgrade(int moneyAllotted) {
+    double _planetBudgetAllotment = 1 / _planets.length;
+    for (Planet planet in _planets) {
+      autoBuyUpgradeForPlanet(
+          moneyAllotted: (moneyAllotted * _planetBudgetAllotment).floor(),
+          planetName: planet.name);
+    }
+  }
+
+  void autoUpdateStats() {
+    for (StatsType type in StatsType.values) {
+      if (statValue(type) < 98) {
+        increaseStat(type);
+        increaseStat(type);
+      }
+    }
+  }
+
   void closeCommunicationChannel(Ruler rival) {
     _communicationAvailable[rival] = false;
     notifyListeners();
