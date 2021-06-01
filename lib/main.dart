@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:some_game/screens/game_end/game_lost.dart';
+import 'package:some_game/screens/game_end/game_won.dart';
 import './models/game_data.dart';
 import './models/planet_model.dart';
 import 'screens/attack/attack_conclusion_screen.dart';
@@ -98,6 +100,8 @@ class MyApp extends StatelessWidget {
               AttackConclusionScreen.route: (ctx) => AttackConclusionScreen(),
               HelpScreen.route: (ctx) => HelpScreen(),
               InstructionScreen.route: (ctx) => InstructionScreen(),
+              GameLostScreen.route : (ctx) => GameLostScreen(),
+              GameWonScreen.route : (ctx) => GameWonScreen(),
             },
             onGenerateRoute: (routeSettings) {
               if (routeSettings.name == PlanetScreen.route) {

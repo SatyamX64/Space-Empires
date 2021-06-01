@@ -12,16 +12,6 @@ import 'package:sizer/sizer.dart';
 class CharacterSelectionScreen extends StatelessWidget {
   static const route = '/character-selection-screen';
 
-  final Map<Ruler, String> _descriptionData = const {
-    Ruler.NdNd:
-        'The last standing heir from the Royal Family of Jupinot. Hates Everyone except himself .',
-    Ruler.Nudar:
-        'The Ruler of the strongest warrior race of this Universe. They socialize through fights .',
-    Ruler.Zapp: 'Weak fragile Creatures, with limitless potential for growth',
-    Ruler.Morbo:
-        'The Master Tactician himself, the guy once held 6 planets in his prime',
-  };
-
   Widget get _animatedStars {
     return Lottie.asset('assets/animations/stars.json');
   }
@@ -39,6 +29,7 @@ class CharacterSelectionScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final GameData _gameData = Provider.of<GameData>(context, listen: false);
     _heading() {
       return Align(
         alignment: Alignment.topCenter,
@@ -61,7 +52,7 @@ class CharacterSelectionScreen extends StatelessWidget {
             color: Colors.black26, borderRadius: BorderRadius.circular(16.sp)),
         child: SingleChildScrollView(
           child: Text(
-            _descriptionData[ruler],
+            _gameData.descriptionForRuler(ruler),
             style: TextStyle(fontWeight: FontWeight.w600),
             textAlign: TextAlign.center,
           ),
@@ -97,7 +88,7 @@ class CharacterSelectionScreen extends StatelessWidget {
           child: Padding(
             padding: EdgeInsets.all(8.sp),
             child: Image.asset(
-              'assets/img/avatar/${describeEnum(ruler).toLowerCase()}.png',
+              'assets/img/ruler/${describeEnum(ruler).toLowerCase()}.png',
             ),
           ),
           radius: double.maxFinite,
@@ -169,9 +160,9 @@ class CharacterSelectionScreen extends StatelessWidget {
               height: orientation == Orientation.landscape
                   ? size.height * 0.8
                   : size.height * 0.5),
-          itemCount: Ruler.values.length,
+          itemCount: _gameData.players.length,
           itemBuilder: (BuildContext context, int index, _) =>
-              _characterCard(Ruler.values[index], orientation),
+              _characterCard(_gameData.players[index].ruler, orientation),
         ),
       );
     }

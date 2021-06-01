@@ -1,6 +1,9 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:some_game/screens/game_end/game_lost.dart';
+import 'package:some_game/screens/game_end/game_won.dart';
+import 'package:some_game/widgets/control_deck/global_news.dart';
 import '../models/game_data.dart';
 import '../models/player_model.dart';
 import '../widgets/gradient_dialog.dart';
@@ -40,7 +43,7 @@ class GameScreen extends StatelessWidget {
               Expanded(
                 flex: 2,
                 child: Image.asset(
-                  'assets/img/avatar/${describeEnum(Provider.of<Player>(context, listen: false).ruler).toLowerCase()}.png',
+                  'assets/img/ruler/${describeEnum(Provider.of<Player>(context, listen: false).ruler).toLowerCase()}.png',
                 ),
               ),
               Expanded(child: Container()),
@@ -212,9 +215,19 @@ class __NextTurnFABState extends State<_NextTurnFAB>
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: GradientFAB(
-            onTap: () {
+            onTap: () async {
               _gameData.nextTurn();
-              showOverlay('+${_gameData.currentPlayer.income}\$');
+              if (_gameData.lostGame) {
+                Navigator.of(context).pushNamed(GameLostScreen.route);
+              } else if (_gameData.wonGame) {
+                Navigator.of(context).pushNamed(GameWonScreen.route);
+              } else {
+                if (_gameData.globalNews.isNotEmpty) {
+                  await showGlobalNews(context);
+                  _gameData.clearNews();
+                }
+                showOverlay('+${_gameData.currentPlayer.income}\$');
+              }
             },
             toolTip: 'Next Turn',
             image: 'assets/img/control_deck/next.svg'),

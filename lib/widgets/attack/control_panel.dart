@@ -1,7 +1,6 @@
 import 'dart:math';
 import 'package:some_game/models/attack_ships_model.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:some_game/models/game_data.dart';
@@ -9,6 +8,8 @@ import 'package:some_game/models/planet_model.dart';
 import 'package:some_game/models/player_model.dart';
 import 'package:sizer/sizer.dart';
 import 'package:some_game/screens/attack/attack_conclusion_screen.dart';
+import 'package:some_game/screens/game_end/game_lost.dart';
+import 'package:some_game/screens/game_end/game_won.dart';
 import 'package:some_game/utility/constants.dart';
 import 'package:some_game/utility/formation_generator.dart';
 
@@ -110,6 +111,7 @@ class _ControlPanelState extends State<ControlPanel>
     final bool _isPlayerAttacker = Provider.of<bool>(context);
     final Planet _planet = Provider.of<Planet>(context, listen: false);
     final Player _attacker = Provider.of<Player>(context, listen: false);
+    final GameData _gameData = Provider.of<GameData>(context, listen: false);
     final FormationProvider _formationProvider =
         Provider.of<FormationProvider>(context, listen: false);
     return Container(
@@ -237,6 +239,7 @@ class _ControlPanelState extends State<ControlPanel>
                     showOverlay(
                         '-${_initialAttackShips - attackShipsLeft} Ships',
                         '-${_initialDefenseShips - defenseShipsLeft} Ships');
+                    // If Both attack and defense ships become  0, then attack is considered failed
                     if (attackShipsLeft == 0) {
                       if (_overlayEntry != null) {
                         _overlayEntry.remove();
@@ -250,12 +253,23 @@ class _ControlPanelState extends State<ControlPanel>
                         _overlayEntry.remove();
                         _overlayEntry = null;
                       }
-                      Provider.of<GameData>(context, listen: false)
-                          .changeOwnerOfPlanet(
-                              newRuler: _attacker.ruler, name: _planet.name);
-                      Navigator.pushReplacementNamed(
-                          context, AttackConclusionScreen.route,
-                          arguments: 'The planet succumbed to its attacker');
+                      _gameData.changeOwnerOfPlanet(
+                          newRuler: _attacker.ruler, name: _planet.name);
+                      if (_gameData.wonGame) {
+                        Navigator.pushReplacementNamed(
+                          context,
+                          GameWonScreen.route,
+                        );
+                      } else if (_gameData.lostGame) {
+                        Navigator.pushReplacementNamed(
+                          context,
+                          GameLostScreen.route,
+                        );
+                      } else {
+                        Navigator.pushReplacementNamed(
+                            context, AttackConclusionScreen.route,
+                            arguments: 'The planet succumbed to its attacker');
+                      }
                     }
                   },
                   child: Text(

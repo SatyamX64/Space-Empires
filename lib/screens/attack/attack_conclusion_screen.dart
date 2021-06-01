@@ -1,8 +1,10 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 import 'package:rive/rive.dart';
 import 'package:sizer/sizer.dart';
+import 'package:some_game/models/game_data.dart';
 import 'package:some_game/utility/constants.dart';
 
 class AttackConclusionScreen extends StatelessWidget {
@@ -17,6 +19,7 @@ class AttackConclusionScreen extends StatelessWidget {
         padding: EdgeInsets.all(16.sp),
         child: GestureDetector(
           onTap: () {
+            Provider.of<GameData>(context,listen : false).removeDeadPlayers();
             Navigator.of(context).pop();
           },
           child: Container(

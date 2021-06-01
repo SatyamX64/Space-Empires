@@ -64,10 +64,10 @@ class AttackScreen extends StatelessWidget {
           ));
     }
 
-    final Orientation orientation = MediaQuery.of(context).orientation;
+    final Orientation _orientation = MediaQuery.of(context).orientation;
     final FormationProvider _formationProvider = FormationProvider();
     final GameData _gameData = Provider.of<GameData>(context);
-    final Player defender = _gameData.playerForPlanet(planet.name);
+    final Player _defender = _gameData.playerForPlanet(planet.name);
 
     _attackerDefenderImage() {
       return SizedBox(
@@ -75,11 +75,11 @@ class AttackScreen extends StatelessWidget {
         child: Row(
           children: [
             Image.asset(
-              'assets/img/avatar/${describeEnum(attacker.ruler).toLowerCase()}.png',
+              'assets/img/ruler/${describeEnum(attacker.ruler).toLowerCase()}.png',
             ),
             Spacer(),
             Image.asset(
-              'assets/img/avatar/${describeEnum(defender.ruler).toLowerCase()}.png',
+              'assets/img/ruler/${describeEnum(_defender.ruler).toLowerCase()}.png',
             ),
           ],
         ),
@@ -122,7 +122,7 @@ class AttackScreen extends StatelessWidget {
                   ChangeNotifierProvider<FormationProvider>.value(
                       value: _formationProvider)
                 ],
-                builder: (_, __) => orientation == Orientation.landscape
+                builder: (_, __) => _orientation == Orientation.landscape
                     ? Row(
                         children: [
                           Expanded(
@@ -164,4 +164,3 @@ class AttackScreen extends StatelessWidget {
         onWillPop: _quitGame);
   }
 }
-

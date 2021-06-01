@@ -1,0 +1,81 @@
+Date : 2021-06-01 11:11:51
+Directory : c:\Flutter Projects\some_game\lib
+Total : 45 files,  5709 codes, 185 comments, 467 blanks, all 6361 lines
+
+Languages
++----------+------------+------------+------------+------------+------------+
+| language | files      | code       | comment    | blank      | total      |
++----------+------------+------------+------------+------------+------------+
+| Dart     |         45 |      5,709 |        185 |        467 |      6,361 |
++----------+------------+------------+------------+------------+------------+
+
+Directories
++--------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                                           | files      | code       | comment    | blank      | total      |
++--------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                                              |         45 |      5,709 |        185 |        467 |      6,361 |
+| models                                                                         |          7 |      1,025 |        140 |        137 |      1,302 |
+| screens                                                                        |         14 |      1,824 |         11 |        140 |      1,975 |
+| screens\attack                                                                 |          2 |        285 |          5 |         19 |        309 |
+| screens\game_end                                                               |          2 |         46 |          0 |          5 |         51 |
+| screens\help                                                                   |          2 |        213 |          0 |         21 |        234 |
+| screens\story                                                                  |          3 |        571 |          4 |         48 |        623 |
+| utility                                                                        |          5 |        221 |          7 |         37 |        265 |
+| widgets                                                                        |         18 |      2,515 |         21 |        149 |      2,685 |
+| widgets\attack                                                                 |          3 |        442 |          3 |         28 |        473 |
+| widgets\control_deck                                                           |          5 |      1,069 |         14 |         61 |      1,144 |
+| widgets\game_screen                                                            |          2 |        177 |          1 |         10 |        188 |
+| widgets\planet_screen                                                          |          3 |        589 |          1 |         23 |        613 |
++--------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++--------------------------------------------------------------------------------+----------+------------+------------+------------+------------+
+| filename                                                                       | language | code       | comment    | blank      | total      |
++--------------------------------------------------------------------------------+----------+------------+------------+------------+------------+
+| c:\Flutter Projects\some_game\lib\main.dart                                    | Dart     |        124 |          6 |          4 |        134 |
+| c:\Flutter Projects\some_game\lib\models\attack_ships_model.dart               | Dart     |         52 |          0 |          5 |         57 |
+| c:\Flutter Projects\some_game\lib\models\defense_ships_model.dart              | Dart     |         44 |          0 |          5 |         49 |
+| c:\Flutter Projects\some_game\lib\models\game_data.dart                        | Dart     |        420 |        140 |         41 |        601 |
+| c:\Flutter Projects\some_game\lib\models\planet_model.dart                     | Dart     |        162 |          0 |         30 |        192 |
+| c:\Flutter Projects\some_game\lib\models\player_model.dart                     | Dart     |        276 |          0 |         48 |        324 |
+| c:\Flutter Projects\some_game\lib\models\rivals_model.dart                     | Dart     |         11 |          0 |          3 |         14 |
+| c:\Flutter Projects\some_game\lib\models\upgrade_model.dart                    | Dart     |         60 |          0 |          5 |         65 |
+| c:\Flutter Projects\some_game\lib\screens\attack\attack_conclusion_screen.dart | Dart     |        130 |          0 |         12 |        142 |
+| c:\Flutter Projects\some_game\lib\screens\attack\attack_screen.dart            | Dart     |        155 |          5 |          7 |        167 |
+| c:\Flutter Projects\some_game\lib\screens\character_selection_screen.dart      | Dart     |        175 |          0 |         12 |        187 |
+| c:\Flutter Projects\some_game\lib\screens\game_end\game_lost.dart              | Dart     |         23 |          0 |          2 |         25 |
+| c:\Flutter Projects\some_game\lib\screens\game_end\game_won.dart               | Dart     |         23 |          0 |          3 |         26 |
+| c:\Flutter Projects\some_game\lib\screens\game_screen.dart                     | Dart     |        228 |          0 |         10 |        238 |
+| c:\Flutter Projects\some_game\lib\screens\help\help-screen.dart                | Dart     |        146 |          0 |         16 |        162 |
+| c:\Flutter Projects\some_game\lib\screens\help\instructions-screen.dart        | Dart     |         67 |          0 |          5 |         72 |
+| c:\Flutter Projects\some_game\lib\screens\planet_screen.dart                   | Dart     |        162 |          2 |         11 |        175 |
+| c:\Flutter Projects\some_game\lib\screens\splash_screen.dart                   | Dart     |         41 |          0 |          5 |         46 |
+| c:\Flutter Projects\some_game\lib\screens\story\story_i.dart                   | Dart     |        184 |          4 |         15 |        203 |
+| c:\Flutter Projects\some_game\lib\screens\story\story_ii.dart                  | Dart     |        196 |          0 |         17 |        213 |
+| c:\Flutter Projects\some_game\lib\screens\story\story_iii.dart                 | Dart     |        191 |          0 |         16 |        207 |
+| c:\Flutter Projects\some_game\lib\screens\welcome_screen.dart                  | Dart     |        103 |          0 |          9 |        112 |
+| c:\Flutter Projects\some_game\lib\utility\constants.dart                       | Dart     |         12 |          1 |          4 |         17 |
+| c:\Flutter Projects\some_game\lib\utility\formation_generator.dart             | Dart     |         44 |          2 |         11 |         57 |
+| c:\Flutter Projects\some_game\lib\utility\instructions.dart                    | Dart     |         28 |          0 |          1 |         29 |
+| c:\Flutter Projects\some_game\lib\utility\ripple_page_transition.dart          | Dart     |         99 |          4 |         17 |        120 |
+| c:\Flutter Projects\some_game\lib\utility\utility.dart                         | Dart     |         38 |          0 |          4 |         42 |
+| c:\Flutter Projects\some_game\lib\widgets\attack\battlefield.dart              | Dart     |        107 |          2 |          7 |        116 |
+| c:\Flutter Projects\some_game\lib\widgets\attack\control_panel.dart            | Dart     |        278 |          1 |         10 |        289 |
+| c:\Flutter Projects\some_game\lib\widgets\attack\formation_painter.dart        | Dart     |         57 |          0 |         11 |         68 |
+| c:\Flutter Projects\some_game\lib\widgets\circle_tab_indicator.dart            | Dart     |         22 |          0 |          7 |         29 |
+| c:\Flutter Projects\some_game\lib\widgets\control_deck.dart                    | Dart     |        125 |          2 |         12 |        139 |
+| c:\Flutter Projects\some_game\lib\widgets\control_deck\attack.dart             | Dart     |        177 |          0 |         11 |        188 |
+| c:\Flutter Projects\some_game\lib\widgets\control_deck\global_news.dart        | Dart     |         51 |          0 |          2 |         53 |
+| c:\Flutter Projects\some_game\lib\widgets\control_deck\military.dart           | Dart     |        333 |          2 |         15 |        350 |
+| c:\Flutter Projects\some_game\lib\widgets\control_deck\rivals_chat.dart        | Dart     |        318 |         10 |         22 |        350 |
+| c:\Flutter Projects\some_game\lib\widgets\control_deck\stats.dart              | Dart     |        190 |          2 |         11 |        203 |
+| c:\Flutter Projects\some_game\lib\widgets\game_screen\solar_system.dart        | Dart     |        116 |          1 |          8 |        125 |
+| c:\Flutter Projects\some_game\lib\widgets\game_screen\stats_bar.dart           | Dart     |         61 |          0 |          2 |         63 |
+| c:\Flutter Projects\some_game\lib\widgets\gradient_dialog.dart                 | Dart     |         39 |          0 |          2 |         41 |
+| c:\Flutter Projects\some_game\lib\widgets\gradient_fab.dart                    | Dart     |         36 |          0 |          4 |         40 |
+| c:\Flutter Projects\some_game\lib\widgets\planet_screen\defense.dart           | Dart     |        267 |          0 |         11 |        278 |
+| c:\Flutter Projects\some_game\lib\widgets\planet_screen\stats.dart             | Dart     |        117 |          0 |          3 |        120 |
+| c:\Flutter Projects\some_game\lib\widgets\planet_screen\upgrades.dart          | Dart     |        205 |          1 |          9 |        215 |
+| c:\Flutter Projects\some_game\lib\widgets\static_stars_bg.dart                 | Dart     |         16 |          0 |          2 |         18 |
+| Total                                                                          |          |      5,709 |        185 |        467 |      6,361 |
++--------------------------------------------------------------------------------+----------+------------+------------+------------+------------+

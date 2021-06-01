@@ -17,15 +17,20 @@ class PlanetDefense extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final Player _player = Provider.of<Player>(context, listen: false);
+    final PlanetName _planetName =
+        Provider.of<PlanetName>(context, listen: false);
+    final Planet _planet =
+        _player.planets.firstWhere((planet) => planet.name == _planetName);
     return LayoutBuilder(builder: (context, constraints) {
       return ListView.builder(
-          itemCount: kDefenseShipsData.length,
+          itemCount: _planet.allShips.length,
           itemExtent: min(
-              120, max(constraints.maxHeight / kDefenseShipsData.length, 90)),
+              120, max(constraints.maxHeight / _planet.allShips.length, 90)),
           itemBuilder: (_, index) {
             return _DefenseShipCard(
               defenseShip:
-                  List<DefenseShip>.from(kDefenseShipsData.values)[index],
+                  kDefenseShipsData[List<DefenseShipType>.from(_planet.allShips.keys)[index]],
               width: constraints.maxWidth,
             );
           });

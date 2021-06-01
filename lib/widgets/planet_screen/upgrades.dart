@@ -33,14 +33,20 @@ class PlanetUpgrades extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final Player _player = Provider.of<Player>(context, listen: false);
+    final PlanetName _planetName =
+        Provider.of<PlanetName>(context, listen: false);
+    final Planet _planet =
+        _player.planets.firstWhere((planet) => planet.name == _planetName);
     return LayoutBuilder(builder: (context, constraints) {
       return Container(
         alignment: Alignment.center,
         child: Wrap(
-          children: List.generate(kUpgradesData.length, (index) {
+          children: List.generate(_planet.allUpgrades.length, (index) {
             return _UpgradeCard(
-                upgrade: List<Upgrade>.from(kUpgradesData.values)[index],
-                side: _getSize(kUpgradesData.length.toDouble(),
+                upgrade: kUpgradesData[
+                    List<UpgradeType>.from(_planet.allUpgrades.keys)[index]],
+                side: _getSize(_planet.allUpgrades.length.toDouble(),
                     constraints.maxWidth, constraints.maxHeight));
           }),
         ),
@@ -61,9 +67,9 @@ class _UpgradeCard extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         _showUpgradeDetails(context, upgrade, () {
-          try{
+          try {
             player.buyUpgrade(type: upgrade.type, name: planetName);
-          }catch(e){
+          } catch (e) {
             Utility.showToast(e.toString());
           }
         }, player.planetUpgradeAvailable(type: upgrade.type, name: planetName));

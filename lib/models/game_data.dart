@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:some_game/models/planet_model.dart';
 import 'package:some_game/models/player_model.dart';
@@ -23,11 +24,22 @@ enum RivalInteractions {
   War,
 }
 
+const Map<Ruler, String> _rulerDescriptionData = const {
+  Ruler.NdNd:
+      'The last standing heir from the Royal Family of Jupinot. Hates Everyone except himself .',
+  Ruler.Nudar:
+      'The Ruler of the strongest warrior race of this Universe. They socialize through fights .',
+  Ruler.Zapp: 'Weak fragile Creatures, with limitless potential for growth',
+  Ruler.Morbo:
+      'The Master Tactician himself, the guy once held 6 planets in his prime',
+};
+
 class GameData extends ChangeNotifier {
   int days;
   List<Player> players = [];
+  List<String> globalNews = [];
   Map<Ruler, Map<Ruler, Map<String, dynamic>>> globalRelations;
-  int selectedPlayerIndex;
+  Ruler selectedRuler;
 
   GameData() {
     initPlayers();
@@ -35,16 +47,21 @@ class GameData extends ChangeNotifier {
     days = 365;
   }
 
-  resetAllData() {
+  bool get lostGame => !(currentPlayer.planets.length > 0 && days > 0);
+
+  bool get wonGame => (currentPlayer.planets.length == planets.length);
+
+  void resetAllData() {
     players = [];
     globalRelations = {};
-    selectedPlayerIndex = null;
+    globalNews = [];
+    selectedRuler = null;
     days = 365;
     initPlayers();
     initGlobalRelations();
   }
 
-  initPlayers() {
+  void initPlayers() {
     players.add(Player(planets: <Planet>[
       Planet(PlanetName.Miavis),
       Planet(PlanetName.Drukunides)
@@ -61,7 +78,7 @@ class GameData extends ChangeNotifier {
         ruler: Ruler.Nudar));
   }
 
-  initGlobalRelations() {
+  void initGlobalRelations() {
     globalRelations = {
       Ruler.NdNd: {
         Ruler.Nudar: {
@@ -122,14 +139,21 @@ class GameData extends ChangeNotifier {
     };
   }
 
-  initCurrentPlayer(Ruler value) {
-    selectedPlayerIndex =
-        players.indexWhere((element) => element.ruler == value);
+  void initCurrentPlayer(Ruler value) {
+    selectedRuler = value;
     notifyListeners();
   }
 
+  void clearNews() {
+    globalNews = [];
+  }
+
+  String descriptionForRuler(Ruler ruler) {
+    return _rulerDescriptionData[ruler];
+  }
+
   Player get currentPlayer {
-    return players[selectedPlayerIndex];
+    return players.firstWhere((player) => player.ruler == selectedRuler);
   }
 
   List<Player> get computerPlayers {
@@ -156,6 +180,7 @@ class GameData extends ChangeNotifier {
       case Ruler.Zapp:
         return Colors.orange[600];
     }
+    return Colors.white; // Highly Unlikely, Indicates a error somewhere
   }
 
   Player playerFromRuler(Ruler ruler) {
@@ -166,13 +191,26 @@ class GameData extends ChangeNotifier {
     return players.firstWhere((player) => player.isPlanetMy(name: planetName));
   }
 
-  changeOwnerOfPlanet({Ruler newRuler, PlanetName name}) {
+  void removeDeadPlayers() {
+    players.removeWhere((player) {
+      if (player.planets.length == 0) {
+        globalNews.add(
+            '${describeEnum(player.ruler)} died in the last battle. His galatic empire is over ');
+        return true;
+      } else
+        return false;
+    });
+  }
+
+  void changeOwnerOfPlanet({Ruler newRuler, PlanetName name}) {
+    globalNews.add(
+        '${describeEnum(newRuler)} took over the Planet ${describeEnum(name)}');
     playerForPlanet(name).removePlanet(name);
     playerFromRuler(newRuler).addPlanet(Planet(name));
     notifyListeners();
   }
 
-  nextTurn() {
+  void nextTurn() {
     days--;
     players.forEach((player) {
       player.nextTurn();
@@ -204,11 +242,11 @@ class GameData extends ChangeNotifier {
     return globalRelations[A][B]['mood'];
   }
 
-  setRelation(Ruler A, Ruler B, RivalRelation relation) {
+  void setRelation(Ruler A, Ruler B, RivalRelation relation) {
     globalRelations[A][B]['relation'] = relation;
   }
 
-  setMood(Ruler A, Ruler B, RivalMood mood) {
+  void setMood(Ruler A, Ruler B, RivalMood mood) {
     globalRelations[A][B]['mood'] = mood;
   }
 

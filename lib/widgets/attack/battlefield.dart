@@ -81,12 +81,12 @@ class Battlefield extends StatelessWidget {
     );
   }
 
-  _formationPaths(bool attackMode) {
+  _formationPaths(bool _attackMode) {
     return Consumer<FormationProvider>(
       builder: (_, _formationProvider, ___) {
         return Expanded(
             child: CustomPaint(
-                painter: attackMode
+                painter: _attackMode
                     ? AttackerFormationPainter(
                         formation: _formationProvider.currentFormation)
                     : DefenderFormationPainter(
@@ -98,13 +98,13 @@ class Battlefield extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bool isCurrentPlayerAttacker = Provider.of<bool>(context);
+    final bool _isCurrentPlayerAttacker = Provider.of<bool>(context);
     return LayoutBuilder(builder: (_, constraints) {
       return Container(
         child: Row(
           children: [
             _attackShips(constraints),
-            _formationPaths(isCurrentPlayerAttacker),
+            _formationPaths(_isCurrentPlayerAttacker),
             _defenseShips(constraints)
           ],
         ),

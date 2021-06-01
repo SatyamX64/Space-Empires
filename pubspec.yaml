@@ -44,7 +44,7 @@ flutter:
       - assets/img/ships/attack/
       - assets/img/ships/defense/
       - assets/img/control_deck/
-      - assets/img/avatar/
+      - assets/img/ruler/
 
   fonts:
     - family: Italianno

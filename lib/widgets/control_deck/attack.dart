@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
-import 'package:some_game/models/attack_ships_model.dart';
 import 'package:some_game/models/game_data.dart';
 import 'package:some_game/models/planet_model.dart';
 import 'package:some_game/models/player_model.dart';
@@ -61,9 +60,9 @@ class _EnemyPlanets extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final GameData _gameData = Provider.of<GameData>(context, listen: false);
-    final Player player = Provider.of(context,listen: false);
+    final Player _player = Provider.of(context, listen: false);
     final List<Planet> _availablePlanets =
-        _gameData.getEnemyPlanets(player.ruler);
+        _gameData.getEnemyPlanets(_player.ruler);
     return _availablePlanets.length <= 0
         ? Container(
             alignment: Alignment.center,
@@ -90,11 +89,11 @@ class _EnemyPlanets extends StatelessWidget {
                       GestureDetector(
                     onTap: () {
                       Navigator.of(context).pop();
-                      Navigator.of(context).pushNamed(AttackScreen.route,
-                          arguments: {
-                            'planet': _availablePlanets[index],
-                            'attacker': Provider.of<Player>(context,listen : false),
-                          });
+                      Navigator.of(context)
+                          .pushNamed(AttackScreen.route, arguments: {
+                        'planet': _availablePlanets[index],
+                        'attacker': Provider.of<Player>(context, listen: false),
+                      });
                     },
                     child: _planetCard(
                         describeEnum(_availablePlanets[index].name)
@@ -120,17 +119,17 @@ class _MyForce extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Player player = Provider.of<Player>(context, listen: false);
+    final Player _player = Provider.of<Player>(context, listen: false);
     return Padding(
       padding: const EdgeInsets.only(bottom: 16),
       child: Row(
         children: List.generate(
-          kAttackShipsData.length,
+          _player.allShips.length,
           (index) => _MyForceCard(
-            name: describeEnum(List.from(kAttackShipsData.keys)[index])
+            name: describeEnum(List.from(_player.allShips.keys)[index])
                 .toLowerCase(),
-            quantity: player
-                .militaryShipCount(List.from(kAttackShipsData.keys)[index]),
+            quantity: _player
+                .militaryShipCount(List.from(_player.allShips.keys)[index]),
           ),
         ),
       ),

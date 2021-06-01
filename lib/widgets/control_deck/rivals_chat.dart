@@ -12,17 +12,15 @@ import '../circle_tab_indicator.dart';
 
 showRivalsChatMenu(BuildContext context) {
   List<Ruler> rivalsList = [];
-  final Player _player = Provider.of<Player>(context, listen: false);
-  for (Ruler ruler in Ruler.values) {
-    if (ruler != _player.ruler) {
-      rivalsList.add(ruler);
-    }
+  final GameData _gameData = Provider.of<GameData>(context, listen: false);
+  for (Player computerPlayer in _gameData.computerPlayers) {
+    rivalsList.add(computerPlayer.ruler);
   }
   return showGradientDialog(
     context: context,
     padding: 8,
     child: DefaultTabController(
-      length: 3,
+      length: rivalsList.length,
       child: Column(
         children: [
           Expanded(
@@ -36,14 +34,16 @@ showRivalsChatMenu(BuildContext context) {
             ),
           ),
           TabBar(
-              unselectedLabelColor: Colors.white,
-              indicatorSize: TabBarIndicatorSize.tab,
-              indicator: CircleTabIndicator(color: Colors.white, radius: 3),
-              tabs: List.generate(
-                  rivalsList.length,
-                  (index) => Tab(
-                        text: describeEnum(rivalsList[index]),
-                      ))),
+            unselectedLabelColor: Colors.white,
+            indicatorSize: TabBarIndicatorSize.tab,
+            indicator: CircleTabIndicator(color: Colors.white, radius: 3),
+            tabs: List.generate(
+              rivalsList.length,
+              (index) => Tab(
+                text: describeEnum(rivalsList[index]),
+              ),
+            ),
+          ),
         ],
       ),
     ),
@@ -101,8 +101,7 @@ class _ChatOptions extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Size size = MediaQuery.of(context).size;
-    final GameData _gameData = Provider.of<GameData>(context );
+    final GameData _gameData = Provider.of<GameData>(context);
     final Player _currentPlayer = Provider.of<Player>(context);
     List<RivalInteractions> _possibleActions = _gameData
         .possibleActions(_gameData.getRelation(_currentPlayer.ruler, rival));
@@ -129,7 +128,7 @@ class _ChatOptions extends StatelessWidget {
                           width: double.maxFinite,
                           margin: EdgeInsets.all(4),
                           child: Image.asset(
-                            'assets/img/avatar/${describeEnum(_currentPlayer.ruler).toLowerCase()}.png',
+                            'assets/img/ruler/${describeEnum(_currentPlayer.ruler).toLowerCase()}.png',
                           ),
                         ),
                       ),
@@ -207,7 +206,8 @@ class _RivalsOpinion extends StatelessWidget {
   final Ruler rival;
   @override
   Widget build(BuildContext context) {
-    final _RivalResponseProvider _rivalResponse = Provider.of<_RivalResponseProvider>(context);
+    final _RivalResponseProvider _rivalResponse =
+        Provider.of<_RivalResponseProvider>(context);
     return Expanded(
         child: Container(
       margin: EdgeInsets.all(4),
@@ -230,7 +230,7 @@ class _RivalsOpinion extends StatelessWidget {
           child: Padding(
             padding: EdgeInsets.all(4),
             child: Image.asset(
-              'assets/img/avatar/${describeEnum(rival).toLowerCase()}.png',
+              'assets/img/ruler/${describeEnum(rival).toLowerCase()}.png',
             ),
           ),
         ),

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:some_game/models/defense_ships_model.dart';
 import 'package:some_game/models/upgrade_model.dart';
 
@@ -119,6 +118,10 @@ mixin PlanetUpgrade {
     for (var upgrade in UpgradeType.values) {
       _planetUpgrade[upgrade] = false;
     }
+  }
+
+  get allUpgrades {
+    return _planetUpgrade;
   }
 
   upgradePresent(UpgradeType type) {

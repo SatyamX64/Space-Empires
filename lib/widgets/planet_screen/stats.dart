@@ -50,7 +50,7 @@ class PlanetStats extends StatelessWidget {
                               child: Container(
                                 alignment: Alignment.center,
                                 child: Image.asset(
-                                  'assets/img/avatar/${describeEnum(player.ruler).toLowerCase()}.png',
+                                  'assets/img/ruler/${describeEnum(player.ruler).toLowerCase()}.png',
                                 ),
                               ),
                             ),

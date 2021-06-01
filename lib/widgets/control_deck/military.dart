@@ -10,20 +10,21 @@ import 'package:sizer/sizer.dart';
 import '../circle_tab_indicator.dart';
 
 showMilitaryMenu(BuildContext context) {
+  final Player _player = Provider.of<Player>(context, listen: false); 
   return showGradientDialog(
       context: context,
       padding: 8,
       child: DefaultTabController(
-        length: 3,
+        length: _player.allShips.length,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Expanded(
               child: TabBarView(
                 children: List.generate(
-                  kAttackShipsData.length,
+                  _player.allShips.length,
                   (index) => AttackShipInfo(
-                    attackShip: List.from(kAttackShipsData.values)[index],
+                    attackShip: kAttackShipsData[List.from(_player.allShips.keys)[index]],
                   ),
                 ),
               ),
@@ -33,10 +34,10 @@ showMilitaryMenu(BuildContext context) {
                 indicatorSize: TabBarIndicatorSize.tab,
                 indicator: CircleTabIndicator(color: Colors.white, radius: 3),
                 tabs: List.generate(
-                    kAttackShipsData.length,
+                    _player.allShips.length,
                     (index) => Tab(
                           text: describeEnum(
-                              List.from(kAttackShipsData.keys)[index]),
+                              List.from(_player.allShips.keys)[index]),
                         ))),
           ],
         ),
