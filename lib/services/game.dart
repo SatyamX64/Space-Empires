@@ -239,6 +239,120 @@ class Game extends ChangeNotifier {
     }
   }
 
+  autoUpdateRelation() {
+    // Update Attitude among different Rulers based on GPI and current Attitude
+    for (Player computerPlayer in computerPlayers) {
+      for (Player rivalPlayer in players) {
+        if (rivalPlayer.ruler != computerPlayer.ruler) {
+          int diff = computerPlayer.galacticPowerIndex -
+              rivalPlayer.galacticPowerIndex;
+          RivalRelation relation =
+              relationBetweenRulers(computerPlayer.ruler, rivalPlayer.ruler);
+          RivalAttitude attitude =
+              attitudeTowardRival(computerPlayer.ruler, rivalPlayer.ruler);
+          if (diff > 70) {
+            switch (relation) {
+              case RivalRelation.Peace:
+                if (chanceSucceeds(0.8)) {
+                  updateRelation(computerPlayer.ruler, rivalPlayer.ruler,
+                      RivalRelation.War);
+                }
+                break;
+              case RivalRelation.Trade:
+                if (chanceSucceeds(0.8)) {
+                  updateRelation(computerPlayer.ruler, rivalPlayer.ruler,
+                      RivalRelation.Peace);
+                }
+                break;
+              default:
+                break;
+            }
+          } else if (diff > 50) {
+            switch (relation) {
+              case RivalRelation.Peace:
+                if (chanceSucceeds(0.6)) {
+                  updateRelation(computerPlayer.ruler, rivalPlayer.ruler,
+                      RivalRelation.War);
+                }
+                break;
+              case RivalRelation.Trade:
+                if (chanceSucceeds(0.6)) {
+                  updateRelation(computerPlayer.ruler, rivalPlayer.ruler,
+                      RivalRelation.Peace);
+                }
+                break;
+              default:
+                break;
+            }
+          } else if (diff > 20) {
+            switch (relation) {
+              case RivalRelation.War:
+                switch (attitude) {
+                  case RivalAttitude.Resents:
+                    if (chanceSucceeds(0.2)) {
+                      updateRelation(computerPlayer.ruler, rivalPlayer.ruler,
+                          RivalRelation.Peace);
+                    }
+                    break;
+                  case RivalAttitude.Disregard:
+                    if (chanceSucceeds(0.6)) {
+                      updateRelation(computerPlayer.ruler, rivalPlayer.ruler,
+                          RivalRelation.Peace);
+                    }
+                    break;
+                  default:
+                    if (chanceSucceeds(0.2)) {
+                      updateRelation(computerPlayer.ruler, rivalPlayer.ruler,
+                          RivalRelation.Peace);
+                    }
+                    break;
+                }
+                if (chanceSucceeds(0.6)) {
+                  updateRelation(computerPlayer.ruler, rivalPlayer.ruler,
+                      RivalRelation.War);
+                }
+                break;
+              case RivalRelation.Peace:
+                if (chanceSucceeds(0.6)) {
+                  updateRelation(computerPlayer.ruler, rivalPlayer.ruler,
+                      RivalRelation.War);
+                }
+                break;
+              case RivalRelation.Trade:
+                if (chanceSucceeds(0.6)) {
+                  updateRelation(computerPlayer.ruler, rivalPlayer.ruler,
+                      RivalRelation.Peace);
+                }
+                break;
+              default:
+                break;
+            }
+          } else if (diff > -30) {
+            switch (attitude) {
+              case RivalAttitude.Scared:
+                if (chanceSucceeds(0.5)) {
+                  updateAttitude(computerPlayer.ruler, rivalPlayer.ruler,
+                      RivalAttitude.Cordial);
+                }
+                break;
+              default:
+                if (chanceSucceeds(0.8)) {
+                  updateAttitude(computerPlayer.ruler, rivalPlayer.ruler,
+                      RivalAttitude.Cordial);
+                }
+                break;
+            }
+          } else {
+            if (chanceSucceeds(0.8)) {
+              updateAttitude(computerPlayer.ruler, rivalPlayer.ruler,
+                  RivalAttitude.Scared);
+            }
+          }
+        }
+      }
+    }
+  }
+
   List<Planet> enemyPlanetsFor(Ruler ruler) {
     List<Planet> enemyPlanets = [];
     players.forEach((player) {
