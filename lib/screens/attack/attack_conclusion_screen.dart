@@ -4,7 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:rive/rive.dart';
 import 'package:sizer/sizer.dart';
-import 'package:some_game/models/game.dart';
+import 'package:some_game/services/game.dart';
 import 'package:some_game/utility/constants.dart';
 
 class AttackConclusionScreen extends StatelessWidget {

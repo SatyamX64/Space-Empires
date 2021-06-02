@@ -4,7 +4,7 @@ enum RivalRelation {
   Peace,
 }
 
-enum RivalMood {
+enum RivalAttitude {
   Cordial,
   Scared,
   Disregard,

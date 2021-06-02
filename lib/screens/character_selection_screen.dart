@@ -3,7 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
-import 'package:some_game/models/game.dart';
+import 'package:some_game/services/game.dart';
 import 'package:some_game/models/ruler_model.dart';
 import 'package:some_game/screens/game_screen.dart';
 import 'package:some_game/utility/constants.dart';

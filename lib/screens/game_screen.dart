@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:some_game/screens/game_end/game_lost.dart';
 import 'package:some_game/screens/game_end/game_won.dart';
 import 'package:some_game/widgets/control_deck/global_news.dart';
-import '../models/game.dart';
+import '../services/game.dart';
 import '../models/player_model.dart';
 import '../widgets/gradient_dialog.dart';
 import '../utility/constants.dart';
@@ -222,7 +222,7 @@ class __NextTurnFABState extends State<_NextTurnFAB>
               } else if (_gameData.wonGame) {
                 Navigator.of(context).pushNamed(GameWonScreen.route);
               } else {
-                if (_gameData.globalNews.isNotEmpty) {
+                if (_gameData.galacticNews.isNotEmpty) {
                   await showGlobalNews(context);
                   _gameData.clearNews();
                 }

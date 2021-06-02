@@ -1,3 +1,4 @@
+import 'dart:ffi';
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:some_game/models/attack_ships_model.dart';
@@ -33,23 +34,47 @@ class Player extends ChangeNotifier with Stats, Military, Planets {
       }
     }
   }
+  int get militaryMight {
+    int militaryMight = 0;
+    for (AttackShipType shipType in List.from(allShips.keys)) {
+      militaryMight =
+          kAttackShipsData[shipType].point * militaryShipCount(shipType);
+    }
+    return militaryMight;
+  }
+  
+  int get galacticPowerIndex {
+    return statValue(StatsType.Military) +
+        statValue(StatsType.Culture) +
+        militaryMight + _planets.length*100;
+  }
 
   void nextTurn() {
     initCommunication();
-    int _baseMorale =
-        min(0, (statValue(StatsType.Propoganda) * 5 - militaryMoraleImpact)) +
-            (statValue(StatsType.Luxury) * 10) -
-            min(0, 100 - statValue(StatsType.Culture));
+    int _baseMorale = min(
+            0, (statValue(StatsType.Propoganda) * 5 - militaryMoraleImpact)) +
+        (statValue(StatsType.Luxury) * 10) -
+        min(0, statValue(StatsType.Culture) - min(100, _planets.length * 20)) *
+            10;
     planets.forEach((planet) {
       planet.morale = _baseMorale;
-      planet.nextTurn();
     });
     money += income;
     notifyListeners();
   }
 
   void autoTurn() {
-    List<double> expendeiture = [0.25, 0.4, 0.3]..shuffle();
+    // Here we can use a better strategy for Better Budget Allotment
+    List<double> expendeiture = [0.4, 0.2, 0.3]..shuffle();
+    // if (money > 50000) {
+    //   expendeiture = [0.1, 0.8, 0.3];
+    // } else if (money > 30000) {
+    //   expendeiture = [0.1, 0.8, 0.2];
+    // } else if (money > 10000) {
+    //   expendeiture = [0.2, 0.2, 0.2];
+    // } else {
+    //   expendeiture = [0.0, 0.0, 0.0];
+    // }
     autoBuyMilitary((money * expendeiture[0]).floor());
     autoBuyUpgrade((money * expendeiture[1]).floor());
     autoBuyDefense((money * expendeiture[2]).floor());

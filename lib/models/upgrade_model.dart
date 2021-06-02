@@ -24,7 +24,7 @@ class Upgrade {
       @required this.effectValue});
 }
 
-Map<UpgradeType, Upgrade> kUpgradesData = {
+const Map<UpgradeType, Upgrade> kUpgradesData = const {
   UpgradeType.TownCenter: const Upgrade(
       type: UpgradeType.TownCenter,
       cost: 30000,

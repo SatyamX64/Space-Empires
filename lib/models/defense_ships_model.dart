@@ -36,12 +36,12 @@ const Map<DefenseShipType, DefenseShip> kDefenseShipsData = const {
       damage: 200),
   DefenseShipType.Battleship: const DefenseShip(
       cost: 2500,
-      description: 'The workhorse',
+      description: 'Basically a tank that can fly',
       type: DefenseShipType.Battleship,
       maintainance: 30,
       point: 1,
-      health: 2500,
-      damage: 120),
+      health: 3000,
+      damage: 90),
   DefenseShipType.Rover: const DefenseShip(
       cost: 1000,
       description: 'It aint much..but its good',
@@ -49,5 +49,5 @@ const Map<DefenseShipType, DefenseShip> kDefenseShipsData = const {
       maintainance: 10,
       point: 2,
       health: 500,
-      damage: 100),
+      damage: 60),
 };

@@ -54,14 +54,20 @@ class Planet with ChangeNotifier, Defense, PlanetUpgrade {
     _morale = 600;
   }
 
-  void nextTurn() {
-    morale = (_morale * planetMoraleBoost).round();
-    revenue = (_revenue * planetIncomeBoost).round();
+  int get income {
+    return ((_revenue * planetRevenueBoost) *
+                (1 + (_morale * planetMoraleBoost - 400) / 1000))
+            .round() -
+        defenseExpenditure;
   }
 
-  int get income {
-    return (_revenue * (1 + (_morale - 400) / 1000)).round() -
-        defenseExpenditure;
+  int get militaryMight {
+    int militaryMight = 0;
+    for (DefenseShipType shipType in List.from(allShips.keys)) {
+      militaryMight =
+          kDefenseShipsData[shipType].point * defenseShipCount(shipType);
+    }
+    return (militaryMight * (1 + planetDefenseQuotient * 0.1)).floor();
   }
 
   int get defense {
@@ -84,11 +90,12 @@ class Planet with ChangeNotifier, Defense, PlanetUpgrade {
     _revenue = value;
   }
 
-  
-
-  void autoBuyUpgrades(int moneyAllotted) {}
   int likeabilityFactor(List<int> damageOutputs) {
     // Calculates the likeablility factor for this Position
+    // The higher, the more chances AI will use this formation
+    // Result is based on what position lets us destroy most Ships
+    // Each ship is assigned some points, and overall score for each formation is calculated based on that
+
     int likeabilityFactor = 0;
     Map<DefenseShipType, int> shipDestroyed = {};
     for (int i = 0; i < damageOutputs.length; i++) {
@@ -108,15 +115,17 @@ class Planet with ChangeNotifier, Defense, PlanetUpgrade {
     List<int> damageOutput = List.generate(positions.length,
         (index) => 0); // What Damage will ship at pos[i] reciveve
     for (int i = 0; i < positions.length; i++) {
+      int damageProduced = defenseShipCount(List.from(allShips.keys)[i]) *
+          kDefenseShipsData[List.from(allShips.keys)[i]].damage;
       damageOutput[positions[i]] +=
-          defenseShipCount(List.from(allShips.keys)[i]) *
-              kDefenseShipsData[List.from(allShips.keys)[i]].damage;
+          (damageProduced * (1 + (planetDefenseQuotient / 10))).floor();
     }
     return damageOutput;
   }
 
   int defend(List<int> damageOutputs) {
     // Takes the list of how much damage each ship at pos 'i' will take
+    // and gives that damage to all the ships at pos[i]
     for (int i = 0; i < damageOutputs.length; i++) {
       int shipsLost = (damageOutputs[i] /
               kDefenseShipsData[List.from(allShips.keys)[i]].health)
@@ -165,7 +174,7 @@ mixin PlanetUpgrade {
     return 1 + moske + townCenter;
   }
 
-  double get planetIncomeBoost {
+  double get planetRevenueBoost {
     double boost = upgradePresent(UpgradeType.Industry) ? 1.15 : 1;
     return boost;
   }

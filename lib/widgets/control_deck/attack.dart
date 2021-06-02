@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
-import 'package:some_game/models/game.dart';
+import 'package:some_game/services/game.dart';
 import 'package:some_game/models/planet_model.dart';
 import 'package:some_game/models/player_model.dart';
 import 'package:some_game/screens/attack/attack_screen.dart';
@@ -62,7 +62,7 @@ class _EnemyPlanets extends StatelessWidget {
     final Game _gameData = Provider.of<Game>(context, listen: false);
     final Player _player = Provider.of(context, listen: false);
     final List<Planet> _availablePlanets =
-        _gameData.getEnemyPlanets(_player.ruler);
+        _gameData.enemyPlanetsFor(_player.ruler);
     return _availablePlanets.length <= 0
         ? Container(
             alignment: Alignment.center,

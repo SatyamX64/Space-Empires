@@ -4,7 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:some_game/screens/game_end/game_lost.dart';
 import 'package:some_game/screens/game_end/game_won.dart';
-import 'models/game.dart';
+import 'services/game.dart';
 import './models/planet_model.dart';
 import 'screens/attack/attack_conclusion_screen.dart';
 import './screens/character_selection_screen.dart';
@@ -29,6 +29,7 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    // To make the Game fullscreen
     SystemChrome.setEnabledSystemUIOverlays([]);
     return MultiProvider(
       providers: [
@@ -100,8 +101,8 @@ class MyApp extends StatelessWidget {
               AttackConclusionScreen.route: (ctx) => AttackConclusionScreen(),
               HelpScreen.route: (ctx) => HelpScreen(),
               InstructionScreen.route: (ctx) => InstructionScreen(),
-              GameLostScreen.route : (ctx) => GameLostScreen(),
-              GameWonScreen.route : (ctx) => GameWonScreen(),
+              GameLostScreen.route: (ctx) => GameLostScreen(),
+              GameWonScreen.route: (ctx) => GameWonScreen(),
             },
             onGenerateRoute: (routeSettings) {
               if (routeSettings.name == PlanetScreen.route) {

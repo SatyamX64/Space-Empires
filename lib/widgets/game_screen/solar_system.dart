@@ -2,7 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:provider/provider.dart';
-import 'package:some_game/models/game.dart';
+import 'package:some_game/services/game.dart';
 import 'package:some_game/models/planet_model.dart';
 import 'package:some_game/screens/planet_screen.dart';
 import 'package:some_game/widgets/static_stars_bg.dart';

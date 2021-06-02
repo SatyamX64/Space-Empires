@@ -2,7 +2,7 @@ import 'dart:ui';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:some_game/models/game.dart';
+import 'package:some_game/services/game.dart';
 import 'package:some_game/models/planet_model.dart';
 import 'package:some_game/models/player_model.dart';
 import 'package:some_game/utility/constants.dart';
@@ -83,7 +83,7 @@ class PlanetScreen extends StatelessWidget {
         padding: EdgeInsets.all(16),
         child: Text(
           Provider.of<Game>(context, listen: false)
-              .getPlanetDescription(_planetName),
+              .descriptionForPlanet(_planetName),
           style: Theme.of(context)
               .textTheme
               .headline6

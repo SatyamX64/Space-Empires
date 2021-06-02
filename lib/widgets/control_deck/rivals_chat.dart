@@ -4,7 +4,7 @@ import 'package:sizer/sizer.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:some_game/models/game.dart';
+import 'package:some_game/services/game.dart';
 import 'package:some_game/models/player_model.dart';
 import 'package:some_game/models/rivals_model.dart';
 import 'package:some_game/models/ruler_model.dart';
@@ -104,8 +104,8 @@ class _ChatOptions extends StatelessWidget {
   Widget build(BuildContext context) {
     final Game _gameData = Provider.of<Game>(context);
     final Player _currentPlayer = Provider.of<Player>(context);
-    List<RivalInteractions> _possibleActions = _gameData
-        .possibleActions(_gameData.getRelation(_currentPlayer.ruler, rival));
+    List<RivalInteractions> _possibleActions = _gameData.possibleActions(
+        _gameData.relationBetweenRulers(_currentPlayer.ruler, rival));
     return Expanded(
       flex: 2,
       child: Container(
@@ -137,12 +137,12 @@ class _ChatOptions extends StatelessWidget {
                         flex: 3,
                         child: Row(
                           children: [
-                            _MoodStatusBox(
-                              mood: _gameData.getMood(
+                            _AttitudeStatusBox(
+                              attitude: _gameData.attitudeTowardRival(
                                   _currentPlayer.ruler, rival),
                             ),
                             _RelationStatusBox(
-                              relation: _gameData.getRelation(
+                              relation: _gameData.relationBetweenRulers(
                                   _currentPlayer.ruler, rival),
                             )
                           ],
@@ -241,20 +241,20 @@ class _RivalsOpinion extends StatelessWidget {
   }
 }
 
-class _MoodStatusBox extends StatelessWidget {
-  const _MoodStatusBox({Key key, this.mood}) : super(key: key);
+class _AttitudeStatusBox extends StatelessWidget {
+  const _AttitudeStatusBox({Key key, this.attitude}) : super(key: key);
 
-  final RivalMood mood;
+  final RivalAttitude attitude;
 
   Color _getColor() {
-    // switch (mood) {
-    //   case RivalMood.Cordial:
+    // switch (attitude) {
+    //   case RivalAttitude.Cordial:
     //     return Colors.blue;
-    //   case RivalMood.Disregard:
+    //   case RivalAttitude.Disregard:
     //     return Colors.green;
-    //   case RivalMood.Resents:
+    //   case RivalAttitude.Resents:
     //     return Colors.red;
-    //   case RivalMood.Scared:
+    //   case RivalAttitude.Scared:
     //     return Colors.yellow;
     // }
     return Colors.white;
@@ -278,19 +278,19 @@ class _MoodStatusBox extends StatelessWidget {
                 ? Column(
                     children: [
                       Text(
-                        'Mood',
+                        'Attitude',
                         style: TextStyle(
                             fontWeight: FontWeight.w600, color: Colors.white54),
                       ),
                       Expanded(
                           child: Center(
                               child: FittedBox(
-                                  child: Text(describeEnum(mood),
+                                  child: Text(describeEnum(attitude),
                                       style: _textStyle)))),
                     ],
                   )
                 : FittedBox(
-                    child: Text(describeEnum(mood), style: _textStyle),
+                    child: Text(describeEnum(attitude), style: _textStyle),
                   );
           })),
     );

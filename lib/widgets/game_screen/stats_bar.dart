@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:some_game/models/game.dart';
+import 'package:some_game/services/game.dart';
 import 'package:some_game/models/player_model.dart';
 import 'package:some_game/screens/help/help-screen.dart';
 import 'package:some_game/utility/constants.dart';
@@ -33,7 +33,7 @@ class StatsBar extends StatelessWidget {
             ),
             Consumer<Game>(
               builder: (_, gameData, __) {
-                return Text('Days : ${gameData.days}/365',
+                return Text('Days : ${gameData.days}/$kGameDays',
                     style: TextStyle(fontWeight: FontWeight.w600));
               },
             ),
