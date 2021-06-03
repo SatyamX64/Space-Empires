@@ -1,8 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:some_game/models/player/player.dart';
 import 'package:some_game/services/game.dart';
-import 'package:some_game/models/player_model.dart';
 import 'package:some_game/utility/utility.dart';
 import 'package:some_game/widgets/gradient_dialog.dart';
 

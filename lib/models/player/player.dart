@@ -1,39 +1,36 @@
-import 'dart:ffi';
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:some_game/models/attack_ships_model.dart';
 import 'package:some_game/models/planet_model.dart';
 import 'package:some_game/models/upgrade_model.dart';
-import 'defense_ships_model.dart';
-import 'ruler_model.dart';
-
-enum StatsType {
-  Propoganda,
-  Culture,
-  Luxury,
-  Military,
-}
+import '../defense_ships_model.dart';
+import '../ruler_model.dart';
+import 'stats.dart';
+import 'military_mixin.dart';
+import 'planet_mixin.dart';
 
 class Player extends ChangeNotifier with Stats, Military, Planets {
   Ruler ruler;
   int money;
-  Map<Ruler, bool> _communicationAvailable = {};
+  Map<Ruler, bool> _interactionAvailable;
 
   Player({this.ruler, List<Planet> planets}) {
     money = 10000;
     planetsInit(planets);
     statsInit();
     militaryInit();
-    initCommunication();
+    initInteraction();
   }
 
-  void initCommunication() {
+  void initInteraction() {
+    _interactionAvailable = {};
     for (Ruler rival in Ruler.values) {
       if (ruler != rival) {
-        _communicationAvailable[rival] = true;
+        _interactionAvailable[rival] = true;
       }
     }
   }
+
   int get militaryMight {
     int militaryMight = 0;
     for (AttackShipType shipType in List.from(allShips.keys)) {
@@ -42,20 +39,37 @@ class Player extends ChangeNotifier with Stats, Military, Planets {
     }
     return militaryMight;
   }
-  
+
   int get galacticPowerIndex {
     return statValue(StatsType.Military) +
         statValue(StatsType.Culture) +
-        militaryMight + _planets.length*100;
+        militaryMight +
+        planets.length * 100;
   }
 
   void nextTurn() {
-    initCommunication();
-    int _baseMorale = min(
-            0, (statValue(StatsType.Propoganda) * 5 - militaryMoraleImpact)) +
-        (statValue(StatsType.Luxury) * 10) -
-        min(0, statValue(StatsType.Culture) - min(100, _planets.length * 20)) *
+    initInteraction();
+
+    // Each Attack Ship has some moral effect per turn
+    // Can be countered using propoganda
+    // Military Effect only negatively effects morale
+    // So having extra propoganda won't help whatsoever
+    int _militaryEffect =
+        min(0, (statValue(StatsType.Propoganda) * 5 - militaryMoraleImpact));
+
+    // Luxury is what basically makes the morale
+    // more luxury, more morale
+    int _luxuryGains = statValue(StatsType.Luxury) * 10;
+
+    // Culture helps in maintaining the Galactic Power Index
+    // More the Culture, Stronger your race will be
+    // Each planets needs around 15
+    // Culture doesn't positively affect morale
+    // Although if it falls short, it will negatively affect it
+    int _culturalEffect =
+        min(0, statValue(StatsType.Culture) - min(100, planets.length * 15)) *
             10;
+    int _baseMorale = _militaryEffect + _luxuryGains + _culturalEffect;
     planets.forEach((planet) {
       planet.morale = _baseMorale;
     });
@@ -93,6 +107,33 @@ class Player extends ChangeNotifier with Stats, Military, Planets {
     }
   }
 
+  void autoBuyDefense(int moneyAllotted) {
+    double _planetBudgetAllotment = 1 / planets.length;
+    for (Planet planet in planets) {
+      autoBuyDefenseShipsForPlanet(
+          moneyAllotted: (moneyAllotted * _planetBudgetAllotment).floor(),
+          planetName: planet.name);
+    }
+  }
+
+  void autoBuyUpgrade(int moneyAllotted) {
+    double _planetBudgetAllotment = 1 / planets.length;
+    for (Planet planet in planets) {
+      autoBuyUpgradeForPlanet(
+          moneyAllotted: (moneyAllotted * _planetBudgetAllotment).floor(),
+          planetName: planet.name);
+    }
+  }
+
+  void autoUpdateStats() {
+    for (StatsType type in StatsType.values) {
+      if (statValue(type) < 98) {
+        increaseStat(type);
+        increaseStat(type);
+      }
+    }
+  }
+
   void autoBuyDefenseShipsForPlanet(
       {int moneyAllotted, PlanetName planetName}) {
     List<double> budgets = [0.5, 0.2, 0.3]..shuffle();
@@ -117,40 +158,13 @@ class Player extends ChangeNotifier with Stats, Military, Planets {
     }
   }
 
-  void autoBuyDefense(int moneyAllotted) {
-    double _planetBudgetAllotment = 1 / _planets.length;
-    for (Planet planet in _planets) {
-      autoBuyDefenseShipsForPlanet(
-          moneyAllotted: (moneyAllotted * _planetBudgetAllotment).floor(),
-          planetName: planet.name);
-    }
-  }
-
-  void autoBuyUpgrade(int moneyAllotted) {
-    double _planetBudgetAllotment = 1 / _planets.length;
-    for (Planet planet in _planets) {
-      autoBuyUpgradeForPlanet(
-          moneyAllotted: (moneyAllotted * _planetBudgetAllotment).floor(),
-          planetName: planet.name);
-    }
-  }
-
-  void autoUpdateStats() {
-    for (StatsType type in StatsType.values) {
-      if (statValue(type) < 98) {
-        increaseStat(type);
-        increaseStat(type);
-      }
-    }
-  }
-
-  void closeCommunicationChannel(Ruler rival) {
-    _communicationAvailable[rival] = false;
+  void closeInteractionChannel(Ruler rival) {
+    _interactionAvailable[rival] = false;
     notifyListeners();
   }
 
-  bool communicationStatusOpen(Ruler rival) {
-    return _communicationAvailable[rival];
+  bool interactionChannelStatus(Ruler rival) {
+    return _interactionAvailable[rival];
   }
 
   int get income {
@@ -159,9 +173,21 @@ class Player extends ChangeNotifier with Stats, Military, Planets {
         militaryExpenditure;
   }
 
-  int likeabilityFactor(List<int> damageOutputs) {
-    // Calculates the likeablility factor for this Position
-    int likeabilityFactor = 0;
+  void destroyMilitary(double factor) {
+    // Factor is 0.0-1.0
+    // Gives the amount of military to destroy
+    // Generally trigerred when Player aborts a mission or when AI fights each other
+    for (AttackShipType type in (allShips.keys)) {
+      int count = militaryShipCount(type);
+      militaryRemoveShip(type, (count * factor).floor());
+    }
+  }
+
+  int damageDoneByFormation(List<int> damageOutputs) {
+    // Calculates the damage that player will recieve due to this damageOutputs
+    // This is then used by AI to determine the best position to attack
+    // The best position is the one that gives the most damage
+    int damageFactor = 0;
     Map<AttackShipType, int> shipDestroyed = {};
     for (int i = 0; i < damageOutputs.length; i++) {
       int shipsLost = (damageOutputs[i] /
@@ -170,16 +196,17 @@ class Player extends ChangeNotifier with Stats, Military, Planets {
       shipDestroyed[List.from(allShips.keys)[i]] = shipsLost;
     }
     for (var ship in List.from(allShips.keys)) {
-      likeabilityFactor += shipDestroyed[ship] * kAttackShipsData[ship].point;
+      damageFactor += shipDestroyed[ship] * kAttackShipsData[ship].point;
     }
-    return likeabilityFactor;
+    return damageFactor;
   }
 
-  List<int> attack(List<int> positions) {
-    List<int> damageOutput = List.generate(positions.length,
-        (index) => 0); // What Damage will ship at pos[i] reciveve
-    for (int i = 0; i < positions.length; i++) {
-      damageOutput[positions[i]] +=
+  List<int> attack(List<int> position) {
+    // Calculates the damage that player will cause using the given formation
+    List<int> damageOutput = List.generate(position.length,
+        (index) => 0); // What Damage will enemy ship at pos[i] reciveve
+    for (int i = 0; i < position.length; i++) {
+      damageOutput[position[i]] +=
           militaryShipCount(List.from(allShips.keys)[i]) *
               kAttackShipsData[List.from(allShips.keys)[i]].damage;
     }
@@ -187,6 +214,8 @@ class Player extends ChangeNotifier with Stats, Military, Planets {
   }
 
   int defend(List<int> damageOutputs) {
+    // Recieves a list of damageOutput caused by Enemy Attack System
+    // Each Ships will recieve the damage directed at its position
     for (int i = 0; i < damageOutputs.length; i++) {
       int shipsLost = (damageOutputs[i] /
               kAttackShipsData[List.from(allShips.keys)[i]].health)
@@ -268,167 +297,5 @@ class Player extends ChangeNotifier with Stats, Military, Planets {
     } else {
       throw 'Already Minimum';
     }
-  }
-}
-
-mixin Stats {
-  Map<StatsType, int> _stats = {};
-
-  int get statsExpenditure {
-    int expense = 0;
-    for (StatsType type in List.from(_stats.keys)) {
-      expense += _stats[type] * 5;
-    }
-    return expense;
-  }
-
-  void statsInit() {
-    _stats[StatsType.Propoganda] = 40;
-    _stats[StatsType.Luxury] = 40;
-    _stats[StatsType.Culture] = 40;
-    _stats[StatsType.Military] = 40;
-  }
-
-  int statValue(StatsType type) {
-    return _stats[type];
-  }
-
-  void statIncrement(StatsType type) {
-    _stats[type]++;
-  }
-
-  void statDecrement(StatsType type) {
-    if (_stats[type] > 0) {
-      _stats[type]--;
-    }
-  }
-
-  List<StatsType> get statsList {
-    return List.from(_stats.keys);
-  }
-}
-
-mixin Military {
-  Map<AttackShipType, int> _ownedShips = {};
-
-  int get militaryExpenditure {
-    int expense = 0;
-    for (AttackShipType type in List.from(_ownedShips.keys)) {
-      expense += _ownedShips[type] * kAttackShipsData[type].maintainance;
-    }
-    return expense;
-  }
-
-  int get militaryMoraleImpact {
-    int impact = 0;
-    for (AttackShipType type in List.from(_ownedShips.keys)) {
-      impact += _ownedShips[type] * kAttackShipsData[type].morale;
-    }
-    return impact;
-  }
-
-  int militaryShipCount(AttackShipType type) {
-    return _ownedShips[type];
-  }
-
-  Map<AttackShipType, int> get allShips {
-    return _ownedShips;
-  }
-
-  void militaryInit() {
-    _ownedShips[AttackShipType.Astro] = 3;
-    _ownedShips[AttackShipType.Magnum] = 3;
-    _ownedShips[AttackShipType.Rover] = 5;
-  }
-
-  void militaryAddShip(AttackShipType type, int quantity) {
-    _ownedShips[type] += quantity;
-  }
-
-  void militaryRemoveShip(AttackShipType type, int quantity) {
-    if (_ownedShips[type] > quantity) {
-      _ownedShips[type] -= quantity;
-    } else {
-      _ownedShips[type] = 0;
-    }
-  }
-}
-
-mixin Planets {
-  List<Planet> _planets;
-
-  void planetsInit(List<Planet> planets) {
-    _planets = planets;
-  }
-
-  List<Planet> get planets {
-    return _planets;
-  }
-
-  int get planetsIncome {
-    int income = 0;
-    for (Planet planet in _planets) {
-      income += planet.income;
-    }
-    return income;
-  }
-
-  void addPlanet(Planet planet) {
-    _planets.add(planet);
-  }
-
-  void removePlanet(PlanetName name) {
-    _planets.removeWhere((element) => element.name == name);
-  }
-
-  void planetAddShip({DefenseShipType type, PlanetName name, int quantity}) {
-    _planets
-        .firstWhere((planet) => planet.name == name)
-        .defenseAddShip(type, quantity);
-  }
-
-  void planetRemoveShip({DefenseShipType type, PlanetName name, int quantity}) {
-    _planets
-        .firstWhere((planet) => planet.name == name)
-        .defenseRemoveShip(type, quantity);
-  }
-
-  void planetAddUpgrade({UpgradeType type, PlanetName name}) {
-    _planets.firstWhere((planet) => planet.name == name).upgradeAdd(type);
-  }
-
-  bool planetUpgradeAvailable({UpgradeType type, PlanetName name}) {
-    return !_planets
-        .firstWhere((planet) => planet.name == name)
-        .upgradePresent(type);
-  }
-
-  bool isPlanetMy({PlanetName name}) {
-    bool result = false;
-    for (Planet planet in planets) {
-      if (planet.name == name) {
-        result = true;
-        break;
-      }
-    }
-    return result;
-  }
-
-  int planetsThatCanTrade() {
-    int result = 0;
-    for (Planet planet in planets) {
-      result += planet.planetTradeBoost;
-    }
-    return result;
-  }
-
-  Map<String, int> planetStats({PlanetName name}) {
-    return _planets.firstWhere((planet) => planet.name == name).stats;
-  }
-
-  int planetShipCount({DefenseShipType type, PlanetName name}) {
-    return _planets
-        .firstWhere((planet) => planet.name == name)
-        .defenseShipCount(type);
   }
 }

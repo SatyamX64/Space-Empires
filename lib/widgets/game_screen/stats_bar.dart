@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:some_game/models/player/player.dart';
 import 'package:some_game/services/game.dart';
-import 'package:some_game/models/player_model.dart';
 import 'package:some_game/screens/help/help-screen.dart';
 import 'package:some_game/utility/constants.dart';
 

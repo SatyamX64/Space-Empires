@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:provider/provider.dart';
 import 'package:some_game/models/attack_ships_model.dart';
-import 'package:some_game/models/player_model.dart';
+import 'package:some_game/models/player/player.dart';
 import 'package:some_game/utility/utility.dart';
 import 'package:some_game/widgets/gradient_dialog.dart';
 import 'package:sizer/sizer.dart';

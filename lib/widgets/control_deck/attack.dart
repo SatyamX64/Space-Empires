@@ -5,11 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
+import 'package:some_game/models/player/player.dart';
 import 'package:some_game/services/game.dart';
 import 'package:some_game/models/planet_model.dart';
-import 'package:some_game/models/player_model.dart';
 import 'package:some_game/screens/attack/attack_screen.dart';
 import 'package:some_game/utility/constants.dart';
+import 'package:some_game/utility/utility.dart';
 import 'package:some_game/widgets/gradient_dialog.dart';
 
 showAttackMenu(BuildContext context) {
@@ -88,12 +89,22 @@ class _EnemyPlanets extends StatelessWidget {
                   itemBuilder: (BuildContext context, int index, _) =>
                       GestureDetector(
                     onTap: () {
-                      Navigator.of(context).pop();
-                      Navigator.of(context)
-                          .pushNamed(AttackScreen.route, arguments: {
-                        'planet': _availablePlanets[index],
-                        'attacker': Provider.of<Player>(context, listen: false),
-                      });
+                      if (!_gameData.canAttackThisTurn(_player.ruler)) {
+                        Utility.showToast(
+                            'Nahh !! Too tired after the last one');
+                      } else if (_gameData.planetsInWar
+                          .contains(_availablePlanets[index].name)) {
+                        Utility.showToast(
+                            'That one is already under attack by someone');
+                      } else {
+                        Navigator.of(context).pop();
+                        Navigator.of(context)
+                            .pushNamed(AttackScreen.route, arguments: {
+                          'planet': _availablePlanets[index],
+                          'attacker':
+                              Provider.of<Player>(context, listen: false),
+                        });
+                      }
                     },
                     child: _planetCard(
                         describeEnum(_availablePlanets[index].name)

@@ -3,9 +3,9 @@ import 'package:some_game/models/attack_ships_model.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:some_game/models/player/player.dart';
 import 'package:some_game/services/game.dart';
 import 'package:some_game/models/planet_model.dart';
-import 'package:some_game/models/player_model.dart';
 import 'package:sizer/sizer.dart';
 import 'package:some_game/screens/attack/attack_conclusion_screen.dart';
 import 'package:some_game/screens/game_end/game_lost.dart';
@@ -120,7 +120,7 @@ class _ControlPanelState extends State<ControlPanel>
       List<int> bestFormation = _formationProvider.formations[0];
       for (List<int> formation in _formationProvider.formations) {
         List<int> damageOutputs = _planet.attack(formation);
-        int likeablilityFactor = _attacker.likeabilityFactor(damageOutputs);
+        int likeablilityFactor = _attacker.damageDoneByFormation(damageOutputs);
         if (likeablilityFactor > maxLikeabilityFactor) {
           maxLikeabilityFactor = likeablilityFactor;
           bestFormation = formation;

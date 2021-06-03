@@ -7,7 +7,7 @@ import 'package:flutter_animated_dialog/flutter_animated_dialog.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:some_game/models/defense_ships_model.dart';
 import 'package:some_game/models/planet_model.dart';
-import 'package:some_game/models/player_model.dart';
+import 'package:some_game/models/player/player.dart';
 import 'package:some_game/utility/utility.dart';
 
 class PlanetDefense extends StatelessWidget {

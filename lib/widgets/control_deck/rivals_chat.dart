@@ -4,8 +4,8 @@ import 'package:sizer/sizer.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:some_game/models/player/player.dart';
 import 'package:some_game/services/game.dart';
-import 'package:some_game/models/player_model.dart';
 import 'package:some_game/models/rivals_model.dart';
 import 'package:some_game/models/ruler_model.dart';
 import 'package:some_game/widgets/gradient_dialog.dart';
@@ -91,10 +91,9 @@ class _ChatOptions extends StatelessWidget {
   final Ruler rival;
 
   final Map<RivalInteractions, String> _actionDesc = const {
-    RivalInteractions.Gift: 'Give a gift',
     RivalInteractions.Trade: 'Trade',
     RivalInteractions.Help: 'Ask financial Help',
-    RivalInteractions.ExtortForPeace: 'Extort Money',
+    RivalInteractions.ExtortForPeace: 'Pay me or die',
     RivalInteractions.Peace: 'Suggest Peace',
     RivalInteractions.CancelTrade: 'Cancel Trade',
     RivalInteractions.War: 'Declare War',
@@ -133,28 +132,17 @@ class _ChatOptions extends StatelessWidget {
                           ),
                         ),
                       ),
-                      Expanded(
-                        flex: 3,
-                        child: Row(
-                          children: [
-                            _AttitudeStatusBox(
-                              attitude: _gameData.attitudeTowardRival(
-                                  _currentPlayer.ruler, rival),
-                            ),
-                            _RelationStatusBox(
-                              relation: _gameData.relationBetweenRulers(
-                                  _currentPlayer.ruler, rival),
-                            )
-                          ],
-                        ),
-                      )
+                      _RelationStatusBox(
+                        relation: _gameData.relationBetweenRulers(
+                            _currentPlayer.ruler, rival),
+                      ),
                     ]),
                   ),
                 ),
                 Expanded(
                   child: Padding(
                     padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                    child: !_currentPlayer.communicationStatusOpen(rival)
+                    child: !_currentPlayer.interactionChannelStatus(rival)
                         ? Center(
                             child: Text(
                               'Enough Talkin\' for Today',
@@ -165,8 +153,7 @@ class _ChatOptions extends StatelessWidget {
                             itemBuilder: (ctx, index) {
                               return GestureDetector(
                                 onTap: () {
-                                  _currentPlayer
-                                      .closeCommunicationChannel(rival);
+                                  _currentPlayer.closeInteractionChannel(rival);
                                   String _response =
                                       _gameData.interactWithRival(
                                           A: _currentPlayer.ruler,
@@ -238,62 +225,6 @@ class _RivalsOpinion extends StatelessWidget {
         ),
       ]),
     ));
-  }
-}
-
-class _AttitudeStatusBox extends StatelessWidget {
-  const _AttitudeStatusBox({Key key, this.attitude}) : super(key: key);
-
-  final RivalAttitude attitude;
-
-  Color _getColor() {
-    // switch (attitude) {
-    //   case RivalAttitude.Cordial:
-    //     return Colors.blue;
-    //   case RivalAttitude.Disregard:
-    //     return Colors.green;
-    //   case RivalAttitude.Resents:
-    //     return Colors.red;
-    //   case RivalAttitude.Scared:
-    //     return Colors.yellow;
-    // }
-    return Colors.white;
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    TextStyle _textStyle = Theme.of(context)
-        .textTheme
-        .headline6
-        .copyWith(fontWeight: FontWeight.bold, color: _getColor());
-
-    return Expanded(
-      child: Container(
-          margin: EdgeInsets.symmetric(horizontal: 4, vertical: 8),
-          padding: EdgeInsets.symmetric(vertical: 4, horizontal: 8),
-          decoration: BoxDecoration(
-              color: Colors.black54, borderRadius: BorderRadius.circular(4)),
-          child: LayoutBuilder(builder: (_, constraints) {
-            return constraints.maxHeight - 28.sp > 4
-                ? Column(
-                    children: [
-                      Text(
-                        'Attitude',
-                        style: TextStyle(
-                            fontWeight: FontWeight.w600, color: Colors.white54),
-                      ),
-                      Expanded(
-                          child: Center(
-                              child: FittedBox(
-                                  child: Text(describeEnum(attitude),
-                                      style: _textStyle)))),
-                    ],
-                  )
-                : FittedBox(
-                    child: Text(describeEnum(attitude), style: _textStyle),
-                  );
-          })),
-    );
   }
 }
 

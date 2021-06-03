@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:some_game/models/planet_model.dart';
-import 'package:some_game/models/player_model.dart';
+import 'package:some_game/models/player/player.dart';
 import 'package:some_game/utility/formation_generator.dart';
 import 'package:some_game/widgets/attack/formation_painter.dart';
 import 'package:sizer/sizer.dart';

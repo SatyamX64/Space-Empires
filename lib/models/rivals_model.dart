@@ -4,15 +4,7 @@ enum RivalRelation {
   Peace,
 }
 
-enum RivalAttitude {
-  Cordial,
-  Scared,
-  Disregard,
-  Resents,
-}
-
 enum RivalInteractions {
-  Gift,
   Trade,
   Help,
   ExtortForPeace,

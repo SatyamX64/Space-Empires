@@ -1,11 +1,11 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:some_game/models/player/player.dart';
 import 'package:some_game/screens/game_end/game_lost.dart';
 import 'package:some_game/screens/game_end/game_won.dart';
 import 'package:some_game/widgets/control_deck/global_news.dart';
 import '../services/game.dart';
-import '../models/player_model.dart';
 import '../widgets/gradient_dialog.dart';
 import '../utility/constants.dart';
 import '../widgets/control_deck.dart';
@@ -16,6 +16,7 @@ import '../widgets/control_deck/stats.dart';
 import '../widgets/game_screen/solar_system.dart';
 import '../widgets/game_screen/stats_bar.dart';
 import '../widgets/gradient_fab.dart';
+import 'attack/attack_screen.dart';
 
 class GameScreen extends StatelessWidget {
   static const route = '/game-screen';
@@ -56,8 +57,7 @@ class GameScreen extends StatelessWidget {
                   onPressed: () {
                     Navigator.of(context).pop();
                     Navigator.of(context).pop();
-                    Provider.of<Game>(context, listen: false)
-                        .resetAllData();
+                    Provider.of<Game>(context, listen: false).resetAllData();
                     return Future.value(true);
                   },
                   child: Text('Yes I am')),
@@ -216,17 +216,26 @@ class __NextTurnFABState extends State<_NextTurnFAB>
         padding: const EdgeInsets.all(8.0),
         child: GradientFAB(
             onTap: () async {
-              _gameData.nextTurn();
+              var oncomingAttack = _gameData.nextTurn();
               if (_gameData.lostGame) {
                 Navigator.of(context).pushNamed(GameLostScreen.route);
               } else if (_gameData.wonGame) {
                 Navigator.of(context).pushNamed(GameWonScreen.route);
               } else {
-                if (_gameData.galacticNews.isNotEmpty) {
-                  await showGlobalNews(context);
-                  _gameData.clearNews();
+                if (oncomingAttack != null) {
+                  await Navigator.of(context)
+                      .pushNamed(AttackScreen.route, arguments: {
+                    'planet': oncomingAttack['planet'],
+                    'attacker':
+                        _gameData.playerFromRuler(oncomingAttack['ruler']),
+                  });
+                } else {
+                  if (_gameData.galacticNews.isNotEmpty) {
+                    await showGlobalNews(context);
+                    _gameData.clearNews();
+                  }
+                  showOverlay('+${_gameData.currentPlayer.income}\$');
                 }
-                showOverlay('+${_gameData.currentPlayer.income}\$');
               }
             },
             toolTip: 'Next Turn',
