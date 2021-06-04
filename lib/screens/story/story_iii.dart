@@ -26,11 +26,6 @@ class _StoryScreenIIIState extends State<StoryScreenIII> {
     'According to rumours',
     'The 3 other rulers saw it as well ',
     'Now you must fight ',
-    'and bring all planets under your name',
-    'all in 365 Days',
-    'If you ever need my help',
-    'Just dream and I\'ll appear',
-    'Go now..\nyour fate awaits',
   ];
 
   _skipButton() {
@@ -120,7 +115,7 @@ class _StoryScreenIIIState extends State<StoryScreenIII> {
               duration: Duration(seconds: 2),
               opacity: _proceedButtonOpactity,
             ),
-            alignment: Alignment.bottomCenter,
+            alignment: Alignment.center,
           ),
           _skipButton(),
         ],
@@ -143,15 +138,11 @@ class _StoryScreenIIIState extends State<StoryScreenIII> {
             ],
           ),
           Align(
-            alignment: Alignment.centerRight,
-            child: Container(
-              alignment: Alignment.center,
-              width: MediaQuery.of(context).size.width / 2,
-              child: AnimatedOpacity(
-                child: _proceedButton(),
-                duration: Duration(seconds: 2),
-                opacity: _proceedButtonOpactity,
-              ),
+            alignment: Alignment.center,
+            child: AnimatedOpacity(
+              child: _proceedButton(),
+              duration: Duration(seconds: 2),
+              opacity: _proceedButtonOpactity,
             ),
           ),
           _skipButton(),
@@ -161,7 +152,7 @@ class _StoryScreenIIIState extends State<StoryScreenIII> {
 
     final Orientation orientation = MediaQuery.of(context).orientation;
     return Scaffold(
-        backgroundColor: Color(0xFF190620),
+        backgroundColor: Color(0xFF170C1E),
         body:
             orientation == Orientation.landscape ? _landscape() : _portrait());
   }

@@ -13,7 +13,7 @@ class StoryScreenI extends StatefulWidget {
   static const route = '/story-i-screen.dart';
   // The Screen works well in both orientation
   // But if orientation changes b/w animation than it resets
-  // To avoid this potentially unwanted behavviour we lock the Screen to the orientation we entered with
+  // To avoid this potentially unwanted behaviour we lock the Screen to the orientation we entered with
   // and reset is back to normal after we leave the story section
   final Orientation orientation;
   StoryScreenI(this.orientation);
@@ -22,28 +22,12 @@ class StoryScreenI extends StatefulWidget {
 }
 
 class _StoryScreenIState extends State<StoryScreenI> {
-  Artboard _riveArtboard;
-  RiveAnimationController _controller;
   double _proceedButtonOpactity = 0.0;
 
   @override
   void initState() {
     super.initState();
     Utility.lockOrientation(orientation: widget.orientation);
-    rootBundle.load('assets/animations/stym.riv').then(
-      (data) async {
-        final file = RiveFile.import(data);
-        final artboard = file.mainArtboard;
-        artboard.addController(_controller = SimpleAnimation('idle'));
-        setState(() => _riveArtboard = artboard);
-      },
-    );
-  }
-
-  @override
-  dispose() {
-    _controller.dispose();
-    super.dispose();
   }
 
   List<String> _dialogueList = const [
@@ -63,16 +47,9 @@ class _StoryScreenIState extends State<StoryScreenI> {
     'Now I know this is quite shocking..obviously',
     'and you must be confused',
     'But Save that for later, because',
-    'I have a Plan'
+    'I have a Plan',
+    '*The Strange Figure Vanishes*',
   ];
-
-  _stym() {
-    return _riveArtboard == null
-        ? const SizedBox()
-        : Rive(
-            artboard: _riveArtboard,
-          );
-  }
 
   _skipButton() {
     return Positioned(
@@ -107,9 +84,10 @@ class _StoryScreenIState extends State<StoryScreenI> {
             width: 160.sp,
             alignment: Alignment.center,
             decoration: BoxDecoration(
-                color: Palette.maroon, borderRadius: BorderRadius.circular(50.sp)),
+                color: Palette.maroon,
+                borderRadius: BorderRadius.circular(50.sp)),
             child: Text(
-              'Proceed',
+              'Hear his Plan',
               style: TextStyle(fontWeight: FontWeight.w600),
             )),
       ),
@@ -148,16 +126,20 @@ class _StoryScreenIState extends State<StoryScreenI> {
       return Stack(
         children: [
           Center(
-            child: _stym(),
+            child: AnimatedOpacity(
+              child: _Astronaut(),
+              duration: Duration(seconds: 2),
+              opacity: 1 - _proceedButtonOpactity,
+            ),
           ),
           _dialogue(Orientation.portrait),
           Align(
+            alignment: Alignment.center,
             child: AnimatedOpacity(
               child: _proceedButton(),
               duration: Duration(seconds: 2),
               opacity: _proceedButtonOpactity,
             ),
-            alignment: Alignment.bottomCenter,
           ),
           _skipButton(),
         ],
@@ -170,33 +152,70 @@ class _StoryScreenIState extends State<StoryScreenI> {
           Row(
             children: [
               Expanded(
-                child: _stym(),
+                child: AnimatedOpacity(
+                  child: _Astronaut(),
+                  duration: Duration(seconds: 2),
+                  opacity: 1 - _proceedButtonOpactity,
+                ),
               ),
               Expanded(child: _dialogue(Orientation.landscape)),
             ],
           ),
           Align(
-            alignment: Alignment.centerRight,
-            child: Container(
-              alignment: Alignment.center,
-              width: MediaQuery.of(context).size.width / 2,
-              child: AnimatedOpacity(
-                child: _proceedButton(),
-                duration: Duration(seconds: 2),
-                opacity: _proceedButtonOpactity,
-              ),
+            alignment: Alignment.center,
+            child: AnimatedOpacity(
+              child: _proceedButton(),
+              duration: Duration(seconds: 2),
+              opacity: _proceedButtonOpactity,
             ),
           ),
           _skipButton(),
         ],
       );
     }
-    
 
     return Scaffold(
-        backgroundColor: Color(0xFF190620),
+        backgroundColor: Color(0xFF200520),
         body: widget.orientation == Orientation.landscape
             ? _landscape()
             : _portrait());
+  }
+}
+
+class _Astronaut extends StatefulWidget {
+  @override
+  _AstronautState createState() => _AstronautState();
+}
+
+class _AstronautState extends State<_Astronaut> {
+  Artboard _riveArtboard;
+  RiveAnimationController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    rootBundle.load('assets/animations/stym.riv').then(
+      (data) async {
+        final file = RiveFile.import(data);
+        final artboard = file.mainArtboard;
+        artboard.addController(_controller = SimpleAnimation('idle'));
+        setState(() => _riveArtboard = artboard);
+      },
+    );
+  }
+
+  @override
+  dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return _riveArtboard == null
+        ? const SizedBox()
+        : Rive(
+            artboard: _riveArtboard,
+          );
   }
 }

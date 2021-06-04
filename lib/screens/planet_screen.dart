@@ -51,7 +51,7 @@ class PlanetScreen extends StatelessWidget {
         indicatorSize: TabBarIndicatorSize.tab,
         indicator: BoxDecoration(
           gradient: LinearGradient(
-              colors: [Colors.pink[700], opacityPrimaryColor(0.5)]),
+              colors: [Colors.pink[700], opacityIndigo(0.5)]),
           borderRadius: BorderRadius.circular(50),
         ),
         tabs: List.generate(

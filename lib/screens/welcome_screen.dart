@@ -1,4 +1,3 @@
-import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:some_game/utility/constants.dart';
@@ -19,7 +18,7 @@ class WelcomeScreen extends StatelessWidget {
         decoration: BoxDecoration(
           gradient: LinearGradient(colors: [
             opacityBlack(0.3),
-            opacityPrimaryColor(0.4),
+            opacityIndigo(0.4),
           ]),
         ));
   }
@@ -77,21 +76,21 @@ class WelcomeScreen extends StatelessWidget {
 
     _saturn() {
       return Positioned(
-        right: -max(size.width, size.height) / 4,
-        bottom: -max(size.width, size.height) / 8,
+        right: -size.longestSide/ 4,
+        bottom: -size.longestSide/ 8,
         child: Lottie.asset('assets/animations/saturn.json',
-            height: max(size.width, size.height) / 2,
-            width: max(size.width, size.height) / 2),
+            height: size.longestSide/ 2,
+            width: size.longestSide/ 2),
       );
     }
 
-    _xeno() {
+    _purplePlanet() {
       return Positioned(
-        left: -max(size.width, size.height) / 4,
+        left: -size.longestSide/ 4,
         bottom: 0,
         child: Lottie.asset('assets/animations/xeno.json',
-            height: max(size.width, size.height) / 2,
-            width: max(size.width, size.height) / 2),
+            height: size.longestSide/ 2,
+            width: size.longestSide/ 2),
       );
     }
 
@@ -102,7 +101,7 @@ class WelcomeScreen extends StatelessWidget {
           _animatedStars,
           _spaceLights,
           _saturn(),
-          _xeno(),
+          _purplePlanet(),
           _menu(),
         ],
       ),

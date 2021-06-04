@@ -66,7 +66,7 @@ class ControlDeckState extends State<ControlDeck> {
         decoration: BoxDecoration(
           gradient: LinearGradient(colors: [
             opacityBlack(0.5),
-            opacityPrimaryColor(0.5)
+            opacityIndigo(0.5)
           ]),
         ),
         child: Row(

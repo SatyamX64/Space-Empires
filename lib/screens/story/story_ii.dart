@@ -23,14 +23,8 @@ class _StoryScreenIIState extends State<StoryScreenII> {
     'The only way to stop the doom',
     'Is the paradox Jewel ',
     'The Jewel carries the power..',
-    'to restore the balance once again',
-    'Now YOU must find it',
-    'The Jewel only reveals iteself',
-    'When all 8 Planets are sync',
-    'So O mighty ruler, please take command',
-    'and bring all 8 Planets under your Empire',
-    'for this is the time to ascend',
-    '* The Strange figure vanishes *'
+    'You can find it if '
+    'lorem ipsum idbat okie'
   ];
 
   _skipButton() {
@@ -121,7 +115,7 @@ class _StoryScreenIIState extends State<StoryScreenII> {
               duration: Duration(seconds: 2),
               opacity: _proceedButtonOpactity,
             ),
-            alignment: Alignment.bottomCenter,
+            alignment: Alignment.center,
           ),
           _skipButton(),
         ],
@@ -144,15 +138,11 @@ class _StoryScreenIIState extends State<StoryScreenII> {
             ],
           ),
           Align(
-            alignment: Alignment.centerRight,
-            child: Container(
-              alignment: Alignment.center,
-              width: MediaQuery.of(context).size.width / 2,
-              child: AnimatedOpacity(
-                child: _proceedButton(),
-                duration: Duration(seconds: 2),
-                opacity: _proceedButtonOpactity,
-              ),
+            alignment: Alignment.center,
+            child: AnimatedOpacity(
+              child: _proceedButton(),
+              duration: Duration(seconds: 2),
+              opacity: _proceedButtonOpactity,
             ),
           ),
           _skipButton(),
@@ -162,7 +152,7 @@ class _StoryScreenIIState extends State<StoryScreenII> {
 
     final Orientation orientation = MediaQuery.of(context).orientation;
     return Scaffold(
-        backgroundColor: Color(0xFF190620),
+        backgroundColor: Color(0xFF1D0026),
         body:
             orientation == Orientation.landscape ? _landscape() : _portrait());
   }
@@ -188,11 +178,6 @@ class __ParadoxCrystalState extends State<_ParadoxCrystal> {
         setState(() => _riveArtboard = artboard);
       },
     );
-    Future.delayed(Duration(seconds: 3), () {
-      setState(() {
-        _controller.isActive = false;
-      });
-    });
   }
 
   @override

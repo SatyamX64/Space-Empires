@@ -25,7 +25,7 @@ class PlanetStats extends StatelessWidget {
     return Container(
         decoration: BoxDecoration(
             gradient: LinearGradient(
-                colors: [Colors.black, opacityPrimaryColor(0.3)]),
+                colors: [Colors.black, opacityIndigo(0.3)]),
             borderRadius: BorderRadius.circular(8)),
         padding: const EdgeInsets.all(16),
         child: Column(

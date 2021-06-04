@@ -7,7 +7,7 @@ class Palette {
 }
 // We use custom implementation for opactiy because it is more Optimized then colors.opacity()
 
-Color opacityPrimaryColor(double opacity) {
+Color opacityIndigo(double opacity) {
   return Color.fromRGBO(63, 81, 181, opacity);
 }
 

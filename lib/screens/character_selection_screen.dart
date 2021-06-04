@@ -23,7 +23,7 @@ class CharacterSelectionScreen extends StatelessWidget {
         decoration: BoxDecoration(
           gradient: LinearGradient(colors: [
             opacityBlack(0.3),
-            opacityPrimaryColor(0.4),
+            opacityIndigo(0.4),
           ]),
         ));
   }
@@ -31,20 +31,6 @@ class CharacterSelectionScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Game _gameData = Provider.of<Game>(context, listen: false);
-    _heading() {
-      return Align(
-        alignment: Alignment.topCenter,
-        child: Padding(
-          padding: EdgeInsets.all(32.sp),
-          child: Text('Choose Character',
-              style: Theme.of(context)
-                  .textTheme
-                  .headline4
-                  .copyWith(fontFamily: 'Italianno')),
-        ),
-      );
-    }
-
     _description(Ruler ruler) {
       return Container(
         alignment: Alignment.center,
@@ -169,12 +155,24 @@ class CharacterSelectionScreen extends StatelessWidget {
     }
 
     return Scaffold(
+      extendBodyBehindAppBar: true,
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        leading: Container(),
+        centerTitle: true,
+        title: Text('Choose Character',
+            style: Theme.of(context)
+                .textTheme
+                .headline4
+                .copyWith(fontFamily: 'Italianno')
+                ),
+      ),
       body: Stack(
         children: [
           StaticStarsBackGround(),
           _animatedStars,
           _spaceLights,
-          _heading(),
           OrientationBuilder(
             builder: (context, orientation) {
               return _characterMenu(orientation);

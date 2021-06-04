@@ -1,6 +1,8 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:some_game/models/player/player.dart';
+import 'package:some_game/models/ruler_model.dart';
 import 'package:some_game/services/game.dart';
 import 'package:some_game/screens/help/help-screen.dart';
 import 'package:some_game/utility/constants.dart';
@@ -13,7 +15,7 @@ class StatsBar extends StatelessWidget {
       width: double.maxFinite,
       decoration: BoxDecoration(
         gradient: LinearGradient(
-            colors: [Colors.black, opacityPrimaryColor(0.4), Colors.black],
+            colors: [Colors.black, opacityIndigo(0.4), Colors.black],
             stops: [0.0, 0.7, 1.0]),
       ),
       child: Padding(
