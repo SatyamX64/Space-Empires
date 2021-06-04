@@ -50,8 +50,8 @@ class PlanetScreen extends StatelessWidget {
         unselectedLabelColor: Colors.white,
         indicatorSize: TabBarIndicatorSize.tab,
         indicator: BoxDecoration(
-          gradient: LinearGradient(
-              colors: [Colors.pink[700], opacityIndigo(0.5)]),
+          gradient:
+              LinearGradient(colors: [Colors.pink[700], opacityIndigo(0.5)]),
           borderRadius: BorderRadius.circular(50),
         ),
         tabs: List.generate(
@@ -101,15 +101,33 @@ class PlanetScreen extends StatelessWidget {
           centerTitle: true,
           title: Text(describeEnum(_planetName)),
           actions: [
-            Consumer<Player>(
-              builder: (_, player, __) {
-                return Center(
-                  child: Text(
-                    '${player.money} 💲 ',
-                    style: TextStyle(fontWeight: FontWeight.w600),
-                  ),
-                );
-              },
+            Chip(
+              backgroundColor: Colors.white12,
+              avatar: Center(
+                child: CircleAvatar(
+                  backgroundColor: Colors.green,
+                  child: FittedBox(
+                      child: Text(
+                    '\$',
+                    style: TextStyle(
+                        color: Palette.deepBlue, fontWeight: FontWeight.bold),
+                  )),
+                ),
+              ),
+              elevation: 6.0,
+              shadowColor: Colors.grey[60],
+              padding: EdgeInsets.all(8.0),
+              label: Consumer<Player>(
+                builder: (_, player, __) {
+                  return Text(
+                    '${player.money}',
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyText2
+                        .copyWith(fontWeight: FontWeight.bold),
+                  );
+                },
+              ),
             ),
           ],
         ),

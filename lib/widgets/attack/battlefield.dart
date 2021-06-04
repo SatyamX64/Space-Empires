@@ -30,8 +30,8 @@ class Battlefield extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Expanded(
-                      child: SvgPicture.asset(
-                        'assets/img/ships/attack/${describeEnum(List.from(_attacker.allShips.keys)[index]).toLowerCase()}.svg',
+                      child: Image.asset(
+                        'assets/img/ships/attack/${describeEnum(List.from(_attacker.allShips.keys)[index]).toLowerCase()}.png',
                       ),
                     ),
                     Text(
@@ -65,8 +65,8 @@ class Battlefield extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Expanded(
-                      child: SvgPicture.asset(
-                        'assets/img/ships/defense/${describeEnum(List.from(_planet.allShips.keys)[index]).toLowerCase()}.svg',
+                      child: Image.asset(
+                        'assets/img/ships/defense/${describeEnum(List.from(_planet.allShips.keys)[index]).toLowerCase()}.png',
                       ),
                     ),
                     Text(

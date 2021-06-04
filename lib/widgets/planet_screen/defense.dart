@@ -4,7 +4,6 @@ import 'package:sizer/sizer.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animated_dialog/flutter_animated_dialog.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:some_game/models/defense_ships_model.dart';
 import 'package:some_game/models/planet_model.dart';
 import 'package:some_game/models/player/player.dart';
@@ -63,8 +62,8 @@ class _DefenseShipCard extends StatelessWidget {
             children: [
               Expanded(
                   child: Center(
-                child: SvgPicture.asset(
-                    'assets/img/ships/defense/${describeEnum(_defenseShip.type).toLowerCase()}.svg'),
+                child: Image.asset(
+                    'assets/img/ships/defense/${describeEnum(_defenseShip.type).toLowerCase()}.png'),
               )),
               Expanded(
                 flex: 2,
@@ -203,8 +202,8 @@ _showDefenseDetails(BuildContext context, DefenseShip defenseShip) {
                         color: Colors.white, fontWeight: FontWeight.bold),
                   ),
                   Expanded(
-                      child: SvgPicture.asset(
-                          'assets/img/ships/defense/${describeEnum(defenseShip.type).toLowerCase()}.svg')),
+                      child: Image.asset(
+                          'assets/img/ships/defense/${describeEnum(defenseShip.type).toLowerCase()}.png')),
                   Text(
                     defenseShip.description,
                     style: TextStyle(fontWeight: FontWeight.w600),

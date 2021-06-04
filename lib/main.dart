@@ -10,7 +10,6 @@ import './models/planet_model.dart';
 import 'screens/attack/attack_conclusion_screen.dart';
 import './screens/character_selection_screen.dart';
 import './screens/game_screen.dart';
-import './screens/help/help-screen.dart';
 import './screens/help/instructions-screen.dart';
 import './screens/planet_screen.dart';
 import './screens/splash_screen.dart';
@@ -99,7 +98,6 @@ class MyApp extends StatelessWidget {
                   CharacterSelectionScreen(),
               GameScreen.route: (ctx) => GameScreen(),
               AttackConclusionScreen.route: (ctx) => AttackConclusionScreen(),
-              HelpScreen.route: (ctx) => HelpScreen(),
               InstructionScreen.route: (ctx) => InstructionScreen(),
               GameLostScreen.route: (ctx) => GameLostScreen(),
               GameWonScreen.route: (ctx) => GameWonScreen(),

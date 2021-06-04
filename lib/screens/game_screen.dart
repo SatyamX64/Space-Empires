@@ -23,10 +23,7 @@ class GameScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Size _size = MediaQuery.of(context).size;
-    final Orientation _orientation = MediaQuery.of(context).orientation;
-    final double _statsBarHeight = _orientation == Orientation.landscape
-        ? _size.height * 0.1
-        : _size.height * 0.05;
+    final double _statsBarHeight = _size.longestSide * 0.075;
     final double _controlDeckHeight = _size.height * 0.10;
 
     _quitGame() {
@@ -114,17 +111,18 @@ class GameScreen extends StatelessWidget {
                           MediaQuery.of(context).viewPadding.right),
                   child: StatsBar()),
               ConstrainedBox(
-                  constraints: BoxConstraints(
-                      maxHeight: MediaQuery.of(context).size.height -
-                          _controlDeckHeight -
-                          _statsBarHeight -
-                          MediaQuery.of(context).viewPadding.bottom,
-                      maxWidth: MediaQuery.of(context).size.width -
-                          MediaQuery.of(context).viewPadding.right),
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: SolarSystem(),
-                  ))
+                constraints: BoxConstraints(
+                    maxHeight: MediaQuery.of(context).size.height -
+                        _controlDeckHeight -
+                        _statsBarHeight -
+                        MediaQuery.of(context).viewPadding.bottom,
+                    maxWidth: MediaQuery.of(context).size.width -
+                        MediaQuery.of(context).viewPadding.right),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: SolarSystem(),
+                ),
+              )
             ],
           ),
         ),

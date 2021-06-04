@@ -181,7 +181,7 @@ class _MyForceCard extends StatelessWidget {
                 backgroundColor: Colors.black54,
                 child: Padding(
                   padding: const EdgeInsets.all(16.0),
-                  child: SvgPicture.asset('assets/img/ships/attack/$name.svg'),
+                  child: Image.asset('assets/img/ships/attack/$name.png'),
                 ),
               ),
             );

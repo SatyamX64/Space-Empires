@@ -2,7 +2,6 @@ import 'dart:math';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animated_dialog/flutter_animated_dialog.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:some_game/models/planet_model.dart';
 import 'package:some_game/models/player/player.dart';
@@ -85,8 +84,8 @@ class _UpgradeCard extends StatelessWidget {
               borderRadius: BorderRadius.circular(4), color: Colors.white12),
           child: Column(children: <Widget>[
             Expanded(
-                child: SvgPicture.asset(
-                    'assets/img/buildings/${describeEnum(upgrade.type).toLowerCase()}.svg')),
+                child: Image.asset(
+                    'assets/img/buildings/${describeEnum(upgrade.type).toLowerCase()}.png')),
             FittedBox(
               child: Text(
                 describeEnum(upgrade.type),
@@ -137,8 +136,8 @@ _showUpgradeDetails(
                         color: Colors.white, fontWeight: FontWeight.bold),
                   ),
                   Expanded(
-                      child: SvgPicture.asset(
-                          'assets/img/buildings/${describeEnum(upgrade.type).toLowerCase()}.svg')),
+                      child: Image.asset(
+                          'assets/img/buildings/${describeEnum(upgrade.type).toLowerCase()}.png')),
                   Text(
                     upgrade.description,
                     style: TextStyle(fontWeight: FontWeight.w600),

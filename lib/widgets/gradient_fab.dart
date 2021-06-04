@@ -17,6 +17,7 @@ class GradientFAB extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FloatingActionButton(
+      heroTag: null,
       onPressed: onTap,
       tooltip: toolTip,
       child: Container(

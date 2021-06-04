@@ -31,15 +31,6 @@ class SplashScreenState extends State<SplashScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // body: Center(
-        // child: Text(
-        //   'SPACE EMPIRE',
-        //   style: Theme.of(context)
-        //       .textTheme
-        //       .headline4
-        //       .copyWith(fontFamily: 'Astral'),
-        // ),
-      // ),
     );
   }
 }

@@ -73,8 +73,9 @@ class _ResourceAllocator extends StatelessWidget {
               _InfoBar(
                   text: 'Total',
                   value: Text(
-                    '${player.income} 💲',
-                    style: TextStyle(fontWeight: FontWeight.bold),
+                    '${player.income} \$',
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold, color: Colors.green),
                   )),
             ],
           ),
