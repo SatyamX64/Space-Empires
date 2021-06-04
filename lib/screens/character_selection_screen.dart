@@ -31,6 +31,21 @@ class CharacterSelectionScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Game _gameData = Provider.of<Game>(context, listen: false);
+
+    _heading() {
+      return Align(
+        alignment: Alignment.topCenter,
+        child: Padding(
+          padding: EdgeInsets.all(24.sp),
+          child: Text('Choose Character',
+              style: Theme.of(context)
+                  .textTheme
+                  .headline4
+                  .copyWith(fontFamily: 'Italianno')),
+        ),
+      );
+    }
+
     _description(Ruler ruler) {
       return Container(
         alignment: Alignment.center,
@@ -102,7 +117,7 @@ class CharacterSelectionScreen extends StatelessWidget {
         padding: EdgeInsets.all(16.sp),
         margin: EdgeInsets.all(16.sp),
         decoration: BoxDecoration(
-            color: Colors.white10, borderRadius: BorderRadius.circular(16.sp)),
+            color: Colors.black26, borderRadius: BorderRadius.circular(16.sp)),
         child: orientation == Orientation.landscape
             ? Row(
                 children: [
@@ -114,13 +129,14 @@ class CharacterSelectionScreen extends StatelessWidget {
                     ),
                   ),
                   Expanded(
-                      flex: 3,
-                      child: Column(
-                        children: [
-                          Expanded(child: _description(ruler)),
-                          _continue(ruler),
-                        ],
-                      )),
+                    flex: 3,
+                    child: Column(
+                      children: [
+                        Expanded(child: _description(ruler)),
+                        _continue(ruler),
+                      ],
+                    ),
+                  ),
                 ],
               )
             : Column(
@@ -141,12 +157,13 @@ class CharacterSelectionScreen extends StatelessWidget {
     _characterMenu(Orientation orientation) {
       final Size size = MediaQuery.of(context).size;
       return Align(
-        alignment: Alignment.center,
+        alignment: orientation == Orientation.landscape
+            ? Alignment.bottomCenter
+            : Alignment.center,
         child: CarouselSlider.builder(
           options: CarouselOptions(
-              height: orientation == Orientation.landscape
-                  ? size.height * 0.8
-                  : size.height * 0.5),
+            aspectRatio: orientation == Orientation.landscape ? 2.4 : 0.8,
+          ),
           itemCount: _gameData.players.length,
           itemBuilder: (BuildContext context, int index, _) =>
               _characterCard(_gameData.players[index].ruler, orientation),
@@ -155,24 +172,12 @@ class CharacterSelectionScreen extends StatelessWidget {
     }
 
     return Scaffold(
-      extendBodyBehindAppBar: true,
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        leading: Container(),
-        centerTitle: true,
-        title: Text('Choose Character',
-            style: Theme.of(context)
-                .textTheme
-                .headline4
-                .copyWith(fontFamily: 'Italianno')
-                ),
-      ),
       body: Stack(
         children: [
           StaticStarsBackGround(),
           _animatedStars,
           _spaceLights,
+          _heading(),
           OrientationBuilder(
             builder: (context, orientation) {
               return _characterMenu(orientation);
