@@ -20,11 +20,11 @@ class _StoryScreenIIState extends State<StoryScreenII> {
   double _proceedButtonOpactity = 0.0;
 
   List<String> _dialogueList = const [
-    'The only way to stop the doom',
-    'Is the paradox Jewel ',
-    'The Jewel carries the power..',
-    'You can find it if '
-    'lorem ipsum idbat okie'
+    'The Paradox Crystal is the rarest of Treasures',
+    'It has been found and lost over and over',
+    'The Crystal is source of umimaginable power',
+    'It will reveal iteself in about a Year',
+    'On one random planet',
   ];
 
   _skipButton() {
@@ -151,10 +151,16 @@ class _StoryScreenIIState extends State<StoryScreenII> {
     }
 
     final Orientation orientation = MediaQuery.of(context).orientation;
-    return Scaffold(
-        backgroundColor: Color(0xFF1D0026),
-        body:
-            orientation == Orientation.landscape ? _landscape() : _portrait());
+    return WillPopScope(
+        child: Scaffold(
+           backgroundColor: Color(0xFF1D0026),
+         body: orientation == Orientation.landscape
+                ? _landscape()
+                : _portrait()),
+        onWillPop: () {
+          Utility.lockOrientation(); // resets orientation to normal
+          return Future.value(true);
+        });
   }
 }
 

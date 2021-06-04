@@ -23,9 +23,13 @@ class _StoryScreenIIIState extends State<StoryScreenIII> {
   }
 
   List<String> _dialogueList = const [
-    'According to rumours',
-    'The 3 other rulers saw it as well ',
-    'Now you must fight ',
+    'To make sure only you get the Crystal',
+    'You must take over all Planets',
+    'According to rumours...',
+    'The 3 other rulers saw the dream as well',
+    'So they will try the same',
+    'So get ready..',
+    'Because your adventure has begun',
   ];
 
   _skipButton() {
@@ -151,10 +155,16 @@ class _StoryScreenIIIState extends State<StoryScreenIII> {
     }
 
     final Orientation orientation = MediaQuery.of(context).orientation;
-    return Scaffold(
-        backgroundColor: Color(0xFF170C1E),
-        body:
-            orientation == Orientation.landscape ? _landscape() : _portrait());
+    return WillPopScope(
+        child: Scaffold(
+            backgroundColor: Color(0xFF170C1E),
+            body: orientation == Orientation.landscape
+                ? _landscape()
+                : _portrait()),
+        onWillPop: () {
+          Utility.lockOrientation(); // resets orientation to normal
+          return Future.value(true);
+        });
   }
 }
 

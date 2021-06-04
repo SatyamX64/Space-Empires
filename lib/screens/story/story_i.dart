@@ -32,22 +32,15 @@ class _StoryScreenIState extends State<StoryScreenI> {
 
   List<String> _dialogueList = const [
     'Oh Hi there, your highness..',
-    'Now I am sure none of this makes sense',
-    'It Probably never will',
-    'and I am sure you have some doubts',
-    'The obvious one being where are we',
-    'and who the hell am I ?',
-    'So let\'s get a formal Introduction shall we ?',
-    'I am STYM, from the space patrol',
-    'and at the moment we are in your Dream',
-    'So considering YOU are the ruler of one of the 4 Major Races',
-    'I have come to inform you that',
-    'The Solar System is going to collapse',
-    '365 days from now',
-    'Now I know this is quite shocking..obviously',
-    'and you must be confused',
-    'But Save that for later, because',
-    'I have a Plan',
+    'I am from the Space Patrol',
+    'We are currently in your lucid dream',
+    'Considering you are from the Big Four',
+    'I am sure you can sense the disturbance already',
+    'The Paradox Crystal is shifting',
+    'According to our predictions',
+    'It will reveal itself soon',
+    'You know what that means right',
+    'The Cycle shall continue',
     '*The Strange Figure Vanishes*',
   ];
 
@@ -87,7 +80,7 @@ class _StoryScreenIState extends State<StoryScreenI> {
                 color: Palette.maroon,
                 borderRadius: BorderRadius.circular(50.sp)),
             child: Text(
-              'Hear his Plan',
+              'Wake up',
               style: TextStyle(fontWeight: FontWeight.w600),
             )),
       ),
@@ -174,11 +167,18 @@ class _StoryScreenIState extends State<StoryScreenI> {
       );
     }
 
-    return Scaffold(
-        backgroundColor: Color(0xFF200520),
-        body: widget.orientation == Orientation.landscape
-            ? _landscape()
-            : _portrait());
+    return WillPopScope(
+        child: Scaffold(
+            backgroundColor: widget.orientation == Orientation.landscape
+                ? Color(0xFF180721)
+                : Color(0xFF200520),
+            body: widget.orientation == Orientation.landscape
+                ? _landscape()
+                : _portrait()),
+        onWillPop: () {
+          Utility.lockOrientation(); // resets orientation to normal
+          return Future.value(true);
+        });
   }
 }
 
