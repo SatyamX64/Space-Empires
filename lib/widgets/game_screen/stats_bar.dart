@@ -61,10 +61,7 @@ class StatsBar extends StatelessWidget {
                 builder: (_, player, __) {
                   return Text(
                     '${player.money}',
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodyText2
-                        .copyWith(fontWeight: FontWeight.bold),
+                    style: TextStyle(fontWeight: FontWeight.bold),
                   );
                 },
               ),

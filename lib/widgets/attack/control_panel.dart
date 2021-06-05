@@ -158,21 +158,28 @@ class _ControlPanelState extends State<ControlPanel>
                       child: Column(
                     children: [
                       Expanded(
+                        flex: 3,
                         child: Center(
-                          child: Text(
-                            '${_planet.defense}',
-                            style:
-                                Theme.of(context).textTheme.headline3.copyWith(
-                                      color: Colors.white70,
-                                      fontWeight: FontWeight.w600,
-                                    ),
+                          child: FittedBox(
+                            child: Text(
+                              '${_planet.defense}',
+                              style:
+                                  Theme.of(context).textTheme.headline3.copyWith(
+                                        color: Colors.white70,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                            ),
                           ),
                         ),
                       ),
-                      Text(
-                        'Defense',
-                        style: Theme.of(context).textTheme.headline6.copyWith(
-                            color: Colors.white, fontWeight: FontWeight.w600),
+                      Expanded(
+                        child: FittedBox(
+                          child: Text(
+                            'Defense',
+                            style: Theme.of(context).textTheme.headline6.copyWith(
+                                color: Colors.white, fontWeight: FontWeight.w600),
+                          ),
+                        ),
                       ),
                     ],
                   )),
@@ -180,6 +187,7 @@ class _ControlPanelState extends State<ControlPanel>
                       child: Column(
                     children: [
                       Expanded(
+                        flex: 3,
                         child: Stack(
                           children: [
                             Center(
@@ -188,15 +196,17 @@ class _ControlPanelState extends State<ControlPanel>
                                   pow(kAttackShipsData.length,
                                       kAttackShipsData.length),
                                   (index) => Center(
-                                    child: Text(
-                                      '${index + 1}',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .headline3
-                                          .copyWith(
-                                            color: Colors.white70,
-                                            fontWeight: FontWeight.w600,
-                                          ),
+                                    child: FittedBox(
+                                      child: Text(
+                                        '${index + 1}',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .headline3
+                                            .copyWith(
+                                              color: Colors.white70,
+                                              fontWeight: FontWeight.w600,
+                                            ),
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -220,10 +230,15 @@ class _ControlPanelState extends State<ControlPanel>
                           ],
                         ),
                       ),
-                      Text(
-                        'Formation',
-                        style: Theme.of(context).textTheme.headline6.copyWith(
-                            color: Colors.white, fontWeight: FontWeight.w600),
+                      Expanded(
+                        flex: 1,
+                        child: FittedBox(
+                          child: Text(
+                            'Formation',
+                            style: Theme.of(context).textTheme.headline6.copyWith(
+                                color: Colors.white, fontWeight: FontWeight.w600),
+                          ),
+                        ),
                       ),
                     ],
                   )),
@@ -231,12 +246,12 @@ class _ControlPanelState extends State<ControlPanel>
               )),
           Expanded(
             flex: 3,
-            child: SizedBox(
-              width: 360,
-              key: _attackButtonKey,
+            child: Container(
+              width: double.maxFinite,
               child: Padding(
                 padding: EdgeInsets.all(2.sp),
                 child: ElevatedButton(
+                  key: _attackButtonKey,
                   style: ButtonStyle(
                     backgroundColor:
                         MaterialStateProperty.all<Color>(Palette.maroon),
@@ -302,10 +317,12 @@ class _ControlPanelState extends State<ControlPanel>
                       }
                     }
                   },
-                  child: Text(
-                    'A T T A C K',
-                    style: Theme.of(context).textTheme.headline6.copyWith(
-                        color: Colors.white70, fontWeight: FontWeight.w800),
+                  child: FittedBox(
+                    child: Text(
+                      'A T T A C K',
+                      style: Theme.of(context).textTheme.headline6.copyWith(
+                          color: Colors.white70, fontWeight: FontWeight.w800),
+                    ),
                   ),
                 ),
               ),

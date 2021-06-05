@@ -34,7 +34,7 @@ const Map<AttackShipType, AttackShip> kAttackShipsData = const {
     type: AttackShipType.Romeo,
     point: 2,
     morale: 1,
-    damage: 80,
+    damage: 100,
     health: 300,
     maintainance: 5,
   ),
@@ -45,7 +45,7 @@ const Map<AttackShipType, AttackShip> kAttackShipsData = const {
     point: 3,
     morale: 5,
     damage: 300,
-    health: 1000,
+    health: 500,
     maintainance: 25,
   ),
   AttackShipType.Optimus: const AttackShip(
@@ -54,8 +54,14 @@ const Map<AttackShipType, AttackShip> kAttackShipsData = const {
     point: 1,
     type: AttackShipType.Optimus,
     morale: 4,
-    damage: 120,
-    health: 2200,
+    damage: 150,
+    health: 800,
     maintainance: 15,
   ),
 };
+
+/*
+Optimus - 3 Mag, 8 Romeo
+Mag - 5 Romeo, 4 Optimus
+Romeo - 1 Mag, 2 Optimus
+ */

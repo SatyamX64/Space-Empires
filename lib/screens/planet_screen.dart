@@ -102,7 +102,7 @@ class PlanetScreen extends StatelessWidget {
           title: Text(describeEnum(_planetName)),
           actions: [
             Chip(
-              backgroundColor: Colors.white12,
+              backgroundColor: Colors.green[900],
               avatar: Center(
                 child: CircleAvatar(
                   backgroundColor: Colors.green,
@@ -121,10 +121,7 @@ class PlanetScreen extends StatelessWidget {
                 builder: (_, player, __) {
                   return Text(
                     '${player.money}',
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodyText2
-                        .copyWith(fontWeight: FontWeight.bold),
+                    style: TextStyle(fontWeight: FontWeight.bold),
                   );
                 },
               ),
