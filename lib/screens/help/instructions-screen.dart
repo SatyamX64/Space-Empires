@@ -4,7 +4,7 @@ import '/utility/instructions.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 const _url =
-    "https://www.youtube.com/watch?v=KxGRhd_iWuE&ab_channel=Ryuujin131"; // Will be project's github link
+    "https://github.com/SatyamX64/space_empires.git"; // Will be project's github link
 
 class InstructionScreen extends StatelessWidget {
   static const route = '/instruction-screen';
