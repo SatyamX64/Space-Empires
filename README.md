@@ -5,7 +5,7 @@ A Turn Based Strategy Game, developed using Flutter
 ## Overview ✨
 
 This is a space themed strategy game, where you battle against 3 Computer Players to take over the all the Planets.
-Complete Rules and Instruction can be accessed from the game or [here](https://www.google.com)
+Complete Rules and Instruction can be accessed from the game or [here](https://github.com/SatyamX64/space_empires/blob/master/lib/utility/instructions.dart)
 
 ## Tech Used 🐱‍💻
 
@@ -17,7 +17,7 @@ Complete Rules and Instruction can be accessed from the game or [here](https://w
 
 All the assets used in this product belong to their rightful owners and were available for Non-Commercial Use
 
-- [Link to the resources](https://flutter.dev/docs/get-started/codelab)
+- [Link to the resources](https://docs.google.com/document/d/1t160rPKv3MEou_8PcyNJRNWqaIAATsgcdPjZVuQFy90/edit?usp=sharing)
 
 ## Features ⚡ 
 
