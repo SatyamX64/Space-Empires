@@ -1,5 +1,6 @@
 import '/models/rivals_model.dart';
 
+// TODO : Difference in Galactic Power Index
 const int godlyDifference = 70;
 const int goodDifference = 50;
 const int almostEquals = 20;
@@ -70,6 +71,8 @@ Map noEffectOfAction({RivalRelation relation, RivalInteractions interactions}) {
   return map;
 }
 
+
+// TODO : Calculates chance on weather a interaction will Succeed or not
 double calculateChance(
     {RivalRelation relation, RivalInteractions interactions, int diffGPI}) {
   switch (interactions) {

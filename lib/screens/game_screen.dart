@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '/models/player/player.dart';
+import 'package:space_empires/services/player/player.dart';
 import '/screens/game_end/game_lost.dart';
 import '/screens/game_end/game_won.dart';
 import '/widgets/control_deck/global_news.dart';

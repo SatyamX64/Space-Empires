@@ -2,9 +2,9 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
-import '/models/planet_model.dart';
-import '/models/player/player.dart';
-import '/utility/formation_generator.dart';
+import 'package:space_empires/services/player/player.dart';
+import '../../services/planet/planet_model.dart';
+import '../../services/formation_generator.dart';
 import '/widgets/attack/formation_painter.dart';
 import 'package:sizer/sizer.dart';
 

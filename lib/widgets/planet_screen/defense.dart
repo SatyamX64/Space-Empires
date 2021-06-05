@@ -4,9 +4,9 @@ import 'package:sizer/sizer.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animated_dialog/flutter_animated_dialog.dart';
+import 'package:space_empires/services/player/player.dart';
 import '/models/defense_ships_model.dart';
-import '/models/planet_model.dart';
-import '/models/player/player.dart';
+import '../../services/planet/planet_model.dart';
 import '/utility/utility.dart';
 
 class PlanetDefense extends StatelessWidget {

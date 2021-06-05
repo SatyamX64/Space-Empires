@@ -1,17 +1,18 @@
 import 'dart:math';
+import 'package:space_empires/services/player/player.dart';
+
 import '/models/attack_ships_model.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '/models/player/player.dart';
 import '/services/game.dart';
-import '/models/planet_model.dart';
+import '../../services/planet/planet_model.dart';
 import 'package:sizer/sizer.dart';
 import '/screens/attack/attack_conclusion_screen.dart';
 import '/screens/game_end/game_lost.dart';
 import '/screens/game_end/game_won.dart';
 import '/utility/constants.dart';
-import '/utility/formation_generator.dart';
+import '../../services/formation_generator.dart';
 
 class ControlPanel extends StatefulWidget {
   @override
@@ -304,6 +305,9 @@ class _ControlPanelState extends State<ControlPanel>
                         MaterialStateProperty.all<Color>(Palette.maroon),
                   ),
                   onPressed: () {
+
+                    // TODO : All the Attack related logic is here
+
                     final playerFormation = _formationProvider.currentFormation;
                     final computerPosition = _isPlayerAttacker
                         ? bestAttackerPosition()

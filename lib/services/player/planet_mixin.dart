@@ -1,6 +1,6 @@
-import '../defense_ships_model.dart';
-import '../planet_model.dart';
-import '../upgrade_model.dart';
+import 'package:space_empires/models/defense_ships_model.dart';
+import 'package:space_empires/services/planet/planet_model.dart';
+import 'package:space_empires/models/upgrade_model.dart';
 
 mixin Planets {
   List<Planet> _planets;

@@ -4,7 +4,7 @@ import 'package:sizer/sizer.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import '/models/player/player.dart';
+import 'package:space_empires/services/player/player.dart';
 import '/services/game.dart';
 import '/models/rivals_model.dart';
 import '/models/ruler_model.dart';

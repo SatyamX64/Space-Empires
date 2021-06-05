@@ -1,4 +1,5 @@
-import '../attack_ships_model.dart';
+import 'package:space_empires/models/attack_ships_model.dart';
+
 
 mixin Military {
   Map<AttackShipType, int> _ownedShips = {};

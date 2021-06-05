@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import '/models/defense_ships_model.dart';
 import '/models/upgrade_model.dart';
+import 'defense_mixin.dart';
+import 'upgrade_mixin.dart';
 
 enum PlanetName {
   Miavis,
@@ -138,87 +140,5 @@ class Planet with ChangeNotifier, Defense, PlanetUpgrade {
       shipsLeft += defenseShipCount(ship);
     }
     return shipsLeft;
-  }
-}
-
-mixin PlanetUpgrade {
-  Map<UpgradeType, bool> _planetUpgrade = {};
-
-  void upgradesInit() {
-    for (UpgradeType upgrade in UpgradeType.values) {
-      _planetUpgrade[upgrade] = false;
-    }
-  }
-
-  Map<UpgradeType, bool> get allUpgrades {
-    return _planetUpgrade;
-  }
-
-  bool upgradePresent(UpgradeType type) {
-    return _planetUpgrade[type];
-  }
-
-  void upgradeAdd(UpgradeType type) {
-    _planetUpgrade[type] = true;
-  }
-
-  int get planetDefenseQuotient {
-    int turret = upgradePresent(UpgradeType.Charm) ? 1 : 0;
-    int watchTower = upgradePresent(UpgradeType.Illumina) ? 2 : 0;
-    return turret + watchTower;
-  }
-
-  double get planetMoraleBoost {
-    double townCenter = upgradePresent(UpgradeType.Starlink) ? 0.1 : 0;
-    double moske = upgradePresent(UpgradeType.Colosseum) ? 0.25 : 0;
-    return 1 + moske + townCenter;
-  }
-
-  double get planetRevenueBoost {
-    double boost = upgradePresent(UpgradeType.Electricity) ? 1.10 : 1;
-    return boost;
-  }
-
-  int get planetTradeBoost {
-    int boost = upgradePresent(UpgradeType.Starlink) ? 1 : 0;
-    return boost;
-  }
-}
-
-mixin Defense {
-  Map<DefenseShipType, int> _ownedShips = {};
-
-  void defenseInit() {
-    _ownedShips[DefenseShipType.Battleship] = 3;
-    _ownedShips[DefenseShipType.Artillery] = 3;
-    _ownedShips[DefenseShipType.Rover] = 5;
-  }
-
-  int get defenseExpenditure {
-    int expense = 0;
-    for (DefenseShipType type in List.from(_ownedShips.keys)) {
-      expense += _ownedShips[type] * kDefenseShipsData[type].maintainance;
-    }
-    return expense;
-  }
-
-  Map<DefenseShipType, int> get allShips {
-    return _ownedShips;
-  }
-
-  int defenseShipCount(DefenseShipType type) {
-    return _ownedShips[type];
-  }
-
-  void defenseAddShip(DefenseShipType type, int value) {
-    _ownedShips[type] += value;
-  }
-
-  void defenseRemoveShip(DefenseShipType type, int value) {
-    if (_ownedShips[type] > value) {
-      _ownedShips[type] -= value;
-    } else {
-      _ownedShips[type] = 0;
-    }
   }
 }

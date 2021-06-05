@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '/models/player/player.dart';
+import 'package:space_empires/services/player/player.dart';
 import '/screens/help/instructions-screen.dart';
 import '/services/game.dart';
 import '/utility/constants.dart';

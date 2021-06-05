@@ -2,11 +2,11 @@ import 'dart:math';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import '/models/player/player.dart';
-import '/utility/interaction.dart';
-import '../models/planet_model.dart';
+import 'interaction.dart';
+import 'planet/planet_model.dart';
 import '../models/rivals_model.dart';
 import '../models/ruler_model.dart';
+import 'player/player.dart';
 
 const int kGameDays = 365;
 
@@ -158,7 +158,9 @@ class Game extends ChangeNotifier {
   }
 
   nextTurn() {
+    // TODO : The Function that runs on Each Turn, basically the game loop
     days--;
+    initAttackStatus();
     players.forEach((player) {
       // Each Player gets their income from all their planets
       player.nextTurn();
@@ -166,17 +168,21 @@ class Game extends ChangeNotifier {
     computerPlayers.forEach((player) {
       // Each computer player buys Military/Defense/Upgrades/Stats from available Money
       player.autoTurn();
-      print(' ${player.money} + ${player.galacticPowerIndex}');
     });
 
     // Each Computer Player might change Relation with other races depending upon their GPI difference
     autoUpdateRelation();
+    // Computer Attacks other computer Players
     computerAttacksComputer();
     notifyListeners();
+    // Computer Attacks current player and info is passed back to game Screen
     return computerAttacksCurrentPlayer();
   }
 
   autoUpdateRelation() {
+
+    //TODO : Auto Update Relation Strategy
+
     // Update Relation among different Rulers based on GPI difference
     // Computer won't trade among themselves, neither will they ever propose Trade
     // Only the current Player can begin trading with computer
@@ -287,6 +293,9 @@ class Game extends ChangeNotifier {
   }
 
   calculateChanceForAutoAttack({Player A, Player B}) {
+
+    //TODO : Calculates Chances for Attack from Computer here
+
     int diff = A.galacticPowerIndex - B.galacticPowerIndex;
     if (diff > godlyDifference) {
       return 0.9;
@@ -443,7 +452,9 @@ class Game extends ChangeNotifier {
   }
 
   String getRivalsOpinion(Ruler ruler) {
+    // TODO : Return different opinions based on GPI difference, so player can get a rough idea of his position relatively
     // Gives result based on relative GPI
+    // Is displayed under the Stats Panel
     return 'The Aliens choose to ignore us\nHave better things at hand';
   }
 }

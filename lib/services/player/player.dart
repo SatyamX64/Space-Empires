@@ -1,10 +1,10 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:space_empires/models/defense_ships_model.dart';
+import 'package:space_empires/models/ruler_model.dart';
 import '/models/attack_ships_model.dart';
-import '/models/planet_model.dart';
+import '../planet/planet_model.dart';
 import '/models/upgrade_model.dart';
-import '../defense_ships_model.dart';
-import '../ruler_model.dart';
 import 'stats.dart';
 import 'military_mixin.dart';
 import 'planet_mixin.dart';
@@ -76,9 +76,8 @@ class Player extends ChangeNotifier with Stats, Military, Planets {
     money += income;
     notifyListeners();
   }
-
   void autoTurn() {
-    // Here we can use a better strategy for Better Budget Allotment
+    // TODO : Here we can use a better strategy for Better Budget Allotment
     List<double> expendeiture = [0.4, 0.2, 0.3]..shuffle();
     // if (money > 50000) {
     //   expendeiture = [0.1, 0.8, 0.3];
@@ -96,6 +95,8 @@ class Player extends ChangeNotifier with Stats, Military, Planets {
   }
 
   void autoBuyMilitary(int moneyAllotted) {
+    
+    // TODO : Here we can use a better strategy for Better Budget Allotment Military
     List<double> budgets = [0.5, 0.2, 0.3]..shuffle();
     List<AttackShip> _attackShips = List.from(kAttackShipsData.values);
     for (int i = 0; i < _attackShips.length; i++) {

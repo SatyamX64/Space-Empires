@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:provider/provider.dart';
 import '/services/game.dart';
-import '/models/planet_model.dart';
+import '../../services/planet/planet_model.dart';
 import '/screens/planet_screen.dart';
 import '/widgets/static_stars_bg.dart';
 import 'package:sizer/sizer.dart';
