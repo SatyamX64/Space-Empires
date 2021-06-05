@@ -141,6 +141,7 @@ _showUpgradeDetails(
                   Text(
                     upgrade.description,
                     style: TextStyle(fontWeight: FontWeight.w600),
+                    textAlign: TextAlign.center,
                   ),
                   Row(
                     children: [

@@ -389,24 +389,30 @@ class Game extends ChangeNotifier {
   // Rival can perform only one Action per turn
   // So you can't ask for war if started trading/peace etc
   String interactWithRival({RivalInteractions action, Ruler A, Ruler B}) {
-    RivalRelation _relation = relationBetweenRulers(A, B);
+    RivalRelation _initialRelation = relationBetweenRulers(A, B);
     double chance = calculateChance(
-        relation: _relation,
+        relation: _initialRelation,
         interactions: action,
         diffGPI: playerFromRuler(A).galacticPowerIndex -
             playerFromRuler(B).galacticPowerIndex);
 
     if (chanceSucceeds(chance)) {
-      Map map = yesEffectOfAction(relation: _relation, interactions: action);
-      updateRelation(A, B, map['relation']);
+      Map map =
+          yesEffectOfAction(relation: _initialRelation, interactions: action);
+      if (_initialRelation != map['relation']) {
+        updateRelation(A, B, map['relation']);
+      }
       if (action == RivalInteractions.Help) {
         playerFromRuler(A).money += 5000;
       }
       notifyListeners();
       return map['response'];
     } else {
-      Map map = noEffectOfAction(relation: _relation, interactions: action);
-      updateRelation(A, B, map['relation']);
+      Map map =
+          noEffectOfAction(relation: _initialRelation, interactions: action);
+      if (_initialRelation != map['relation']) {
+        updateRelation(A, B, map['relation']);
+      }
       notifyListeners();
       return map['response'];
     }

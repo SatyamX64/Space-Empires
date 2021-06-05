@@ -225,7 +225,7 @@ _showDefenseDetails(BuildContext context, DefenseShip defenseShip) {
                         onPressed: () {
                           Navigator.of(context).pop();
                         },
-                        child: Text('Okey'),
+                        child: Text('Dismiss'),
                       ),
                     ),
                   ),

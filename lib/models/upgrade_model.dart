@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
 enum UpgradeType {
-  TownCenter,
-  Turret,
-  WatchTower,
-  Industry,
-  TradeCenter,
-  Moske
+  Electricity,
+  Charm,
+  Illumina,
+  Explorer,
+  Starlink,
+  Colosseum
 }
 
 class Upgrade {
@@ -25,40 +25,40 @@ class Upgrade {
 }
 
 const Map<UpgradeType, Upgrade> kUpgradesData = const {
-  UpgradeType.TownCenter: const Upgrade(
-      type: UpgradeType.TownCenter,
+  UpgradeType.Electricity: const Upgrade(
+      type: UpgradeType.Electricity,
       cost: 30000,
-      description: 'The People\'s Hang out',
-      effect: 'Morale',
+      description: 'Brings the Industrial Revolution',
+      effect: 'Income',
       effectValue: '+10%'),
-  UpgradeType.Turret: const Upgrade(
-      type: UpgradeType.Turret,
+  UpgradeType.Charm: const Upgrade(
+      type: UpgradeType.Charm,
       cost: 25000,
-      description: 'Blow em to smitherens',
+      description: 'A Bio-Tech Weapon to support your Ships',
       effect: 'Defense',
       effectValue: '+1'),
-  UpgradeType.WatchTower: const Upgrade(
-      type: UpgradeType.WatchTower,
+  UpgradeType.Illumina: const Upgrade(
+      type: UpgradeType.Illumina,
       cost: 40000,
-      description: 'Fry the Intruders',
+      description: 'A Worthy Successor to Charm',
       effect: 'Defense',
       effectValue: '+2'),
-  UpgradeType.Industry: const Upgrade(
-      type: UpgradeType.Industry,
+  UpgradeType.Explorer: const Upgrade(
+      type: UpgradeType.Explorer,
       cost: 25000,
-      description: 'Gotta work for the bread, right ?',
-      effect: 'Income',
-      effectValue: '+15%'),
-  UpgradeType.TradeCenter: const Upgrade(
-      type: UpgradeType.TradeCenter,
-      cost: 40000,
-      description: 'Opens door to Trading',
+      description: 'Finds new Intergalactic Trade Routes',
       effect: 'Trade',
       effectValue: '+1'),
-  UpgradeType.Moske: const Upgrade(
-      type: UpgradeType.Moske,
-      cost: 70000,
-      description: 'Atheist no more ',
+  UpgradeType.Starlink: const Upgrade(
+      type: UpgradeType.Starlink,
+      cost: 40000,
+      description: 'Connects the Planet By Internet',
       effect: 'Morale',
-      effectValue: '+15%'),
+      effectValue: '+10%'),
+  UpgradeType.Colosseum: const Upgrade(
+      type: UpgradeType.Colosseum,
+      cost: 90000,
+      description: 'The Ultimate Proof of a Planet\'s Advancement',
+      effect: 'Morale',
+      effectValue: '+25%'),
 };

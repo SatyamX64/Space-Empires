@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 enum AttackShipType {
   Magnum,
-  Astro,
-  Rover,
+  Optimus,
+  Romeo,
 }
 
 class AttackShip {
@@ -28,10 +28,10 @@ class AttackShip {
 }
 
 const Map<AttackShipType, AttackShip> kAttackShipsData = const {
-  AttackShipType.Rover: const AttackShip(
+  AttackShipType.Romeo: const AttackShip(
     cost: 800,
-    description: 'Small angry boi',
-    type: AttackShipType.Rover,
+    description: 'Small but dependable',
+    type: AttackShipType.Romeo,
     point: 2,
     morale: 1,
     damage: 80,
@@ -40,7 +40,7 @@ const Map<AttackShipType, AttackShip> kAttackShipsData = const {
   ),
   AttackShipType.Magnum: const AttackShip(
     cost: 3000,
-    description: 'This is death incarnate',
+    description: 'Attack Power is Second to none',
     type: AttackShipType.Magnum,
     point: 3,
     morale: 5,
@@ -48,11 +48,11 @@ const Map<AttackShipType, AttackShip> kAttackShipsData = const {
     health: 1000,
     maintainance: 25,
   ),
-  AttackShipType.Astro: const AttackShip(
+  AttackShipType.Optimus: const AttackShip(
     cost: 2500,
-    description: 'Can take a beating',
+    description: 'Will take a lot, to bring this down',
     point: 1,
-    type: AttackShipType.Astro,
+    type: AttackShipType.Optimus,
     morale: 4,
     damage: 120,
     health: 2200,

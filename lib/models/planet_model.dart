@@ -15,11 +15,11 @@ enum PlanetName {
 
 const Map<PlanetName, String> kPlanetsDescriptionData = const {
   PlanetName.Miavis:
-      'Part of an failed experiment\nThe Planet gets closer to doom every day',
+      'The place has seen better days, the planet grows closer to its doom everyday',
   PlanetName.Hounus:
       'The hottest plan there is on the solar system,\nFull of Lava and gold',
   PlanetName.Drukunides:
-      'Covered in vines and deep forest.\nHome to the most Toxic Snakes in universe',
+      'Covered in vines and deep forest.\nMorbo lives here if rumours are to be believed',
   PlanetName.Eno:
       'Believed to be the home of the Ruler of Seas.\nThe harsh climate has made the inhabitants super durable',
   PlanetName.Musk:
@@ -163,24 +163,24 @@ mixin PlanetUpgrade {
   }
 
   int get planetDefenseQuotient {
-    int turret = upgradePresent(UpgradeType.Turret) ? 1 : 0;
-    int watchTower = upgradePresent(UpgradeType.WatchTower) ? 2 : 0;
+    int turret = upgradePresent(UpgradeType.Charm) ? 1 : 0;
+    int watchTower = upgradePresent(UpgradeType.Illumina) ? 2 : 0;
     return turret + watchTower;
   }
 
   double get planetMoraleBoost {
-    double townCenter = upgradePresent(UpgradeType.TownCenter) ? 0.1 : 0;
-    double moske = upgradePresent(UpgradeType.Moske) ? 0.15 : 0;
+    double townCenter = upgradePresent(UpgradeType.Starlink) ? 0.1 : 0;
+    double moske = upgradePresent(UpgradeType.Colosseum) ? 0.25 : 0;
     return 1 + moske + townCenter;
   }
 
   double get planetRevenueBoost {
-    double boost = upgradePresent(UpgradeType.Industry) ? 1.15 : 1;
+    double boost = upgradePresent(UpgradeType.Electricity) ? 1.10 : 1;
     return boost;
   }
 
   int get planetTradeBoost {
-    int boost = upgradePresent(UpgradeType.TradeCenter) ? 1 : 0;
+    int boost = upgradePresent(UpgradeType.Starlink) ? 1 : 0;
     return boost;
   }
 }
