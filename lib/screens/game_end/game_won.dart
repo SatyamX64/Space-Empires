@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:some_game/services/game.dart';
+import '/services/game.dart';
+import '/utility/constants.dart';
 
 import '../welcome_screen.dart';
 
@@ -12,14 +13,22 @@ class GameWonScreen extends StatelessWidget {
     return WillPopScope(
         child: Scaffold(
           body: Center(
-            child: ElevatedButton(
-              onPressed: () {
-                _gameData.resetAllData();
-                Navigator.of(context)
-                    .popUntil(ModalRoute.withName(WelcomeScreen.route));
-              },
-              child: Text('You Win'),
+            child: Image.asset('assets/img/gifs/win.gif'),
+          ),
+          floatingActionButtonLocation:
+              FloatingActionButtonLocation.centerFloat,
+          floatingActionButton: FloatingActionButton(
+            backgroundColor: Palette.deepBlue,
+            tooltip: 'Restart',
+            child: Icon(
+              Icons.forward,
+              color: Colors.white,
             ),
+            onPressed: () {
+              _gameData.resetAllData();
+              Navigator.of(context)
+                  .popUntil(ModalRoute.withName(WelcomeScreen.route));
+            },
           ),
         ),
         onWillPop: () {

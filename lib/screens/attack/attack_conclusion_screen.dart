@@ -4,8 +4,8 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:rive/rive.dart';
 import 'package:sizer/sizer.dart';
-import 'package:some_game/services/game.dart';
-import 'package:some_game/utility/constants.dart';
+import '/services/game.dart';
+import '/utility/constants.dart';
 
 class AttackConclusionScreen extends StatelessWidget {
   static const route = '/attack-conclusion-screen.dart';
@@ -19,7 +19,7 @@ class AttackConclusionScreen extends StatelessWidget {
         padding: EdgeInsets.all(16.sp),
         child: GestureDetector(
           onTap: () {
-            Provider.of<Game>(context,listen : false).removeDeadPlayers();
+            Provider.of<Game>(context, listen: false).removeDeadPlayers();
             Navigator.of(context).pop();
           },
           child: Container(

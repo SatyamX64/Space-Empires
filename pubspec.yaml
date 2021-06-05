@@ -1,4 +1,4 @@
-name: some_game
+name: space_empires
 description: A new Flutter project.
 
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
@@ -45,6 +45,7 @@ flutter:
       - assets/img/ships/defense/
       - assets/img/control_deck/
       - assets/img/ruler/
+      - assets/img/gifs/
 
   fonts:
     - family: Italianno

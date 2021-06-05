@@ -1,4 +1,4 @@
-import 'package:some_game/models/attack_ships_model.dart';
+import '/models/attack_ships_model.dart';
 import 'package:flutter/material.dart';
 
 // If given a list [1,2] it will store all possible permutations with repetation allowed
@@ -53,4 +53,3 @@ class FormationProvider extends ChangeNotifier {
     notifyListeners();
   }
 }
-

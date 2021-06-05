@@ -1,17 +1,17 @@
 import 'dart:math';
-import 'package:some_game/models/attack_ships_model.dart';
+import '/models/attack_ships_model.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:some_game/models/player/player.dart';
-import 'package:some_game/services/game.dart';
-import 'package:some_game/models/planet_model.dart';
+import '/models/player/player.dart';
+import '/services/game.dart';
+import '/models/planet_model.dart';
 import 'package:sizer/sizer.dart';
-import 'package:some_game/screens/attack/attack_conclusion_screen.dart';
-import 'package:some_game/screens/game_end/game_lost.dart';
-import 'package:some_game/screens/game_end/game_won.dart';
-import 'package:some_game/utility/constants.dart';
-import 'package:some_game/utility/formation_generator.dart';
+import '/screens/attack/attack_conclusion_screen.dart';
+import '/screens/game_end/game_lost.dart';
+import '/screens/game_end/game_won.dart';
+import '/utility/constants.dart';
+import '/utility/formation_generator.dart';
 
 class ControlPanel extends StatefulWidget {
   @override
@@ -143,6 +143,43 @@ class _ControlPanelState extends State<ControlPanel>
       return bestFormation;
     }
 
+    Map<String, bool> _canDamage() {
+      // Checks if Attacker / Defender can damage the other party or not
+      // Eg : If both parties have only 1 battleship/orbital left
+      // Then no one will ever win and battle will end as stalemate
+      // Attacker will retreat without further lose
+      int likabilityDefense = 0;
+      for (List<int> formation in _formationProvider.formations) {
+        List<int> damageOutputs = _attacker.attack(formation);
+        int likeablilityFactor = _planet.likeabilityFactor(damageOutputs);
+        if (likeablilityFactor > likabilityDefense) {
+          likabilityDefense = likeablilityFactor;
+        }
+      }
+      int likeabilityAttack = 0;
+      for (List<int> formation in _formationProvider.formations) {
+        List<int> damageOutputs = _planet.attack(formation);
+        int likeablilityFactor = _attacker.damageDoneByFormation(damageOutputs);
+        if (likeablilityFactor > likeabilityAttack) {
+          likeabilityAttack = likeablilityFactor;
+        }
+      }
+      print(' Like : $likeabilityAttack : $likabilityDefense');
+      return {
+        'defender': likabilityDefense > 0,
+        'attacker': likeabilityAttack > 0,
+      };
+    }
+
+    _goToConclusionScreen(String message) {
+      if (_overlayEntry != null) {
+        _overlayEntry.remove();
+        _overlayEntry = null;
+      }
+      Navigator.pushReplacementNamed(context, AttackConclusionScreen.route,
+          arguments: message);
+    }
+
     return Container(
       margin: EdgeInsets.all(16.sp),
       padding: EdgeInsets.all(8.sp),
@@ -163,11 +200,13 @@ class _ControlPanelState extends State<ControlPanel>
                           child: FittedBox(
                             child: Text(
                               '${_planet.defense}',
-                              style:
-                                  Theme.of(context).textTheme.headline3.copyWith(
-                                        color: Colors.white70,
-                                        fontWeight: FontWeight.w600,
-                                      ),
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .headline3
+                                  .copyWith(
+                                    color: Colors.white70,
+                                    fontWeight: FontWeight.w600,
+                                  ),
                             ),
                           ),
                         ),
@@ -176,8 +215,12 @@ class _ControlPanelState extends State<ControlPanel>
                         child: FittedBox(
                           child: Text(
                             'Defense',
-                            style: Theme.of(context).textTheme.headline6.copyWith(
-                                color: Colors.white, fontWeight: FontWeight.w600),
+                            style: Theme.of(context)
+                                .textTheme
+                                .headline6
+                                .copyWith(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w600),
                           ),
                         ),
                       ),
@@ -235,8 +278,12 @@ class _ControlPanelState extends State<ControlPanel>
                         child: FittedBox(
                           child: Text(
                             'Formation',
-                            style: Theme.of(context).textTheme.headline6.copyWith(
-                                color: Colors.white, fontWeight: FontWeight.w600),
+                            style: Theme.of(context)
+                                .textTheme
+                                .headline6
+                                .copyWith(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w600),
                           ),
                         ),
                       ),
@@ -284,15 +331,11 @@ class _ControlPanelState extends State<ControlPanel>
                     showOverlay(
                         '-${_initialAttackShips - attackShipsLeft} Ships',
                         '-${_initialDefenseShips - defenseShipsLeft} Ships');
+                    Map<String, bool> canDamage = _canDamage();
                     // If Both attack and defense ships become  0, then attack is considered failed
                     if (attackShipsLeft == 0) {
-                      if (_overlayEntry != null) {
-                        _overlayEntry.remove();
-                        _overlayEntry = null;
-                      }
-                      Navigator.pushReplacementNamed(
-                          context, AttackConclusionScreen.route,
-                          arguments: 'The planet successfully defended itself');
+                      _goToConclusionScreen(
+                          'The Planet Successfully defended itself');
                     } else if (defenseShipsLeft == 0) {
                       if (_overlayEntry != null) {
                         _overlayEntry.remove();
@@ -311,11 +354,18 @@ class _ControlPanelState extends State<ControlPanel>
                           GameLostScreen.route,
                         );
                       } else {
-                        Navigator.pushReplacementNamed(
-                            context, AttackConclusionScreen.route,
-                            arguments: 'The planet succumbed to its attacker');
+                        _goToConclusionScreen(
+                            'The planet succumbed to its attacker');
                       }
+                    } else if ((!_isPlayerAttacker && !canDamage['attacker']) ||
+                        (!canDamage['attacker'] && !canDamage['defender'])) {
+                      // If computer is attacker and it can't damage it retreats, defender doesn't matter unless 0
+                      // If no one can further damage the other, then attacker retreats
+                      _goToConclusionScreen(
+                          'The Attacker has retreated, Planet is Safe');
+                      // attacker gives up
                     }
+                    // If player is attacker and can't damage, defender will destory it eventually or they retreat
                   },
                   child: FittedBox(
                     child: Text(

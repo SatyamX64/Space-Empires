@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:some_game/utility/constants.dart';
-import 'package:some_game/utility/instructions.dart';
+import '/utility/constants.dart';
+import '/utility/instructions.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 const _url =
@@ -24,12 +24,14 @@ class InstructionScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text(
-          'Instructions',
-          style: Theme.of(context)
-              .textTheme
-              .headline4
-              .copyWith(fontFamily: 'Italianno'),
+        title: FittedBox(
+          child: Text(
+            'Instructions',
+            style: Theme.of(context)
+                .textTheme
+                .headline4
+                .copyWith(fontFamily: 'Italianno'),
+          ),
         ),
         backgroundColor: Colors.transparent,
         elevation: 0,

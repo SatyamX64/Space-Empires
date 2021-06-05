@@ -4,10 +4,10 @@ import 'package:sizer/sizer.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animated_dialog/flutter_animated_dialog.dart';
-import 'package:some_game/models/defense_ships_model.dart';
-import 'package:some_game/models/planet_model.dart';
-import 'package:some_game/models/player/player.dart';
-import 'package:some_game/utility/utility.dart';
+import '/models/defense_ships_model.dart';
+import '/models/planet_model.dart';
+import '/models/player/player.dart';
+import '/utility/utility.dart';
 
 class PlanetDefense extends StatelessWidget {
   PlanetDefense({
@@ -28,8 +28,8 @@ class PlanetDefense extends StatelessWidget {
               120, max(constraints.maxHeight / _planet.allShips.length, 90)),
           itemBuilder: (_, index) {
             return _DefenseShipCard(
-              defenseShip:
-                  kDefenseShipsData[List<DefenseShipType>.from(_planet.allShips.keys)[index]],
+              defenseShip: kDefenseShipsData[
+                  List<DefenseShipType>.from(_planet.allShips.keys)[index]],
               width: constraints.maxWidth,
             );
           });

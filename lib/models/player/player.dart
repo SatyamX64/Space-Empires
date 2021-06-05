@@ -1,8 +1,8 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:some_game/models/attack_ships_model.dart';
-import 'package:some_game/models/planet_model.dart';
-import 'package:some_game/models/upgrade_model.dart';
+import '/models/attack_ships_model.dart';
+import '/models/planet_model.dart';
+import '/models/upgrade_model.dart';
 import '../defense_ships_model.dart';
 import '../ruler_model.dart';
 import 'stats.dart';

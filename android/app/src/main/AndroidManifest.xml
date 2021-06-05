@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.some_game">
+    package="com.satyamx64.space_empires">
    <application
-        android:label="some_game"
+        android:label="Space Empires"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"

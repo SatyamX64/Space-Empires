@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:rive/rive.dart';
 import 'package:sizer/sizer.dart';
-import 'package:some_game/utility/constants.dart';
-import 'package:some_game/utility/utility.dart';
+import '/utility/constants.dart';
+import '/utility/utility.dart';
 import '../welcome_screen.dart';
 
 class StoryScreenIII extends StatefulWidget {

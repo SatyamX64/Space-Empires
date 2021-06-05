@@ -5,13 +5,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
-import 'package:some_game/models/player/player.dart';
-import 'package:some_game/services/game.dart';
-import 'package:some_game/models/planet_model.dart';
-import 'package:some_game/screens/attack/attack_screen.dart';
-import 'package:some_game/utility/constants.dart';
-import 'package:some_game/utility/utility.dart';
-import 'package:some_game/widgets/gradient_dialog.dart';
+import '/models/player/player.dart';
+import '/services/game.dart';
+import '/models/planet_model.dart';
+import '/screens/attack/attack_screen.dart';
+import '/utility/constants.dart';
+import '/utility/utility.dart';
+import '/widgets/gradient_dialog.dart';
 
 showAttackMenu(BuildContext context) {
   return showGradientDialog(

@@ -1,6 +1,6 @@
 {
-    "name": "some_game",
-    "short_name": "some_game",
+    "name": "space_empires",
+    "short_name": "space_empires",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

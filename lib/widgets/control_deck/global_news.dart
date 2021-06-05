@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:some_game/services/game.dart';
-import 'package:some_game/widgets/gradient_dialog.dart';
+import '/services/game.dart';
+import '/widgets/gradient_dialog.dart';
 
 showGlobalNews(context) {
   final List<String> news =

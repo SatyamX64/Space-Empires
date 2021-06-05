@@ -2,14 +2,14 @@ import 'dart:ui';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:some_game/models/player/player.dart';
-import 'package:some_game/services/game.dart';
-import 'package:some_game/models/planet_model.dart';
-import 'package:some_game/utility/constants.dart';
-import 'package:some_game/widgets/planet_screen/defense.dart';
-import 'package:some_game/widgets/planet_screen/stats.dart';
-import 'package:some_game/widgets/planet_screen/upgrades.dart';
-import 'package:some_game/widgets/static_stars_bg.dart';
+import '/models/player/player.dart';
+import '/services/game.dart';
+import '/models/planet_model.dart';
+import '/utility/constants.dart';
+import '/widgets/planet_screen/defense.dart';
+import '/widgets/planet_screen/stats.dart';
+import '/widgets/planet_screen/upgrades.dart';
+import '/widgets/static_stars_bg.dart';
 
 class PlanetScreen extends StatelessWidget {
   static const route = '/planet-screen';
@@ -121,7 +121,10 @@ class PlanetScreen extends StatelessWidget {
                 builder: (_, player, __) {
                   return Text(
                     '${player.money}',
-                    style: TextStyle(fontWeight: FontWeight.bold),
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyText2
+                        .copyWith(fontWeight: FontWeight.bold),
                   );
                 },
               ),

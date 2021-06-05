@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:some_game/models/defense_ships_model.dart';
-import 'package:some_game/models/upgrade_model.dart';
+import '/models/defense_ships_model.dart';
+import '/models/upgrade_model.dart';
 
 enum PlanetName {
   Miavis,

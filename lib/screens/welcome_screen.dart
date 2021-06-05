@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
-import 'package:some_game/utility/constants.dart';
-import 'package:some_game/widgets/static_stars_bg.dart';
+import '/utility/constants.dart';
+import '/widgets/static_stars_bg.dart';
 import 'character_selection_screen.dart';
 import 'story/story_i.dart';
 
@@ -76,21 +76,19 @@ class WelcomeScreen extends StatelessWidget {
 
     _saturn() {
       return Positioned(
-        right: -size.longestSide/ 4,
-        bottom: -size.longestSide/ 8,
+        right: -size.longestSide / 4,
+        bottom: -size.longestSide / 8,
         child: Lottie.asset('assets/animations/saturn.json',
-            height: size.longestSide/ 2,
-            width: size.longestSide/ 2),
+            height: size.longestSide / 2, width: size.longestSide / 2),
       );
     }
 
     _purplePlanet() {
       return Positioned(
-        left: -size.longestSide/ 4,
+        left: -size.longestSide / 4,
         bottom: 0,
         child: Lottie.asset('assets/animations/xeno.json',
-            height: size.longestSide/ 2,
-            width: size.longestSide/ 2),
+            height: size.longestSide / 2, width: size.longestSide / 2),
       );
     }
 

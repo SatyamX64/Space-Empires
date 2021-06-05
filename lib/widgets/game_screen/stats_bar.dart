@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:some_game/models/player/player.dart';
-import 'package:some_game/screens/help/instructions-screen.dart';
-import 'package:some_game/services/game.dart';
-import 'package:some_game/utility/constants.dart';
+import '/models/player/player.dart';
+import '/screens/help/instructions-screen.dart';
+import '/services/game.dart';
+import '/utility/constants.dart';
 import 'package:sizer/sizer.dart';
 
 class StatsBar extends StatelessWidget {
@@ -34,7 +34,10 @@ class StatsBar extends StatelessWidget {
               label: Consumer<Game>(
                 builder: (_, gameData, __) {
                   return Text('Days : ${gameData.days}',
-                      style: TextStyle(fontWeight: FontWeight.bold));
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyText2
+                          .copyWith(fontWeight: FontWeight.bold));
                 },
               ),
             ),
@@ -61,7 +64,10 @@ class StatsBar extends StatelessWidget {
                 builder: (_, player, __) {
                   return Text(
                     '${player.money}',
-                    style: TextStyle(fontWeight: FontWeight.bold),
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyText2
+                        .copyWith(fontWeight: FontWeight.bold),
                   );
                 },
               ),
@@ -78,7 +84,10 @@ class StatsBar extends StatelessWidget {
                 padding: EdgeInsets.all(8.0),
                 label: Text(
                   'Info',
-                  style: TextStyle(fontWeight: FontWeight.bold),
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyText2
+                      .copyWith(fontWeight: FontWeight.bold),
                 ),
               ),
             ),

@@ -1,5 +1,5 @@
 Date : 2021-05-24 00:02:00
-Directory : c:\Flutter Projects\some_game\lib
+Directory : c:\Flutter Projects\space_empires\lib
 Total : 35 files,  4883 codes, 172 comments, 400 blanks, all 5455 lines
 
 Languages
@@ -28,40 +28,40 @@ Files
 +---------------------------------------------------------------------------+----------+------------+------------+------------+------------+
 | filename                                                                  | language | code       | comment    | blank      | total      |
 +---------------------------------------------------------------------------+----------+------------+------------+------------+------------+
-| c:\Flutter Projects\some_game\lib\main.dart                               | Dart     |        114 |          6 |          4 |        124 |
-| c:\Flutter Projects\some_game\lib\models\attack_ships_model.dart          | Dart     |         52 |          0 |          5 |         57 |
-| c:\Flutter Projects\some_game\lib\models\defense_ships_model.dart         | Dart     |         44 |          0 |          5 |         49 |
-| c:\Flutter Projects\some_game\lib\models\game_data.dart                   | Dart     |        375 |        139 |         34 |        548 |
-| c:\Flutter Projects\some_game\lib\models\planet_model.dart                | Dart     |        162 |          0 |         30 |        192 |
-| c:\Flutter Projects\some_game\lib\models\player_model.dart                | Dart     |        259 |          0 |         48 |        307 |
-| c:\Flutter Projects\some_game\lib\models\rivals_model.dart                | Dart     |         11 |          0 |          3 |         14 |
-| c:\Flutter Projects\some_game\lib\models\upgrade_model.dart               | Dart     |         60 |          0 |          5 |         65 |
-| c:\Flutter Projects\some_game\lib\screens\attack_conclusion_screen.dart   | Dart     |        124 |          0 |         12 |        136 |
-| c:\Flutter Projects\some_game\lib\screens\attack_screen.dart              | Dart     |        473 |          2 |         30 |        505 |
-| c:\Flutter Projects\some_game\lib\screens\character_selection_screen.dart | Dart     |        183 |          0 |         13 |        196 |
-| c:\Flutter Projects\some_game\lib\screens\game_screen.dart                | Dart     |        149 |          0 |          7 |        156 |
-| c:\Flutter Projects\some_game\lib\screens\planet_screen.dart              | Dart     |        162 |          2 |         11 |        175 |
-| c:\Flutter Projects\some_game\lib\screens\splash_screen.dart              | Dart     |         42 |          0 |          6 |         48 |
-| c:\Flutter Projects\some_game\lib\screens\story\story_i.dart              | Dart     |        184 |          4 |         14 |        202 |
-| c:\Flutter Projects\some_game\lib\screens\story\story_ii.dart             | Dart     |        196 |          0 |         17 |        213 |
-| c:\Flutter Projects\some_game\lib\screens\story\story_iii.dart            | Dart     |        191 |          0 |         17 |        208 |
-| c:\Flutter Projects\some_game\lib\screens\welcome_screen.dart             | Dart     |        103 |          0 |          8 |        111 |
-| c:\Flutter Projects\some_game\lib\utility\constants.dart                  | Dart     |         10 |          1 |          6 |         17 |
-| c:\Flutter Projects\some_game\lib\utility\formation_generator.dart        | Dart     |         25 |          0 |          3 |         28 |
-| c:\Flutter Projects\some_game\lib\utility\utility.dart                    | Dart     |         27 |          0 |          2 |         29 |
-| c:\Flutter Projects\some_game\lib\widgets\circle_tab_indicator.dart       | Dart     |         22 |          0 |          7 |         29 |
-| c:\Flutter Projects\some_game\lib\widgets\control_deck.dart               | Dart     |        125 |          2 |         12 |        139 |
-| c:\Flutter Projects\some_game\lib\widgets\control_deck\attack.dart        | Dart     |        178 |          0 |         11 |        189 |
-| c:\Flutter Projects\some_game\lib\widgets\control_deck\military.dart      | Dart     |        324 |          2 |         15 |        341 |
-| c:\Flutter Projects\some_game\lib\widgets\control_deck\rivals_chat.dart   | Dart     |        318 |         10 |         22 |        350 |
-| c:\Flutter Projects\some_game\lib\widgets\control_deck\stats.dart         | Dart     |        177 |          2 |         11 |        190 |
-| c:\Flutter Projects\some_game\lib\widgets\game_screen\solar_system.dart   | Dart     |         90 |          1 |          9 |        100 |
-| c:\Flutter Projects\some_game\lib\widgets\game_screen\stats_bar.dart      | Dart     |         41 |          0 |          2 |         43 |
-| c:\Flutter Projects\some_game\lib\widgets\gradient_dialog.dart            | Dart     |         39 |          0 |          2 |         41 |
-| c:\Flutter Projects\some_game\lib\widgets\gradient_fab.dart               | Dart     |         36 |          0 |          4 |         40 |
-| c:\Flutter Projects\some_game\lib\widgets\planet_screen\defense.dart      | Dart     |        254 |          0 |         11 |        265 |
-| c:\Flutter Projects\some_game\lib\widgets\planet_screen\stats.dart        | Dart     |        117 |          0 |          3 |        120 |
-| c:\Flutter Projects\some_game\lib\widgets\planet_screen\upgrades.dart     | Dart     |        200 |          1 |          9 |        210 |
-| c:\Flutter Projects\some_game\lib\widgets\static_stars_bg.dart            | Dart     |         16 |          0 |          2 |         18 |
+| c:\Flutter Projects\space_empires\lib\main.dart                               | Dart     |        114 |          6 |          4 |        124 |
+| c:\Flutter Projects\space_empires\lib\models\attack_ships_model.dart          | Dart     |         52 |          0 |          5 |         57 |
+| c:\Flutter Projects\space_empires\lib\models\defense_ships_model.dart         | Dart     |         44 |          0 |          5 |         49 |
+| c:\Flutter Projects\space_empires\lib\models\game_data.dart                   | Dart     |        375 |        139 |         34 |        548 |
+| c:\Flutter Projects\space_empires\lib\models\planet_model.dart                | Dart     |        162 |          0 |         30 |        192 |
+| c:\Flutter Projects\space_empires\lib\models\player_model.dart                | Dart     |        259 |          0 |         48 |        307 |
+| c:\Flutter Projects\space_empires\lib\models\rivals_model.dart                | Dart     |         11 |          0 |          3 |         14 |
+| c:\Flutter Projects\space_empires\lib\models\upgrade_model.dart               | Dart     |         60 |          0 |          5 |         65 |
+| c:\Flutter Projects\space_empires\lib\screens\attack_conclusion_screen.dart   | Dart     |        124 |          0 |         12 |        136 |
+| c:\Flutter Projects\space_empires\lib\screens\attack_screen.dart              | Dart     |        473 |          2 |         30 |        505 |
+| c:\Flutter Projects\space_empires\lib\screens\character_selection_screen.dart | Dart     |        183 |          0 |         13 |        196 |
+| c:\Flutter Projects\space_empires\lib\screens\game_screen.dart                | Dart     |        149 |          0 |          7 |        156 |
+| c:\Flutter Projects\space_empires\lib\screens\planet_screen.dart              | Dart     |        162 |          2 |         11 |        175 |
+| c:\Flutter Projects\space_empires\lib\screens\splash_screen.dart              | Dart     |         42 |          0 |          6 |         48 |
+| c:\Flutter Projects\space_empires\lib\screens\story\story_i.dart              | Dart     |        184 |          4 |         14 |        202 |
+| c:\Flutter Projects\space_empires\lib\screens\story\story_ii.dart             | Dart     |        196 |          0 |         17 |        213 |
+| c:\Flutter Projects\space_empires\lib\screens\story\story_iii.dart            | Dart     |        191 |          0 |         17 |        208 |
+| c:\Flutter Projects\space_empires\lib\screens\welcome_screen.dart             | Dart     |        103 |          0 |          8 |        111 |
+| c:\Flutter Projects\space_empires\lib\utility\constants.dart                  | Dart     |         10 |          1 |          6 |         17 |
+| c:\Flutter Projects\space_empires\lib\utility\formation_generator.dart        | Dart     |         25 |          0 |          3 |         28 |
+| c:\Flutter Projects\space_empires\lib\utility\utility.dart                    | Dart     |         27 |          0 |          2 |         29 |
+| c:\Flutter Projects\space_empires\lib\widgets\circle_tab_indicator.dart       | Dart     |         22 |          0 |          7 |         29 |
+| c:\Flutter Projects\space_empires\lib\widgets\control_deck.dart               | Dart     |        125 |          2 |         12 |        139 |
+| c:\Flutter Projects\space_empires\lib\widgets\control_deck\attack.dart        | Dart     |        178 |          0 |         11 |        189 |
+| c:\Flutter Projects\space_empires\lib\widgets\control_deck\military.dart      | Dart     |        324 |          2 |         15 |        341 |
+| c:\Flutter Projects\space_empires\lib\widgets\control_deck\rivals_chat.dart   | Dart     |        318 |         10 |         22 |        350 |
+| c:\Flutter Projects\space_empires\lib\widgets\control_deck\stats.dart         | Dart     |        177 |          2 |         11 |        190 |
+| c:\Flutter Projects\space_empires\lib\widgets\game_screen\solar_system.dart   | Dart     |         90 |          1 |          9 |        100 |
+| c:\Flutter Projects\space_empires\lib\widgets\game_screen\stats_bar.dart      | Dart     |         41 |          0 |          2 |         43 |
+| c:\Flutter Projects\space_empires\lib\widgets\gradient_dialog.dart            | Dart     |         39 |          0 |          2 |         41 |
+| c:\Flutter Projects\space_empires\lib\widgets\gradient_fab.dart               | Dart     |         36 |          0 |          4 |         40 |
+| c:\Flutter Projects\space_empires\lib\widgets\planet_screen\defense.dart      | Dart     |        254 |          0 |         11 |        265 |
+| c:\Flutter Projects\space_empires\lib\widgets\planet_screen\stats.dart        | Dart     |        117 |          0 |          3 |        120 |
+| c:\Flutter Projects\space_empires\lib\widgets\planet_screen\upgrades.dart     | Dart     |        200 |          1 |          9 |        210 |
+| c:\Flutter Projects\space_empires\lib\widgets\static_stars_bg.dart            | Dart     |         16 |          0 |          2 |         18 |
 | Total                                                                     |          |      4,883 |        172 |        400 |      5,455 |
 +---------------------------------------------------------------------------+----------+------------+------------+------------+------------+

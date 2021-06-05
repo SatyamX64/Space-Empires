@@ -3,12 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:rive/rive.dart';
 import 'package:sizer/sizer.dart';
-import 'package:some_game/utility/constants.dart';
-import 'package:some_game/utility/utility.dart';
+import '/utility/constants.dart';
+import '/utility/utility.dart';
 
 import '../welcome_screen.dart';
 import 'story_iii.dart';
-
 
 class StoryScreenII extends StatefulWidget {
   static const route = '/story-ii-screen.dart';
@@ -153,8 +152,8 @@ class _StoryScreenIIState extends State<StoryScreenII> {
     final Orientation orientation = MediaQuery.of(context).orientation;
     return WillPopScope(
         child: Scaffold(
-           backgroundColor: Color(0xFF1D0026),
-         body: orientation == Orientation.landscape
+            backgroundColor: Color(0xFF1D0026),
+            body: orientation == Orientation.landscape
                 ? _landscape()
                 : _portrait()),
         onWillPop: () {

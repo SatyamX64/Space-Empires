@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:some_game/models/attack_ships_model.dart';
-import 'package:some_game/models/defense_ships_model.dart';
+import '/models/attack_ships_model.dart';
+import '/models/defense_ships_model.dart';
 
 class AttackerFormationPainter extends CustomPainter {
   final List<int> formation;

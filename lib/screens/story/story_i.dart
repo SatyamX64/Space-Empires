@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:rive/rive.dart';
 import 'package:sizer/sizer.dart';
-import 'package:some_game/screens/welcome_screen.dart';
-import 'package:some_game/utility/utility.dart';
-import 'package:some_game/utility/constants.dart';
+import '/screens/welcome_screen.dart';
+import '/utility/utility.dart';
+import '/utility/constants.dart';
 
 import 'story_ii.dart';
 

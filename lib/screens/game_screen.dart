@@ -1,10 +1,10 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:some_game/models/player/player.dart';
-import 'package:some_game/screens/game_end/game_lost.dart';
-import 'package:some_game/screens/game_end/game_won.dart';
-import 'package:some_game/widgets/control_deck/global_news.dart';
+import '/models/player/player.dart';
+import '/screens/game_end/game_lost.dart';
+import '/screens/game_end/game_won.dart';
+import '/widgets/control_deck/global_news.dart';
 import '../services/game.dart';
 import '../widgets/gradient_dialog.dart';
 import '../utility/constants.dart';
@@ -216,11 +216,25 @@ class __NextTurnFABState extends State<_NextTurnFAB>
             onTap: () async {
               var oncomingAttack = _gameData.nextTurn();
               if (_gameData.lostGame) {
+                if (_overlayEntry != null) {
+                  _overlayEntry.remove();
+                  _overlayEntry = null;
+                }
+
                 Navigator.of(context).pushNamed(GameLostScreen.route);
               } else if (_gameData.wonGame) {
+                if (_overlayEntry != null) {
+                  _overlayEntry.remove();
+                  _overlayEntry = null;
+                }
+
                 Navigator.of(context).pushNamed(GameWonScreen.route);
               } else {
                 if (oncomingAttack != null) {
+                  if (_overlayEntry != null) {
+                    _overlayEntry.remove();
+                    _overlayEntry = null;
+                  }
                   await Navigator.of(context)
                       .pushNamed(AttackScreen.route, arguments: {
                     'planet': oncomingAttack['planet'],

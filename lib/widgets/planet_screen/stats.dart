@@ -1,10 +1,10 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:some_game/models/player/player.dart';
-import 'package:some_game/services/game.dart';
-import 'package:some_game/models/planet_model.dart';
-import 'package:some_game/utility/constants.dart';
+import '/models/player/player.dart';
+import '/services/game.dart';
+import '/models/planet_model.dart';
+import '/utility/constants.dart';
 
 class PlanetStats extends StatelessWidget {
   const PlanetStats();
@@ -24,8 +24,8 @@ class PlanetStats extends StatelessWidget {
 
     return Container(
         decoration: BoxDecoration(
-            gradient: LinearGradient(
-                colors: [Colors.black, opacityIndigo(0.3)]),
+            gradient:
+                LinearGradient(colors: [Colors.black, opacityIndigo(0.3)]),
             borderRadius: BorderRadius.circular(8)),
         padding: const EdgeInsets.all(16),
         child: Column(

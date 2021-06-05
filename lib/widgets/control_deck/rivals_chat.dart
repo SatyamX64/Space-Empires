@@ -4,11 +4,11 @@ import 'package:sizer/sizer.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:some_game/models/player/player.dart';
-import 'package:some_game/services/game.dart';
-import 'package:some_game/models/rivals_model.dart';
-import 'package:some_game/models/ruler_model.dart';
-import 'package:some_game/widgets/gradient_dialog.dart';
+import '/models/player/player.dart';
+import '/services/game.dart';
+import '/models/rivals_model.dart';
+import '/models/ruler_model.dart';
+import '/widgets/gradient_dialog.dart';
 import '../circle_tab_indicator.dart';
 
 showRivalsChatMenu(BuildContext context) {

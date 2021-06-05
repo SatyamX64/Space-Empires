@@ -2,8 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
-import 'package:some_game/screens/game_end/game_lost.dart';
-import 'package:some_game/screens/game_end/game_won.dart';
+import './screens/game_end/game_lost.dart';
+import './screens/game_end/game_won.dart';
 import 'models/player/player.dart';
 import 'services/game.dart';
 import './models/planet_model.dart';
@@ -55,6 +55,7 @@ class MyApp extends StatelessWidget {
         return Sizer(builder: (context, orientation, deviceType) {
           return MaterialApp(
             debugShowCheckedModeBanner: false,
+            title: 'Space Empires',
             theme: ThemeData.dark().copyWith(
               scaffoldBackgroundColor: Colors.black,
               primaryColor: Colors.indigo,

@@ -1,7 +1,7 @@
 import 'package:after_layout/after_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:some_game/screens/welcome_screen.dart';
+import '/screens/welcome_screen.dart';
 import 'story/story_i.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -30,7 +30,6 @@ class SplashScreenState extends State<SplashScreen>
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-    );
+    return Scaffold();
   }
 }

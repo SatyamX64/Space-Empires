@@ -2,15 +2,15 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:provider/provider.dart';
-import 'package:some_game/models/attack_ships_model.dart';
-import 'package:some_game/models/player/player.dart';
-import 'package:some_game/utility/utility.dart';
-import 'package:some_game/widgets/gradient_dialog.dart';
+import '/models/attack_ships_model.dart';
+import '/models/player/player.dart';
+import '/utility/utility.dart';
+import '/widgets/gradient_dialog.dart';
 import 'package:sizer/sizer.dart';
 import '../circle_tab_indicator.dart';
 
 showMilitaryMenu(BuildContext context) {
-  final Player _player = Provider.of<Player>(context, listen: false); 
+  final Player _player = Provider.of<Player>(context, listen: false);
   return showGradientDialog(
       context: context,
       padding: 8,
@@ -24,7 +24,8 @@ showMilitaryMenu(BuildContext context) {
                 children: List.generate(
                   _player.allShips.length,
                   (index) => AttackShipInfo(
-                    attackShip: kAttackShipsData[List.from(_player.allShips.keys)[index]],
+                    attackShip: kAttackShipsData[
+                        List.from(_player.allShips.keys)[index]],
                   ),
                 ),
               ),

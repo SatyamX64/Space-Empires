@@ -2,15 +2,16 @@ import 'dart:ui';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:some_game/models/player/player.dart';
-import 'package:some_game/services/game.dart';
-import 'package:some_game/models/planet_model.dart';
-import 'package:some_game/utility/constants.dart';
-import 'package:some_game/utility/formation_generator.dart';
-import 'package:some_game/widgets/attack/battlefield.dart';
-import 'package:some_game/widgets/attack/control_panel.dart';
-import 'package:some_game/widgets/gradient_dialog.dart';
-import 'package:some_game/widgets/static_stars_bg.dart';
+import '/models/player/player.dart';
+import '/screens/game_end/game_lost.dart';
+import '/services/game.dart';
+import '/models/planet_model.dart';
+import '/utility/constants.dart';
+import '/utility/formation_generator.dart';
+import '/widgets/attack/battlefield.dart';
+import '/widgets/attack/control_panel.dart';
+import '/widgets/gradient_dialog.dart';
+import '/widgets/static_stars_bg.dart';
 import 'package:sizer/sizer.dart';
 
 class AttackScreen extends StatelessWidget {
@@ -21,6 +22,11 @@ class AttackScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final Orientation _orientation = MediaQuery.of(context).orientation;
+    final FormationProvider _formationProvider = FormationProvider();
+    final Game _gameData = Provider.of<Game>(context);
+    final Player _defender = _gameData.playerForPlanet(planet.name);
+
     _quitGame() {
       showGradientDialog(
           context: context,
@@ -49,9 +55,27 @@ class AttackScreen extends StatelessWidget {
               ),
               TextButton(
                   onPressed: () {
-                    Navigator.of(context).pop();
-                    Navigator.of(context).pop();
-                    return Future.value(true);
+                    if (_gameData.currentPlayer.ruler == attacker.ruler) {
+                      attacker.destroyMilitary(0.2);
+
+                      Navigator.of(context).pop();
+                      Navigator.of(context).pop();
+                      return Future.value(true);
+                    } else {
+                      _gameData.changeOwnerOfPlanet(
+                          newRuler: attacker.ruler, name: planet.name);
+                      if (_gameData.lostGame) {
+                        Navigator.pushReplacementNamed(
+                          context,
+                          GameLostScreen.route,
+                        );
+                        return Future.value(false);
+                      } else {
+                        Navigator.of(context).pop();
+                        Navigator.of(context).pop();
+                        return Future.value(true);
+                      }
+                    }
                   },
                   child: Text('Yes I am')),
               TextButton(
@@ -63,11 +87,6 @@ class AttackScreen extends StatelessWidget {
             ],
           ));
     }
-
-    final Orientation _orientation = MediaQuery.of(context).orientation;
-    final FormationProvider _formationProvider = FormationProvider();
-    final Game _gameData = Provider.of<Game>(context);
-    final Player _defender = _gameData.playerForPlanet(planet.name);
 
     _attackerDefenderImage() {
       return SizedBox(
@@ -164,4 +183,3 @@ class AttackScreen extends StatelessWidget {
         onWillPop: _quitGame);
   }
 }
- 

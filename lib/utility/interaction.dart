@@ -1,9 +1,8 @@
-import 'package:some_game/models/rivals_model.dart';
+import '/models/rivals_model.dart';
 
 const int godlyDifference = 70;
 const int goodDifference = 50;
 const int almostEquals = 20;
-
 
 Map yesEffectOfAction(
     {RivalRelation relation, RivalInteractions interactions}) {
@@ -18,7 +17,7 @@ Map yesEffectOfAction(
           "If that\'s what you want..The Peace shall still remain";
       map['relation'] = RivalRelation.Peace;
       break;
-    case RivalInteractions.ExtortForPeace: 
+    case RivalInteractions.ExtortForPeace:
       map['response'] =
           "I will comply to your terms, here is the money for Peace";
       map['relation'] = RivalRelation.Peace;
@@ -74,7 +73,7 @@ Map noEffectOfAction({RivalRelation relation, RivalInteractions interactions}) {
 double calculateChance(
     {RivalRelation relation, RivalInteractions interactions, int diffGPI}) {
   switch (interactions) {
-    case RivalInteractions.War: // Declare War only available in Peace 
+    case RivalInteractions.War: // Declare War only available in Peace
       return 0.9;
     case RivalInteractions.CancelTrade:
       return 1;
@@ -85,11 +84,14 @@ double calculateChance(
     case RivalInteractions.Peace: // Consider Peace only available in War
     case RivalInteractions.Trade: // Consider Trade only available in Peace
     default:
-      if (diffGPI > godlyDifference) {                // godly Difference
+      if (diffGPI > godlyDifference) {
+        // godly Difference
         return 0.8;
-      } else if (diffGPI > goodDifference) {         // good Difference
+      } else if (diffGPI > goodDifference) {
+        // good Difference
         return 0.6;
-      } else if (diffGPI > almostEquals) {         // equal-decent Difference
+      } else if (diffGPI > almostEquals) {
+        // equal-decent Difference
         return 0.3;
       }
       return 0.1;

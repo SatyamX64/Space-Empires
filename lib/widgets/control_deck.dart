@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:some_game/utility/constants.dart';
+import '/utility/constants.dart';
 
 class ControlDeckItem {
   ControlDeckItem({this.text, this.isPng: false}) {

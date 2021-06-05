@@ -3,11 +3,11 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animated_dialog/flutter_animated_dialog.dart';
 import 'package:provider/provider.dart';
-import 'package:some_game/models/planet_model.dart';
-import 'package:some_game/models/player/player.dart';
-import 'package:some_game/models/upgrade_model.dart';
 import 'package:sizer/sizer.dart';
-import 'package:some_game/utility/utility.dart';
+import '/models/planet_model.dart';
+import '/models/player/player.dart';
+import '/models/upgrade_model.dart';
+import '/utility/utility.dart';
 
 class PlanetUpgrades extends StatelessWidget {
   PlanetUpgrades({
