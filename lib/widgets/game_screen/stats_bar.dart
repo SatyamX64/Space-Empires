@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:space_empires/screens/help/info_screen.dart';
 import 'package:space_empires/services/player/player.dart';
-import '/screens/help/instructions-screen.dart';
 import '/services/game.dart';
 import '/utility/constants.dart';
 import 'package:sizer/sizer.dart';
@@ -75,7 +75,8 @@ class StatsBar extends StatelessWidget {
             Spacer(),
             GestureDetector(
               onTap: () {
-                Navigator.of(context).pushNamed(InstructionScreen.route);
+                Navigator.of(context)
+                    .pushNamed(InfoScreen.route, arguments: true);
               },
               child: Chip(
                 backgroundColor: Colors.blue[900],

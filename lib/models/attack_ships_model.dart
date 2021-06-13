@@ -6,6 +6,7 @@ enum AttackShipType {
   Romeo,
 }
 
+
 class AttackShip {
   final AttackShipType type;
   final String description;

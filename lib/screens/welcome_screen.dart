@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import '/utility/constants.dart';
 import '/widgets/static_stars_bg.dart';
-import 'character_selection_screen.dart';
+import 'help/info_screen.dart';
 import 'story/story_i.dart';
 
 class WelcomeScreen extends StatelessWidget {
@@ -46,7 +46,7 @@ class WelcomeScreen extends StatelessWidget {
             ),
             TextButton(
                 onPressed: () {
-                  Navigator.pushNamed(context, CharacterSelectionScreen.route);
+                  Navigator.pushNamed(context, InfoScreen.route,arguments: false);
                 },
                 child: Text(
                   'Play',

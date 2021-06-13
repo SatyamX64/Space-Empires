@@ -4,12 +4,12 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import './screens/game_end/game_lost.dart';
 import './screens/game_end/game_won.dart';
+import 'screens/help/info_screen.dart';
 import 'services/game.dart';
 import 'services/planet/planet_model.dart';
 import 'screens/attack/attack_conclusion_screen.dart';
 import './screens/character_selection_screen.dart';
 import './screens/game_screen.dart';
-import './screens/help/instructions-screen.dart';
 import './screens/planet_screen.dart';
 import './screens/splash_screen.dart';
 import './screens/story/story_i.dart';
@@ -103,12 +103,15 @@ class MyApp extends StatelessWidget {
                   CharacterSelectionScreen(),
               GameScreen.route: (ctx) => GameScreen(),
               AttackConclusionScreen.route: (ctx) => AttackConclusionScreen(),
-              InstructionScreen.route: (ctx) => InstructionScreen(),
               GameLostScreen.route: (ctx) => GameLostScreen(),
               GameWonScreen.route: (ctx) => GameWonScreen(),
             },
             onGenerateRoute: (routeSettings) {
-              if (routeSettings.name == PlanetScreen.route) {
+              if (routeSettings.name == InfoScreen.route) {
+                return MaterialPageRoute(
+                    builder: (context) =>
+                        InfoScreen(characterSelected: routeSettings.arguments));
+              } else if (routeSettings.name == PlanetScreen.route) {
                 final PlanetName _planetName = routeSettings.arguments;
                 return MaterialPageRoute(
                   builder: (context) => PlanetScreen(_planetName),

@@ -1,6 +1,5 @@
 import 'dart:math';
 import 'package:space_empires/services/player/player.dart';
-
 import '/models/attack_ships_model.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
@@ -25,6 +24,7 @@ class _ControlPanelState extends State<ControlPanel>
   GlobalKey _attackButtonKey = GlobalKey();
   AnimationController _animationController;
   Animation<double> _animation;
+  CarouselController formationCarouselController = CarouselController();
   @override
   void initState() {
     super.initState();
@@ -236,6 +236,7 @@ class _ControlPanelState extends State<ControlPanel>
                           children: [
                             Center(
                               child: CarouselSlider(
+                                carouselController: formationCarouselController,
                                 items: List.generate(
                                   pow(kAttackShipsData.length,
                                       kAttackShipsData.length),
@@ -266,8 +267,23 @@ class _ControlPanelState extends State<ControlPanel>
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Icon(Icons.arrow_left),
-                                  Icon(Icons.arrow_right)
+                                  GestureDetector(
+                                      onTap: () {
+                                        formationCarouselController
+                                            .previousPage(
+                                                duration:
+                                                    Duration(milliseconds: 300),
+                                                curve: Curves.linear);
+                                      },
+                                      child: Icon(Icons.arrow_left)),
+                                  GestureDetector(
+                                      onTap: () {
+                                        formationCarouselController.nextPage(
+                                            duration:
+                                                Duration(milliseconds: 300),
+                                            curve: Curves.linear);
+                                      },
+                                      child: Icon(Icons.arrow_right)),
                                 ],
                               ),
                             ),
@@ -305,7 +321,6 @@ class _ControlPanelState extends State<ControlPanel>
                         MaterialStateProperty.all<Color>(Palette.maroon),
                   ),
                   onPressed: () {
-
                     // TODO : All the Attack related logic is here
 
                     final playerFormation = _formationProvider.currentFormation;

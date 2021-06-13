@@ -180,7 +180,6 @@ class Game extends ChangeNotifier {
   }
 
   autoUpdateRelation() {
-
     //TODO : Auto Update Relation Strategy
 
     // Update Relation among different Rulers based on GPI difference
@@ -293,7 +292,6 @@ class Game extends ChangeNotifier {
   }
 
   calculateChanceForAutoAttack({Player A, Player B}) {
-
     //TODO : Calculates Chances for Attack from Computer here
 
     int diff = A.galacticPowerIndex - B.galacticPowerIndex;
@@ -455,6 +453,27 @@ class Game extends ChangeNotifier {
     // TODO : Return different opinions based on GPI difference, so player can get a rough idea of his position relatively
     // Gives result based on relative GPI
     // Is displayed under the Stats Panel
-    return 'The Aliens choose to ignore us\nHave better things at hand';
+    int avgRivalGPI = 0;
+    int rulerGPI = 0;
+    for (Player player in players) {
+      if (player.ruler != ruler) {
+        avgRivalGPI += player.galacticPowerIndex;
+      } else {
+        rulerGPI = player.galacticPowerIndex;
+      }
+    }
+    avgRivalGPI = (avgRivalGPI / players.length - 1).floor();
+    if (avgRivalGPI - rulerGPI > 70) {
+      return "Your are nothing more then a insect for others";
+    } else if (avgRivalGPI - rulerGPI > 30) {
+      return "They all are far advanced then you, and won\'t hesitate to kill you if need arises";
+    } else if (avgRivalGPI - rulerGPI > 10) {
+      return "You stand on equal footing, Others rulers respect you";
+    } else if (avgRivalGPI - rulerGPI > -20)
+      return 'The Aliens loves us and are a fan of your work';
+    else if (avgRivalGPI - rulerGPI > -40)
+      return 'The Aliens respect and fear your supreme strength';
+    else
+      return "There is no greater might than you in the universe at the moment";
   }
 }

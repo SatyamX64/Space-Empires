@@ -101,11 +101,16 @@ class _PlanetCard extends StatelessWidget {
                   var _ruler = _gameData.playerForPlanet(planetName).ruler;
                   var _color = _gameData.colorForRuler(_ruler);
                   return Container(
-                    height: 6.sp,
-                    width: 6.sp,
-                    margin: EdgeInsets.symmetric(horizontal: 4),
-                    decoration:
-                        BoxDecoration(color: _color, shape: BoxShape.circle),
+                    height: 16.sp,
+                    width: 16.sp,
+                    margin: EdgeInsets.only(right: 4),
+                    // decoration:
+                    //     BoxDecoration(color: _color, shape: BoxShape.circle),
+                    child: FittedBox(
+                      child: Image.asset(
+                        'assets/img/ruler/${describeEnum(_ruler).toLowerCase()}.png',
+                      ),
+                    ),
                   );
                 },
               ),

@@ -1,5 +1,5 @@
 name: space_empires
-description: A new Flutter project.
+description: Space Themed Strategy Game in Flutter
 
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
@@ -27,6 +27,8 @@ dependencies:
   shared_preferences: ^2.0.5
   url_launcher: ^6.0.4
   fluttertoast: ^8.0.7
+  in_app_review: ^2.0.2
+  font_awesome_flutter: ^9.1.0
 
 dev_dependencies:
   flutter_test:
