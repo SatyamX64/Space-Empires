@@ -15,5 +15,5 @@ Color opacityBlack(double opacity) {
   return Color.fromRGBO(0, 0, 0, opacity);
 }
 
-const String portfolioLink = "www.satyamx64.tech";
-const String githubLink = "https://github.com/SatyamX64/space_empires.git";
+const String portfolioLink = "https://www.satyamx64.tech";
+const String githubLink = "https://www.github.com/SatyamX64/space_empires.git";
