@@ -138,6 +138,7 @@ class Game extends ChangeNotifier {
   nextTurn() {
     // TODO : The Function that runs on Each Turn, basically the game loop
     days--;
+    giveTradeBenefits();
     players.forEach((player) {
       // Each Player gets their income from all their planets
       // They get their Attack ability back
@@ -167,6 +168,16 @@ class Game extends ChangeNotifier {
           ' ${describeEnum(player.ruler)} ${player.money} ${player.galacticPowerIndex}');
     });
     return computerAttacksCurrentPlayer();
+  }
+
+  giveTradeBenefits() {
+    for (Player A in players) {
+      for (Player B in players) {
+        if (relationBetweenRulers(A.ruler, B.ruler) == RivalRelation.Trade) {
+          A.money += (B.money * 0.05).floor();
+        }
+      }
+    }
   }
 
   autoUpdateRelation() {
