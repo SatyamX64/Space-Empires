@@ -326,17 +326,20 @@ class Game extends ChangeNotifier {
                   0.10); // 0-10% Military might be destroyed
               changeOwnerOfPlanet(
                   newRuler: attacker.ruler, planetName: defendingPlanet.name);
+              removeDeadPlayers();
               break;
             } else if (diffMilitaryMight > goodDifferenceMilitary) {
               attacker.destroyMilitary(Random().nextDouble() * 0.30);
               changeOwnerOfPlanet(
                   newRuler: attacker.ruler, planetName: defendingPlanet.name);
+              removeDeadPlayers();
               break;
             } else if (diffMilitaryMight > almostEqualsMilitary &&
                 chanceSucceeds(0.5)) {
               attacker.destroyMilitary(Random().nextDouble() * 0.70);
               changeOwnerOfPlanet(
                   newRuler: attacker.ruler, planetName: defendingPlanet.name);
+              removeDeadPlayers();
               break;
             } else {
               attacker.destroyMilitary(Random().nextDouble() * 0.70);

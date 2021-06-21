@@ -2,7 +2,6 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:space_empires/models/defense_ships_model.dart';
 import 'package:space_empires/models/planet_model.dart';
-import 'package:space_empires/models/rivals_model.dart';
 import 'package:space_empires/models/ruler_model.dart';
 import 'package:space_empires/services/interaction.dart';
 import '/models/attack_ships_model.dart';
