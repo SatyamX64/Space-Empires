@@ -5,7 +5,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '/services/game.dart';
-import '../../services/planet/planet_model.dart';
+import '../../services/planet/planet.dart';
 import 'package:sizer/sizer.dart';
 import '/screens/attack/attack_conclusion_screen.dart';
 import '/screens/game_end/game_lost.dart';
@@ -116,31 +116,35 @@ class _ControlPanelState extends State<ControlPanel>
     final FormationProvider _formationProvider =
         Provider.of<FormationProvider>(context, listen: false);
 
-    List<int> bestDefenderPosition() {
-      int maxLikeabilityFactor = 0;
+    List<int> bestFormationForDefender() {
+      int maxDamageFactor = 0;
       List<int> bestFormation = _formationProvider.formations[0];
       for (List<int> formation in _formationProvider.formations) {
-        List<int> damageOutputs = _planet.attack(formation);
-        int likeablilityFactor = _attacker.damageDoneByFormation(damageOutputs);
-        if (likeablilityFactor > maxLikeabilityFactor) {
-          maxLikeabilityFactor = likeablilityFactor;
+        List<int> damageOutputs = _planet.damageOutputForFormation(formation);
+        int damageFactor = _attacker.effectFromDamageOutput(damageOutputs);
+        if (damageFactor > maxDamageFactor) {
+          maxDamageFactor = damageFactor;
           bestFormation = formation;
         }
       }
+      print('Best Defender Formation : ');
+      print(bestFormation);
       return bestFormation;
     }
 
-    List<int> bestAttackerPosition() {
+    List<int> bestFormationForAttacker() {
       int maxLikeabilityFactor = 0;
       List<int> bestFormation = _formationProvider.formations[0];
       for (List<int> formation in _formationProvider.formations) {
-        List<int> damageOutputs = _attacker.attack(formation);
-        int likeablilityFactor = _planet.likeabilityFactor(damageOutputs);
+        List<int> damageOutputs = _attacker.damageOutputForFormation(formation);
+        int likeablilityFactor = _planet.effectFromDamageOutput(damageOutputs);
         if (likeablilityFactor > maxLikeabilityFactor) {
           maxLikeabilityFactor = likeablilityFactor;
           bestFormation = formation;
         }
       }
+      print('Best Attacker Formation : ');
+      print(bestFormation);
       return bestFormation;
     }
 
@@ -149,26 +153,31 @@ class _ControlPanelState extends State<ControlPanel>
       // Eg : If both parties have only 1 battleship/orbital left
       // Then no one will ever win and battle will end as stalemate
       // Attacker will retreat without further lose
-      int likabilityDefense = 0;
+      int likabilityDefense =
+          0; // Stores the Max Damage points the Planet will score
       for (List<int> formation in _formationProvider.formations) {
-        List<int> damageOutputs = _attacker.attack(formation);
-        int likeablilityFactor = _planet.likeabilityFactor(damageOutputs);
+        List<int> damageOutputs = _planet.damageOutputForFormation(formation);
+        int likeablilityFactor = _attacker.effectFromDamageOutput(damageOutputs);
         if (likeablilityFactor > likabilityDefense) {
           likabilityDefense = likeablilityFactor;
+          print(formation);
         }
       }
-      int likeabilityAttack = 0;
+      int likabilityAttack =
+          0; // Stores the Max Damage points the Attacker can score
       for (List<int> formation in _formationProvider.formations) {
-        List<int> damageOutputs = _planet.attack(formation);
-        int likeablilityFactor = _attacker.damageDoneByFormation(damageOutputs);
-        if (likeablilityFactor > likeabilityAttack) {
-          likeabilityAttack = likeablilityFactor;
+        List<int> damageOutputs = _attacker.damageOutputForFormation(formation);
+        int likeablilityFactor = _planet.effectFromDamageOutput(damageOutputs);
+        if (likeablilityFactor > likabilityAttack) {
+          likabilityAttack = likeablilityFactor;
+          print('\n');
+          print(formation);
         }
       }
-      print(' Like : $likeabilityAttack : $likabilityDefense');
+      print(' Like : $likabilityAttack : $likabilityDefense');
       return {
         'defender': likabilityDefense > 0,
-        'attacker': likeabilityAttack > 0,
+        'attacker': likabilityAttack > 0,
       };
     }
 
@@ -324,13 +333,14 @@ class _ControlPanelState extends State<ControlPanel>
                     // TODO : All the Attack related logic is here
 
                     final playerFormation = _formationProvider.currentFormation;
-                    final computerPosition = _isPlayerAttacker
-                        ? bestAttackerPosition()
-                        : bestDefenderPosition();
+                    final computerFormation = _isPlayerAttacker
+                        ? bestFormationForDefender()
+                        : bestFormationForAttacker();
                     final attackFormation =
-                        _isPlayerAttacker ? playerFormation : computerPosition;
-                    final defenseFormation =
-                        !_isPlayerAttacker ? playerFormation : computerPosition;
+                        _isPlayerAttacker ? playerFormation : computerFormation;
+                    final defenseFormation = !_isPlayerAttacker
+                        ? playerFormation
+                        : computerFormation;
 
                     int _initialAttackShips =
                         List.from(_attacker.allShips.values)
@@ -340,13 +350,13 @@ class _ControlPanelState extends State<ControlPanel>
                             .fold(0, (p, c) => p + c);
 
                     List<int> damageOutputsDefense =
-                        _planet.attack(defenseFormation);
+                        _planet.damageOutputForFormation(defenseFormation);
                     List<int> damageOutputsAttacker =
-                        _attacker.attack(attackFormation);
+                        _attacker.damageOutputForFormation(attackFormation);
                     int attackShipsLeft =
-                        _attacker.defend(damageOutputsDefense);
+                        _attacker.defendAgainstDamageOutput(damageOutputsDefense);
                     int defenseShipsLeft =
-                        _planet.defend(damageOutputsAttacker);
+                        _planet.defendAgainstDamageOutput(damageOutputsAttacker);
                     showOverlay(
                         '-${_initialAttackShips - attackShipsLeft} Ships',
                         '-${_initialDefenseShips - defenseShipsLeft} Ships');
@@ -361,7 +371,7 @@ class _ControlPanelState extends State<ControlPanel>
                         _overlayEntry = null;
                       }
                       _gameData.changeOwnerOfPlanet(
-                          newRuler: _attacker.ruler, name: _planet.name);
+                          newRuler: _attacker.ruler, planetName: _planet.name);
                       if (_gameData.wonGame) {
                         Navigator.pushReplacementNamed(
                           context,

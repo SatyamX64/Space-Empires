@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:space_empires/services/player/player.dart';
 import '/screens/game_end/game_lost.dart';
 import '/services/game.dart';
-import '../../services/planet/planet_model.dart';
+import '../../services/planet/planet.dart';
 import '/utility/constants.dart';
 import '../../services/formation_generator.dart';
 import '/widgets/attack/battlefield.dart';
@@ -16,7 +16,10 @@ import 'package:sizer/sizer.dart';
 
 class AttackScreen extends StatelessWidget {
   static const route = '/attack-screen';
-  AttackScreen({this.planet, this.attacker});
+  AttackScreen({this.planet, this.attacker}){
+    planet.inWar=true;
+    attacker.canAttack=false;
+  }
   final Planet planet;
   final Player attacker;
 
@@ -63,7 +66,7 @@ class AttackScreen extends StatelessWidget {
                       return Future.value(true);
                     } else {
                       _gameData.changeOwnerOfPlanet(
-                          newRuler: attacker.ruler, name: planet.name);
+                          newRuler: attacker.ruler, planetName: planet.name);
                       if (_gameData.lostGame) {
                         Navigator.pushReplacementNamed(
                           context,

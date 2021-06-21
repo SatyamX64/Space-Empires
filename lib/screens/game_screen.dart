@@ -54,7 +54,6 @@ class GameScreen extends StatelessWidget {
                   onPressed: () {
                     Navigator.of(context).pop();
                     Navigator.of(context).pop();
-                    Provider.of<Game>(context, listen: false).resetAllData();
                     return Future.value(true);
                   },
                   child: Text('Yes I am')),
@@ -235,6 +234,36 @@ class __NextTurnFABState extends State<_NextTurnFAB>
                     _overlayEntry.remove();
                     _overlayEntry = null;
                   }
+                  await showGradientDialog(
+                      context: context,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Text(
+                            'This is it.. they are finally making a move',
+                            style: Theme.of(context).textTheme.headline6,
+                            textAlign: TextAlign.center,
+                          ),
+                          Expanded(child: Container()),
+                          Expanded(
+                            flex: 2,
+                            child: Image.asset(
+                              'assets/img/ruler/${describeEnum(oncomingAttack['ruler']).toLowerCase()}.png',
+                            ),
+                          ),
+                          Expanded(child: Container()),
+                          Text(
+                            'Get Ready to Fight !!',
+                            style: Theme.of(context).textTheme.headline6,
+                            textAlign: TextAlign.center,
+                          ),
+                          TextButton(
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                              child: Text('Yes I am')),
+                        ],
+                      ));
                   await Navigator.of(context)
                       .pushNamed(AttackScreen.route, arguments: {
                     'planet': oncomingAttack['planet'],
@@ -244,7 +273,7 @@ class __NextTurnFABState extends State<_NextTurnFAB>
                 } else {
                   if (_gameData.galacticNews.isNotEmpty) {
                     await showGlobalNews(context);
-                    _gameData.clearNews();
+                    _gameData.resetGalacticNews();
                   }
                   showOverlay('+${_gameData.currentPlayer.income}\$');
                 }

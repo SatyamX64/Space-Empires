@@ -1,5 +1,6 @@
 import 'package:space_empires/models/defense_ships_model.dart';
-import 'package:space_empires/services/planet/planet_model.dart';
+import 'package:space_empires/models/planet_model.dart';
+import 'package:space_empires/services/planet/planet.dart';
 import 'package:space_empires/models/upgrade_model.dart';
 
 mixin Planets {
@@ -62,10 +63,10 @@ mixin Planets {
     return result;
   }
 
-  int planetsThatCanTrade() {
+  int planetsRespecc() {
     int result = 0;
     for (Planet planet in _planets) {
-      result += planet.planetTradeBoost;
+      result += planet.planetRespecc;
     }
     return result;
   }

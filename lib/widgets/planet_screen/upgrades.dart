@@ -4,8 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animated_dialog/flutter_animated_dialog.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
+import 'package:space_empires/models/planet_model.dart';
 import 'package:space_empires/services/player/player.dart';
-import '../../services/planet/planet_model.dart';
+import '../../services/planet/planet.dart';
 import '/models/upgrade_model.dart';
 import '/utility/utility.dart';
 

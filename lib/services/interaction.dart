@@ -1,9 +1,13 @@
 import '/models/rivals_model.dart';
 
 // TODO : Difference in Galactic Power Index
-const int godlyDifference = 70;
-const int goodDifference = 50;
-const int almostEquals = 20;
+const int godlyDifference = 300;
+const int goodDifference = 160;
+const int almostEquals = 40;
+
+const int godlyDifferenceMilitary = 200;
+const int goodDifferenceMilitary = 100;
+const int almostEqualsMilitary = 50;
 
 Map yesEffectOfAction(
     {RivalRelation relation, RivalInteractions interactions}) {
@@ -88,13 +92,10 @@ double calculateChance(
     case RivalInteractions.Trade: // Consider Trade only available in Peace
     default:
       if (diffGPI > godlyDifference) {
-        // godly Difference
         return 0.8;
       } else if (diffGPI > goodDifference) {
-        // good Difference
         return 0.6;
       } else if (diffGPI > almostEquals) {
-        // equal-decent Difference
         return 0.3;
       }
       return 0.1;

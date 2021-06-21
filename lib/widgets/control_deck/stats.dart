@@ -103,8 +103,9 @@ class _RivalsOpinion extends StatelessWidget {
         child: Text(_gameData.getRivalsOpinion(_player.ruler),
             style: Theme.of(context).textTheme.headline6.copyWith(
                   fontFamily: 'Italianno',
+                  
                   // fontWeight: FontWeight.w600
-                )),
+                ),textAlign: TextAlign.center,),
       ),
     ));
   }

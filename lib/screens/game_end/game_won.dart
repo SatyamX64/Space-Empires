@@ -25,7 +25,6 @@ class GameWonScreen extends StatelessWidget {
               color: Colors.white,
             ),
             onPressed: () {
-              _gameData.resetAllData();
               Navigator.of(context)
                   .popUntil(ModalRoute.withName(WelcomeScreen.route));
             },

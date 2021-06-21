@@ -4,9 +4,10 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import './screens/game_end/game_lost.dart';
 import './screens/game_end/game_won.dart';
+import 'models/planet_model.dart';
 import 'screens/help/info_screen.dart';
 import 'services/game.dart';
-import 'services/planet/planet_model.dart';
+import 'services/planet/planet.dart';
 import 'screens/attack/attack_conclusion_screen.dart';
 import './screens/character_selection_screen.dart';
 import './screens/game_screen.dart';
@@ -53,6 +54,7 @@ class MyApp extends StatelessWidget {
       ],
       builder: (_, __) {
         return Sizer(builder: (context, orientation, deviceType) {
+        
           return MaterialApp(
             debugShowCheckedModeBanner: false,
             title: 'Space Empires',

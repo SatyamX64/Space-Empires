@@ -29,9 +29,9 @@ mixin Military {
   }
 
   void militaryInit() {
-    _ownedShips[AttackShipType.Optimus] = 3;
-    _ownedShips[AttackShipType.Magnum] = 3;
     _ownedShips[AttackShipType.Romeo] = 5;
+    _ownedShips[AttackShipType.Magnum] = 3;
+    _ownedShips[AttackShipType.Optimus] = 3;
   }
 
   void militaryAddShip(AttackShipType type, int quantity) {

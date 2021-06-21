@@ -54,7 +54,7 @@ class CharacterSelectionScreen extends StatelessWidget {
             color: Colors.black26, borderRadius: BorderRadius.circular(16.sp)),
         child: SingleChildScrollView(
           child: Text(
-            _gameData.descriptionForRuler(ruler),
+            kRulerDescriptionData[ruler],
             style: TextStyle(fontWeight: FontWeight.w600),
             textAlign: TextAlign.center,
           ),
@@ -73,7 +73,7 @@ class CharacterSelectionScreen extends StatelessWidget {
                     MaterialStateProperty.all<Color>(Color(0xFF120530))),
             onPressed: () {
               Provider.of<Game>(context, listen: false)
-                  .initCurrentPlayer(ruler);
+                  .initGame(ruler);
               Navigator.pushReplacementNamed(context, GameScreen.route);
             },
             child: Text('Continue'),
@@ -164,9 +164,9 @@ class CharacterSelectionScreen extends StatelessWidget {
           options: CarouselOptions(
             aspectRatio: orientation == Orientation.landscape ? 2.4 : 0.8,
           ),
-          itemCount: _gameData.players.length,
+          itemCount: kRulerDescriptionData.length,
           itemBuilder: (BuildContext context, int index, _) =>
-              _characterCard(_gameData.players[index].ruler, orientation),
+              _characterCard(List.from(kRulerDescriptionData.keys)[index], orientation),
         ),
       );
     }

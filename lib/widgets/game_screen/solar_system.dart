@@ -2,8 +2,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:provider/provider.dart';
+import 'package:space_empires/models/planet_model.dart';
 import '/services/game.dart';
-import '../../services/planet/planet_model.dart';
 import '/screens/planet_screen.dart';
 import '/widgets/static_stars_bg.dart';
 import 'package:sizer/sizer.dart';
@@ -99,13 +99,10 @@ class _PlanetCard extends StatelessWidget {
               Consumer<Game>(
                 builder: (_, _gameData, ___) {
                   var _ruler = _gameData.playerForPlanet(planetName).ruler;
-                  var _color = _gameData.colorForRuler(_ruler);
                   return Container(
                     height: 16.sp,
                     width: 16.sp,
                     margin: EdgeInsets.only(right: 4),
-                    // decoration:
-                    //     BoxDecoration(color: _color, shape: BoxShape.circle),
                     child: FittedBox(
                       child: Image.asset(
                         'assets/img/ruler/${describeEnum(_ruler).toLowerCase()}.png',

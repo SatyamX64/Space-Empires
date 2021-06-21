@@ -4,9 +4,9 @@ mixin Defense {
   Map<DefenseShipType, int> _ownedShips = {};
 
   void defenseInit() {
-    _ownedShips[DefenseShipType.Battleship] = 3;
-    _ownedShips[DefenseShipType.Artillery] = 3;
-    _ownedShips[DefenseShipType.Rover] = 5;
+    _ownedShips[DefenseShipType.Rover] = 10;
+    _ownedShips[DefenseShipType.Artillery] = 7;
+    _ownedShips[DefenseShipType.Battleship] = 5;
   }
 
   int get defenseExpenditure {

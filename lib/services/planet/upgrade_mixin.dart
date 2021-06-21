@@ -28,18 +28,18 @@ mixin PlanetUpgrade {
   }
 
   double get planetMoraleBoost {
-    double townCenter = upgradePresent(UpgradeType.Starlink) ? 0.1 : 0;
-    double moske = upgradePresent(UpgradeType.Colosseum) ? 0.25 : 0;
-    return 1 + moske + townCenter;
+    double starlink = upgradePresent(UpgradeType.Starlink) ? 0.1 : 0;
+    double explorer = upgradePresent(UpgradeType.Explorer) ? 0.15 : 0;
+    return 1 + starlink + explorer;
   }
 
   double get planetRevenueBoost {
-    double boost = upgradePresent(UpgradeType.Electricity) ? 1.10 : 1;
-    return boost;
+    double electricity = upgradePresent(UpgradeType.Electricity) ? 0.1 : 0;
+    return 1 + electricity;
   }
 
-  int get planetTradeBoost {
-    int boost = upgradePresent(UpgradeType.Starlink) ? 1 : 0;
+  int get planetRespecc {
+    int boost = upgradePresent(UpgradeType.Colosseum) ? 10 : 0;
     return boost;
   }
 }

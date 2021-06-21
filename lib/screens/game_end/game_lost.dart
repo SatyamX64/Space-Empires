@@ -21,7 +21,6 @@ class GameLostScreen extends StatelessWidget {
             tooltip: 'Restart',
             child: Icon(Icons.change_circle_outlined),
             onPressed: () {
-              _gameData.resetAllData();
               Navigator.of(context)
                   .popUntil(ModalRoute.withName(WelcomeScreen.route));
             },

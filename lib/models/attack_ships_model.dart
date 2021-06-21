@@ -34,35 +34,30 @@ const Map<AttackShipType, AttackShip> kAttackShipsData = const {
     description: 'Small but dependable',
     type: AttackShipType.Romeo,
     point: 2,
-    morale: 1,
-    damage: 100,
+    morale: 3,
+    damage: 350,
     health: 300,
-    maintainance: 5,
+    maintainance: 10,
   ),
   AttackShipType.Magnum: const AttackShip(
-    cost: 3000,
+    cost: 2000,
     description: 'Attack Power is Second to none',
     type: AttackShipType.Magnum,
-    point: 3,
+    point: 8,
     morale: 5,
-    damage: 300,
-    health: 500,
+    damage: 800,
+    health: 800,
     maintainance: 25,
   ),
   AttackShipType.Optimus: const AttackShip(
-    cost: 2500,
+    cost: 1500,
     description: 'Will take a lot, to bring this down',
-    point: 1,
+    point: 4,
     type: AttackShipType.Optimus,
     morale: 4,
-    damage: 150,
-    health: 800,
-    maintainance: 15,
+    damage: 500,
+    health: 1500,
+    maintainance: 20,
   ),
 };
 
-/*
-Optimus - 3 Mag, 8 Romeo
-Mag - 5 Romeo, 4 Optimus
-Romeo - 1 Mag, 2 Optimus
- */

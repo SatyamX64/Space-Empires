@@ -1,9 +1,10 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:space_empires/models/planet_model.dart';
 import 'package:space_empires/services/player/player.dart';
 import '/services/game.dart';
-import '../../services/planet/planet_model.dart';
+import '../../services/planet/planet.dart';
 import '/utility/constants.dart';
 
 class PlanetStats extends StatelessWidget {

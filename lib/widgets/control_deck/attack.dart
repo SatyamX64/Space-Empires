@@ -7,7 +7,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:space_empires/services/player/player.dart';
 import '/services/game.dart';
-import '../../services/planet/planet_model.dart';
+import '../../services/planet/planet.dart';
 import '/screens/attack/attack_screen.dart';
 import '/utility/constants.dart';
 import '/utility/utility.dart';
@@ -89,11 +89,10 @@ class _EnemyPlanets extends StatelessWidget {
                   itemBuilder: (BuildContext context, int index, _) =>
                       GestureDetector(
                     onTap: () {
-                      if (!_gameData.canAttackThisTurn(_player.ruler)) {
+                      if (!_player.canAttack) {
                         Utility.showToast(
                             'Nahh !! Too tired after the last one');
-                      } else if (_gameData.planetsInWar
-                          .contains(_availablePlanets[index].name)) {
+                      } else if (_availablePlanets[index].inWar) {
                         Utility.showToast(
                             'That one is already under attack by someone');
                       } else {
