@@ -3,13 +3,12 @@ import 'package:provider/provider.dart';
 import '/services/game.dart';
 import '/widgets/gradient_dialog.dart';
 
-showGlobalNews(context) {
+Future<void> showGlobalNews(BuildContext context) {
   final List<String> news =
       Provider.of<Game>(context, listen: false).galacticNews;
   return showGradientDialog(
     context: context,
     child: Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Text(
           '༺ Global News ༻',
@@ -18,7 +17,7 @@ showGlobalNews(context) {
               .headline5
               .copyWith(fontFamily: 'Italianno', fontWeight: FontWeight.w600),
         ),
-        SizedBox(
+        const SizedBox(
           height: 20,
           child: Center(
               child: Divider(
@@ -40,7 +39,7 @@ showGlobalNews(context) {
                 );
               },
               separatorBuilder: (_, __) {
-                return Divider(
+                return const Divider(
                   thickness: 1,
                 );
               },

@@ -7,8 +7,8 @@ class StaticStarsBackGround extends StatelessWidget {
     return RotatedBox(
       quarterTurns: orientation == Orientation.landscape ? 1 : 0,
       child: Container(
-        constraints: BoxConstraints.expand(),
-        decoration: BoxDecoration(
+        constraints: const BoxConstraints.expand(),
+        decoration: const BoxDecoration(
           image: DecorationImage(image: AssetImage('assets/img/stars_bg.png')),
         ),
       ),

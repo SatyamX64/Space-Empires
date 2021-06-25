@@ -11,10 +11,9 @@ class AttackConclusionScreen extends StatelessWidget {
   static const route = '/attack-conclusion-screen.dart';
   @override
   Widget build(BuildContext context) {
-    final message = ModalRoute.of(context).settings.arguments as String ??
-        'How did you come here ?';
+    final message = ModalRoute.of(context).settings.arguments as String;
 
-    _proceedButton() {
+    Widget _proceedButton() {
       return Padding(
         padding: EdgeInsets.all(16.sp),
         child: GestureDetector(
@@ -29,7 +28,7 @@ class AttackConclusionScreen extends StatelessWidget {
               decoration: BoxDecoration(
                   color: Palette.maroon,
                   borderRadius: BorderRadius.circular(50.sp)),
-              child: Text(
+              child: const Text(
                 'Continue',
                 style: TextStyle(fontWeight: FontWeight.w600),
               )),
@@ -37,7 +36,7 @@ class AttackConclusionScreen extends StatelessWidget {
       );
     }
 
-    _dialogue(Orientation orientation) {
+    Widget _dialogue(Orientation orientation) {
       return Container(
         alignment: orientation == Orientation.landscape
             ? Alignment.center
@@ -52,11 +51,7 @@ class AttackConclusionScreen extends StatelessWidget {
                     .copyWith(fontWeight: FontWeight.bold),
                 textAlign: TextAlign.center)
           ],
-          isRepeatingAnimation: true,
           repeatForever: true,
-          pause: const Duration(milliseconds: 1000),
-          displayFullTextOnTap: false,
-          stopPauseOnTap: false,
         ),
       );
     }
@@ -67,8 +62,8 @@ class AttackConclusionScreen extends StatelessWidget {
           Center(child: FlyingShips()),
           _dialogue(Orientation.portrait),
           Align(
-            child: _proceedButton(),
             alignment: Alignment.bottomCenter,
+            child: _proceedButton(),
           ),
         ],
       );
@@ -96,7 +91,7 @@ class AttackConclusionScreen extends StatelessWidget {
 
     final Orientation orientation = MediaQuery.of(context).orientation;
     return Scaffold(
-        backgroundColor: Color(0xFF190620),
+        backgroundColor: const Color(0xFF190620),
         body:
             orientation == Orientation.landscape ? _landscape() : _portrait());
   }
@@ -125,7 +120,7 @@ class _FlyingShipsState extends State<FlyingShips> {
   }
 
   @override
-  dispose() {
+  void dispose() {
     _controller.dispose();
     super.dispose();
   }

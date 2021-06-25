@@ -2,23 +2,24 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:sizer/sizer.dart';
+
+import './screens/character_selection_screen.dart';
 import './screens/game_end/game_lost.dart';
 import './screens/game_end/game_won.dart';
-import 'models/planet_model.dart';
-import 'screens/help/info_screen.dart';
-import 'services/game.dart';
-import 'services/planet/planet.dart';
-import 'screens/attack/attack_conclusion_screen.dart';
-import './screens/character_selection_screen.dart';
 import './screens/game_screen.dart';
 import './screens/planet_screen.dart';
 import './screens/splash_screen.dart';
 import './screens/story/story_i.dart';
 import './screens/story/story_ii.dart';
 import './screens/welcome_screen.dart';
-import 'package:sizer/sizer.dart';
+import 'models/planet_model.dart';
+import 'screens/attack/attack_conclusion_screen.dart';
 import 'screens/attack/attack_screen.dart';
+import 'screens/help/info_screen.dart';
 import 'screens/story/story_iii.dart';
+import 'services/game.dart';
+import 'services/planet/planet.dart';
 import 'services/player/player.dart';
 import 'utility/constants.dart';
 
@@ -54,7 +55,6 @@ class MyApp extends StatelessWidget {
       ],
       builder: (_, __) {
         return Sizer(builder: (context, orientation, deviceType) {
-        
           return MaterialApp(
             debugShowCheckedModeBanner: false,
             title: 'Space Empires',
@@ -112,21 +112,21 @@ class MyApp extends StatelessWidget {
               if (routeSettings.name == InfoScreen.route) {
                 return MaterialPageRoute(
                     builder: (context) =>
-                        InfoScreen(characterSelected: routeSettings.arguments));
+                        InfoScreen(characterSelected: routeSettings.arguments as bool));
               } else if (routeSettings.name == PlanetScreen.route) {
-                final PlanetName _planetName = routeSettings.arguments;
+                final PlanetName _planetName = routeSettings.arguments as PlanetName;
                 return MaterialPageRoute(
                   builder: (context) => PlanetScreen(_planetName),
                 );
               } else if (routeSettings.name == StoryScreenI.route) {
-                final Orientation _orientation = routeSettings.arguments;
+                final Orientation _orientation = routeSettings.arguments as Orientation;
                 return MaterialPageRoute(
                   builder: (context) => StoryScreenI(_orientation),
                 );
               } else if (routeSettings.name == AttackScreen.route) {
                 final args = routeSettings.arguments as Map;
-                final Planet _planet = args['planet'];
-                final Player _attacker = args['attacker'];
+                final Planet _planet = args['planet'] as Planet;
+                final Player _attacker = args['attacker'] as Player;
                 return MaterialPageRoute(
                   builder: (context) =>
                       AttackScreen(attacker: _attacker, planet: _planet),

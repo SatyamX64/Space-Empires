@@ -1,10 +1,11 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
 import 'package:space_empires/models/planet_model.dart';
 import 'package:space_empires/services/player/player.dart';
+
 import '/services/game.dart';
-import '../../services/planet/planet.dart';
 import '/utility/constants.dart';
 
 class PlanetStats extends StatelessWidget {
@@ -13,12 +14,12 @@ class PlanetStats extends StatelessWidget {
   Widget build(BuildContext context) {
     final PlanetName _planetName =
         Provider.of<PlanetName>(context, listen: false);
-    _statsText(String text) {
+    Widget _statsText(String text) {
       return Padding(
         padding: const EdgeInsets.symmetric(vertical: 2),
         child: Text(
           text,
-          style: TextStyle(fontWeight: FontWeight.bold),
+          style: const TextStyle(fontWeight: FontWeight.bold),
         ),
       );
     }
@@ -33,7 +34,7 @@ class PlanetStats extends StatelessWidget {
           children: [
             Expanded(
               child: Container(
-                  constraints: BoxConstraints.expand(),
+                  constraints: const BoxConstraints.expand(),
                   margin: const EdgeInsets.all(4),
                   padding: const EdgeInsets.all(4),
                   decoration: BoxDecoration(
@@ -57,39 +58,31 @@ class PlanetStats extends StatelessWidget {
                             ),
                             Expanded(
                               flex: 3,
-                              child: Container(
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.end,
-                                  children: [
-                                    _statsText('Income : '),
-                                    _statsText('Morale : '),
-                                    _statsText('Defense : '),
-                                  ],
-                                ),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                children: [
+                                  _statsText('Income : '),
+                                  _statsText('Morale : '),
+                                  _statsText('Defense : '),
+                                ],
                               ),
                             ),
                             Expanded(
                               flex: 3,
-                              child: Container(
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    _statsText(player
-                                        .planetStats(
-                                            name: _planetName)['income']
-                                        .toString()),
-                                    _statsText(player
-                                        .planetStats(
-                                            name: _planetName)['morale']
-                                        .toString()),
-                                    _statsText(player
-                                        .planetStats(
-                                            name: _planetName)['defense']
-                                        .toString()),
-                                  ],
-                                ),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  _statsText(player
+                                      .planetStats(name: _planetName)['income']
+                                      .toString()),
+                                  _statsText(
+                                      '${(player.planetStats(name: _planetName)['morale'] / 1000).toStringAsFixed(2)} %'),
+                                  _statsText(player
+                                      .planetStats(name: _planetName)['defense']
+                                      .toString()),
+                                ],
                               ),
                             ),
                           ],
@@ -103,13 +96,13 @@ class PlanetStats extends StatelessWidget {
               color: Colors.black12,
               child: Container(
                 alignment: Alignment.center,
-                padding: EdgeInsets.all(16),
+                padding: const EdgeInsets.all(16),
                 child: SingleChildScrollView(
                   child: Text(
                     Provider.of<Game>(context, listen: false)
                         .descriptionForPlanet(_planetName),
                     textAlign: TextAlign.center,
-                    style: TextStyle(fontWeight: FontWeight.w600),
+                    style: const TextStyle(fontWeight: FontWeight.w600),
                   ),
                 ),
               ),

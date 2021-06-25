@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
 enum DefenseShipType {
-  Artillery,
-  Battleship,
-  Rover,
+  artillery,
+  battleship,
+  rover,
 }
 
 class DefenseShip {
@@ -25,27 +25,27 @@ class DefenseShip {
       @required this.health});
 }
 
-const Map<DefenseShipType, DefenseShip> kDefenseShipsData = const {
-  DefenseShipType.Rover: const DefenseShip(
+const Map<DefenseShipType, DefenseShip> kDefenseShipsData = {
+  DefenseShipType.rover: DefenseShip(
       cost: 600,
       description: 'Quick, Cheap , Reliable',
-      type: DefenseShipType.Rover,
+      type: DefenseShipType.rover,
       maintainance: 10,
       point: 4,
       health: 400,
       damage: 350),
-  DefenseShipType.Artillery: const DefenseShip(
+  DefenseShipType.artillery: DefenseShip(
       cost: 1600,
       description: 'Clears the Battlefield',
-      type: DefenseShipType.Artillery,
+      type: DefenseShipType.artillery,
       point: 10,
       maintainance: 25,
       health: 1000,
       damage: 800),
-  DefenseShipType.Battleship: const DefenseShip(
+  DefenseShipType.battleship: DefenseShip(
       cost: 1000,
       description: 'Basically a tank that can fly',
-      type: DefenseShipType.Battleship,
+      type: DefenseShipType.battleship,
       maintainance: 20,
       point: 5,
       health: 1600,

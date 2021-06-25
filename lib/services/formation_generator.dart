@@ -1,14 +1,16 @@
-import '/models/attack_ships_model.dart';
 import 'package:flutter/material.dart';
+
+import '/models/attack_ships_model.dart';
 
 // If given a list [1,2] it will store all possible permutations with repetation allowed
 // i.e [1,1],[1,2],[2,1],[2,1]
 
 class FormationGenerator {
+  // ignore: prefer_final_fields
   List<List<int>> _formations = [];
 
   FormationGenerator() {
-    var data = List.generate(kAttackShipsData.length, (index) => index);
+    final data = List.generate(kAttackShipsData.length, (index) => index);
     generateFormations(data, []);
   }
   void generateFormations(List<int> dataValue, List<int> currPerm) {
@@ -37,7 +39,7 @@ class FormationProvider extends ChangeNotifier {
 
   FormationProvider() {
     _formations = FormationGenerator().formations;
-    this._selectedFormation = 0;
+    _selectedFormation = 0;
   }
 
   List<int> get currentFormation {
@@ -48,7 +50,7 @@ class FormationProvider extends ChangeNotifier {
     return _formations;
   }
 
-  changeFormation(index) {
+  void changeFormation(int index) {
     _selectedFormation = index;
     notifyListeners();
   }

@@ -1,24 +1,27 @@
 import 'dart:ui';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:sizer/sizer.dart';
+
 import 'package:space_empires/services/player/player.dart';
+
+import '../../services/formation_generator.dart';
+import '../../services/planet/planet.dart';
 import '/screens/game_end/game_lost.dart';
 import '/services/game.dart';
-import '../../services/planet/planet.dart';
 import '/utility/constants.dart';
-import '../../services/formation_generator.dart';
 import '/widgets/attack/battlefield.dart';
 import '/widgets/attack/control_panel.dart';
 import '/widgets/gradient_dialog.dart';
 import '/widgets/static_stars_bg.dart';
-import 'package:sizer/sizer.dart';
 
 class AttackScreen extends StatelessWidget {
   static const route = '/attack-screen';
-  AttackScreen({this.planet, this.attacker}){
-    planet.inWar=true;
-    attacker.canAttack=false;
+  AttackScreen({this.planet, this.attacker}) {
+    planet.inWar = true;
+    attacker.canAttack = false;
   }
   final Planet planet;
   final Player attacker;
@@ -30,68 +33,61 @@ class AttackScreen extends StatelessWidget {
     final Game _gameData = Provider.of<Game>(context);
     final Player _defender = _gameData.playerForPlanet(planet.name);
 
-    _quitGame() {
+    Future<bool> _quitGame() {
       showGradientDialog(
-          context: context,
-          color: Palette.maroon,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Text(
-                'Leaving a battle in between huh? Got too hard',
-                style: Theme.of(context).textTheme.headline6,
-                textAlign: TextAlign.center,
+        context: context,
+        color: Palette.maroon,
+        child: Column(
+          children: [
+            Text(
+              'Leaving a battle in between huh? Got too hard',
+              style: Theme.of(context).textTheme.headline6,
+              textAlign: TextAlign.center,
+            ),
+            const Spacer(),
+            Expanded(
+              flex: 2,
+              child: Image.asset(
+                'assets/img/planets/${describeEnum(planet.name)}.png',
+                fit: BoxFit.contain,
               ),
-              Expanded(child: Container()),
-              Expanded(
-                flex: 2,
-                child: Image.asset(
-                  'assets/img/planets/${describeEnum(planet.name).toLowerCase()}.png',
-                  fit: BoxFit.contain,
-                ),
-              ),
-              Expanded(child: Container()),
-              Text(
-                'You Serious ??',
-                style: Theme.of(context).textTheme.headline6,
-                textAlign: TextAlign.center,
-              ),
-              TextButton(
-                  onPressed: () {
-                    if (_gameData.currentPlayer.ruler == attacker.ruler) {
-                      attacker.destroyMilitary(0.2);
-
-                      Navigator.of(context).pop();
-                      Navigator.of(context).pop();
-                      return Future.value(true);
+            ),
+            const Spacer(),
+            Text(
+              'You Serious ??',
+              style: Theme.of(context).textTheme.headline6,
+              textAlign: TextAlign.center,
+            ),
+            TextButton(
+                onPressed: () {
+                  if (_gameData.currentPlayer.ruler == attacker.ruler) {
+                    attacker.destroyMilitary(0.2);
+                    return Navigator.of(context).pop(true);
+                  } else {
+                    _gameData.changeOwnerOfPlanet(
+                        newRuler: attacker.ruler, planetName: planet.name);
+                    if (_gameData.lostGame) {
+                      Navigator.pushReplacementNamed(
+                        context,
+                        GameLostScreen.route,
+                      );
                     } else {
-                      _gameData.changeOwnerOfPlanet(
-                          newRuler: attacker.ruler, planetName: planet.name);
-                      if (_gameData.lostGame) {
-                        Navigator.pushReplacementNamed(
-                          context,
-                          GameLostScreen.route,
-                        );
-                        return Future.value(false);
-                      } else {
-                        Navigator.of(context).pop();
-                        Navigator.of(context).pop();
-                        return Future.value(true);
-                      }
+                      return Navigator.of(context).pop(true);
                     }
-                  },
-                  child: Text('Yes I am')),
-              TextButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                    return Future.value(false);
-                  },
-                  child: Text('Na, I was joking')),
-            ],
-          ));
+                  }
+                },
+                child: const Text('Yes I am')),
+            TextButton(
+                onPressed: () {
+                  return Navigator.of(context).pop(false);
+                },
+                child: const Text('Na, I was joking')),
+          ],
+        ),
+      );
     }
 
-    _attackerDefenderImage() {
+    Widget _attackerDefenderImage() {
       return SizedBox(
         height: 60.sp,
         child: Row(
@@ -99,7 +95,7 @@ class AttackScreen extends StatelessWidget {
             Image.asset(
               'assets/img/ruler/${describeEnum(attacker.ruler).toLowerCase()}.png',
             ),
-            Spacer(),
+            const Spacer(),
             Image.asset(
               'assets/img/ruler/${describeEnum(_defender.ruler).toLowerCase()}.png',
             ),
@@ -108,9 +104,9 @@ class AttackScreen extends StatelessWidget {
       );
     }
 
-    _spaceLights() {
+    Widget _spaceLights() {
       return Container(
-          constraints: BoxConstraints.expand(),
+          constraints: const BoxConstraints.expand(),
           decoration: BoxDecoration(
             gradient: LinearGradient(colors: [
               opacityBlack(0.3),
@@ -120,69 +116,62 @@ class AttackScreen extends StatelessWidget {
     }
 
     return WillPopScope(
-        child: Scaffold(
-          appBar: AppBar(
-            backgroundColor: Colors.transparent,
-            centerTitle: true,
-            title: Text('Attack'),
-          ),
-          body: Stack(
-            children: [
-              StaticStarsBackGround(),
-              _spaceLights(),
-              MultiProvider(
-                providers: [
-                  // To keep track of weather current Player is attacker or defender
-                  Provider<bool>.value(
-                      value: _gameData.currentPlayer.ruler == attacker.ruler),
-                  ChangeNotifierProvider<Player>.value(
-                    value: attacker,
-                  ),
-                  ChangeNotifierProvider<Planet>.value(
-                    value: planet,
-                  ),
-                  ChangeNotifierProvider<FormationProvider>.value(
-                      value: _formationProvider)
-                ],
-                builder: (_, __) => _orientation == Orientation.landscape
-                    ? Row(
-                        children: [
-                          Expanded(
-                            child: Column(
-                              children: [
-                                Expanded(child: Battlefield()),
-                                // Divider(
-                                //   color: Colors.white38,
-                                // ),
-                                // _attackerDefenderImage(),
-                              ],
-                            ),
-                          ),
-                          Expanded(
-                            child: ControlPanel(),
-                          ),
-                        ],
-                      )
-                    : Column(
-                        children: [
-                          _attackerDefenderImage(),
-                          Divider(
-                            color: Colors.white38,
-                          ),
-                          Expanded(
-                            flex: 3,
-                            child: Battlefield(),
-                          ),
-                          Expanded(
-                            flex: 2,
-                            child: ControlPanel(),
-                          ),
-                        ],
-                      ),
-              ),
-            ],
-          ),
+      onWillPop: _quitGame,
+      child: Scaffold(
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          centerTitle: true,
+          title: const Text('Attack'),
         ),
-        onWillPop: _quitGame);
+        body: Stack(
+          children: [
+            StaticStarsBackGround(),
+            _spaceLights(),
+            MultiProvider(
+              providers: [
+                // To keep track of weather current Player is attacker or defender
+                Provider<bool>.value(
+                    value: _gameData.currentPlayer.ruler == attacker.ruler),
+                ChangeNotifierProvider<Player>.value(
+                  value: attacker,
+                ),
+                ChangeNotifierProvider<Planet>.value(
+                  value: planet,
+                ),
+                ChangeNotifierProvider<FormationProvider>.value(
+                    value: _formationProvider)
+              ],
+              builder: (_, __) => _orientation == Orientation.landscape
+                  ? Row(
+                      children: [
+                        const Expanded(
+                          child: Battlefield(),
+                        ),
+                        Expanded(
+                          child: ControlPanel(),
+                        ),
+                      ],
+                    )
+                  : Column(
+                      children: [
+                        _attackerDefenderImage(),
+                        const Divider(
+                          color: Colors.white38,
+                        ),
+                        const Expanded(
+                          flex: 3,
+                          child: Battlefield(),
+                        ),
+                        Expanded(
+                          flex: 2,
+                          child: ControlPanel(),
+                        ),
+                      ],
+                    ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }

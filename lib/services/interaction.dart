@@ -1,4 +1,4 @@
-import '/models/rivals_model.dart';
+import '../models/interaction_model.dart';
 
 // TODO : Difference in Galactic Power Index
 const int godlyDifference = 300;
@@ -10,65 +10,67 @@ const int goodDifferenceMilitary = 100;
 const int almostEqualsMilitary = 50;
 
 Map yesEffectOfAction(
-    {RivalRelation relation, RivalInteractions interactions}) {
+    {Relation relation, ChatOptions interactions}) {
+  // ignore: prefer_final_locals
   Map map = {
     'relation': relation,
     'response': 'Ah, fair enough',
   };
 
   switch (interactions) {
-    case RivalInteractions.CancelTrade:
+    case ChatOptions.cancelTrade:
       map['response'] =
-          "If that\'s what you want..The Peace shall still remain";
-      map['relation'] = RivalRelation.Peace;
+          "If that's what you want..The Peace shall still remain";
+      map['relation'] = Relation.peace;
       break;
-    case RivalInteractions.ExtortForPeace:
+    case ChatOptions.extortForPeace:
       map['response'] =
           "I will comply to your terms, here is the money for Peace";
-      map['relation'] = RivalRelation.Peace;
+      map['relation'] = Relation.peace;
       break;
-    case RivalInteractions.Help:
+    case ChatOptions.help:
       map['response'] = 'Let me know if you need anything else, friend';
       break;
-    case RivalInteractions.Peace:
+    case ChatOptions.peace:
       map['response'] = 'Okay okay, We stay out of each other buisness ';
-      map['relation'] = RivalRelation.Peace;
+      map['relation'] = Relation.peace;
       break;
-    case RivalInteractions.Trade:
-      map['relation'] = RivalRelation.Trade;
+    case ChatOptions.trade:
+      map['relation'] = Relation.trade;
       map['response'] = 'It will be my pleasure';
       break;
-    case RivalInteractions.War:
-      map['relation'] = RivalRelation.War;
+    case ChatOptions.war:
+      map['relation'] = Relation.war;
       map['response'] = 'Haha Fool, Prepare to DIE  ';
       break;
   }
   return map;
 }
 
-Map noEffectOfAction({RivalRelation relation, RivalInteractions interactions}) {
+Map noEffectOfAction({Relation relation, ChatOptions interactions}) {
+  // ignore: prefer_final_locals
   Map map = {
     'relation': relation,
-    'response': 'Don\'t test my patience, fool',
+    'response': "Don't test my patience, fool",
   };
 
   switch (interactions) {
-    case RivalInteractions
-        .ExtortForPeace: // Ask money for Peace, Happens only when in War
+    case ChatOptions
+        .extortForPeace: // Ask money for Peace, Happens only when in War
       map['response'] = "You just invited your death";
       break;
-    case RivalInteractions.Help:
-      map['response'] = 'Don\'t try to abuse our friendship ';
-      map['relation'] = RivalRelation.Peace;
+    case ChatOptions.help:
+      map['response'] = "Don't try to abuse our friendship ";
+      map['relation'] = Relation.peace;
       break;
-    case RivalInteractions.Peace:
-      map['response'] = 'You can\'t get out now, weakling';
+    case ChatOptions.peace:
+      map['response'] = "You can't get out now, weakling";
       break;
-    case RivalInteractions.Trade:
-      map['response'] = 'Trade with your primitive race, no thanks';
+    case ChatOptions.trade:
+      map['response'] = "Trade with your primitive race, no thanks";
       break;
-    case RivalInteractions.War:
-      map['response'] = 'War only brings peril for all, Please re-consider';
+    case ChatOptions.war:
+      map['response'] = "War only brings peril for all, Please re-consider";
       break;
     default:
   }
@@ -78,18 +80,18 @@ Map noEffectOfAction({RivalRelation relation, RivalInteractions interactions}) {
 
 // TODO : Calculates chance on weather a interaction will Succeed or not
 double calculateChance(
-    {RivalRelation relation, RivalInteractions interactions, int diffGPI}) {
+    {Relation relation, ChatOptions interactions, int diffGPI}) {
   switch (interactions) {
-    case RivalInteractions.War: // Declare War only available in Peace
+    case ChatOptions.war: // Declare War only available in Peace
       return 0.9;
-    case RivalInteractions.CancelTrade:
+    case ChatOptions.cancelTrade:
       return 1;
-    case RivalInteractions
-        .ExtortForPeace: // Takes money for Peace, can only happen in War
-    case RivalInteractions
-        .Help: // Ask for money polietly only available in trade
-    case RivalInteractions.Peace: // Consider Peace only available in War
-    case RivalInteractions.Trade: // Consider Trade only available in Peace
+    case ChatOptions
+        .extortForPeace: // Takes money for Peace, can only happen in War
+    case ChatOptions
+        .help: // Ask for money polietly only available in trade
+    case ChatOptions.peace: // Consider Peace only available in War
+    case ChatOptions.trade: // Consider Trade only available in Peace
     default:
       if (diffGPI > godlyDifference) {
         return 0.8;

@@ -7,14 +7,14 @@ import 'story/story_i.dart';
 class SplashScreen extends StatefulWidget {
   static const route = '/splash-screen';
   @override
-  SplashScreenState createState() => new SplashScreenState();
+  SplashScreenState createState() => SplashScreenState();
 }
 
 class SplashScreenState extends State<SplashScreen>
     with AfterLayoutMixin<SplashScreen> {
   Future checkFirstSeen() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    bool _seen = (prefs.getBool('seen') ?? false);
+    final prefs = await SharedPreferences.getInstance();
+    final _seen = prefs.getBool('seen') ?? false;
     final Orientation orientation = MediaQuery.of(context).orientation;
     if (_seen) {
       Navigator.of(context).pushReplacementNamed(WelcomeScreen.route);
@@ -30,6 +30,6 @@ class SplashScreenState extends State<SplashScreen>
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold();
+    return const Scaffold();
   }
 }

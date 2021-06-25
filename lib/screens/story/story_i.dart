@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:rive/rive.dart';
 import 'package:sizer/sizer.dart';
-import '/screens/welcome_screen.dart';
-import '/utility/utility.dart';
-import '/utility/constants.dart';
 
+import '/screens/welcome_screen.dart';
+import '/utility/constants.dart';
+import '/utility/utility.dart';
 import 'story_ii.dart';
 
 class StoryScreenI extends StatefulWidget {
@@ -16,7 +16,7 @@ class StoryScreenI extends StatefulWidget {
   // To avoid this potentially unwanted behaviour we lock the Screen to the orientation we entered with
   // and reset is back to normal after we leave the story section
   final Orientation orientation;
-  StoryScreenI(this.orientation);
+  const StoryScreenI(this.orientation);
   @override
   _StoryScreenIState createState() => _StoryScreenIState();
 }
@@ -30,7 +30,7 @@ class _StoryScreenIState extends State<StoryScreenI> {
     Utility.lockOrientation(orientation: widget.orientation);
   }
 
-  List<String> _dialogueList = const [
+  final List<String> _dialogueList = [
     'Oh Hi there, your highness..',
     'I am from the Space Patrol',
     'We are currently in your lucid dream',
@@ -44,28 +44,28 @@ class _StoryScreenIState extends State<StoryScreenI> {
     '*The Strange Figure Vanishes*',
   ];
 
-  _skipButton() {
+  Widget _skipButton() {
     return Positioned(
+      right: 16.sp, // sp is relative size given to us by Sizer class
+      bottom: 16.sp,
       child: AnimatedOpacity(
+        duration: const Duration(seconds: 2),
+        opacity: 1 - _proceedButtonOpactity,
         child: TextButton(
             onPressed: () {
               Utility.lockOrientation(); // resets orientation to normal
               Navigator.of(context).pushReplacementNamed(WelcomeScreen.route);
             },
-            child: Text(
+            child: const Text(
               'Skip',
               style:
                   TextStyle(color: Colors.white70, fontWeight: FontWeight.w600),
             )),
-        duration: Duration(seconds: 2),
-        opacity: 1 - _proceedButtonOpactity,
       ),
-      right: 16.sp, // sp is relative size given to us by Sizer class
-      bottom: 16.sp,
     );
   }
 
-  _proceedButton() {
+  Widget _proceedButton() {
     return Padding(
       padding: EdgeInsets.all(16.sp),
       child: GestureDetector(
@@ -79,7 +79,7 @@ class _StoryScreenIState extends State<StoryScreenI> {
             decoration: BoxDecoration(
                 color: Palette.maroon,
                 borderRadius: BorderRadius.circular(50.sp)),
-            child: Text(
+            child: const Text(
               'Wake up',
               style: TextStyle(fontWeight: FontWeight.w600),
             )),
@@ -87,7 +87,7 @@ class _StoryScreenIState extends State<StoryScreenI> {
     );
   }
 
-  _dialogue(Orientation orientation) {
+  Widget _dialogue(Orientation orientation) {
     return Container(
       alignment: orientation == Orientation.landscape
           ? Alignment.center
@@ -101,9 +101,6 @@ class _StoryScreenIState extends State<StoryScreenI> {
                 textAlign: TextAlign.center)),
         totalRepeatCount: 0,
         isRepeatingAnimation: false,
-        pause: const Duration(milliseconds: 1000),
-        displayFullTextOnTap: false,
-        stopPauseOnTap: false,
         onFinished: () {
           setState(() {
             _proceedButtonOpactity = 1.0;
@@ -120,18 +117,17 @@ class _StoryScreenIState extends State<StoryScreenI> {
         children: [
           Center(
             child: AnimatedOpacity(
-              child: _Astronaut(),
-              duration: Duration(seconds: 2),
+              duration: const Duration(seconds: 2),
               opacity: 1 - _proceedButtonOpactity,
+              child: _Astronaut(),
             ),
           ),
           _dialogue(Orientation.portrait),
           Align(
-            alignment: Alignment.center,
             child: AnimatedOpacity(
-              child: _proceedButton(),
-              duration: Duration(seconds: 2),
+              duration: const Duration(seconds: 2),
               opacity: _proceedButtonOpactity,
+              child: _proceedButton(),
             ),
           ),
           _skipButton(),
@@ -146,20 +142,19 @@ class _StoryScreenIState extends State<StoryScreenI> {
             children: [
               Expanded(
                 child: AnimatedOpacity(
-                  child: _Astronaut(),
-                  duration: Duration(seconds: 2),
+                  duration: const Duration(seconds: 2),
                   opacity: 1 - _proceedButtonOpactity,
+                  child: _Astronaut(),
                 ),
               ),
               Expanded(child: _dialogue(Orientation.landscape)),
             ],
           ),
           Align(
-            alignment: Alignment.center,
             child: AnimatedOpacity(
-              child: _proceedButton(),
-              duration: Duration(seconds: 2),
+              duration: const Duration(seconds: 2),
               opacity: _proceedButtonOpactity,
+              child: _proceedButton(),
             ),
           ),
           _skipButton(),
@@ -168,17 +163,18 @@ class _StoryScreenIState extends State<StoryScreenI> {
     }
 
     return WillPopScope(
-        child: Scaffold(
-            backgroundColor: widget.orientation == Orientation.landscape
-                ? Color(0xFF180721)
-                : Color(0xFF200520),
-            body: widget.orientation == Orientation.landscape
-                ? _landscape()
-                : _portrait()),
-        onWillPop: () {
-          Utility.lockOrientation(); // resets orientation to normal
-          return Future.value(true);
-        });
+      onWillPop: () {
+        Utility.lockOrientation(); // resets orientation to normal
+        return Future.value(true);
+      },
+      child: Scaffold(
+          backgroundColor: widget.orientation == Orientation.landscape
+              ? const Color(0xFF180721)
+              : const Color(0xFF200520),
+          body: widget.orientation == Orientation.landscape
+              ? _landscape()
+              : _portrait()),
+    );
   }
 }
 
@@ -205,7 +201,7 @@ class _AstronautState extends State<_Astronaut> {
   }
 
   @override
-  dispose() {
+  void dispose() {
     _controller.dispose();
     super.dispose();
   }

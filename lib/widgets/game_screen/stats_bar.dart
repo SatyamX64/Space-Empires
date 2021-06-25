@@ -1,27 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:sizer/sizer.dart';
+
 import 'package:space_empires/screens/help/info_screen.dart';
 import 'package:space_empires/services/player/player.dart';
+
 import '/services/game.dart';
 import '/utility/constants.dart';
-import 'package:sizer/sizer.dart';
 
 class StatsBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       height: double.maxFinite,
       width: double.maxFinite,
       child: Padding(
-        padding: EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(8.0),
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Chip(
               backgroundColor: Colors.pink[600],
               elevation: 6.0,
-              avatar: Center(
+              avatar: const Center(
                 child: FittedBox(
                   child: Icon(
                     Icons.calendar_today_rounded,
@@ -30,7 +30,7 @@ class StatsBar extends StatelessWidget {
                 ),
               ),
               shadowColor: Colors.grey[60],
-              padding: EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(8.0),
               label: Consumer<Game>(
                 builder: (_, gameData, __) {
                   return Text('Days : ${gameData.days}',
@@ -46,7 +46,7 @@ class StatsBar extends StatelessWidget {
             ),
             Chip(
               backgroundColor: Colors.green[900],
-              avatar: Center(
+              avatar: const Center(
                 child: CircleAvatar(
                   backgroundColor: Colors.green,
                   child: FittedBox(
@@ -59,7 +59,7 @@ class StatsBar extends StatelessWidget {
               ),
               elevation: 6.0,
               shadowColor: Colors.grey[60],
-              padding: EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(8.0),
               label: Consumer<Player>(
                 builder: (_, player, __) {
                   return Text(
@@ -72,7 +72,7 @@ class StatsBar extends StatelessWidget {
                 },
               ),
             ),
-            Spacer(),
+            const Spacer(),
             GestureDetector(
               onTap: () {
                 Navigator.of(context)
@@ -82,7 +82,7 @@ class StatsBar extends StatelessWidget {
                 backgroundColor: Colors.blue[900],
                 elevation: 6.0,
                 shadowColor: Colors.grey[60],
-                padding: EdgeInsets.all(8.0),
+                padding: const EdgeInsets.all(8.0),
                 label: Text(
                   'Info',
                   style: Theme.of(context)

@@ -2,30 +2,31 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:provider/provider.dart';
+import 'package:sizer/sizer.dart';
+
 import 'package:space_empires/services/player/player.dart';
+
+import '../circle_tab_indicator.dart';
 import '/models/attack_ships_model.dart';
 import '/utility/utility.dart';
 import '/widgets/gradient_dialog.dart';
-import 'package:sizer/sizer.dart';
-import '../circle_tab_indicator.dart';
 
-showMilitaryMenu(BuildContext context) {
+Future<void> showMilitaryMenu(BuildContext context) {
   final Player _player = Provider.of<Player>(context, listen: false);
   return showGradientDialog(
       context: context,
       padding: 8,
       child: DefaultTabController(
-        length: _player.allShips.length,
+        length: _player.ships.length,
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Expanded(
               child: TabBarView(
                 children: List.generate(
-                  _player.allShips.length,
+                  _player.ships.length,
                   (index) => AttackShipInfo(
-                    attackShip: kAttackShipsData[
-                        List.from(_player.allShips.keys)[index]],
+                    attackShip:
+                        kAttackShipsData[List.from(_player.ships.keys)[index]],
                   ),
                 ),
               ),
@@ -35,10 +36,10 @@ showMilitaryMenu(BuildContext context) {
                 indicatorSize: TabBarIndicatorSize.tab,
                 indicator: CircleTabIndicator(color: Colors.white, radius: 3),
                 tabs: List.generate(
-                    _player.allShips.length,
+                    _player.ships.length,
                     (index) => Tab(
                           text: describeEnum(
-                              List.from(_player.allShips.keys)[index]),
+                              List.from(_player.ships.keys)[index]),
                         ))),
           ],
         ),
@@ -77,7 +78,6 @@ class AttackShipInfo extends StatelessWidget {
       ),
     ];
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
       children: orientation == Orientation.landscape
           ? [
               Text(
@@ -136,19 +136,19 @@ class _TransactionButton extends StatelessWidget {
   const _TransactionButton({Key key, this.text, this.onTap}) : super(key: key);
 
   final String text;
-  final Function onTap;
+  final void Function() onTap;
   @override
   Widget build(BuildContext context) {
     return Expanded(
         child: GestureDetector(
-      onTap: this.onTap,
+      onTap: onTap,
       child: Container(
         alignment: Alignment.center,
-        constraints: BoxConstraints.expand(),
-        margin: EdgeInsets.all(4),
+        constraints: const BoxConstraints.expand(),
+        margin: const EdgeInsets.all(4),
         decoration: BoxDecoration(
             color: Colors.black12, borderRadius: BorderRadius.circular(4)),
-        child: Text(this.text,
+        child: Text(text,
             style: Theme.of(context)
                 .textTheme
                 .headline6
@@ -168,12 +168,12 @@ class _ShipStats extends StatelessWidget {
   final AttackShip attackShip;
   final int flex;
 
-  _statsText(String text) {
+  Widget _statsText(String text) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 2),
       child: Text(
         text,
-        style: TextStyle(fontWeight: FontWeight.bold),
+        style: const TextStyle(fontWeight: FontWeight.bold),
       ),
     );
   }
@@ -184,41 +184,37 @@ class _ShipStats extends StatelessWidget {
         flex: flex,
         child: Container(
           height: double.maxFinite,
-          margin: EdgeInsets.all(4),
+          margin: const EdgeInsets.all(4),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(4),
             color: Colors.black12,
           ),
-          padding: EdgeInsets.all(8),
+          padding: const EdgeInsets.all(8),
           child: SingleChildScrollView(
             child: Row(
               children: [
                 Expanded(
-                  child: Container(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        _statsText('Damage'),
-                        _statsText('Health'),
-                        _statsText('Morale'),
-                        _statsText('Maintainence'),
-                      ],
-                    ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      _statsText('Damage'),
+                      _statsText('Health'),
+                      _statsText('Morale'),
+                      _statsText('Maintainence'),
+                    ],
                   ),
                 ),
                 Expanded(
-                  child: Container(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        _statsText(': ${attackShip.damage}'),
-                        _statsText(': ${attackShip.health}'),
-                        _statsText(': ${attackShip.morale}'),
-                        _statsText(': ${attackShip.maintainance}'),
-                      ],
-                    ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      _statsText(': ${attackShip.damage}'),
+                      _statsText(': ${attackShip.health}'),
+                      _statsText(': ${attackShip.morale}'),
+                      _statsText(': ${attackShip.maintainance}'),
+                    ],
                   ),
                 ),
               ],
@@ -229,7 +225,7 @@ class _ShipStats extends StatelessWidget {
 }
 
 class _ShipOverview extends StatelessWidget {
-  _ShipOverview({Key key, @required this.attackShip}) : super(key: key);
+  const _ShipOverview({Key key, @required this.attackShip}) : super(key: key);
 
   final AttackShip attackShip;
   @override
@@ -237,7 +233,7 @@ class _ShipOverview extends StatelessWidget {
     return Expanded(
       flex: 2,
       child: Container(
-        margin: EdgeInsets.all(4),
+        margin: const EdgeInsets.all(4),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(4),
           color: Colors.black12,
@@ -251,7 +247,7 @@ class _ShipOverview extends StatelessWidget {
                   child: Container(
                     height: double.maxFinite,
                     width: double.maxFinite,
-                    margin: EdgeInsets.all(4),
+                    margin: const EdgeInsets.all(4),
                     child: Image.asset(
                         'assets/img/ships/attack/${describeEnum(attackShip.type).toLowerCase()}.png'),
                   ),
@@ -305,8 +301,8 @@ class _MilitaryDialogStatsBox extends StatelessWidget {
   Widget build(BuildContext context) {
     return Expanded(
       child: Container(
-        margin: EdgeInsets.symmetric(horizontal: 4, vertical: 12),
-        padding: EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+        margin: const EdgeInsets.symmetric(horizontal: 4, vertical: 12),
+        padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
         decoration: BoxDecoration(
             color: Colors.black54, borderRadius: BorderRadius.circular(4)),
         child: LayoutBuilder(
@@ -316,7 +312,7 @@ class _MilitaryDialogStatsBox extends StatelessWidget {
                     children: [
                       Text(
                         header,
-                        style: TextStyle(
+                        style: const TextStyle(
                             fontWeight: FontWeight.w600, color: Colors.white54),
                       ),
                       Expanded(

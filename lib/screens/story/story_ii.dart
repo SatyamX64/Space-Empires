@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:rive/rive.dart';
 import 'package:sizer/sizer.dart';
-import '/utility/constants.dart';
-import '/utility/utility.dart';
 
 import '../welcome_screen.dart';
+import '/utility/constants.dart';
+import '/utility/utility.dart';
 import 'story_iii.dart';
 
 class StoryScreenII extends StatefulWidget {
@@ -18,7 +18,7 @@ class StoryScreenII extends StatefulWidget {
 class _StoryScreenIIState extends State<StoryScreenII> {
   double _proceedButtonOpactity = 0.0;
 
-  List<String> _dialogueList = const [
+  final List<String> _dialogueList = [
     'The Paradox Crystal is the rarest of Treasures',
     'It has been found and lost over and over',
     'The Crystal is source of umimaginable power',
@@ -26,28 +26,28 @@ class _StoryScreenIIState extends State<StoryScreenII> {
     'On one random planet',
   ];
 
-  _skipButton() {
+  Widget _skipButton() {
     return Positioned(
+      right: 16.sp,
+      bottom: 16.sp,
       child: AnimatedOpacity(
+        duration: const Duration(seconds: 2),
+        opacity: 1 - _proceedButtonOpactity,
         child: TextButton(
             onPressed: () {
               Utility.lockOrientation();
               Navigator.of(context).pushReplacementNamed(WelcomeScreen.route);
             },
-            child: Text(
+            child: const Text(
               'Skip',
               style:
                   TextStyle(color: Colors.white70, fontWeight: FontWeight.w600),
             )),
-        duration: Duration(seconds: 2),
-        opacity: 1 - _proceedButtonOpactity,
       ),
-      right: 16.sp,
-      bottom: 16.sp,
     );
   }
 
-  _proceedButton() {
+  Widget _proceedButton() {
     return Padding(
       padding: EdgeInsets.all(16.sp),
       child: GestureDetector(
@@ -61,7 +61,7 @@ class _StoryScreenIIState extends State<StoryScreenII> {
             decoration: BoxDecoration(
                 color: Palette.maroon,
                 borderRadius: BorderRadius.circular(50.sp)),
-            child: Text(
+            child: const Text(
               'Continue',
               style: TextStyle(fontWeight: FontWeight.w600),
             )),
@@ -69,7 +69,7 @@ class _StoryScreenIIState extends State<StoryScreenII> {
     );
   }
 
-  _dialogue(Orientation orientation) {
+  Widget _dialogue(Orientation orientation) {
     return Container(
       alignment: orientation == Orientation.landscape
           ? Alignment.center
@@ -83,9 +83,6 @@ class _StoryScreenIIState extends State<StoryScreenII> {
                 textAlign: TextAlign.center)),
         totalRepeatCount: 0,
         isRepeatingAnimation: false,
-        pause: const Duration(milliseconds: 1000),
-        displayFullTextOnTap: false,
-        stopPauseOnTap: false,
         onFinished: () {
           setState(() {
             _proceedButtonOpactity = 1.0;
@@ -102,19 +99,18 @@ class _StoryScreenIIState extends State<StoryScreenII> {
         children: [
           Center(
             child: AnimatedOpacity(
-              child: _ParadoxCrystal(),
-              duration: Duration(seconds: 2),
+              duration: const Duration(seconds: 2),
               opacity: 1 - _proceedButtonOpactity,
+              child: _ParadoxCrystal(),
             ),
           ),
           _dialogue(Orientation.portrait),
           Align(
             child: AnimatedOpacity(
-              child: _proceedButton(),
-              duration: Duration(seconds: 2),
+              duration: const Duration(seconds: 2),
               opacity: _proceedButtonOpactity,
+              child: _proceedButton(),
             ),
-            alignment: Alignment.center,
           ),
           _skipButton(),
         ],
@@ -128,20 +124,19 @@ class _StoryScreenIIState extends State<StoryScreenII> {
             children: [
               Expanded(
                 child: AnimatedOpacity(
-                  child: _ParadoxCrystal(),
-                  duration: Duration(seconds: 2),
+                  duration: const Duration(seconds: 2),
                   opacity: 1 - _proceedButtonOpactity,
+                  child: _ParadoxCrystal(),
                 ),
               ),
               Expanded(child: _dialogue(Orientation.landscape)),
             ],
           ),
           Align(
-            alignment: Alignment.center,
             child: AnimatedOpacity(
-              child: _proceedButton(),
-              duration: Duration(seconds: 2),
+              duration: const Duration(seconds: 2),
               opacity: _proceedButtonOpactity,
+              child: _proceedButton(),
             ),
           ),
           _skipButton(),
@@ -151,15 +146,16 @@ class _StoryScreenIIState extends State<StoryScreenII> {
 
     final Orientation orientation = MediaQuery.of(context).orientation;
     return WillPopScope(
-        child: Scaffold(
-            backgroundColor: Color(0xFF1D0026),
-            body: orientation == Orientation.landscape
-                ? _landscape()
-                : _portrait()),
-        onWillPop: () {
-          Utility.lockOrientation(); // resets orientation to normal
-          return Future.value(true);
-        });
+      onWillPop: () {
+        Utility.lockOrientation(); // resets orientation to normal
+        return Future.value(true);
+      },
+      child: Scaffold(
+          backgroundColor: const Color(0xFF1D0026),
+          body: orientation == Orientation.landscape
+              ? _landscape()
+              : _portrait()),
+    );
   }
 }
 
@@ -186,7 +182,7 @@ class __ParadoxCrystalState extends State<_ParadoxCrystal> {
   }
 
   @override
-  dispose() {
+  void dispose() {
     _controller.dispose();
     super.dispose();
   }

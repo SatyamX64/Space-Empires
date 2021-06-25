@@ -3,9 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:rive/rive.dart';
 import 'package:sizer/sizer.dart';
+
+import '../welcome_screen.dart';
 import '/utility/constants.dart';
 import '/utility/utility.dart';
-import '../welcome_screen.dart';
 
 class StoryScreenIII extends StatefulWidget {
   static const route = '/story-iii-screen.dart';
@@ -17,12 +18,12 @@ class _StoryScreenIIIState extends State<StoryScreenIII> {
   double _proceedButtonOpactity = 0.0;
 
   @override
-  dispose() {
+  void dispose() {
     Utility.lockOrientation(); // unlocks rotation
     super.dispose();
   }
 
-  List<String> _dialogueList = const [
+  final List<String> _dialogueList = [
     'To make sure only you get the Crystal',
     'You must take over all Planets',
     'According to rumours...',
@@ -32,27 +33,27 @@ class _StoryScreenIIIState extends State<StoryScreenIII> {
     'Because your adventure has begun',
   ];
 
-  _skipButton() {
+  Widget _skipButton() {
     return Positioned(
+      right: 16.sp,
+      bottom: 16.sp,
       child: AnimatedOpacity(
+        duration: const Duration(seconds: 2),
+        opacity: 1 - _proceedButtonOpactity,
         child: TextButton(
             onPressed: () {
               Navigator.of(context).pushReplacementNamed(WelcomeScreen.route);
             },
-            child: Text(
+            child: const Text(
               'Skip',
               style:
                   TextStyle(color: Colors.white70, fontWeight: FontWeight.w600),
             )),
-        duration: Duration(seconds: 2),
-        opacity: 1 - _proceedButtonOpactity,
       ),
-      right: 16.sp,
-      bottom: 16.sp,
     );
   }
 
-  _proceedButton() {
+  Widget _proceedButton() {
     return Padding(
       padding: EdgeInsets.all(16.sp),
       child: GestureDetector(
@@ -66,7 +67,7 @@ class _StoryScreenIIIState extends State<StoryScreenIII> {
             decoration: BoxDecoration(
                 color: Palette.maroon,
                 borderRadius: BorderRadius.circular(50.sp)),
-            child: Text(
+            child: const Text(
               'I am ready',
               style: TextStyle(fontWeight: FontWeight.w600),
             )),
@@ -74,7 +75,7 @@ class _StoryScreenIIIState extends State<StoryScreenIII> {
     );
   }
 
-  _dialogue(Orientation orientation) {
+  Widget _dialogue(Orientation orientation) {
     return Container(
       alignment: orientation == Orientation.landscape
           ? Alignment.center
@@ -88,9 +89,6 @@ class _StoryScreenIIIState extends State<StoryScreenIII> {
                 textAlign: TextAlign.center)),
         totalRepeatCount: 0,
         isRepeatingAnimation: false,
-        pause: const Duration(milliseconds: 1000),
-        displayFullTextOnTap: false,
-        stopPauseOnTap: false,
         onFinished: () {
           setState(() {
             _proceedButtonOpactity = 1.0;
@@ -107,19 +105,18 @@ class _StoryScreenIIIState extends State<StoryScreenIII> {
         children: [
           Center(
             child: AnimatedOpacity(
-              child: _Planets(),
-              duration: Duration(seconds: 2),
+              duration: const Duration(seconds: 2),
               opacity: 1 - _proceedButtonOpactity,
+              child: _Planets(),
             ),
           ),
           _dialogue(Orientation.portrait),
           Align(
             child: AnimatedOpacity(
-              child: _proceedButton(),
-              duration: Duration(seconds: 2),
+              duration: const Duration(seconds: 2),
               opacity: _proceedButtonOpactity,
+              child: _proceedButton(),
             ),
-            alignment: Alignment.center,
           ),
           _skipButton(),
         ],
@@ -133,20 +130,19 @@ class _StoryScreenIIIState extends State<StoryScreenIII> {
             children: [
               Expanded(
                 child: AnimatedOpacity(
-                  child: _Planets(),
-                  duration: Duration(seconds: 2),
+                  duration: const Duration(seconds: 2),
                   opacity: 1 - _proceedButtonOpactity,
+                  child: _Planets(),
                 ),
               ),
               Expanded(child: _dialogue(Orientation.landscape)),
             ],
           ),
           Align(
-            alignment: Alignment.center,
             child: AnimatedOpacity(
-              child: _proceedButton(),
-              duration: Duration(seconds: 2),
+              duration: const Duration(seconds: 2),
               opacity: _proceedButtonOpactity,
+              child: _proceedButton(),
             ),
           ),
           _skipButton(),
@@ -156,15 +152,16 @@ class _StoryScreenIIIState extends State<StoryScreenIII> {
 
     final Orientation orientation = MediaQuery.of(context).orientation;
     return WillPopScope(
-        child: Scaffold(
-            backgroundColor: Color(0xFF170C1E),
-            body: orientation == Orientation.landscape
-                ? _landscape()
-                : _portrait()),
-        onWillPop: () {
-          Utility.lockOrientation(); // resets orientation to normal
-          return Future.value(true);
-        });
+      onWillPop: () {
+        Utility.lockOrientation(); // resets orientation to normal
+        return Future.value(true);
+      },
+      child: Scaffold(
+          backgroundColor: const Color(0xFF170C1E),
+          body: orientation == Orientation.landscape
+              ? _landscape()
+              : _portrait()),
+    );
   }
 }
 
@@ -191,7 +188,7 @@ class __PlanetsState extends State<_Planets> {
   }
 
   @override
-  dispose() {
+  void dispose() {
     _controller.dispose();
     super.dispose();
   }

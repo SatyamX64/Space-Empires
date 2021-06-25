@@ -10,7 +10,7 @@ class GradientFAB extends StatelessWidget {
     @required this.image,
   }) : super(key: key);
 
-  final Function onTap;
+  final void Function() onTap;
   final String toolTip;
   final String image;
 
@@ -20,21 +20,21 @@ class GradientFAB extends StatelessWidget {
       heroTag: null,
       onPressed: onTap,
       tooltip: toolTip,
+      backgroundColor: Palette.brightOrange,
       child: Container(
         alignment: Alignment.center,
         width: 60,
         height: 60,
+        decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            gradient: LinearGradient(
+                colors: [Colors.black, Theme.of(context).primaryColor])),
         child: SvgPicture.asset(
           image,
           height: 48,
           width: 48,
         ),
-        decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            gradient: LinearGradient(
-                colors: [Colors.black, Theme.of(context).primaryColor])),
       ),
-      backgroundColor: Palette.brightOrange,
     );
   }
 }

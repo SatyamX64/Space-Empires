@@ -2,47 +2,48 @@ import 'package:space_empires/models/attack_ships_model.dart';
 
 
 mixin Military {
-  Map<AttackShipType, int> _ownedShips = {};
+  // ignore: prefer_final_fields
+  Map<AttackShipType, int> _ships = {};
 
-  Map<AttackShipType, int> get allShips {
-    return _ownedShips;
+  Map<AttackShipType, int> get ships {
+    return _ships;
   }
 
   int get militaryExpenditure {
     int expense = 0;
-    for (AttackShipType type in List.from(_ownedShips.keys)) {
-      expense += _ownedShips[type] * kAttackShipsData[type].maintainance;
+    for (final type in _ships.keys.toList()) {
+      expense += _ships[type] * kAttackShipsData[type].maintainance;
     }
     return expense;
   }
 
   int get militaryMoraleImpact {
     int impact = 0;
-    for (AttackShipType type in List.from(_ownedShips.keys)) {
-      impact += _ownedShips[type] * kAttackShipsData[type].morale;
+    for (final type in _ships.keys.toList()) {
+      impact += _ships[type] * kAttackShipsData[type].morale;
     }
     return impact;
   }
 
   int militaryShipCount(AttackShipType type) {
-    return _ownedShips[type];
+    return _ships[type];
   }
 
   void militaryInit() {
-    _ownedShips[AttackShipType.Romeo] = 5;
-    _ownedShips[AttackShipType.Magnum] = 3;
-    _ownedShips[AttackShipType.Optimus] = 3;
+    _ships[AttackShipType.romeo] = 5;
+    _ships[AttackShipType.magnum] = 3;
+    _ships[AttackShipType.optimus] = 3;
   }
 
   void militaryAddShip(AttackShipType type, int quantity) {
-    _ownedShips[type] += quantity;
+    _ships[type] += quantity;
   }
 
   void militaryRemoveShip(AttackShipType type, int quantity) {
-    if (_ownedShips[type] > quantity) {
-      _ownedShips[type] -= quantity;
+    if (_ships[type] > quantity) {
+      _ships[type] -= quantity;
     } else {
-      _ownedShips[type] = 0;
+      _ships[type] = 0;
     }
   }
 }

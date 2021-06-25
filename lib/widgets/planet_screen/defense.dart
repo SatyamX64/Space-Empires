@@ -1,17 +1,20 @@
 import 'dart:math';
-import 'package:provider/provider.dart';
-import 'package:sizer/sizer.dart';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animated_dialog/flutter_animated_dialog.dart';
+import 'package:provider/provider.dart';
+import 'package:sizer/sizer.dart';
+
 import 'package:space_empires/models/planet_model.dart';
 import 'package:space_empires/services/player/player.dart';
-import '/models/defense_ships_model.dart';
+
 import '../../services/planet/planet.dart';
+import '/models/defense_ships_model.dart';
 import '/utility/utility.dart';
 
 class PlanetDefense extends StatelessWidget {
-  PlanetDefense({
+  const PlanetDefense({
     Key key,
   }) : super(key: key);
 
@@ -24,13 +27,13 @@ class PlanetDefense extends StatelessWidget {
         _player.planets.firstWhere((planet) => planet.name == _planetName);
     return LayoutBuilder(builder: (context, constraints) {
       return ListView.builder(
-          itemCount: _planet.allShips.length,
-          itemExtent: min(
-              120, max(constraints.maxHeight / _planet.allShips.length, 90)),
+          itemCount: _planet.ships.length,
+          itemExtent:
+              min(120, max(constraints.maxHeight / _planet.ships.length, 90)),
           itemBuilder: (_, index) {
             return _DefenseShipCard(
               defenseShip: kDefenseShipsData[
-                  List<DefenseShipType>.from(_planet.allShips.keys)[index]],
+                  List<DefenseShipType>.from(_planet.ships.keys)[index]],
               width: constraints.maxWidth,
             );
           });
@@ -64,22 +67,22 @@ class _DefenseShipCard extends StatelessWidget {
               Expanded(
                   child: Center(
                 child: Image.asset(
-                    'assets/img/ships/defense/${describeEnum(_defenseShip.type).toLowerCase()}.png'),
+                    'assets/img/ships/defense/${describeEnum(_defenseShip.type)}.png'),
               )),
               Expanded(
                 flex: 2,
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Text(
-                    describeEnum(_defenseShip.type),
-                    style: TextStyle(fontWeight: FontWeight.bold),
+                    describeEnum(_defenseShip.type).inCaps,
+                    style: const TextStyle(fontWeight: FontWeight.bold),
                   ),
                 ),
               ),
               Consumer<Player>(
                 builder: (_, player, __) {
                   return Visibility(
-                    visible: width > 210 ? true : false,
+                    visible: width > 210,
                     child: Expanded(
                       flex: 3,
                       child: _BuyMoreShips(
@@ -118,8 +121,8 @@ class _BuyMoreShips extends StatelessWidget {
   const _BuyMoreShips({Key key, this.decrement, this.increment, this.value})
       : super(key: key);
 
-  final Function increment;
-  final Function decrement;
+  final void Function() increment;
+  final void Function() decrement;
   final int value;
   @override
   Widget build(BuildContext context) {
@@ -142,11 +145,11 @@ class _BuyMoreShips extends StatelessWidget {
           ),
           Container(
             alignment: Alignment.center,
-            margin: EdgeInsets.all(4),
+            margin: const EdgeInsets.all(4),
             child: Text(
               value.toString(),
               overflow: TextOverflow.ellipsis,
-              style: TextStyle(fontWeight: FontWeight.bold),
+              style: const TextStyle(fontWeight: FontWeight.bold),
             ),
           ),
           InkWell(
@@ -168,7 +171,7 @@ class _BuyMoreShips extends StatelessWidget {
   }
 }
 
-_showDefenseDetails(BuildContext context, DefenseShip defenseShip) {
+Future<void> _showDefenseDetails(BuildContext context, DefenseShip defenseShip) {
   final size = MediaQuery.of(context).size;
   final Orientation orientation = (size.width / size.height > 1.7)
       ? Orientation.landscape
@@ -178,7 +181,7 @@ _showDefenseDetails(BuildContext context, DefenseShip defenseShip) {
       animationType: DialogTransitionType.size,
       barrierDismissible: true,
       curve: Curves.fastOutSlowIn,
-      duration: Duration(seconds: 1),
+      duration: const Duration(seconds: 1),
       builder: (BuildContext context) {
         return Material(
           type: MaterialType.transparency,
@@ -191,7 +194,7 @@ _showDefenseDetails(BuildContext context, DefenseShip defenseShip) {
               width: orientation == Orientation.landscape
                   ? size.width * 0.5
                   : size.width * 0.8,
-              padding: EdgeInsets.all(16),
+              padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(8),
                   color: Colors.black54),
@@ -204,10 +207,10 @@ _showDefenseDetails(BuildContext context, DefenseShip defenseShip) {
                   ),
                   Expanded(
                       child: Image.asset(
-                          'assets/img/ships/defense/${describeEnum(defenseShip.type).toLowerCase()}.png')),
+                          'assets/img/ships/defense/${describeEnum(defenseShip.type)}.png')),
                   Text(
                     defenseShip.description,
-                    style: TextStyle(fontWeight: FontWeight.w600),
+                    style: const TextStyle(fontWeight: FontWeight.w600),
                   ),
                   Row(
                     children: [
@@ -221,12 +224,12 @@ _showDefenseDetails(BuildContext context, DefenseShip defenseShip) {
                   SizedBox(
                     width: 360,
                     child: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                       child: ElevatedButton(
                         onPressed: () {
                           Navigator.of(context).pop();
                         },
-                        child: Text('Dismiss'),
+                        child: const Text('Dismiss'),
                       ),
                     ),
                   ),
@@ -248,8 +251,8 @@ class _DefenseDialogStatsBox extends StatelessWidget {
   Widget build(BuildContext context) {
     return Expanded(
       child: Container(
-        margin: EdgeInsets.all(8),
-        padding: EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+        margin: const EdgeInsets.all(8),
+        padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
         decoration: BoxDecoration(
             color: Colors.black87, borderRadius: BorderRadius.circular(4)),
         child: LayoutBuilder(builder: (_, constraints) {

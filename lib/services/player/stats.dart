@@ -1,33 +1,34 @@
 enum StatsType {
-  Propoganda,
-  Culture,
-  Luxury,
-  Military,
+  propoganda,
+  culture,
+  luxury,
+  military,
 }
 
 const Map<StatsType,int> _cost = {
-  StatsType.Propoganda : 15,
-  StatsType.Luxury : 30,
-  StatsType.Culture : 15,
-  StatsType.Military : 15,
+  StatsType.propoganda : 15,
+  StatsType.luxury : 30,
+  StatsType.culture : 15,
+  StatsType.military : 15,
 };  // 1 stat point cost each turn
 
 mixin Stats {
+  // ignore: prefer_final_fields
   Map<StatsType, int> _stats = {};
 
   int get statsExpenditure {
     int expense = 0;
-    for (StatsType type in List.from(_stats.keys)) {
+    for (final type in List<StatsType>.from(_stats.keys)) {
       expense += _stats[type] * _cost[type];
     }
     return expense;
   }
 
   void statsInit() {
-    _stats[StatsType.Propoganda] = 30;
-    _stats[StatsType.Luxury] = 30;
-    _stats[StatsType.Culture] = 30;
-    _stats[StatsType.Military] = 30;
+    _stats[StatsType.propoganda] = 30;
+    _stats[StatsType.luxury] = 30;
+    _stats[StatsType.culture] = 30;
+    _stats[StatsType.military] = 30;
   }
 
   int statValue(StatsType type) {
@@ -45,6 +46,6 @@ mixin Stats {
   }
 
   List<StatsType> get statsList {
-    return List.from(_stats.keys);
+    return _stats.keys.toList();
   }
 }

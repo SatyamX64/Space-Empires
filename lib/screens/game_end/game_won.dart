@@ -1,37 +1,34 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import '/services/game.dart';
-import '/utility/constants.dart';
 
 import '../welcome_screen.dart';
+import '/utility/constants.dart';
 
 class GameWonScreen extends StatelessWidget {
   static const route = '/game-won-screen';
   @override
   Widget build(BuildContext context) {
-    final Game _gameData = Provider.of<Game>(context, listen: false);
     return WillPopScope(
-        child: Scaffold(
-          body: Center(
-            child: Image.asset('assets/img/gifs/win.gif'),
-          ),
-          floatingActionButtonLocation:
-              FloatingActionButtonLocation.centerFloat,
-          floatingActionButton: FloatingActionButton(
-            backgroundColor: Palette.deepBlue,
-            tooltip: 'Restart',
-            child: Icon(
-              Icons.forward,
-              color: Colors.white,
-            ),
-            onPressed: () {
-              Navigator.of(context)
-                  .popUntil(ModalRoute.withName(WelcomeScreen.route));
-            },
+      onWillPop: () {
+        return Future.value(false);
+      },
+      child: Scaffold(
+        body: Center(
+          child: Image.asset('assets/img/gifs/win.gif'),
+        ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+        floatingActionButton: FloatingActionButton(
+          backgroundColor: Palette.deepBlue,
+          tooltip: 'Restart',
+          onPressed: () {
+            Navigator.of(context)
+                .popUntil(ModalRoute.withName(WelcomeScreen.route));
+          },
+          child: const Icon(
+            Icons.forward,
+            color: Colors.white,
           ),
         ),
-        onWillPop: () {
-          return Future.value(false);
-        });
+      ),
+    );
   }
 }

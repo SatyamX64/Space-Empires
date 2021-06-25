@@ -2,16 +2,19 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:provider/provider.dart';
-import 'package:space_empires/models/planet_model.dart';
-import '/services/game.dart';
-import '/screens/planet_screen.dart';
-import '/widgets/static_stars_bg.dart';
 import 'package:sizer/sizer.dart';
+
+import 'package:space_empires/models/planet_model.dart';
+
+import '/screens/planet_screen.dart';
+import '/services/game.dart';
+import '/widgets/static_stars_bg.dart';
+import '/utility/utility.dart';
 
 class SolarSystem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    List<PlanetName> _planetList = PlanetName.values;
+    const _planets = PlanetName.values;
     return LayoutBuilder(builder: (context, constraints) {
       final size = Size(constraints.maxWidth, constraints.maxHeight);
       final Orientation orientation = MediaQuery.of(context).orientation;
@@ -19,38 +22,38 @@ class SolarSystem extends StatelessWidget {
       final double cellSize = size.width / 4;
 
       final spaceLeft = orientation == Orientation.landscape
-          ? ((size.height - (2 * cellSize)))
-          : ((size.height - (6 * cellSize)));
+          ? (size.height - (2 * cellSize))
+          : (size.height - (6 * cellSize));
       final double mainAxisPadding =
           orientation == Orientation.landscape ? spaceLeft / 2 : spaceLeft / 6;
 
       // crossAxisPadding = (crossAxisCount*(spaceLeft/mainAxisCount))/2
       final double crossAxisPadding = spaceLeft < 0
           ? (orientation == Orientation.landscape
-              ? (spaceLeft).abs()
-              : (4 * (spaceLeft).abs() / 6) / 2)
+              ? spaceLeft.abs()
+              : (4 * spaceLeft.abs() / 6) / 2)
           : 0;
 
       final List<StaggeredTile> _portraitTilesLayout = [
-        StaggeredTile.count(3, 1),
-        StaggeredTile.count(1, 2),
-        StaggeredTile.count(1, 2),
-        StaggeredTile.count(2, 2),
-        StaggeredTile.count(2, 1),
-        StaggeredTile.count(2, 2),
-        StaggeredTile.count(2, 2),
-        StaggeredTile.count(2, 1),
+        const StaggeredTile.count(3, 1),
+        const StaggeredTile.count(1, 2),
+        const StaggeredTile.count(1, 2),
+        const StaggeredTile.count(2, 2),
+        const StaggeredTile.count(2, 1),
+        const StaggeredTile.count(2, 2),
+        const StaggeredTile.count(2, 2),
+        const StaggeredTile.count(2, 1),
       ];
 
       final List<StaggeredTile> _landscapeTilesLayout = [
-        StaggeredTile.count(1, 1),
-        StaggeredTile.count(1, 1),
-        StaggeredTile.count(1, 1),
-        StaggeredTile.count(1, 1),
-        StaggeredTile.count(1, 1),
-        StaggeredTile.count(1, 1),
-        StaggeredTile.count(1, 1),
-        StaggeredTile.count(1, 1),
+        const StaggeredTile.count(1, 1),
+        const StaggeredTile.count(1, 1),
+        const StaggeredTile.count(1, 1),
+        const StaggeredTile.count(1, 1),
+        const StaggeredTile.count(1, 1),
+        const StaggeredTile.count(1, 1),
+        const StaggeredTile.count(1, 1),
+        const StaggeredTile.count(1, 1),
       ];
       return Container(
         alignment: Alignment.center,
@@ -61,14 +64,14 @@ class SolarSystem extends StatelessWidget {
             StaticStarsBackGround(),
             StaggeredGridView.count(
               crossAxisCount: 4,
-              physics: NeverScrollableScrollPhysics(),
+              physics: const NeverScrollableScrollPhysics(),
               mainAxisSpacing: mainAxisPadding > 0 ? mainAxisPadding : 0,
               padding: EdgeInsets.symmetric(horizontal: crossAxisPadding),
-              children: List.generate(_planetList.length,
-                  (index) => _PlanetCard(_planetList[index])),
               staggeredTiles: orientation == Orientation.landscape
                   ? _landscapeTilesLayout
                   : _portraitTilesLayout,
+              children: List.generate(
+                  _planets.length, (index) => _PlanetCard(_planets[index])),
             ),
           ],
         ),
@@ -79,7 +82,7 @@ class SolarSystem extends StatelessWidget {
 
 class _PlanetCard extends StatelessWidget {
   final PlanetName planetName;
-  _PlanetCard(this.planetName);
+  const _PlanetCard(this.planetName);
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -92,17 +95,17 @@ class _PlanetCard extends StatelessWidget {
               child: Hero(
                   tag: describeEnum(planetName),
                   child: Image.asset(
-                      'assets/img/planets/${describeEnum(planetName).toLowerCase()}.png'))),
+                      'assets/img/planets/${describeEnum(planetName)}.png'))),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Consumer<Game>(
                 builder: (_, _gameData, ___) {
-                  var _ruler = _gameData.playerForPlanet(planetName).ruler;
+                  final _ruler = _gameData.playerForPlanet(planetName).ruler;
                   return Container(
                     height: 16.sp,
                     width: 16.sp,
-                    margin: EdgeInsets.only(right: 4),
+                    margin: const EdgeInsets.only(right: 4),
                     child: FittedBox(
                       child: Image.asset(
                         'assets/img/ruler/${describeEnum(_ruler).toLowerCase()}.png',

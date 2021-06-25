@@ -1,39 +1,40 @@
 import 'package:space_empires/models/defense_ships_model.dart';
 
 mixin Defense {
-  Map<DefenseShipType, int> _ownedShips = {};
+  // ignore: prefer_final_fields
+  Map<DefenseShipType, int> _ships = {};
 
   void defenseInit() {
-    _ownedShips[DefenseShipType.Rover] = 10;
-    _ownedShips[DefenseShipType.Artillery] = 7;
-    _ownedShips[DefenseShipType.Battleship] = 5;
+    _ships[DefenseShipType.rover] = 10;
+    _ships[DefenseShipType.artillery] = 7;
+    _ships[DefenseShipType.battleship] = 5;
   }
 
   int get defenseExpenditure {
     int expense = 0;
-    for (DefenseShipType type in List.from(_ownedShips.keys)) {
-      expense += _ownedShips[type] * kDefenseShipsData[type].maintainance;
+    for (final type in List.from(_ships.keys)) {
+      expense += _ships[type] * kDefenseShipsData[type].maintainance;
     }
     return expense;
   }
 
-  Map<DefenseShipType, int> get allShips {
-    return _ownedShips;
+  Map<DefenseShipType, int> get ships {
+    return _ships;
   }
 
   int defenseShipCount(DefenseShipType type) {
-    return _ownedShips[type];
+    return _ships[type];
   }
 
   void defenseAddShip(DefenseShipType type, int value) {
-    _ownedShips[type] += value;
+    _ships[type] += value;
   }
 
   void defenseRemoveShip(DefenseShipType type, int value) {
-    if (_ownedShips[type] > value) {
-      _ownedShips[type] -= value;
+    if (_ships[type] > value) {
+      _ships[type] -= value;
     } else {
-      _ownedShips[type] = 0;
+      _ships[type] = 0;
     }
   }
 }

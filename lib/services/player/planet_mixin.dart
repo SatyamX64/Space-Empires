@@ -6,7 +6,7 @@ import 'package:space_empires/models/upgrade_model.dart';
 mixin Planets {
   List<Planet> _planets;
 
-  void planetsInit(List<Planet> planets) {
+  set planetsInit(List<Planet> planets) {
     _planets = planets;
   }
 
@@ -16,7 +16,7 @@ mixin Planets {
 
   int get planetsIncome {
     int income = 0;
-    for (Planet planet in _planets) {
+    for (final planet in _planets) {
       income += planet.income;
     }
     return income;
@@ -54,7 +54,7 @@ mixin Planets {
 
   bool isPlanetMy({PlanetName name}) {
     bool result = false;
-    for (Planet planet in _planets) {
+    for (final planet in _planets) {
       if (planet.name == name) {
         result = true;
         break;
@@ -65,7 +65,7 @@ mixin Planets {
 
   int planetsRespecc() {
     int result = 0;
-    for (Planet planet in _planets) {
+    for (final planet in _planets) {
       result += planet.planetRespecc;
     }
     return result;

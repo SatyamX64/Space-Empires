@@ -3,9 +3,9 @@ import 'package:flutter_svg/flutter_svg.dart';
 import '/utility/constants.dart';
 
 class ControlDeckItem {
-  ControlDeckItem({this.text, this.isPng: false}) {
-    assert(text != null);
-  }
+  ControlDeckItem({@required this.text, this.isPng: false})
+      : assert(text != null);
+
   String text;
   bool isPng;
 }
@@ -14,18 +14,17 @@ class ControlDeckItem {
 // child Priority if clash happens : svg > png
 
 class ControlDeck extends StatefulWidget {
-  ControlDeck({
+  const ControlDeck({
     this.items,
-    this.showLabel: true,
-    this.height: 60.0,
-    this.iconSize: 24.0,
+    this.showLabel = true,
+    this.height = 60.0,
+    this.iconSize = 24.0,
     this.backgroundColor,
-    this.labelColor: Colors.white,
+    this.labelColor = Colors.white,
     this.notchedShape,
     this.onPressed,
-  }) {
-    assert(this.items.length == 2 || this.items.length == 4);
-  }
+  }) : assert(items.length == 2 || items.length == 4);
+
   final List<ControlDeckItem> items;
   final bool showLabel;
   final double height;
@@ -40,17 +39,13 @@ class ControlDeck extends StatefulWidget {
 }
 
 class ControlDeckState extends State<ControlDeck> {
-  int _selectedIndex = 0;
-
-  _updateIndex(int index) {
+  void _updateIndex(int index) {
     widget.onPressed(index);
-    setState(() {
-      _selectedIndex = index;
-    });
   }
 
   @override
   Widget build(BuildContext context) {
+    // ignore: prefer_final_locals
     List<Widget> items = List.generate(widget.items.length, (int index) {
       return _buildTabItem(
         item: widget.items[index],
@@ -62,18 +57,17 @@ class ControlDeckState extends State<ControlDeck> {
 
     return BottomAppBar(
       shape: widget.notchedShape,
+      color: widget.backgroundColor,
       child: Container(
         decoration: BoxDecoration(
           gradient:
               LinearGradient(colors: [opacityBlack(0.5), opacityIndigo(0.5)]),
         ),
         child: Row(
-          mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: items,
         ),
       ),
-      color: widget.backgroundColor,
     );
   }
 
@@ -117,15 +111,14 @@ class ControlDeckState extends State<ControlDeck> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 if (widget.showLabel == false) _image(item.text, item.isPng),
-                widget.showLabel
-                    ? Text(
-                        item.text,
-                        style: TextStyle(
-                          color: widget.labelColor,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      )
-                    : Container(),
+                if (widget.showLabel)
+                  Text(
+                    item.text,
+                    style: TextStyle(
+                      color: widget.labelColor,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  )
               ],
             ),
           ),

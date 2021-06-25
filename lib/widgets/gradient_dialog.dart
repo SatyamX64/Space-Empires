@@ -12,7 +12,7 @@ Future showGradientDialog(
       animationType: DialogTransitionType.size,
       barrierDismissible: true,
       curve: Curves.fastOutSlowIn,
-      duration: Duration(seconds: 1),
+      duration: const Duration(seconds: 1),
       builder: (BuildContext context) {
         return Material(
           type: MaterialType.transparency,
@@ -30,7 +30,7 @@ Future showGradientDialog(
                   borderRadius: BorderRadius.circular(8),
                   gradient: LinearGradient(colors: [
                     Colors.black.withOpacity(0.8),
-                    color != null ? color : Theme.of(context).primaryColor.withOpacity(0.8)
+                    color ?? Theme.of(context).primaryColor.withOpacity(0.8)
                   ]),
                 ),
                 child: child),

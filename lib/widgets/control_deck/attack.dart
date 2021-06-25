@@ -1,23 +1,24 @@
 import 'dart:math';
+
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
+
 import 'package:space_empires/services/player/player.dart';
-import '/services/game.dart';
+
 import '../../services/planet/planet.dart';
 import '/screens/attack/attack_screen.dart';
+import '/services/game.dart';
 import '/utility/constants.dart';
 import '/utility/utility.dart';
 import '/widgets/gradient_dialog.dart';
 
-showAttackMenu(BuildContext context) {
+Future<void> showAttackMenu(BuildContext context) {
   return showGradientDialog(
     context: context,
     child: Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Text(
           'Attack',
@@ -31,28 +32,28 @@ showAttackMenu(BuildContext context) {
             return _EnemyPlanets(constraints: constraints);
           },
         )),
-        Padding(
-          padding: const EdgeInsets.all(4.0),
+        const Padding(
+          padding: EdgeInsets.all(4.0),
           child: Text(
             'Your Forces',
             style: TextStyle(fontWeight: FontWeight.bold),
           ),
         ),
-        _MyForce(),
+        const _MyForce(),
       ],
     ),
   );
 }
 
 class _EnemyPlanets extends StatelessWidget {
-  _EnemyPlanets({Key key, this.constraints}) : super(key: key);
+  const _EnemyPlanets({Key key, this.constraints}) : super(key: key);
 
   final BoxConstraints constraints;
 
-  _planetCard(String planetName) {
+  Widget _planetCard(String planetName) {
     return Container(
       width: constraints.maxWidth * 0.6,
-      padding: EdgeInsets.all(4),
+      padding: const EdgeInsets.all(4),
       alignment: Alignment.center,
       child: Image.asset('assets/img/planets/$planetName.png'),
     );
@@ -64,13 +65,13 @@ class _EnemyPlanets extends StatelessWidget {
     final Player _player = Provider.of(context, listen: false);
     final List<Planet> _availablePlanets =
         _gameData.enemyPlanetsFor(_player.ruler);
-    return _availablePlanets.length <= 0
+    return _availablePlanets.isEmpty
         ? Container(
             alignment: Alignment.center,
-            margin: EdgeInsets.all(16),
+            margin: const EdgeInsets.all(16),
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(8), color: Colors.black26),
-            child: Text(
+            child: const Text(
               'No Enemy Planets',
               style: TextStyle(fontWeight: FontWeight.w600),
             ),
@@ -78,7 +79,7 @@ class _EnemyPlanets extends StatelessWidget {
         : Stack(
             children: [
               Container(
-                constraints: BoxConstraints.expand(),
+                constraints: const BoxConstraints.expand(),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(4),
                   color: Colors.black26,
@@ -111,10 +112,10 @@ class _EnemyPlanets extends StatelessWidget {
                   ),
                 ),
               ),
-              Align(
+              const Align(
                   alignment: Alignment.centerLeft,
                   child: Icon(Icons.arrow_left)),
-              Align(
+              const Align(
                   alignment: Alignment.centerRight,
                   child: Icon(Icons.arrow_right)),
             ],
@@ -134,12 +135,11 @@ class _MyForce extends StatelessWidget {
       padding: const EdgeInsets.only(bottom: 16),
       child: Row(
         children: List.generate(
-          _player.allShips.length,
+          _player.ships.length,
           (index) => _MyForceCard(
-            name: describeEnum(List.from(_player.allShips.keys)[index])
-                .toLowerCase(),
-            quantity: _player
-                .militaryShipCount(List.from(_player.allShips.keys)[index]),
+            name: describeEnum(_player.ships.keys.toList()[index]),
+            quantity:
+                _player.militaryShipCount(_player.ships.keys.toList()[index]),
           ),
         ),
       ),
@@ -162,7 +162,6 @@ class _MyForceCard extends StatelessWidget {
     final Size size = MediaQuery.of(context).size;
     return Expanded(
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisSize: MainAxisSize.min,
         children: [
           LayoutBuilder(builder: (context, constraints) {
@@ -171,7 +170,7 @@ class _MyForceCard extends StatelessWidget {
                   min(max(size.width, size.height) / 10, constraints.maxWidth),
               width:
                   min(max(size.width, size.height) / 10, constraints.maxWidth),
-              margin: EdgeInsets.all(4),
+              margin: const EdgeInsets.all(4),
               decoration: BoxDecoration(
                 border: Border.all(color: Palette.deepBlue),
                 shape: BoxShape.circle,

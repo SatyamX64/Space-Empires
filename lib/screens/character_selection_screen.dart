@@ -3,12 +3,13 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
-import '/services/game.dart';
+import 'package:sizer/sizer.dart';
+
 import '/models/ruler_model.dart';
 import '/screens/game_screen.dart';
+import '/services/game.dart';
 import '/utility/constants.dart';
 import '/widgets/static_stars_bg.dart';
-import 'package:sizer/sizer.dart';
 
 class CharacterSelectionScreen extends StatelessWidget {
   static const route = '/character-selection-screen';
@@ -19,7 +20,7 @@ class CharacterSelectionScreen extends StatelessWidget {
 
   Widget get _spaceLights {
     return Container(
-        constraints: BoxConstraints.expand(),
+        constraints: const BoxConstraints.expand(),
         decoration: BoxDecoration(
           gradient: LinearGradient(colors: [
             opacityBlack(0.3),
@@ -30,9 +31,7 @@ class CharacterSelectionScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Game _gameData = Provider.of<Game>(context, listen: false);
-
-    _heading() {
+    Widget _heading() {
       return Align(
         alignment: Alignment.topCenter,
         child: Padding(
@@ -46,7 +45,7 @@ class CharacterSelectionScreen extends StatelessWidget {
       );
     }
 
-    _description(Ruler ruler) {
+    Widget _description(Ruler ruler) {
       return Container(
         alignment: Alignment.center,
         padding: EdgeInsets.all(16.sp),
@@ -55,14 +54,14 @@ class CharacterSelectionScreen extends StatelessWidget {
         child: SingleChildScrollView(
           child: Text(
             kRulerDescriptionData[ruler],
-            style: TextStyle(fontWeight: FontWeight.w600),
+            style: const TextStyle(fontWeight: FontWeight.w600),
             textAlign: TextAlign.center,
           ),
         ),
       );
     }
 
-    _continue(Ruler ruler) {
+    Widget _continue(Ruler ruler) {
       return SizedBox(
         width: 360,
         child: Padding(
@@ -70,35 +69,34 @@ class CharacterSelectionScreen extends StatelessWidget {
           child: ElevatedButton(
             style: ButtonStyle(
                 backgroundColor:
-                    MaterialStateProperty.all<Color>(Color(0xFF120530))),
+                    MaterialStateProperty.all<Color>(const Color(0xFF120530))),
             onPressed: () {
-              Provider.of<Game>(context, listen: false)
-                  .initGame(ruler);
+              Provider.of<Game>(context, listen: false).initGame(ruler);
               Navigator.pushReplacementNamed(context, GameScreen.route);
             },
-            child: Text('Continue'),
+            child: const Text('Continue'),
           ),
         ),
       );
     }
 
-    _rulerImage(Ruler ruler, int flex) {
+    Widget _rulerImage(Ruler ruler, int flex) {
       return Expanded(
         flex: flex,
         child: CircleAvatar(
           backgroundColor: Colors.black26,
+          radius: double.maxFinite,
           child: Padding(
             padding: EdgeInsets.all(8.sp),
             child: Image.asset(
               'assets/img/ruler/${describeEnum(ruler).toLowerCase()}.png',
             ),
           ),
-          radius: double.maxFinite,
         ),
       );
     }
 
-    _rulerName(Ruler ruler, int flex) {
+    Widget _rulerName(Ruler ruler, int flex) {
       return Expanded(
         flex: flex,
         child: Container(
@@ -112,7 +110,7 @@ class CharacterSelectionScreen extends StatelessWidget {
       );
     }
 
-    _characterCard(Ruler ruler, Orientation orientation) {
+    Widget _characterCard(Ruler ruler, Orientation orientation) {
       return Container(
         padding: EdgeInsets.all(16.sp),
         margin: EdgeInsets.all(16.sp),
@@ -124,7 +122,6 @@ class CharacterSelectionScreen extends StatelessWidget {
                   Expanded(
                     flex: 2,
                     child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [_rulerImage(ruler, 2), _rulerName(ruler, 1)],
                     ),
                   ),
@@ -143,7 +140,6 @@ class CharacterSelectionScreen extends StatelessWidget {
                 children: [
                   Expanded(
                     child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [_rulerImage(ruler, 1), _rulerName(ruler, 2)],
                     ),
                   ),
@@ -154,8 +150,7 @@ class CharacterSelectionScreen extends StatelessWidget {
       );
     }
 
-    _characterMenu(Orientation orientation) {
-      final Size size = MediaQuery.of(context).size;
+    Widget _characterMenu(Orientation orientation) {
       return Align(
         alignment: orientation == Orientation.landscape
             ? Alignment.bottomCenter
@@ -165,8 +160,8 @@ class CharacterSelectionScreen extends StatelessWidget {
             aspectRatio: orientation == Orientation.landscape ? 2.4 : 0.8,
           ),
           itemCount: kRulerDescriptionData.length,
-          itemBuilder: (BuildContext context, int index, _) =>
-              _characterCard(List.from(kRulerDescriptionData.keys)[index], orientation),
+          itemBuilder: (BuildContext context, int index, _) => _characterCard(
+              List<Ruler>.from(kRulerDescriptionData.keys)[index], orientation),
         ),
       );
     }

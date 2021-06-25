@@ -1,33 +1,37 @@
 import 'dart:math';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animated_dialog/flutter_animated_dialog.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
-import 'package:space_empires/models/planet_model.dart';
-import 'package:space_empires/services/player/player.dart';
+
 import '../../services/planet/planet.dart';
+import '/models/planet_model.dart';
 import '/models/upgrade_model.dart';
+import '/services/player/player.dart';
 import '/utility/utility.dart';
 
 class PlanetUpgrades extends StatelessWidget {
-  PlanetUpgrades({
+  const PlanetUpgrades({
     Key key,
   }) : super(key: key);
 
-  _getSize(double n, double w, double h) {
+  double _getSize(double n, double w, double h) {
     // Finds the biggest square size , such that "n" squares can fit in a w*h rectangle
     double sw, sh;
-    var pw = (sqrt(n * w / h)).ceilToDouble();
-    if ((pw * h / w).floorToDouble() * pw < n)
+    final pw = (sqrt(n * w / h)).ceilToDouble();
+    if ((pw * h / w).floorToDouble() * pw < n) {
       sw = h / (pw * h / w).ceilToDouble();
-    else
+    } else {
       sw = w / pw;
-    var ph = (sqrt(n * h / w)).ceilToDouble();
-    if ((ph * w / h).floorToDouble() * ph < n)
+    }
+    final ph = (sqrt(n * h / w)).ceilToDouble();
+    if ((ph * w / h).floorToDouble() * ph < n) {
       sh = w / (w * ph / h).ceilToDouble();
-    else
+    } else {
       sh = h / ph;
+    }
     return max(sw, sh);
   }
 
@@ -42,11 +46,11 @@ class PlanetUpgrades extends StatelessWidget {
       return Container(
         alignment: Alignment.center,
         child: Wrap(
-          children: List.generate(_planet.allUpgrades.length, (index) {
+          children: List.generate(_planet.upgrades.length, (index) {
             return _UpgradeCard(
                 upgrade: kUpgradesData[
-                    List<UpgradeType>.from(_planet.allUpgrades.keys)[index]],
-                side: _getSize(_planet.allUpgrades.length.toDouble(),
+                    List<UpgradeType>.from(_planet.upgrades.keys)[index]],
+                side: _getSize(_planet.upgrades.length.toDouble(),
                     constraints.maxWidth, constraints.maxHeight));
           }),
         ),
@@ -90,7 +94,7 @@ class _UpgradeCard extends StatelessWidget {
             FittedBox(
               child: Text(
                 describeEnum(upgrade.type),
-                style: TextStyle(fontWeight: FontWeight.w600),
+                style: const TextStyle(fontWeight: FontWeight.w600),
               ),
             ),
           ]),
@@ -100,7 +104,7 @@ class _UpgradeCard extends StatelessWidget {
   }
 }
 
-_showUpgradeDetails(
+Future _showUpgradeDetails(
     BuildContext context, Upgrade upgrade, Function buy, bool available) {
   final size = MediaQuery.of(context).size;
   final Orientation orientation = (size.width / size.height > 1.7)
@@ -112,7 +116,7 @@ _showUpgradeDetails(
       animationType: DialogTransitionType.size,
       barrierDismissible: true,
       curve: Curves.fastOutSlowIn,
-      duration: Duration(seconds: 1),
+      duration: const Duration(seconds: 1),
       builder: (BuildContext context) {
         return Material(
           type: MaterialType.transparency,
@@ -125,23 +129,23 @@ _showUpgradeDetails(
               width: orientation == Orientation.landscape
                   ? size.width * 0.5
                   : size.width * 0.8,
-              padding: EdgeInsets.all(16),
+              padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(8),
                   color: Colors.black54),
               child: Column(
                 children: [
                   Text(
-                    describeEnum(upgrade.type),
+                    describeEnum(upgrade.type).inCaps,
                     style: Theme.of(context).textTheme.headline5.copyWith(
                         color: Colors.white, fontWeight: FontWeight.bold),
                   ),
                   Expanded(
                       child: Image.asset(
-                          'assets/img/buildings/${describeEnum(upgrade.type).toLowerCase()}.png')),
+                          'assets/img/buildings/${describeEnum(upgrade.type)}.png')),
                   Text(
                     upgrade.description,
-                    style: TextStyle(fontWeight: FontWeight.w600),
+                    style: const TextStyle(fontWeight: FontWeight.w600),
                     textAlign: TextAlign.center,
                   ),
                   Row(
@@ -157,14 +161,14 @@ _showUpgradeDetails(
                     child: SizedBox(
                       width: 360,
                       child: Padding(
-                        padding:
-                            EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 8, vertical: 4),
                         child: ElevatedButton(
                           onPressed: () {
                             buy();
                             Navigator.of(context).pop();
                           },
-                          child: Text('Buy'),
+                          child: const Text('Buy'),
                         ),
                       ),
                     ),
@@ -187,8 +191,8 @@ class _UpgradeDialogStatsBox extends StatelessWidget {
   Widget build(BuildContext context) {
     return Expanded(
       child: Container(
-        margin: EdgeInsets.all(8),
-        padding: EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+        margin: const EdgeInsets.all(8),
+        padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
         decoration: BoxDecoration(
             color: Colors.black87, borderRadius: BorderRadius.circular(4)),
         child: LayoutBuilder(builder: (_, constraints) {

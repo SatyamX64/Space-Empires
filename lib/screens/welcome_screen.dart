@@ -14,7 +14,7 @@ class WelcomeScreen extends StatelessWidget {
 
   Widget get _spaceLights {
     return Container(
-        constraints: BoxConstraints.expand(),
+        constraints: const BoxConstraints.expand(),
         decoration: BoxDecoration(
           gradient: LinearGradient(colors: [
             opacityBlack(0.3),
@@ -27,11 +27,9 @@ class WelcomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
 
-    _menu() {
+    Widget _menu() {
       return Align(
-        alignment: Alignment.center,
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
@@ -74,7 +72,7 @@ class WelcomeScreen extends StatelessWidget {
       );
     }
 
-    _saturn() {
+    Widget _saturn() {
       return Positioned(
         right: -size.longestSide / 4,
         bottom: -size.longestSide / 8,
@@ -83,7 +81,7 @@ class WelcomeScreen extends StatelessWidget {
       );
     }
 
-    _purplePlanet() {
+    Widget _purplePlanet() {
       return Positioned(
         left: -size.longestSide / 4,
         bottom: 0,

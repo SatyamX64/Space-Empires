@@ -1,8 +1,9 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:space_empires/models/planet_model.dart';
+
 import '/models/defense_ships_model.dart';
+import '/models/planet_model.dart';
 import 'defense_mixin.dart';
 import 'upgrade_mixin.dart';
 
@@ -10,11 +11,11 @@ class Planet with ChangeNotifier, Defense, PlanetUpgrade {
   PlanetName name;
   String description;
   bool inWar; // True If Planet was attacked on Current Day
-  int _morale;
-  int _revenue;
+  int morale;
+  int revenue;
 
   Planet(this.name) {
-    this.description = kPlanetsDescriptionData[name];
+    description = kPlanetsDescriptionData[name];
     init();
   }
 
@@ -26,44 +27,36 @@ class Planet with ChangeNotifier, Defense, PlanetUpgrade {
   }
 
   void statsInit() {
-    _revenue = 2500;
-    _morale = 300;
+    revenue = 2500;
+    morale = 300;
   }
 
   int get income {
-    return ((_revenue * planetRevenueBoost) *
-                (1 + (_morale * planetMoraleBoost) / 1000))
+    return ((revenue * planetRevenueBoost) *
+                (1 + (morale * planetMoraleBoost) / 1000))
             .round() -
         defenseExpenditure;
   }
 
   int get militaryMight {
     int militaryMight = 0;
-    for (DefenseShipType shipType in List.from(allShips.keys)) {
+    for (final shipType in ships.keys.toList()) {
       militaryMight =
           kDefenseShipsData[shipType].point * defenseShipCount(shipType);
     }
-    return (militaryMight * (1 + planetDefenseQuotient * 0.05)).floor();
+    return (militaryMight * (1 + planetDefensePoints * 0.05)).floor();
   }
 
   int get defense {
-    return planetDefenseQuotient;
+    return planetDefensePoints;
   }
 
   Map<String, int> get stats {
     return {
-      'morale': _morale,
+      'morale': morale,
       'income': income,
       'defense': defense,
     };
-  }
-
-  set morale(int value) {
-    _morale = value;
-  }
-
-  set revenue(int value) {
-    _revenue = value;
   }
 
   int effectFromDamageOutput(List<int> damageOutputs) {
@@ -73,35 +66,33 @@ class Planet with ChangeNotifier, Defense, PlanetUpgrade {
     // Each ship is assigned some points, and overall score for each formation is calculated based on that
 
     int damageFactor = 0;
+    // ignore: prefer_final_locals
     Map<DefenseShipType, int> shipDestroyed = {};
     for (int i = 0; i < damageOutputs.length; i++) {
-      int shipsLost = (damageOutputs[i] ~/
-          kDefenseShipsData[List.from(allShips.keys)[i]].health);
-      shipDestroyed[List.from(allShips.keys)[i]] = min(defenseShipCount(List.from(allShips.keys)[i]),shipsLost);
+      final shipsLost =
+          damageOutputs[i] ~/ kDefenseShipsData[ships.keys.toList()[i]].health;
+      shipDestroyed[ships.keys.toList()[i]] =
+          min(defenseShipCount(ships.keys.toList()[i]), shipsLost);
     }
-    for (var ship in List.from(allShips.keys)) {
+    for (final ship in ships.keys.toList()) {
       damageFactor += shipDestroyed[ship] * kDefenseShipsData[ship].point;
     }
     return damageFactor;
   }
 
   List<int> damageOutputForFormation(List<int> formation) {
-    // Calculates how much damage will be done at pos[i] if ships assume this formation
+    // Calculates how much damage will be done at pos[i] if ships attack with this formation
+    // ignore: prefer_final_locals
     List<int> damageOutput = List.generate(formation.length,
         (index) => 0); // What Damage will ship at pos[i] reciveve
     for (int i = 0; i < formation.length; i++) {
-      int shipCount = defenseShipCount(List.from(allShips.keys)[i]);
-      int shipAttackPower =
-          kDefenseShipsData[List.from(allShips.keys)[i]].damage;
+      final shipCount = defenseShipCount(ships.keys.toList()[i]);
+      final shipAttackPower = kDefenseShipsData[ships.keys.toList()[i]].damage;
       damageOutput[formation[i]] +=
-          (shipCount * shipAttackPower * (1 + (planetDefenseQuotient * 0.05)))
+          (shipCount * shipAttackPower * (1 + (planetDefensePoints * 0.05)))
               .toInt();
       // Each Defense Level Increases the Damage Output by 5%
     }
-    // print('Attack PLanet');
-    // print(damageOutput);
-    // print(positions);
-    // print('Planet End');
     return damageOutput;
   }
 
@@ -109,13 +100,13 @@ class Planet with ChangeNotifier, Defense, PlanetUpgrade {
     // Takes the list of how much damage each ship at pos 'i' will take
     // and gives that damage to all the ships at pos[i]
     for (int i = 0; i < damageOutputs.length; i++) {
-      int shipsLost = (damageOutputs[i] ~/
-          kDefenseShipsData[List.from(allShips.keys)[i]].health);
-      defenseRemoveShip(List.from(allShips.keys)[i], shipsLost);
+      final shipsLost =
+          damageOutputs[i] ~/ kDefenseShipsData[ships.keys.toList()[i]].health;
+      defenseRemoveShip(ships.keys.toList()[i], shipsLost);
     }
     notifyListeners();
     int shipsLeft = 0;
-    for (var ship in List.from(allShips.keys)) {
+    for (final ship in ships.keys.toList()) {
       shipsLeft += defenseShipCount(ship);
     }
     return shipsLeft;

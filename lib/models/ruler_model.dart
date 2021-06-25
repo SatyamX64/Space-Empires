@@ -1,16 +1,16 @@
 enum Ruler {
-  NdNd,
-  Morbo,
-  Nudar,
-  Zapp,
+  ndNd,
+  morbo,
+  nudar,
+  zapp,
 }
 
-const Map<Ruler, String> kRulerDescriptionData = const {
-  Ruler.NdNd: 'The last standing heir from the Royal Family of Jupinot.',
-  Ruler.Nudar:
+const Map<Ruler, String> kRulerDescriptionData = {
+  Ruler.ndNd: 'The last standing heir from the Royal Family of Jupinot.',
+  Ruler.nudar:
       'The Ruler of the strongest warrior race of this Universe. He was the reason Morbo failed to conquer all',
-  Ruler.Zapp:
+  Ruler.zapp:
       'The newest entry in the Big 4, Physically weak but super smart and technologically advanced',
-  Ruler.Morbo:
+  Ruler.morbo:
       'The Master Tactician himself, the guy once held 6 planets in his prime',
 };

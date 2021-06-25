@@ -1,17 +1,20 @@
 import 'dart:math';
-import 'package:space_empires/services/player/player.dart';
-import '/models/attack_ships_model.dart';
+
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '/services/game.dart';
-import '../../services/planet/planet.dart';
 import 'package:sizer/sizer.dart';
+
+import 'package:space_empires/services/player/player.dart';
+
+import '../../services/formation_generator.dart';
+import '../../services/planet/planet.dart';
+import '/models/attack_ships_model.dart';
 import '/screens/attack/attack_conclusion_screen.dart';
 import '/screens/game_end/game_lost.dart';
 import '/screens/game_end/game_won.dart';
+import '/services/game.dart';
 import '/utility/constants.dart';
-import '../../services/formation_generator.dart';
 
 class ControlPanel extends StatefulWidget {
   @override
@@ -21,16 +24,15 @@ class ControlPanel extends StatefulWidget {
 class _ControlPanelState extends State<ControlPanel>
     with TickerProviderStateMixin {
   OverlayEntry _overlayEntry;
-  GlobalKey _attackButtonKey = GlobalKey();
+  final _attackButtonKey = GlobalKey();
   AnimationController _animationController;
   Animation<double> _animation;
   CarouselController formationCarouselController = CarouselController();
   @override
   void initState() {
     super.initState();
-    super.initState();
     _animationController =
-        AnimationController(vsync: this, duration: Duration(seconds: 1));
+        AnimationController(vsync: this, duration: const Duration(seconds: 1));
     _animation =
         Tween<double>(begin: 0.0, end: 1.0).animate(_animationController);
   }
@@ -41,10 +43,11 @@ class _ControlPanelState extends State<ControlPanel>
     super.dispose();
   }
 
-  showOverlay(String attackPoint, String defensePoint) async {
-    OverlayState _overlayState = Overlay.of(context);
-    RenderBox _renderBox = _attackButtonKey.currentContext.findRenderObject();
-    Offset offset = _renderBox.localToGlobal(Offset.zero);
+  Future<void> showOverlay(String attackPoint, String defensePoint) async {
+    final _overlayState = Overlay.of(context);
+    final _renderBox =
+        _attackButtonKey.currentContext.findRenderObject() as RenderBox;
+    final offset = _renderBox.localToGlobal(Offset.zero);
     if (_overlayEntry != null) {
       _overlayEntry.remove();
       _overlayEntry = null;
@@ -94,7 +97,7 @@ class _ControlPanelState extends State<ControlPanel>
     });
   }
 
-  _baseCard({Widget child}) {
+  Widget _baseCard({Widget child}) {
     return Expanded(
       child: Container(
         alignment: Alignment.center,
@@ -119,69 +122,64 @@ class _ControlPanelState extends State<ControlPanel>
     List<int> bestFormationForDefender() {
       int maxDamageFactor = 0;
       List<int> bestFormation = _formationProvider.formations[0];
-      for (List<int> formation in _formationProvider.formations) {
-        List<int> damageOutputs = _planet.damageOutputForFormation(formation);
-        int damageFactor = _attacker.effectFromDamageOutput(damageOutputs);
+      for (final formation in _formationProvider.formations) {
+        final damageOutputs = _planet.damageOutputForFormation(formation);
+        final damageFactor = _attacker.effectFromDamageOutput(damageOutputs);
         if (damageFactor > maxDamageFactor) {
           maxDamageFactor = damageFactor;
           bestFormation = formation;
         }
       }
-      print('Best Defender Formation : ');
-      print(bestFormation);
       return bestFormation;
     }
 
     List<int> bestFormationForAttacker() {
       int maxLikeabilityFactor = 0;
       List<int> bestFormation = _formationProvider.formations[0];
-      for (List<int> formation in _formationProvider.formations) {
-        List<int> damageOutputs = _attacker.damageOutputForFormation(formation);
-        int likeablilityFactor = _planet.effectFromDamageOutput(damageOutputs);
+      for (final formation in _formationProvider.formations) {
+        final damageOutputs = _attacker.damageOutputForFormation(formation);
+        final likeablilityFactor =
+            _planet.effectFromDamageOutput(damageOutputs);
         if (likeablilityFactor > maxLikeabilityFactor) {
           maxLikeabilityFactor = likeablilityFactor;
           bestFormation = formation;
         }
       }
-      print('Best Attacker Formation : ');
-      print(bestFormation);
       return bestFormation;
     }
 
     Map<String, bool> _canDamage() {
       // Checks if Attacker / Defender can damage the other party or not
-      // Eg : If both parties have only 1 battleship/orbital left
+      // Eg : If both parties have only 1 battleship/optimus left
       // Then no one will ever win and battle will end as stalemate
       // Attacker will retreat without further lose
       int likabilityDefense =
           0; // Stores the Max Damage points the Planet will score
-      for (List<int> formation in _formationProvider.formations) {
-        List<int> damageOutputs = _planet.damageOutputForFormation(formation);
-        int likeablilityFactor = _attacker.effectFromDamageOutput(damageOutputs);
+      for (final formation in _formationProvider.formations) {
+        final damageOutputs = _planet.damageOutputForFormation(formation);
+        final likeablilityFactor =
+            _attacker.effectFromDamageOutput(damageOutputs);
         if (likeablilityFactor > likabilityDefense) {
           likabilityDefense = likeablilityFactor;
-          print(formation);
         }
       }
       int likabilityAttack =
           0; // Stores the Max Damage points the Attacker can score
-      for (List<int> formation in _formationProvider.formations) {
-        List<int> damageOutputs = _attacker.damageOutputForFormation(formation);
-        int likeablilityFactor = _planet.effectFromDamageOutput(damageOutputs);
+      for (final formation in _formationProvider.formations) {
+        final damageOutputs = _attacker.damageOutputForFormation(formation);
+        final likeablilityFactor =
+            _planet.effectFromDamageOutput(damageOutputs);
         if (likeablilityFactor > likabilityAttack) {
           likabilityAttack = likeablilityFactor;
-          print('\n');
-          print(formation);
         }
       }
-      print(' Like : $likabilityAttack : $likabilityDefense');
       return {
         'defender': likabilityDefense > 0,
         'attacker': likabilityAttack > 0,
       };
     }
 
-    _goToConclusionScreen(String message) {
+    void _goToConclusionScreen(String message) {
       if (_overlayEntry != null) {
         _overlayEntry.remove();
         _overlayEntry = null;
@@ -248,7 +246,7 @@ class _ControlPanelState extends State<ControlPanel>
                                 carouselController: formationCarouselController,
                                 items: List.generate(
                                   pow(kAttackShipsData.length,
-                                      kAttackShipsData.length),
+                                      kAttackShipsData.length) as int,
                                   (index) => Center(
                                     child: FittedBox(
                                       child: Text(
@@ -280,19 +278,19 @@ class _ControlPanelState extends State<ControlPanel>
                                       onTap: () {
                                         formationCarouselController
                                             .previousPage(
-                                                duration:
-                                                    Duration(milliseconds: 300),
+                                                duration: const Duration(
+                                                    milliseconds: 300),
                                                 curve: Curves.linear);
                                       },
-                                      child: Icon(Icons.arrow_left)),
+                                      child: const Icon(Icons.arrow_left)),
                                   GestureDetector(
                                       onTap: () {
                                         formationCarouselController.nextPage(
-                                            duration:
-                                                Duration(milliseconds: 300),
+                                            duration: const Duration(
+                                                milliseconds: 300),
                                             curve: Curves.linear);
                                       },
-                                      child: Icon(Icons.arrow_right)),
+                                      child: const Icon(Icons.arrow_right)),
                                 ],
                               ),
                             ),
@@ -319,7 +317,7 @@ class _ControlPanelState extends State<ControlPanel>
               )),
           Expanded(
             flex: 3,
-            child: Container(
+            child: SizedBox(
               width: double.maxFinite,
               child: Padding(
                 padding: EdgeInsets.all(2.sp),
@@ -342,21 +340,20 @@ class _ControlPanelState extends State<ControlPanel>
                         ? playerFormation
                         : computerFormation;
 
-                    int _initialAttackShips =
-                        List.from(_attacker.allShips.values)
+                    final _initialAttackShips =
+                        List.from(_attacker.ships.values)
                             .fold(0, (p, c) => p + c);
-                    int _initialDefenseShips =
-                        List.from(_planet.allShips.values)
-                            .fold(0, (p, c) => p + c);
+                    final _initialDefenseShips = List.from(_planet.ships.values)
+                        .fold(0, (p, c) => p + c);
 
-                    List<int> damageOutputsDefense =
+                    final damageOutputsDefense =
                         _planet.damageOutputForFormation(defenseFormation);
-                    List<int> damageOutputsAttacker =
+                    final damageOutputsAttacker =
                         _attacker.damageOutputForFormation(attackFormation);
-                    int attackShipsLeft =
-                        _attacker.defendAgainstDamageOutput(damageOutputsDefense);
-                    int defenseShipsLeft =
-                        _planet.defendAgainstDamageOutput(damageOutputsAttacker);
+                    final attackShipsLeft = _attacker
+                        .defendAgainstDamageOutput(damageOutputsDefense);
+                    final defenseShipsLeft = _planet
+                        .defendAgainstDamageOutput(damageOutputsAttacker);
                     showOverlay(
                         '-${_initialAttackShips - attackShipsLeft} Ships',
                         '-${_initialDefenseShips - defenseShipsLeft} Ships');

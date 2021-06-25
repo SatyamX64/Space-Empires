@@ -10,7 +10,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:in_app_review/in_app_review.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-Future launchURL(url) async {
+Future launchURL(String url) async {
   await canLaunch(url) ? await launch(url) : throw 'Could not launch $url';
 }
 
@@ -27,7 +27,7 @@ class InfoScreen extends StatelessWidget {
 
   Widget get _spaceLights {
     return Container(
-        constraints: BoxConstraints.expand(),
+        constraints: const BoxConstraints.expand(),
         decoration: BoxDecoration(
           gradient: LinearGradient(colors: [
             opacityBlack(0.3),
@@ -38,12 +38,12 @@ class InfoScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Widget _gameTitle = Row(
+    final _gameTitle = Row(
       children: [
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
           child: Image(
-            image: AssetImage('assets/img/icon.png'),
+            image: const AssetImage('assets/img/icon.png'),
             height: 32.sp,
             width: 32.sp,
           ),
@@ -60,7 +60,7 @@ class InfoScreen extends StatelessWidget {
       ],
     );
 
-    Widget _links = Row(
+    final _links = Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         IconButton(
@@ -68,19 +68,19 @@ class InfoScreen extends StatelessWidget {
               try {
                 await launchURL(githubLink);
               } catch (e) {
-                print(e.toString());
+                debugPrint(e.toString());
               }
             },
-            icon: Icon(FontAwesomeIcons.github)),
+            icon: const Icon(FontAwesomeIcons.github)),
         IconButton(
             onPressed: () async {
               try {
                 await inAppReview.openStoreListing();
               } catch (e) {
-                print(e.toString());
+                debugPrint(e.toString());
               }
             },
-            icon: Icon(
+            icon: const Icon(
               Icons.star,
               color: Colors.yellow,
             )),
@@ -89,30 +89,30 @@ class InfoScreen extends StatelessWidget {
               try {
                 await launchURL(portfolioLink);
               } catch (e) {
-                print(e.toString());
+                debugPrint(e.toString());
               }
             },
-            icon: Icon(
+            icon: const Icon(
               FontAwesomeIcons.addressCard,
             )),
       ],
     );
-    Widget _proceedButton = Visibility(
-        visible: !this.characterSelected,
+    final _proceedButton = Visibility(
+        visible: !characterSelected,
         child: Center(
           child: SizedBox(
             width: 360.sp,
             child: ElevatedButton(
-              style: ElevatedButton.styleFrom(primary: Color(0xFF814FC1)),
+              style: ElevatedButton.styleFrom(primary: const Color(0xFF814FC1)),
               onPressed: () {
                 Navigator.pushReplacementNamed(
                     context, CharacterSelectionScreen.route);
               },
-              child: Text('Proceed'),
+              child: const Text('Proceed'),
             ),
           ),
         ));
-    Widget _heading = Align(
+    final _heading = Align(
       alignment: Alignment.topCenter,
       child: Padding(
         padding: EdgeInsets.all(24.sp),
@@ -135,21 +135,20 @@ class InfoScreen extends StatelessWidget {
                   onTap: () {
                     Navigator.of(context).pop();
                   },
-                  child: Icon(Icons.arrow_back_ios)),
+                  child: const Icon(Icons.arrow_back_ios)),
             )
           ],
         ),
       ),
     );
 
-    _welcomeCard(orientation) {
+    Widget _welcomeCard(orientation) {
       return Container(
         padding: EdgeInsets.all(16.sp),
         margin: EdgeInsets.all(16.sp),
         decoration: BoxDecoration(
             color: Colors.black26, borderRadius: BorderRadius.circular(16.sp)),
         child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
             children: orientation == Orientation.landscape
                 ? [
                     Row(
@@ -160,7 +159,7 @@ class InfoScreen extends StatelessWidget {
                     ),
                     SizedBox(
                       height: 16.sp,
-                      child: Divider(),
+                      child: const Divider(),
                     ),
                     Expanded(
                       child: SingleChildScrollView(
@@ -177,7 +176,7 @@ class InfoScreen extends StatelessWidget {
                                       fontSize: 14.sp),
                             ),
                             Text(
-                              '• The Game is in Beta release and open-souce',
+                              '• The Game is in Development and open-souce',
                               style: Theme.of(context)
                                   .textTheme
                                   .bodyText2
@@ -187,7 +186,7 @@ class InfoScreen extends StatelessWidget {
                             ),
                             SizedBox(
                               height: 8.sp,
-                              child: Divider(),
+                              child: const Divider(),
                             ),
                             _proceedButton
                           ],
@@ -199,7 +198,7 @@ class InfoScreen extends StatelessWidget {
                     _gameTitle,
                     SizedBox(
                       height: 16.sp,
-                      child: Divider(),
+                      child: const Divider(),
                     ),
                     Expanded(
                       child: SingleChildScrollView(
@@ -216,7 +215,7 @@ class InfoScreen extends StatelessWidget {
                                       fontSize: 14.sp),
                             ),
                             Text(
-                              '• The Game is in Beta release and open-souce',
+                              '• The Game is in Development and open-souce',
                               style: Theme.of(context)
                                   .textTheme
                                   .bodyText2
@@ -226,12 +225,12 @@ class InfoScreen extends StatelessWidget {
                             ),
                             SizedBox(
                               height: 8.sp,
-                              child: Divider(),
+                              child: const Divider(),
                             ),
                             _links,
                             SizedBox(
                               height: 8.sp,
-                              child: Divider(),
+                              child: const Divider(),
                             ),
                             _proceedButton,
                           ],
@@ -242,14 +241,13 @@ class InfoScreen extends StatelessWidget {
       );
     }
 
-    _instructionCard(String instruction) {
+    Widget _instructionCard(String instruction) {
       return Container(
         padding: EdgeInsets.all(16.sp),
         margin: EdgeInsets.all(16.sp),
         decoration: BoxDecoration(
             color: Colors.black26, borderRadius: BorderRadius.circular(16.sp)),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text(
               instruction,
@@ -260,7 +258,7 @@ class InfoScreen extends StatelessWidget {
             ),
             SizedBox(
               height: 16.sp,
-              child: Divider(),
+              child: const Divider(),
             ),
             Expanded(
               child: SingleChildScrollView(
@@ -278,7 +276,7 @@ class InfoScreen extends StatelessWidget {
       );
     }
 
-    _instructionMenu(Orientation orientation) {
+    Widget _instructionMenu(Orientation orientation) {
       return Align(
         alignment: orientation == Orientation.landscape
             ? Alignment.bottomCenter
@@ -289,11 +287,11 @@ class InfoScreen extends StatelessWidget {
             ),
             itemCount: kInstructionsData.length + 1,
             itemBuilder: (BuildContext context, int index, _) {
-              if (index == 0)
+              if (index == 0) {
                 return _welcomeCard(orientation);
-              else {
+              } else {
                 return _instructionCard(
-                    List.from(kInstructionsData.keys)[index - 1]);
+                    List<String>.from(kInstructionsData.keys)[index - 1]);
               }
             }),
       );

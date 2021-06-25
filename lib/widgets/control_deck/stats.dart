@@ -6,7 +6,7 @@ import '/services/game.dart';
 import '/utility/utility.dart';
 import '/widgets/gradient_dialog.dart';
 
-showStatsMenu(BuildContext context) {
+Future<void> showStatsMenu(BuildContext context) {
   return showGradientDialog(
       context: context,
       child: Column(
@@ -25,7 +25,7 @@ showStatsMenu(BuildContext context) {
 }
 
 class _ResourceAllocator extends StatelessWidget {
-  _ResourceAllocator({Key key}) : super(key: key);
+  const _ResourceAllocator({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +33,7 @@ class _ResourceAllocator extends StatelessWidget {
     return Expanded(
         flex: 3,
         child: Container(
-          margin: EdgeInsets.all(4),
+          margin: const EdgeInsets.all(4),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(4),
             color: Colors.black12,
@@ -74,7 +74,7 @@ class _ResourceAllocator extends StatelessWidget {
                   text: 'Total',
                   value: Text(
                     '${player.income} \$',
-                    style: TextStyle(
+                    style: const TextStyle(
                         fontWeight: FontWeight.bold, color: Colors.green),
                   )),
             ],
@@ -84,7 +84,7 @@ class _ResourceAllocator extends StatelessWidget {
 }
 
 class _RivalsOpinion extends StatelessWidget {
-  _RivalsOpinion({Key key}) : super(key: key);
+  const _RivalsOpinion({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -94,34 +94,36 @@ class _RivalsOpinion extends StatelessWidget {
     return Expanded(
         child: Container(
       alignment: Alignment.center,
-      margin: EdgeInsets.all(4),
+      margin: const EdgeInsets.all(4),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(4),
         color: Colors.black12,
       ),
       child: SingleChildScrollView(
-        child: Text(_gameData.getRivalsOpinion(_player.ruler),
-            style: Theme.of(context).textTheme.headline6.copyWith(
-                  fontFamily: 'Italianno',
-                  
-                  // fontWeight: FontWeight.w600
-                ),textAlign: TextAlign.center,),
+        child: Text(
+          _gameData.getRivalsOpinion(_player.ruler),
+          style: Theme.of(context).textTheme.headline6.copyWith(
+                fontFamily: 'Italianno',
+                // fontWeight: FontWeight.w600
+              ),
+          textAlign: TextAlign.center,
+        ),
       ),
     ));
   }
 }
 
 class _InfoBar extends StatelessWidget {
-  _InfoBar({this.text, this.value});
-  _statsText(String text) {
+  const _InfoBar({this.text, this.value});
+  Text _statsText(String text) {
     return Text(
       text,
-      style: TextStyle(fontWeight: FontWeight.bold),
+      style: const TextStyle(fontWeight: FontWeight.bold),
     );
   }
 
-  final text;
-  final value;
+  final String text;
+  final Widget value;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -147,11 +149,11 @@ class _InfoBar extends StatelessWidget {
 }
 
 class _PlusMinus extends StatelessWidget {
-  final Function increment;
-  final Function decrement;
+  final void Function() increment;
+  final void Function() decrement;
   final int value;
 
-  _PlusMinus(
+  const _PlusMinus(
       {@required this.decrement,
       @required this.increment,
       @required this.value});
@@ -177,11 +179,11 @@ class _PlusMinus extends StatelessWidget {
           ),
           Container(
             alignment: Alignment.center,
-            margin: EdgeInsets.all(4),
+            margin: const EdgeInsets.all(4),
             child: Text(
               value.toString(),
               overflow: TextOverflow.ellipsis,
-              style: TextStyle(fontWeight: FontWeight.bold),
+              style: const TextStyle(fontWeight: FontWeight.bold),
             ),
           ),
           InkWell(

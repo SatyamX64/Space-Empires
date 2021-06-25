@@ -1,20 +1,25 @@
 import 'dart:math';
-import 'package:provider/provider.dart';
-import 'package:sizer/sizer.dart';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:space_empires/services/player/player.dart';
-import '/services/game.dart';
-import '/models/rivals_model.dart';
-import '/models/ruler_model.dart';
-import '/widgets/gradient_dialog.dart';
-import '../circle_tab_indicator.dart';
+import 'package:provider/provider.dart';
+import 'package:sizer/sizer.dart';
 
-showRivalsChatMenu(BuildContext context) {
+import 'package:space_empires/services/player/player.dart';
+
+import '../../models/interaction_model.dart';
+import '../circle_tab_indicator.dart';
+import '/models/ruler_model.dart';
+import '/services/game.dart';
+import '/utility/utility.dart';
+import '/widgets/gradient_dialog.dart';
+
+Future<void> showRivalsChatMenu(BuildContext context) {
+  // ignore: prefer_final_locals
   List<Ruler> rivalsList = [];
   final Game _gameData = Provider.of<Game>(context, listen: false);
-  for (Player computerPlayer in _gameData.computerPlayers) {
+  for (final computerPlayer in _gameData.computerPlayers) {
     rivalsList.add(computerPlayer.ruler);
   }
   return showGradientDialog(
@@ -54,7 +59,7 @@ showRivalsChatMenu(BuildContext context) {
 class _RivalResponseProvider extends ChangeNotifier {
   String response = "So what is it ?";
 
-  updateResponse(String value) {
+  void updateResponse(String value) {
     response = value;
     notifyListeners();
   }
@@ -86,29 +91,28 @@ class RivalsInfo extends StatelessWidget {
 }
 
 class _ChatOptions extends StatelessWidget {
-  _ChatOptions({Key key, @required this.rival}) : super(key: key);
+  const _ChatOptions({Key key, @required this.rival}) : super(key: key);
 
   final Ruler rival;
 
-  final Map<RivalInteractions, String> _actionDesc = const {
-    RivalInteractions.Trade: 'Trade',
-    RivalInteractions.Help: 'Ask financial Help',
-    RivalInteractions.ExtortForPeace: 'Pay me or die',
-    RivalInteractions.Peace: 'Suggest Peace',
-    RivalInteractions.CancelTrade: 'Cancel Trade',
-    RivalInteractions.War: 'Declare War',
-  };
-
   @override
   Widget build(BuildContext context) {
+    final Map<ChatOptions, String> _actionDesc = {
+      ChatOptions.trade: 'Trade',
+      ChatOptions.help: 'Ask financial Help',
+      ChatOptions.extortForPeace: 'Pay me or die',
+      ChatOptions.peace: 'Suggest Peace',
+      ChatOptions.cancelTrade: 'Cancel Trade',
+      ChatOptions.war: 'Declare War',
+    };
     final Game _gameData = Provider.of<Game>(context);
     final Player _currentPlayer = Provider.of<Player>(context);
-    List<RivalInteractions> _possibleActions = _gameData.possibleActions(
+    final _possibleActions = _gameData.possibleActions(
         _gameData.relationBetweenRulers(_currentPlayer.ruler, rival));
     return Expanded(
       flex: 2,
       child: Container(
-        margin: EdgeInsets.all(4),
+        margin: const EdgeInsets.all(4),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(4),
           color: Colors.black12,
@@ -119,14 +123,14 @@ class _ChatOptions extends StatelessWidget {
               children: [
                 Visibility(
                   visible: constraints.maxHeight >= 90,
-                  child: Container(
+                  child: SizedBox(
                     height: min(120, max(constraints.maxHeight * 0.25, 72)),
                     child: Row(children: [
                       Expanded(
                         child: Container(
                           height: double.maxFinite,
                           width: double.maxFinite,
-                          margin: EdgeInsets.all(4),
+                          margin: const EdgeInsets.all(4),
                           child: Image.asset(
                             'assets/img/ruler/${describeEnum(_currentPlayer.ruler).toLowerCase()}.png',
                           ),
@@ -141,11 +145,12 @@ class _ChatOptions extends StatelessWidget {
                 ),
                 Expanded(
                   child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                     child: !_currentPlayer.interactionChannelStatus(rival)
-                        ? Center(
+                        ? const Center(
                             child: Text(
-                              'Enough Talkin\' for Today',
+                              "Enough Talkin' for Today",
                               style: TextStyle(fontWeight: FontWeight.w600),
                             ),
                           )
@@ -154,27 +159,24 @@ class _ChatOptions extends StatelessWidget {
                               return GestureDetector(
                                 onTap: () {
                                   _currentPlayer.closeInteractionChannel(rival);
-                                  String _response =
-                                      _gameData.interactWithRival(
-                                          A: _currentPlayer.ruler,
-                                          B: rival,
-                                          action: _possibleActions[index]);
+                                  final _response = _gameData.interactWithRival(
+                                      A: _currentPlayer.ruler,
+                                      B: rival,
+                                      action: _possibleActions[index]);
                                   Provider.of<_RivalResponseProvider>(context,
                                           listen: false)
                                       .updateResponse(_response);
                                 },
-                                child: Container(
-                                  child: Text(
-                                    _actionDesc[_possibleActions[index]],
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.w600,
-                                        color: Colors.white70),
-                                  ),
+                                child: Text(
+                                  _actionDesc[_possibleActions[index]],
+                                  style: const TextStyle(
+                                      fontWeight: FontWeight.w600,
+                                      color: Colors.white70),
                                 ),
                               );
                             },
                             separatorBuilder: (ctx, index) {
-                              return Divider();
+                              return const Divider();
                             },
                             itemCount: _possibleActions.length),
                   ),
@@ -189,7 +191,7 @@ class _ChatOptions extends StatelessWidget {
 }
 
 class _RivalsOpinion extends StatelessWidget {
-  _RivalsOpinion({Key key, this.rival}) : super(key: key);
+  const _RivalsOpinion({Key key, this.rival}) : super(key: key);
 
   final Ruler rival;
   @override
@@ -198,7 +200,7 @@ class _RivalsOpinion extends StatelessWidget {
         Provider.of<_RivalResponseProvider>(context);
     return Expanded(
         child: Container(
-      margin: EdgeInsets.all(4),
+      margin: const EdgeInsets.all(4),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(4),
         color: Colors.black12,
@@ -210,14 +212,14 @@ class _RivalsOpinion extends StatelessWidget {
             alignment: Alignment.center,
             child: Text(
               _rivalResponse.response,
-              style: TextStyle(fontWeight: FontWeight.w600),
+              style: const TextStyle(fontWeight: FontWeight.w600),
               textAlign: TextAlign.center,
             ),
           ),
         ),
         Expanded(
           child: Padding(
-            padding: EdgeInsets.all(4),
+            padding: const EdgeInsets.all(4),
             child: Image.asset(
               'assets/img/ruler/${describeEnum(rival).toLowerCase()}.png',
             ),
@@ -231,37 +233,39 @@ class _RivalsOpinion extends StatelessWidget {
 class _RelationStatusBox extends StatelessWidget {
   const _RelationStatusBox({Key key, this.relation}) : super(key: key);
 
-  final RivalRelation relation;
+  final Relation relation;
 
   Color _getColor() {
     switch (relation) {
-      case RivalRelation.Trade:
+      case Relation.trade:
         return Colors.blue;
-      case RivalRelation.Peace:
+      case Relation.peace:
         return Colors.green;
-      case RivalRelation.War:
+      case Relation.war:
         return Colors.red;
+      default:
+        return null;
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    TextStyle _textStyle = Theme.of(context)
+    final _textStyle = Theme.of(context)
         .textTheme
         .headline6
         .copyWith(fontWeight: FontWeight.bold, color: _getColor());
 
     return Expanded(
       child: Container(
-          margin: EdgeInsets.symmetric(horizontal: 4, vertical: 8),
-          padding: EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+          margin: const EdgeInsets.symmetric(horizontal: 4, vertical: 8),
+          padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
           decoration: BoxDecoration(
               color: Colors.black54, borderRadius: BorderRadius.circular(4)),
           child: LayoutBuilder(builder: (_, constraints) {
             return constraints.maxHeight - 28.sp > 4
                 ? Column(
                     children: [
-                      Text(
+                      const Text(
                         'Relation',
                         style: TextStyle(
                             fontWeight: FontWeight.w600, color: Colors.white54),
@@ -274,7 +278,8 @@ class _RelationStatusBox extends StatelessWidget {
                     ],
                   )
                 : FittedBox(
-                    child: Text(describeEnum(relation), style: _textStyle),
+                    child:
+                        Text(describeEnum(relation).inCaps, style: _textStyle),
                   );
           })),
     );

@@ -1,45 +1,46 @@
 import 'package:space_empires/models/upgrade_model.dart';
 
 mixin PlanetUpgrade {
-  Map<UpgradeType, bool> _planetUpgrade = {};
+  // ignore: prefer_final_fields
+  Map<UpgradeType, bool> _upgrades = {};
 
   void upgradesInit() {
-    for (UpgradeType upgrade in UpgradeType.values) {
-      _planetUpgrade[upgrade] = false;
+    for (final upgrade in UpgradeType.values) {
+      _upgrades[upgrade] = false;
     }
   }
 
-  Map<UpgradeType, bool> get allUpgrades {
-    return _planetUpgrade;
+  Map<UpgradeType, bool> get upgrades {
+    return _upgrades;
   }
 
   bool upgradePresent(UpgradeType type) {
-    return _planetUpgrade[type];
+    return _upgrades[type];
   }
 
   void upgradeAdd(UpgradeType type) {
-    _planetUpgrade[type] = true;
+    _upgrades[type] = true;
   }
 
-  int get planetDefenseQuotient {
-    int turret = upgradePresent(UpgradeType.Charm) ? 1 : 0;
-    int watchTower = upgradePresent(UpgradeType.Illumina) ? 2 : 0;
-    return turret + watchTower;
+  int get planetDefensePoints {
+    final charm = upgradePresent(UpgradeType.charm) ? 1 : 0;
+    final illumina = upgradePresent(UpgradeType.illumina) ? 2 : 0;
+    return charm + illumina;
   }
 
   double get planetMoraleBoost {
-    double starlink = upgradePresent(UpgradeType.Starlink) ? 0.1 : 0;
-    double explorer = upgradePresent(UpgradeType.Explorer) ? 0.15 : 0;
+    final starlink = upgradePresent(UpgradeType.starlink) ? 0.1 : 0.0;
+    final explorer = upgradePresent(UpgradeType.explorer) ? 0.15 : 0.0;
     return 1 + starlink + explorer;
   }
 
   double get planetRevenueBoost {
-    double electricity = upgradePresent(UpgradeType.Electricity) ? 0.1 : 0;
+    final electricity = upgradePresent(UpgradeType.electricity) ? 0.1 : 0.0;
     return 1 + electricity;
   }
 
   int get planetRespecc {
-    int boost = upgradePresent(UpgradeType.Colosseum) ? 10 : 0;
+    final boost = upgradePresent(UpgradeType.colosseum) ? 10 : 0;
     return boost;
   }
 }

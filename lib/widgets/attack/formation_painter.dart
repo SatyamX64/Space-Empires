@@ -9,12 +9,14 @@ class AttackerFormationPainter extends CustomPainter {
             formation.length == kDefenseShipsData.length);
   @override
   void paint(Canvas canvas, Size size) {
-    var paint = Paint()
+    final paint = Paint()
       ..color = Colors.red
       ..strokeWidth = 5
       ..strokeCap = StrokeCap.round;
 
+    // ignore: prefer_final_locals
     List<Offset> startingPoints = [];
+    // ignore: prefer_final_locals
     List<Offset> endPoints = [];
 
     for (int i = 1; i < formation.length * 2; i += 2) {
@@ -41,12 +43,14 @@ class DefenderFormationPainter extends CustomPainter {
             formation.length == kDefenseShipsData.length);
   @override
   void paint(Canvas canvas, Size size) {
-    var paint = Paint()
+    final paint = Paint()
       ..color = Colors.yellow
       ..strokeWidth = 3
       ..strokeCap = StrokeCap.round;
 
+    // ignore: prefer_final_locals
     List<Offset> startingPoints = [];
+    // ignore: prefer_final_locals
     List<Offset> endPoints = [];
 
     for (int i = 1; i < formation.length * 2; i += 2) {
