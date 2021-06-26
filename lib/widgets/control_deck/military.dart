@@ -26,7 +26,7 @@ Future<void> showMilitaryMenu(BuildContext context) {
                   _player.ships.length,
                   (index) => AttackShipInfo(
                     attackShip:
-                        kAttackShipsData[List.from(_player.ships.keys)[index]]!,
+                        kAttackShipsData[_player.ships.keys.toList()[index]]!,
                   ),
                 ),
               ),
@@ -39,7 +39,7 @@ Future<void> showMilitaryMenu(BuildContext context) {
                     _player.ships.length,
                     (index) => Tab(
                           text:
-                              describeEnum(_player.ships.keys.toList()[index]),
+                              describeEnum(_player.ships.keys.toList()[index]).inCaps,
                         ))),
           ],
         ),
@@ -81,7 +81,7 @@ class AttackShipInfo extends StatelessWidget {
       children: orientation == Orientation.landscape
           ? [
               Text(
-                describeEnum(attackShip.type),
+                describeEnum(attackShip.type).inCaps,
                 style: Theme.of(context)
                     .textTheme
                     .headline5!

@@ -8,6 +8,7 @@ import 'package:space_empires/models/planet_model.dart';
 
 import '/screens/planet_screen.dart';
 import '/services/game.dart';
+import '/utility/utility.dart';
 import '/widgets/static_stars_bg.dart';
 
 class SolarSystem extends StatelessWidget {
@@ -115,7 +116,7 @@ class _PlanetCard extends StatelessWidget {
               ),
               Flexible(
                   child: Text(
-                describeEnum(planetName),
+                describeEnum(planetName).inCaps,
                 overflow: TextOverflow.ellipsis,
                 maxLines: 1,
               )),

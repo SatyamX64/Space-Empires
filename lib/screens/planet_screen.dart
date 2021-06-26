@@ -1,11 +1,15 @@
 import 'dart:ui';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
 import 'package:space_empires/models/planet_model.dart';
 import 'package:space_empires/services/player/player.dart';
+
 import '/services/game.dart';
 import '/utility/constants.dart';
+import '/utility/utility.dart';
 import '/widgets/planet_screen/defense.dart';
 import '/widgets/planet_screen/stats.dart';
 import '/widgets/planet_screen/upgrades.dart';
@@ -99,7 +103,7 @@ class PlanetScreen extends StatelessWidget {
         appBar: AppBar(
           backgroundColor: Colors.transparent,
           centerTitle: true,
-          title: Text(describeEnum(_planetName)),
+          title: Text(describeEnum(_planetName).inCaps),
           actions: [
             Chip(
               backgroundColor: Colors.green[900],

@@ -133,7 +133,7 @@ class _InfoBar extends StatelessWidget {
           Expanded(
             child: Container(
               alignment: Alignment.centerLeft,
-              child: _statsText(text),
+              child: _statsText(text.inCaps),
             ),
           ),
           Expanded(

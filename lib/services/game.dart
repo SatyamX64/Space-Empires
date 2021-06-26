@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+
 import 'package:space_empires/models/attack_ships_model.dart';
 import 'package:space_empires/models/upgrade_model.dart';
 
@@ -10,6 +11,7 @@ import '../models/defense_ships_model.dart';
 import '../models/interaction_model.dart';
 import '../models/planet_model.dart';
 import '../models/ruler_model.dart';
+import '/utility/utility.dart';
 import 'interaction.dart';
 import 'planet/planet.dart';
 import 'player/player.dart';
@@ -131,7 +133,7 @@ class Game extends ChangeNotifier {
     players.removeWhere((player) {
       if (player.planets.isEmpty) {
         galacticNews.add(
-            '${describeEnum(player.ruler)} died in the last battle. His galatic empire is over ');
+            '${describeEnum(player.ruler).inCaps} died in the last battle. His galatic empire is over ');
         return true;
       } else {
         return false;
@@ -142,7 +144,7 @@ class Game extends ChangeNotifier {
   void changeOwnerOfPlanet(
       {required Ruler newRuler, required PlanetName planetName}) {
     galacticNews.add(
-        '${describeEnum(newRuler)} took over the Planet ${describeEnum(planetName)}');
+        '${describeEnum(newRuler).inCaps} took over the Planet ${describeEnum(planetName).inCaps}');
     playerForPlanet(planetName).removePlanet(planetName);
     playerFromRuler(newRuler).addPlanet(Planet(planetName));
     notifyListeners();
@@ -426,7 +428,7 @@ class Game extends ChangeNotifier {
     galacticRelations[A]![B] = relation;
     galacticRelations[B]![A] = relation;
     galacticNews.add(
-        '${describeEnum(A)} started ${describeEnum(relation).toLowerCase()} with ${describeEnum(B)}');
+        '${describeEnum(A).inCaps} started ${describeEnum(relation).inCaps} with ${describeEnum(B).inCaps}');
   }
 
   // Each Player can perform only one Action with each player per turn

@@ -93,7 +93,7 @@ class _UpgradeCard extends StatelessWidget {
                     'assets/img/buildings/${describeEnum(upgrade.type)}.png')),
             FittedBox(
               child: Text(
-                describeEnum(upgrade.type),
+                describeEnum(upgrade.type).inCaps,
                 style: const TextStyle(fontWeight: FontWeight.w600),
               ),
             ),

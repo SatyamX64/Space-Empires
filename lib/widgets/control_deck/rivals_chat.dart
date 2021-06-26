@@ -46,7 +46,7 @@ Future<void> showRivalsChatMenu(BuildContext context) {
             tabs: List.generate(
               rivalsList.length,
               (index) => Tab(
-                text: describeEnum(rivalsList[index]),
+                text: describeEnum(rivalsList[index]).inCaps,
               ),
             ),
           ),

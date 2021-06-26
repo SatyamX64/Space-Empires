@@ -9,6 +9,7 @@ import '/models/ruler_model.dart';
 import '/screens/game_screen.dart';
 import '/services/game.dart';
 import '/utility/constants.dart';
+import '/utility/utility.dart';
 import '/widgets/static_stars_bg.dart';
 
 class CharacterSelectionScreen extends StatelessWidget {
@@ -101,7 +102,7 @@ class CharacterSelectionScreen extends StatelessWidget {
         flex: flex,
         child: Container(
           alignment: flex == 1 ? Alignment.center : Alignment.centerRight,
-          child: Text(describeEnum(ruler),
+          child: Text(describeEnum(ruler).inCaps,
               style: Theme.of(context)
                   .textTheme
                   .headline5!
