@@ -8,14 +8,14 @@ import 'defense_mixin.dart';
 import 'upgrade_mixin.dart';
 
 class Planet with ChangeNotifier, Defense, PlanetUpgrade {
-  PlanetName name;
-  String description;
-  bool inWar; // True If Planet was attacked on Current Day
-  int morale;
-  int revenue;
+  late final PlanetName name;
+  late final String description;
+  late final int revenue;
+  late bool inWar; // True If Planet was attacked on Current Day
+  late int morale;
 
   Planet(this.name) {
-    description = kPlanetsDescriptionData[name];
+    description = kPlanetsDescriptionData[name]!;
     init();
   }
 
@@ -42,12 +42,12 @@ class Planet with ChangeNotifier, Defense, PlanetUpgrade {
     int militaryMight = 0;
     for (final shipType in ships.keys.toList()) {
       militaryMight =
-          kDefenseShipsData[shipType].point * defenseShipCount(shipType);
+          kDefenseShipsData[shipType]!.point * defenseShipCount(shipType);
     }
     return (militaryMight * (1 + planetDefensePoints * 0.05)).floor();
   }
 
-  int get defense {
+  int get defensePoints {
     return planetDefensePoints;
   }
 
@@ -55,7 +55,7 @@ class Planet with ChangeNotifier, Defense, PlanetUpgrade {
     return {
       'morale': morale,
       'income': income,
-      'defense': defense,
+      'defense': defensePoints,
     };
   }
 
@@ -70,12 +70,12 @@ class Planet with ChangeNotifier, Defense, PlanetUpgrade {
     Map<DefenseShipType, int> shipDestroyed = {};
     for (int i = 0; i < damageOutputs.length; i++) {
       final shipsLost =
-          damageOutputs[i] ~/ kDefenseShipsData[ships.keys.toList()[i]].health;
+          damageOutputs[i] ~/ kDefenseShipsData[ships.keys.toList()[i]]!.health;
       shipDestroyed[ships.keys.toList()[i]] =
           min(defenseShipCount(ships.keys.toList()[i]), shipsLost);
     }
     for (final ship in ships.keys.toList()) {
-      damageFactor += shipDestroyed[ship] * kDefenseShipsData[ship].point;
+      damageFactor += shipDestroyed[ship]! * kDefenseShipsData[ship]!.point;
     }
     return damageFactor;
   }
@@ -87,7 +87,7 @@ class Planet with ChangeNotifier, Defense, PlanetUpgrade {
         (index) => 0); // What Damage will ship at pos[i] reciveve
     for (int i = 0; i < formation.length; i++) {
       final shipCount = defenseShipCount(ships.keys.toList()[i]);
-      final shipAttackPower = kDefenseShipsData[ships.keys.toList()[i]].damage;
+      final shipAttackPower = kDefenseShipsData[ships.keys.toList()[i]]!.damage;
       damageOutput[formation[i]] +=
           (shipCount * shipAttackPower * (1 + (planetDefensePoints * 0.05)))
               .toInt();
@@ -101,7 +101,7 @@ class Planet with ChangeNotifier, Defense, PlanetUpgrade {
     // and gives that damage to all the ships at pos[i]
     for (int i = 0; i < damageOutputs.length; i++) {
       final shipsLost =
-          damageOutputs[i] ~/ kDefenseShipsData[ships.keys.toList()[i]].health;
+          damageOutputs[i] ~/ kDefenseShipsData[ships.keys.toList()[i]]!.health;
       defenseRemoveShip(ships.keys.toList()[i], shipsLost);
     }
     notifyListeners();

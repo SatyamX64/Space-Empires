@@ -1,5 +1,3 @@
-import 'package:flutter/material.dart';
-
 enum UpgradeType { electricity, charm, illumina, explorer, starlink, colosseum }
 
 class Upgrade {
@@ -10,11 +8,11 @@ class Upgrade {
   final int cost;
 
   const Upgrade(
-      {@required this.type,
-      @required this.cost,
-      @required this.description,
-      @required this.effect,
-      @required this.effectValue});
+      {required this.type,
+      required this.cost,
+      required this.description,
+      required this.effect,
+      required this.effectValue});
 }
 
 const Map<UpgradeType, Upgrade> kUpgradesData = {

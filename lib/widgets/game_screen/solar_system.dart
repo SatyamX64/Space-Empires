@@ -9,7 +9,6 @@ import 'package:space_empires/models/planet_model.dart';
 import '/screens/planet_screen.dart';
 import '/services/game.dart';
 import '/widgets/static_stars_bg.dart';
-import '/utility/utility.dart';
 
 class SolarSystem extends StatelessWidget {
   @override
@@ -108,7 +107,7 @@ class _PlanetCard extends StatelessWidget {
                     margin: const EdgeInsets.only(right: 4),
                     child: FittedBox(
                       child: Image.asset(
-                        'assets/img/ruler/${describeEnum(_ruler).toLowerCase()}.png',
+                        'assets/img/ruler/${describeEnum(_ruler)}.png',
                       ),
                     ),
                   );

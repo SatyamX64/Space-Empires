@@ -19,7 +19,7 @@ import '/widgets/static_stars_bg.dart';
 
 class AttackScreen extends StatelessWidget {
   static const route = '/attack-screen';
-  AttackScreen({this.planet, this.attacker}) {
+  AttackScreen({required this.planet, required this.attacker}) {
     planet.inWar = true;
     attacker.canAttack = false;
   }
@@ -33,8 +33,8 @@ class AttackScreen extends StatelessWidget {
     final Game _gameData = Provider.of<Game>(context);
     final Player _defender = _gameData.playerForPlanet(planet.name);
 
-    Future<bool> _quitGame() {
-      showGradientDialog(
+    Future<bool> _quitGame() async {
+      final res = await showGradientDialog(
         context: context,
         color: Palette.maroon,
         child: Column(
@@ -67,6 +67,7 @@ class AttackScreen extends StatelessWidget {
                     _gameData.changeOwnerOfPlanet(
                         newRuler: attacker.ruler, planetName: planet.name);
                     if (_gameData.lostGame) {
+                      Navigator.of(context).pop();
                       Navigator.pushReplacementNamed(
                         context,
                         GameLostScreen.route,
@@ -85,6 +86,11 @@ class AttackScreen extends StatelessWidget {
           ],
         ),
       );
+      if (res is bool) {
+        return res;
+      } else {
+        return false;
+      }
     }
 
     Widget _attackerDefenderImage() {
@@ -93,11 +99,11 @@ class AttackScreen extends StatelessWidget {
         child: Row(
           children: [
             Image.asset(
-              'assets/img/ruler/${describeEnum(attacker.ruler).toLowerCase()}.png',
+              'assets/img/ruler/${describeEnum(attacker.ruler)}.png',
             ),
             const Spacer(),
             Image.asset(
-              'assets/img/ruler/${describeEnum(_defender.ruler).toLowerCase()}.png',
+              'assets/img/ruler/${describeEnum(_defender.ruler)}.png',
             ),
           ],
         ),

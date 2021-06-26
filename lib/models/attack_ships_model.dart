@@ -1,5 +1,3 @@
-import 'package:flutter/material.dart';
-
 enum AttackShipType {
   magnum,
   optimus,
@@ -18,14 +16,14 @@ class AttackShip {
   final int maintainance;
 
   const AttackShip(
-      {@required this.cost,
-      @required this.point,
-      @required this.description,
-      @required this.type,
-      @required this.health,
-      @required this.damage,
-      @required this.morale,
-      @required this.maintainance});
+      {required this.cost,
+      required this.point,
+      required this.description,
+      required this.type,
+      required this.health,
+      required this.damage,
+      required this.morale,
+      required this.maintainance});
 }
 
 const Map<AttackShipType, AttackShip> kAttackShipsData = {

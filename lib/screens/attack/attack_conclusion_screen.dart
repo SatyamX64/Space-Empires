@@ -11,7 +11,7 @@ class AttackConclusionScreen extends StatelessWidget {
   static const route = '/attack-conclusion-screen.dart';
   @override
   Widget build(BuildContext context) {
-    final message = ModalRoute.of(context).settings.arguments as String;
+    final message = ModalRoute.of(context)!.settings.arguments as String? ?? "How did you come here ?";
 
     Widget _proceedButton() {
       return Padding(
@@ -47,7 +47,7 @@ class AttackConclusionScreen extends StatelessWidget {
             FadeAnimatedText(message,
                 textStyle: Theme.of(context)
                     .textTheme
-                    .headline5
+                    .headline5!
                     .copyWith(fontWeight: FontWeight.bold),
                 textAlign: TextAlign.center)
           ],
@@ -103,8 +103,8 @@ class FlyingShips extends StatefulWidget {
 }
 
 class _FlyingShipsState extends State<FlyingShips> {
-  Artboard _riveArtboard;
-  RiveAnimationController _controller;
+  Artboard? _riveArtboard;
+  late RiveAnimationController _controller;
 
   @override
   void initState() {
@@ -130,7 +130,7 @@ class _FlyingShipsState extends State<FlyingShips> {
     return _riveArtboard == null
         ? const SizedBox()
         : Rive(
-            artboard: _riveArtboard,
+            artboard: _riveArtboard!,
           );
   }
 }

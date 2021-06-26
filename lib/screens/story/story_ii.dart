@@ -165,8 +165,8 @@ class _ParadoxCrystal extends StatefulWidget {
 }
 
 class __ParadoxCrystalState extends State<_ParadoxCrystal> {
-  Artboard _riveArtboard;
-  RiveAnimationController _controller;
+  Artboard? _riveArtboard;
+  late RiveAnimationController _controller;
 
   @override
   void initState() {
@@ -192,7 +192,7 @@ class __ParadoxCrystalState extends State<_ParadoxCrystal> {
     return _riveArtboard == null
         ? const SizedBox()
         : Rive(
-            artboard: _riveArtboard,
+            artboard: _riveArtboard!,
           );
   }
 }

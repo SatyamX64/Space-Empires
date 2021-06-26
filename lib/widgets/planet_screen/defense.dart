@@ -15,12 +15,12 @@ import '/utility/utility.dart';
 
 class PlanetDefense extends StatelessWidget {
   const PlanetDefense({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final Player _player = Provider.of<Player>(context, listen: false);
+    final Player _player = Provider.of<Player?>(context, listen: false)!;
     final PlanetName _planetName =
         Provider.of<PlanetName>(context, listen: false);
     final Planet _planet =
@@ -32,8 +32,8 @@ class PlanetDefense extends StatelessWidget {
               min(120, max(constraints.maxHeight / _planet.ships.length, 90)),
           itemBuilder: (_, index) {
             return _DefenseShipCard(
-              defenseShip: kDefenseShipsData[
-                  List<DefenseShipType>.from(_planet.ships.keys)[index]],
+              defenseShip:
+                  kDefenseShipsData[_planet.ships.keys.toList()[index]]!,
               width: constraints.maxWidth,
             );
           });
@@ -43,7 +43,7 @@ class PlanetDefense extends StatelessWidget {
 
 class _DefenseShipCard extends StatelessWidget {
   const _DefenseShipCard(
-      {Key key, @required DefenseShip defenseShip, this.width})
+      {Key? key, required DefenseShip defenseShip, required this.width})
       : _defenseShip = defenseShip,
         super(key: key);
 
@@ -79,7 +79,7 @@ class _DefenseShipCard extends StatelessWidget {
                   ),
                 ),
               ),
-              Consumer<Player>(
+              Consumer<Player?>(
                 builder: (_, player, __) {
                   return Visibility(
                     visible: width > 210,
@@ -88,7 +88,7 @@ class _DefenseShipCard extends StatelessWidget {
                       child: _BuyMoreShips(
                         increment: () {
                           try {
-                            player.buyDefenseShip(
+                            player!.buyDefenseShip(
                                 type: _defenseShip.type, name: planetName);
                           } catch (e) {
                             Utility.showToast(e.toString());
@@ -96,13 +96,13 @@ class _DefenseShipCard extends StatelessWidget {
                         },
                         decrement: () {
                           try {
-                            player.sellDefenseShip(
+                            player!.sellDefenseShip(
                                 type: _defenseShip.type, name: planetName);
                           } catch (e) {
                             Utility.showToast(e.toString());
                           }
                         },
-                        value: player.planetShipCount(
+                        value: player!.planetShipCount(
                             type: _defenseShip.type, name: planetName),
                       ),
                     ),
@@ -118,7 +118,11 @@ class _DefenseShipCard extends StatelessWidget {
 }
 
 class _BuyMoreShips extends StatelessWidget {
-  const _BuyMoreShips({Key key, this.decrement, this.increment, this.value})
+  const _BuyMoreShips(
+      {Key? key,
+      required this.decrement,
+      required this.increment,
+      required this.value})
       : super(key: key);
 
   final void Function() increment;
@@ -171,7 +175,8 @@ class _BuyMoreShips extends StatelessWidget {
   }
 }
 
-Future<void> _showDefenseDetails(BuildContext context, DefenseShip defenseShip) {
+Future<void> _showDefenseDetails(
+    BuildContext context, DefenseShip defenseShip) {
   final size = MediaQuery.of(context).size;
   final Orientation orientation = (size.width / size.height > 1.7)
       ? Orientation.landscape
@@ -201,8 +206,8 @@ Future<void> _showDefenseDetails(BuildContext context, DefenseShip defenseShip) 
               child: Column(
                 children: [
                   Text(
-                    describeEnum(defenseShip.type),
-                    style: Theme.of(context).textTheme.headline5.copyWith(
+                    describeEnum(defenseShip.type).inCaps,
+                    style: Theme.of(context).textTheme.headline5!.copyWith(
                         color: Colors.white, fontWeight: FontWeight.bold),
                   ),
                   Expanded(
@@ -224,7 +229,8 @@ Future<void> _showDefenseDetails(BuildContext context, DefenseShip defenseShip) 
                   SizedBox(
                     width: 360,
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 8, vertical: 4),
                       child: ElevatedButton(
                         onPressed: () {
                           Navigator.of(context).pop();
@@ -242,7 +248,8 @@ Future<void> _showDefenseDetails(BuildContext context, DefenseShip defenseShip) 
 }
 
 class _DefenseDialogStatsBox extends StatelessWidget {
-  const _DefenseDialogStatsBox({Key key, this.header, this.value})
+  const _DefenseDialogStatsBox(
+      {Key? key, required this.header, required this.value})
       : super(key: key);
 
   final String header;
@@ -265,7 +272,7 @@ class _DefenseDialogStatsBox extends StatelessWidget {
                       child: Text(value,
                           style: Theme.of(context)
                               .textTheme
-                              .headline6
+                              .headline6!
                               .copyWith(fontWeight: FontWeight.bold)),
                     ),
                   ],
@@ -275,7 +282,7 @@ class _DefenseDialogStatsBox extends StatelessWidget {
                   child: Text(value,
                       style: Theme.of(context)
                           .textTheme
-                          .headline6
+                          .headline6!
                           .copyWith(fontWeight: FontWeight.bold)),
                 );
         }),

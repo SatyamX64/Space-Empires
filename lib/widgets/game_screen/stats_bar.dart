@@ -36,7 +36,7 @@ class StatsBar extends StatelessWidget {
                   return Text('Days : ${gameData.days}',
                       style: Theme.of(context)
                           .textTheme
-                          .bodyText2
+                          .bodyText2!
                           .copyWith(fontWeight: FontWeight.bold));
                 },
               ),
@@ -60,13 +60,13 @@ class StatsBar extends StatelessWidget {
               elevation: 6.0,
               shadowColor: Colors.grey[60],
               padding: const EdgeInsets.all(8.0),
-              label: Consumer<Player>(
+              label: Consumer<Player?>(
                 builder: (_, player, __) {
                   return Text(
-                    '${player.money}',
+                    '${player!.money}',
                     style: Theme.of(context)
                         .textTheme
-                        .bodyText2
+                        .bodyText2!
                         .copyWith(fontWeight: FontWeight.bold),
                   );
                 },
@@ -87,7 +87,7 @@ class StatsBar extends StatelessWidget {
                   'Info',
                   style: Theme.of(context)
                       .textTheme
-                      .bodyText2
+                      .bodyText2!
                       .copyWith(fontWeight: FontWeight.bold),
                 ),
               ),

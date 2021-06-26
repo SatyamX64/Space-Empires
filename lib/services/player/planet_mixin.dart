@@ -4,7 +4,7 @@ import 'package:space_empires/services/planet/planet.dart';
 import 'package:space_empires/models/upgrade_model.dart';
 
 mixin Planets {
-  List<Planet> _planets;
+  late List<Planet> _planets;
 
   set planetsInit(List<Planet> planets) {
     _planets = planets;
@@ -30,29 +30,36 @@ mixin Planets {
     _planets.removeWhere((element) => element.name == name);
   }
 
-  void planetAddShip({DefenseShipType type, PlanetName name, int quantity}) {
+  void planetAddShip(
+      {required DefenseShipType type,
+      required PlanetName name,
+      required int quantity}) {
     _planets
         .firstWhere((planet) => planet.name == name)
         .defenseAddShip(type, quantity);
   }
 
-  void planetRemoveShip({DefenseShipType type, PlanetName name, int quantity}) {
+  void planetRemoveShip(
+      {required DefenseShipType type,
+      required PlanetName name,
+      required int quantity}) {
     _planets
         .firstWhere((planet) => planet.name == name)
         .defenseRemoveShip(type, quantity);
   }
 
-  void planetAddUpgrade({UpgradeType type, PlanetName name}) {
+  void planetAddUpgrade({required UpgradeType type, required PlanetName name}) {
     _planets.firstWhere((planet) => planet.name == name).upgradeAdd(type);
   }
 
-  bool planetUpgradeAvailable({UpgradeType type, PlanetName name}) {
+  bool planetUpgradeAvailable(
+      {required UpgradeType type, required PlanetName name}) {
     return !_planets
         .firstWhere((planet) => planet.name == name)
         .upgradePresent(type);
   }
 
-  bool isPlanetMy({PlanetName name}) {
+  bool isPlanetMy({required PlanetName name}) {
     bool result = false;
     for (final planet in _planets) {
       if (planet.name == name) {
@@ -71,11 +78,12 @@ mixin Planets {
     return result;
   }
 
-  Map<String, int> planetStats({PlanetName name}) {
+  Map<String, int> planetStats({required PlanetName name}) {
     return _planets.firstWhere((planet) => planet.name == name).stats;
   }
 
-  int planetShipCount({DefenseShipType type, PlanetName name}) {
+  int planetShipCount(
+      {required DefenseShipType type, required PlanetName name}) {
     return _planets
         .firstWhere((planet) => planet.name == name)
         .defenseShipCount(type);

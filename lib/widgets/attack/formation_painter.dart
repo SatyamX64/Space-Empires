@@ -4,7 +4,7 @@ import '/models/defense_ships_model.dart';
 
 class AttackerFormationPainter extends CustomPainter {
   final List<int> formation;
-  AttackerFormationPainter({@required this.formation})
+  AttackerFormationPainter({required this.formation})
       : assert(formation.length == kAttackShipsData.length &&
             formation.length == kDefenseShipsData.length);
   @override
@@ -38,7 +38,7 @@ class AttackerFormationPainter extends CustomPainter {
 
 class DefenderFormationPainter extends CustomPainter {
   final List<int> formation;
-  DefenderFormationPainter({@required this.formation})
+  DefenderFormationPainter({required this.formation})
       : assert(formation.length == kAttackShipsData.length &&
             formation.length == kDefenseShipsData.length);
   @override

@@ -34,8 +34,8 @@ class FormationGenerator {
 }
 
 class FormationProvider extends ChangeNotifier {
-  List<List<int>> _formations;
-  int _selectedFormation;
+  late List<List<int>> _formations;
+  late int _selectedFormation;
 
   FormationProvider() {
     _formations = FormationGenerator().formations;

@@ -33,10 +33,10 @@ class WelcomeScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              'SPACE EMPIRE',
+              'SPACE EMPIRES',
               style: Theme.of(context)
                   .textTheme
-                  .headline4
+                  .headline4!
                   .copyWith(fontFamily: 'Astral'),
             ),
             SizedBox(
@@ -50,7 +50,7 @@ class WelcomeScreen extends StatelessWidget {
                   'Play',
                   style: Theme.of(context)
                       .textTheme
-                      .headline4
+                      .headline4!
                       .copyWith(fontFamily: 'Italianno'),
                 )),
             TextButton(
@@ -64,7 +64,7 @@ class WelcomeScreen extends StatelessWidget {
                   'Story',
                   style: Theme.of(context)
                       .textTheme
-                      .headline4
+                      .headline4!
                       .copyWith(fontFamily: 'Italianno'),
                 )),
           ],

@@ -39,7 +39,7 @@ class CharacterSelectionScreen extends StatelessWidget {
           child: Text('Choose Character',
               style: Theme.of(context)
                   .textTheme
-                  .headline4
+                  .headline4!
                   .copyWith(fontFamily: 'Italianno')),
         ),
       );
@@ -53,7 +53,7 @@ class CharacterSelectionScreen extends StatelessWidget {
             color: Colors.black26, borderRadius: BorderRadius.circular(16.sp)),
         child: SingleChildScrollView(
           child: Text(
-            kRulerDescriptionData[ruler],
+            kRulerDescriptionData[ruler]!,
             style: const TextStyle(fontWeight: FontWeight.w600),
             textAlign: TextAlign.center,
           ),
@@ -89,7 +89,7 @@ class CharacterSelectionScreen extends StatelessWidget {
           child: Padding(
             padding: EdgeInsets.all(8.sp),
             child: Image.asset(
-              'assets/img/ruler/${describeEnum(ruler).toLowerCase()}.png',
+              'assets/img/ruler/${describeEnum(ruler)}.png',
             ),
           ),
         ),
@@ -104,7 +104,7 @@ class CharacterSelectionScreen extends StatelessWidget {
           child: Text(describeEnum(ruler),
               style: Theme.of(context)
                   .textTheme
-                  .headline5
+                  .headline5!
                   .copyWith(fontWeight: FontWeight.bold)),
         ),
       );

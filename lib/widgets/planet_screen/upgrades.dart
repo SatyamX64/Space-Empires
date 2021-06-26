@@ -14,7 +14,7 @@ import '/utility/utility.dart';
 
 class PlanetUpgrades extends StatelessWidget {
   const PlanetUpgrades({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   double _getSize(double n, double w, double h) {
@@ -37,7 +37,7 @@ class PlanetUpgrades extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Player _player = Provider.of<Player>(context, listen: false);
+    final Player _player = Provider.of<Player?>(context, listen: false)!;
     final PlanetName _planetName =
         Provider.of<PlanetName>(context, listen: false);
     final Planet _planet =
@@ -48,8 +48,7 @@ class PlanetUpgrades extends StatelessWidget {
         child: Wrap(
           children: List.generate(_planet.upgrades.length, (index) {
             return _UpgradeCard(
-                upgrade: kUpgradesData[
-                    List<UpgradeType>.from(_planet.upgrades.keys)[index]],
+                upgrade: kUpgradesData[_planet.upgrades.keys.toList()[index]]!,
                 side: _getSize(_planet.upgrades.length.toDouble(),
                     constraints.maxWidth, constraints.maxHeight));
           }),
@@ -60,12 +59,13 @@ class PlanetUpgrades extends StatelessWidget {
 }
 
 class _UpgradeCard extends StatelessWidget {
-  const _UpgradeCard({Key key, this.upgrade, this.side}) : super(key: key);
+  const _UpgradeCard({Key? key, required this.upgrade, required this.side})
+      : super(key: key);
   final Upgrade upgrade;
   final double side;
   @override
   Widget build(BuildContext context) {
-    final Player player = Provider.of<Player>(context, listen: false);
+    final Player player = Provider.of<Player?>(context, listen: false)!;
     final PlanetName planetName =
         Provider.of<PlanetName>(context, listen: false);
     return GestureDetector(
@@ -90,7 +90,7 @@ class _UpgradeCard extends StatelessWidget {
           child: Column(children: <Widget>[
             Expanded(
                 child: Image.asset(
-                    'assets/img/buildings/${describeEnum(upgrade.type).toLowerCase()}.png')),
+                    'assets/img/buildings/${describeEnum(upgrade.type)}.png')),
             FittedBox(
               child: Text(
                 describeEnum(upgrade.type),
@@ -137,7 +137,7 @@ Future _showUpgradeDetails(
                 children: [
                   Text(
                     describeEnum(upgrade.type).inCaps,
-                    style: Theme.of(context).textTheme.headline5.copyWith(
+                    style: Theme.of(context).textTheme.headline5!.copyWith(
                         color: Colors.white, fontWeight: FontWeight.bold),
                   ),
                   Expanded(
@@ -182,7 +182,8 @@ Future _showUpgradeDetails(
 }
 
 class _UpgradeDialogStatsBox extends StatelessWidget {
-  const _UpgradeDialogStatsBox({Key key, this.header, this.value})
+  const _UpgradeDialogStatsBox(
+      {Key? key, required this.header, required this.value})
       : super(key: key);
 
   final String header;
@@ -205,7 +206,7 @@ class _UpgradeDialogStatsBox extends StatelessWidget {
                       child: Text(value,
                           style: Theme.of(context)
                               .textTheme
-                              .headline6
+                              .headline6!
                               .copyWith(fontWeight: FontWeight.bold)),
                     ),
                   ],
@@ -215,7 +216,7 @@ class _UpgradeDialogStatsBox extends StatelessWidget {
                   child: Text(value,
                       style: Theme.of(context)
                           .textTheme
-                          .headline6
+                          .headline6!
                           .copyWith(fontWeight: FontWeight.bold)),
                 );
         }),

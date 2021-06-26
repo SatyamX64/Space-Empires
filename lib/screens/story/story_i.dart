@@ -184,8 +184,8 @@ class _Astronaut extends StatefulWidget {
 }
 
 class _AstronautState extends State<_Astronaut> {
-  Artboard _riveArtboard;
-  RiveAnimationController _controller;
+  Artboard? _riveArtboard;
+  late RiveAnimationController _controller;
 
   @override
   void initState() {
@@ -211,7 +211,7 @@ class _AstronautState extends State<_Astronaut> {
     return _riveArtboard == null
         ? const SizedBox()
         : Rive(
-            artboard: _riveArtboard,
+            artboard: _riveArtboard!,
           );
   }
 }

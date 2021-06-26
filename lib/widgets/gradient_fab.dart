@@ -4,10 +4,10 @@ import '/utility/constants.dart';
 
 class GradientFAB extends StatelessWidget {
   const GradientFAB({
-    Key key,
-    @required this.onTap,
-    @required this.toolTip,
-    @required this.image,
+    Key? key,
+    required this.onTap,
+    required this.toolTip,
+    required this.image,
   }) : super(key: key);
 
   final void Function() onTap;

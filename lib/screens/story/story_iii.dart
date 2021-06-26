@@ -171,8 +171,8 @@ class _Planets extends StatefulWidget {
 }
 
 class __PlanetsState extends State<_Planets> {
-  Artboard _riveArtboard;
-  RiveAnimationController _controller;
+  Artboard? _riveArtboard;
+  late RiveAnimationController _controller;
 
   @override
   void initState() {
@@ -198,7 +198,7 @@ class __PlanetsState extends State<_Planets> {
     return _riveArtboard == null
         ? const SizedBox()
         : Rive(
-            artboard: _riveArtboard,
+            artboard: _riveArtboard!,
           );
   }
 }

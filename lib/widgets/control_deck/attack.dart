@@ -24,7 +24,7 @@ Future<void> showAttackMenu(BuildContext context) {
           'Attack',
           style: Theme.of(context)
               .textTheme
-              .headline5
+              .headline5!
               .copyWith(fontWeight: FontWeight.bold),
         ),
         Expanded(child: LayoutBuilder(
@@ -46,7 +46,7 @@ Future<void> showAttackMenu(BuildContext context) {
 }
 
 class _EnemyPlanets extends StatelessWidget {
-  const _EnemyPlanets({Key key, this.constraints}) : super(key: key);
+  const _EnemyPlanets({Key? key,required this.constraints}) : super(key: key);
 
   final BoxConstraints constraints;
 
@@ -62,7 +62,7 @@ class _EnemyPlanets extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Game _gameData = Provider.of<Game>(context, listen: false);
-    final Player _player = Provider.of(context, listen: false);
+    final Player _player = Provider.of<Player?>(context, listen: false)!;
     final List<Planet> _availablePlanets =
         _gameData.enemyPlanetsFor(_player.ruler);
     return _availablePlanets.isEmpty
@@ -102,13 +102,12 @@ class _EnemyPlanets extends StatelessWidget {
                             .pushNamed(AttackScreen.route, arguments: {
                           'planet': _availablePlanets[index],
                           'attacker':
-                              Provider.of<Player>(context, listen: false),
+                              Provider.of<Player?>(context, listen: false)!,
                         });
                       }
                     },
                     child: _planetCard(
-                        describeEnum(_availablePlanets[index].name)
-                            .toLowerCase()),
+                        describeEnum(_availablePlanets[index].name)),
                   ),
                 ),
               ),
@@ -125,12 +124,12 @@ class _EnemyPlanets extends StatelessWidget {
 
 class _MyForce extends StatelessWidget {
   const _MyForce({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final Player _player = Provider.of<Player>(context, listen: false);
+    final Player _player = Provider.of<Player?>(context, listen: false)!;
     return Padding(
       padding: const EdgeInsets.only(bottom: 16),
       child: Row(
@@ -149,9 +148,9 @@ class _MyForce extends StatelessWidget {
 
 class _MyForceCard extends StatelessWidget {
   const _MyForceCard({
-    Key key,
-    this.name,
-    this.quantity,
+    Key? key,
+    required this.name,
+    required this.quantity,
   }) : super(key: key);
 
   final String name;
@@ -187,7 +186,7 @@ class _MyForceCard extends StatelessWidget {
           Text(quantity.toString(),
               style: Theme.of(context)
                   .textTheme
-                  .headline6
+                  .headline6!
                   .copyWith(fontWeight: FontWeight.bold))
         ],
       ),

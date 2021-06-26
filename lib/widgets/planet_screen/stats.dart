@@ -42,7 +42,7 @@ class PlanetStats extends StatelessWidget {
                     borderRadius: BorderRadius.circular(8),
                   ),
                   alignment: Alignment.center,
-                  child: Consumer<Player>(
+                  child: Consumer<Player?>(
                     builder: (_, player, __) {
                       return SingleChildScrollView(
                         child: Row(
@@ -52,7 +52,7 @@ class PlanetStats extends StatelessWidget {
                               child: Container(
                                 alignment: Alignment.center,
                                 child: Image.asset(
-                                  'assets/img/ruler/${describeEnum(player.ruler).toLowerCase()}.png',
+                                  'assets/img/ruler/${describeEnum(player!.ruler)}.png',
                                 ),
                               ),
                             ),
@@ -78,7 +78,7 @@ class PlanetStats extends StatelessWidget {
                                       .planetStats(name: _planetName)['income']
                                       .toString()),
                                   _statsText(
-                                      '${(player.planetStats(name: _planetName)['morale'] / 1000).toStringAsFixed(2)} %'),
+                                      '${(player.planetStats(name: _planetName)['morale']! / 10).toStringAsFixed(2)} %'),
                                   _statsText(player
                                       .planetStats(name: _planetName)['defense']
                                       .toString()),

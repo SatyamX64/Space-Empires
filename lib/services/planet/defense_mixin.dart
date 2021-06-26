@@ -5,15 +5,17 @@ mixin Defense {
   Map<DefenseShipType, int> _ships = {};
 
   void defenseInit() {
+    // Make Sure to initialize all the Available Defense Ships in the Game here
     _ships[DefenseShipType.rover] = 10;
     _ships[DefenseShipType.artillery] = 7;
     _ships[DefenseShipType.battleship] = 5;
+    assert(_ships.length == DefenseShipType.values.length);
   }
 
   int get defenseExpenditure {
     int expense = 0;
-    for (final type in List.from(_ships.keys)) {
-      expense += _ships[type] * kDefenseShipsData[type].maintainance;
+    for (final type in _ships.keys.toList()) {
+      expense += _ships[type]! * kDefenseShipsData[type]!.maintainance;
     }
     return expense;
   }
@@ -23,16 +25,16 @@ mixin Defense {
   }
 
   int defenseShipCount(DefenseShipType type) {
-    return _ships[type];
+    return _ships[type]!;
   }
 
   void defenseAddShip(DefenseShipType type, int value) {
-    _ships[type] += value;
+    _ships[type] = _ships[type]! + value;
   }
 
   void defenseRemoveShip(DefenseShipType type, int value) {
-    if (_ships[type] > value) {
-      _ships[type] -= value;
+    if (_ships[type]! > value) {
+      _ships[type] = _ships[type]! - value;
     } else {
       _ships[type] = 0;
     }

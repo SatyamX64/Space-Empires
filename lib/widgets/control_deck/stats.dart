@@ -15,21 +15,21 @@ Future<void> showStatsMenu(BuildContext context) {
             'Stats',
             style: Theme.of(context)
                 .textTheme
-                .headline5
+                .headline5!
                 .copyWith(fontWeight: FontWeight.bold),
           ),
-          _ResourceAllocator(),
-          _RivalsOpinion()
+          const _ResourceAllocator(),
+          const _RivalsOpinion()
         ],
       ));
 }
 
 class _ResourceAllocator extends StatelessWidget {
-  const _ResourceAllocator({Key key}) : super(key: key);
+  const _ResourceAllocator({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final Player player = Provider.of<Player>(context);
+    final Player player = Provider.of<Player?>(context)!;
     return Expanded(
         flex: 3,
         child: Container(
@@ -84,13 +84,13 @@ class _ResourceAllocator extends StatelessWidget {
 }
 
 class _RivalsOpinion extends StatelessWidget {
-  const _RivalsOpinion({Key key}) : super(key: key);
+  const _RivalsOpinion({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     // This Shall Come from GameData, since it is a relative constraint
     final Game _gameData = Provider.of<Game>(context, listen: false);
-    final Player _player = Provider.of<Player>(context, listen: false);
+    final Player _player = Provider.of<Player?>(context, listen: false)!;
     return Expanded(
         child: Container(
       alignment: Alignment.center,
@@ -102,7 +102,7 @@ class _RivalsOpinion extends StatelessWidget {
       child: SingleChildScrollView(
         child: Text(
           _gameData.getRivalsOpinion(_player.ruler),
-          style: Theme.of(context).textTheme.headline6.copyWith(
+          style: Theme.of(context).textTheme.headline6!.copyWith(
                 fontFamily: 'Italianno',
                 // fontWeight: FontWeight.w600
               ),
@@ -114,7 +114,7 @@ class _RivalsOpinion extends StatelessWidget {
 }
 
 class _InfoBar extends StatelessWidget {
-  const _InfoBar({this.text, this.value});
+  const _InfoBar({required this.text, required  this.value});
   Text _statsText(String text) {
     return Text(
       text,
@@ -151,12 +151,12 @@ class _InfoBar extends StatelessWidget {
 class _PlusMinus extends StatelessWidget {
   final void Function() increment;
   final void Function() decrement;
-  final int value;
+  final int? value;
 
   const _PlusMinus(
-      {@required this.decrement,
-      @required this.increment,
-      @required this.value});
+      {required this.decrement,
+      required this.increment,
+      required this.value});
 
   @override
   Widget build(BuildContext context) {

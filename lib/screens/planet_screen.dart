@@ -32,8 +32,8 @@ class PlanetScreen extends StatelessWidget {
     final Orientation orientation = MediaQuery.of(context).orientation;
     final Map<String, Widget> _displayMode = {
       'Stats': _wrapWithProvider(const PlanetStats()),
-      'Upgrades': _wrapWithProvider(PlanetUpgrades()),
-      'Defense': _wrapWithProvider(PlanetDefense()),
+      'Upgrades': _wrapWithProvider(const PlanetUpgrades()),
+      'Defense': _wrapWithProvider(const PlanetDefense()),
     };
 
     Widget _planetImage() {
@@ -41,7 +41,7 @@ class PlanetScreen extends StatelessWidget {
         child: Hero(
             tag: describeEnum(_planetName),
             child: Image.asset(
-                'assets/img/planets/${describeEnum(_planetName).toLowerCase()}.png')),
+                'assets/img/planets/${describeEnum(_planetName)}.png')),
       );
     }
 
@@ -51,7 +51,7 @@ class PlanetScreen extends StatelessWidget {
         indicatorSize: TabBarIndicatorSize.tab,
         indicator: BoxDecoration(
           gradient:
-              LinearGradient(colors: [Colors.pink[700], opacityIndigo(0.5)]),
+              LinearGradient(colors: [Colors.pink[700]!, opacityIndigo(0.5)]),
           borderRadius: BorderRadius.circular(50),
         ),
         tabs: List.generate(
@@ -86,7 +86,7 @@ class PlanetScreen extends StatelessWidget {
               .descriptionForPlanet(_planetName),
           style: Theme.of(context)
               .textTheme
-              .headline6
+              .headline6!
               .copyWith(fontWeight: FontWeight.w600),
           textAlign: TextAlign.center,
         ),
@@ -117,13 +117,13 @@ class PlanetScreen extends StatelessWidget {
               elevation: 6.0,
               shadowColor: Colors.grey[60],
               padding: const EdgeInsets.all(8.0),
-              label: Consumer<Player>(
+              label: Consumer<Player?>(
                 builder: (_, player, __) {
                   return Text(
-                    '${player.money}',
+                    '${player!.money}',
                     style: Theme.of(context)
                         .textTheme
-                        .bodyText2
+                        .bodyText2!
                         .copyWith(fontWeight: FontWeight.bold),
                   );
                 },
@@ -131,7 +131,7 @@ class PlanetScreen extends StatelessWidget {
             ),
           ],
         ),
-        body: Provider.of<Player>(context).isPlanetMy(name: _planetName)
+        body: Provider.of<Player?>(context)!.isPlanetMy(name: _planetName)
             ? Stack(
                 // If Planet is owned by Player
                 children: [

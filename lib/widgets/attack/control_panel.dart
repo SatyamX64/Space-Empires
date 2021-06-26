@@ -23,10 +23,10 @@ class ControlPanel extends StatefulWidget {
 
 class _ControlPanelState extends State<ControlPanel>
     with TickerProviderStateMixin {
-  OverlayEntry _overlayEntry;
+  OverlayEntry? _overlayEntry;
   final _attackButtonKey = GlobalKey();
-  AnimationController _animationController;
-  Animation<double> _animation;
+  late AnimationController _animationController;
+  late Animation<double> _animation;
   CarouselController formationCarouselController = CarouselController();
   @override
   void initState() {
@@ -44,12 +44,12 @@ class _ControlPanelState extends State<ControlPanel>
   }
 
   Future<void> showOverlay(String attackPoint, String defensePoint) async {
-    final _overlayState = Overlay.of(context);
+    final _overlayState = Overlay.of(context)!;
     final _renderBox =
-        _attackButtonKey.currentContext.findRenderObject() as RenderBox;
+        _attackButtonKey.currentContext!.findRenderObject()! as RenderBox;
     final offset = _renderBox.localToGlobal(Offset.zero);
     if (_overlayEntry != null) {
-      _overlayEntry.remove();
+      _overlayEntry!.remove();
       _overlayEntry = null;
     }
     _overlayEntry = OverlayEntry(
@@ -68,12 +68,12 @@ class _ControlPanelState extends State<ControlPanel>
                     children: [
                       Text(
                         attackPoint,
-                        style: Theme.of(context).textTheme.headline5.copyWith(
+                        style: Theme.of(context).textTheme.headline5!.copyWith(
                             color: Colors.lime, fontWeight: FontWeight.bold),
                       ),
                       Text(
                         defensePoint,
-                        style: Theme.of(context).textTheme.headline5.copyWith(
+                        style: Theme.of(context).textTheme.headline5!.copyWith(
                             color: Colors.lime, fontWeight: FontWeight.bold),
                       ),
                     ],
@@ -84,20 +84,20 @@ class _ControlPanelState extends State<ControlPanel>
     _animationController.addListener(() {
       _overlayState.setState(() {});
     });
-    _overlayState.insert(_overlayEntry);
+    _overlayState.insert(_overlayEntry!);
     _animationController.forward();
     _animation.addStatusListener((status) {
       if (status == AnimationStatus.completed) {
         _animationController.reset();
         if (_overlayEntry != null) {
-          _overlayEntry.remove();
+          _overlayEntry!.remove();
           _overlayEntry = null;
         }
       }
     });
   }
 
-  Widget _baseCard({Widget child}) {
+  Widget _baseCard({required Widget child}) {
     return Expanded(
       child: Container(
         alignment: Alignment.center,
@@ -181,7 +181,7 @@ class _ControlPanelState extends State<ControlPanel>
 
     void _goToConclusionScreen(String message) {
       if (_overlayEntry != null) {
-        _overlayEntry.remove();
+        _overlayEntry!.remove();
         _overlayEntry = null;
       }
       Navigator.pushReplacementNamed(context, AttackConclusionScreen.route,
@@ -207,10 +207,10 @@ class _ControlPanelState extends State<ControlPanel>
                         child: Center(
                           child: FittedBox(
                             child: Text(
-                              '${_planet.defense}',
+                              '${_planet.defensePoints}',
                               style: Theme.of(context)
                                   .textTheme
-                                  .headline3
+                                  .headline3!
                                   .copyWith(
                                     color: Colors.white70,
                                     fontWeight: FontWeight.w600,
@@ -225,7 +225,7 @@ class _ControlPanelState extends State<ControlPanel>
                             'Defense',
                             style: Theme.of(context)
                                 .textTheme
-                                .headline6
+                                .headline6!
                                 .copyWith(
                                     color: Colors.white,
                                     fontWeight: FontWeight.w600),
@@ -253,7 +253,7 @@ class _ControlPanelState extends State<ControlPanel>
                                         '${index + 1}',
                                         style: Theme.of(context)
                                             .textTheme
-                                            .headline3
+                                            .headline3!
                                             .copyWith(
                                               color: Colors.white70,
                                               fontWeight: FontWeight.w600,
@@ -298,13 +298,12 @@ class _ControlPanelState extends State<ControlPanel>
                         ),
                       ),
                       Expanded(
-                        flex: 1,
                         child: FittedBox(
                           child: Text(
                             'Formation',
                             style: Theme.of(context)
                                 .textTheme
-                                .headline6
+                                .headline6!
                                 .copyWith(
                                     color: Colors.white,
                                     fontWeight: FontWeight.w600),
@@ -342,9 +341,9 @@ class _ControlPanelState extends State<ControlPanel>
 
                     final _initialAttackShips =
                         List.from(_attacker.ships.values)
-                            .fold(0, (p, c) => p + c);
+                            .fold(0, (dynamic p, c) => p + c);
                     final _initialDefenseShips = List.from(_planet.ships.values)
-                        .fold(0, (p, c) => p + c);
+                        .fold(0, (dynamic p, c) => p + c);
 
                     final damageOutputsDefense =
                         _planet.damageOutputForFormation(defenseFormation);
@@ -357,14 +356,14 @@ class _ControlPanelState extends State<ControlPanel>
                     showOverlay(
                         '-${_initialAttackShips - attackShipsLeft} Ships',
                         '-${_initialDefenseShips - defenseShipsLeft} Ships');
-                    Map<String, bool> canDamage = _canDamage();
+                    final canDamage = _canDamage();
                     // If Both attack and defense ships become  0, then attack is considered failed
                     if (attackShipsLeft == 0) {
                       _goToConclusionScreen(
                           'The Planet Successfully defended itself');
                     } else if (defenseShipsLeft == 0) {
                       if (_overlayEntry != null) {
-                        _overlayEntry.remove();
+                        _overlayEntry!.remove();
                         _overlayEntry = null;
                       }
                       _gameData.changeOwnerOfPlanet(
@@ -383,8 +382,9 @@ class _ControlPanelState extends State<ControlPanel>
                         _goToConclusionScreen(
                             'The planet succumbed to its attacker');
                       }
-                    } else if ((!_isPlayerAttacker && !canDamage['attacker']) ||
-                        (!canDamage['attacker'] && !canDamage['defender'])) {
+                    } else if ((!_isPlayerAttacker &&
+                            !canDamage['attacker']!) ||
+                        (!canDamage['attacker']! && !canDamage['defender']!)) {
                       // If computer is attacker and it can't damage it retreats, defender doesn't matter unless 0
                       // If no one can further damage the other, then attacker retreats
                       _goToConclusionScreen(
@@ -396,7 +396,7 @@ class _ControlPanelState extends State<ControlPanel>
                   child: FittedBox(
                     child: Text(
                       'A T T A C K',
-                      style: Theme.of(context).textTheme.headline6.copyWith(
+                      style: Theme.of(context).textTheme.headline6!.copyWith(
                           color: Colors.white70, fontWeight: FontWeight.w800),
                     ),
                   ),

@@ -44,9 +44,9 @@ class MyApp extends StatelessWidget {
         // But since we notify GameData too (in characterSelectionScreen)
         // So update is called too
         // finally the value obtained is provided in gameScreen
-        ChangeNotifierProxyProvider<Game, Player>(
-          update: (_, gameData, __) {
-            return gameData.currentPlayer;
+        ChangeNotifierProxyProvider<Game, Player?>(
+          update: (_, game, __) {
+            return game.currentPlayer;
           },
           create: (ctx) {
             return null;
@@ -112,19 +112,19 @@ class MyApp extends StatelessWidget {
               if (routeSettings.name == InfoScreen.route) {
                 return MaterialPageRoute(
                     builder: (context) =>
-                        InfoScreen(characterSelected: routeSettings.arguments as bool));
+                        InfoScreen(characterSelected: routeSettings.arguments! as bool));
               } else if (routeSettings.name == PlanetScreen.route) {
-                final PlanetName _planetName = routeSettings.arguments as PlanetName;
+                final PlanetName _planetName = routeSettings.arguments! as PlanetName;
                 return MaterialPageRoute(
                   builder: (context) => PlanetScreen(_planetName),
                 );
               } else if (routeSettings.name == StoryScreenI.route) {
-                final Orientation _orientation = routeSettings.arguments as Orientation;
+                final Orientation _orientation = routeSettings.arguments! as Orientation;
                 return MaterialPageRoute(
                   builder: (context) => StoryScreenI(_orientation),
                 );
               } else if (routeSettings.name == AttackScreen.route) {
-                final args = routeSettings.arguments as Map;
+                final args = routeSettings.arguments! as Map;
                 final Planet _planet = args['planet'] as Planet;
                 final Player _attacker = args['attacker'] as Player;
                 return MaterialPageRoute(

@@ -5,7 +5,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'constants.dart';
 
 class Utility {
-  static void lockOrientation({Orientation orientation}) {
+  static void lockOrientation({Orientation? orientation}) {
     switch (orientation) {
       case Orientation.landscape:
         SystemChrome.setPreferredOrientations([

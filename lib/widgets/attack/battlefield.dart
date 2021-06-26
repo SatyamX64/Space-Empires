@@ -10,7 +10,7 @@ import '../../services/planet/planet.dart';
 import '/widgets/attack/formation_painter.dart';
 
 class Battlefield extends StatelessWidget {
-  const Battlefield({Key key}) : super(key: key);
+  const Battlefield({Key? key}) : super(key: key);
 
   Widget _attackShips(BoxConstraints constraints) {
     // Listens to Provider of type Player (not currentPlayer but a new attacker provider)
@@ -65,7 +65,7 @@ class Battlefield extends StatelessWidget {
                   children: [
                     Expanded(
                       child: Image.asset(
-                        'assets/img/ships/defense/${describeEnum(List.from(_planet.ships.keys)[index]).toLowerCase()}.png',
+                        'assets/img/ships/defense/${describeEnum(_planet.ships.keys.toList()[index])}.png',
                       ),
                     ),
                     Text(

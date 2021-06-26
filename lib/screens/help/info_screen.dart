@@ -15,7 +15,7 @@ Future launchURL(String url) async {
 }
 
 class InfoScreen extends StatelessWidget {
-  InfoScreen({Key key, @required this.characterSelected}) : super(key: key);
+  InfoScreen({Key? key, required this.characterSelected}) : super(key: key);
 
   static const route = '/info-screen';
   final bool characterSelected;
@@ -53,7 +53,7 @@ class InfoScreen extends StatelessWidget {
             'Space Empires',
             style: Theme.of(context)
                 .textTheme
-                .headline6
+                .headline6!
                 .copyWith(fontWeight: FontWeight.bold),
           ),
         ),
@@ -124,7 +124,7 @@ class InfoScreen extends StatelessWidget {
                 Text('Instructions',
                     style: Theme.of(context)
                         .textTheme
-                        .headline4
+                        .headline4!
                         .copyWith(fontFamily: 'Italianno')),
               ],
             ),
@@ -170,7 +170,7 @@ class InfoScreen extends StatelessWidget {
                               '• A Space Themed Strategy game made in Flutter\n',
                               style: Theme.of(context)
                                   .textTheme
-                                  .bodyText2
+                                  .bodyText2!
                                   .copyWith(
                                       fontWeight: FontWeight.w600,
                                       fontSize: 14.sp),
@@ -179,7 +179,7 @@ class InfoScreen extends StatelessWidget {
                               '• The Game is in Development and open-souce',
                               style: Theme.of(context)
                                   .textTheme
-                                  .bodyText2
+                                  .bodyText2!
                                   .copyWith(
                                       fontWeight: FontWeight.w600,
                                       fontSize: 14.sp),
@@ -209,7 +209,7 @@ class InfoScreen extends StatelessWidget {
                               '• A Space Themed Strategy game made in Flutter\n',
                               style: Theme.of(context)
                                   .textTheme
-                                  .bodyText2
+                                  .bodyText2!
                                   .copyWith(
                                       fontWeight: FontWeight.w600,
                                       fontSize: 14.sp),
@@ -218,7 +218,7 @@ class InfoScreen extends StatelessWidget {
                               '• The Game is in Development and open-souce',
                               style: Theme.of(context)
                                   .textTheme
-                                  .bodyText2
+                                  .bodyText2!
                                   .copyWith(
                                       fontWeight: FontWeight.w600,
                                       fontSize: 14.sp),
@@ -253,7 +253,7 @@ class InfoScreen extends StatelessWidget {
               instruction,
               style: Theme.of(context)
                   .textTheme
-                  .headline6
+                  .headline6!
                   .copyWith(fontWeight: FontWeight.bold),
             ),
             SizedBox(
@@ -263,10 +263,10 @@ class InfoScreen extends StatelessWidget {
             Expanded(
               child: SingleChildScrollView(
                 child: Text(
-                  kInstructionsData[instruction],
+                  kInstructionsData[instruction]!,
                   style: Theme.of(context)
                       .textTheme
-                      .bodyText2
+                      .bodyText2!
                       .copyWith(fontWeight: FontWeight.w600, fontSize: 14.sp),
                 ),
               ),

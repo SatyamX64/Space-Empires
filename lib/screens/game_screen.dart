@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:space_empires/models/ruler_model.dart';
 
 import '../services/game.dart';
 import '../services/player/player.dart';
@@ -15,7 +16,6 @@ import '../widgets/game_screen/stats_bar.dart';
 import '../widgets/gradient_dialog.dart';
 import '../widgets/gradient_fab.dart';
 import '/screens/game_end/game_lost.dart';
-import '/screens/game_end/game_won.dart';
 import '/widgets/control_deck/global_news.dart';
 import 'attack/attack_screen.dart';
 
@@ -27,16 +27,8 @@ class GameScreen extends StatelessWidget {
     final double _statsBarHeight = _size.longestSide * 0.075;
     final double _controlDeckHeight = _size.height * 0.10;
 
-    Future<bool> _quitGame() {
-      void endGame() {
-        return Navigator.of(context).pop(true);
-      }
-
-      void closeDialog() {
-        return Navigator.of(context).pop(false);
-      }
-
-      showGradientDialog(
+    Future<bool> _quitGame() async {
+      final res = await showGradientDialog(
           context: context,
           child: Column(
             children: [
@@ -49,7 +41,7 @@ class GameScreen extends StatelessWidget {
               Expanded(
                 flex: 2,
                 child: Image.asset(
-                  'assets/img/ruler/${describeEnum(Provider.of<Player>(context, listen: false).ruler).toLowerCase()}.png',
+                  'assets/img/ruler/${describeEnum(Provider.of<Player?>(context, listen: false)!.ruler)}.png',
                 ),
               ),
               const Spacer(),
@@ -58,11 +50,23 @@ class GameScreen extends StatelessWidget {
                 style: Theme.of(context).textTheme.headline6,
                 textAlign: TextAlign.center,
               ),
-              TextButton(onPressed: () {}, child: const Text('Yes I am')),
               TextButton(
-                  onPressed: () {}, child: const Text('Na, I was joking')),
+                  onPressed: () {
+                    Navigator.of(context).pop(true);
+                  },
+                  child: const Text('Yes I am')),
+              TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop(false);
+                  },
+                  child: const Text('Na, I was joking')),
             ],
           ));
+      if (res is bool) {
+        return res;
+      } else {
+        return false;
+      }
     }
 
     return WillPopScope(
@@ -129,7 +133,7 @@ class GameScreen extends StatelessWidget {
 
 class _NextTurnFAB extends StatefulWidget {
   const _NextTurnFAB({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -138,10 +142,10 @@ class _NextTurnFAB extends StatefulWidget {
 
 class __NextTurnFABState extends State<_NextTurnFAB>
     with TickerProviderStateMixin {
-  OverlayEntry _overlayEntry;
+  OverlayEntry? _overlayEntry;
   final _fabKey = GlobalKey();
-  AnimationController _animationController;
-  Animation<double> _animation;
+  late AnimationController _animationController;
+  late Animation<double> _animation;
   @override
   void initState() {
     super.initState();
@@ -159,11 +163,11 @@ class __NextTurnFABState extends State<_NextTurnFAB>
   }
 
   Future<void> showOverlay(String value) async {
-    final _overlayState = Overlay.of(context);
-    final _renderBox = _fabKey.currentContext.findRenderObject() as RenderBox;
+    final _overlayState = Overlay.of(context)!;
+    final _renderBox = _fabKey.currentContext!.findRenderObject()! as RenderBox;
     final offset = _renderBox.localToGlobal(Offset.zero);
     if (_overlayEntry != null) {
-      _overlayEntry.remove();
+      _overlayEntry!.remove();
       _overlayEntry = null;
     }
     _overlayEntry = OverlayEntry(
@@ -178,7 +182,7 @@ class __NextTurnFABState extends State<_NextTurnFAB>
                   opacity: 1 - _animation.value,
                   child: Text(
                     value,
-                    style: Theme.of(context).textTheme.headline5.copyWith(
+                    style: Theme.of(context).textTheme.headline5!.copyWith(
                         color: Colors.green, fontWeight: FontWeight.bold),
                   ),
                 )),
@@ -187,13 +191,13 @@ class __NextTurnFABState extends State<_NextTurnFAB>
     _animationController.addListener(() {
       _overlayState.setState(() {});
     });
-    _overlayState.insert(_overlayEntry);
+    _overlayState.insert(_overlayEntry!);
     _animationController.forward();
     _animation.addStatusListener((status) {
       if (status == AnimationStatus.completed) {
         _animationController.reset();
         if (_overlayEntry != null) {
-          _overlayEntry.remove();
+          _overlayEntry!.remove();
           _overlayEntry = null;
         }
       }
@@ -202,7 +206,7 @@ class __NextTurnFABState extends State<_NextTurnFAB>
 
   @override
   Widget build(BuildContext context) {
-    final Game _gameData = Provider.of<Game>(context, listen: false);
+    final Game _game = Provider.of<Game>(context, listen: false);
     return SizedBox(
       height: 80,
       width: 80,
@@ -211,26 +215,19 @@ class __NextTurnFABState extends State<_NextTurnFAB>
         padding: const EdgeInsets.all(8.0),
         child: GradientFAB(
             onTap: () async {
-              final Map oncomingAttack =
-                  _gameData.nextTurn() as Map; // TODO: REMOVE AS MAP
-              if (_gameData.lostGame) {
+              final oncomingAttack = _game.nextTurn();
+              if (_game.lostGame) {
+                // i.e If you reach day 0
                 if (_overlayEntry != null) {
-                  _overlayEntry.remove();
+                  _overlayEntry!.remove();
                   _overlayEntry = null;
                 }
 
                 Navigator.of(context).pushNamed(GameLostScreen.route);
-              } else if (_gameData.wonGame) {
-                if (_overlayEntry != null) {
-                  _overlayEntry.remove();
-                  _overlayEntry = null;
-                }
-
-                Navigator.of(context).pushNamed(GameWonScreen.route);
               } else {
                 if (oncomingAttack != null) {
                   if (_overlayEntry != null) {
-                    _overlayEntry.remove();
+                    _overlayEntry!.remove();
                     _overlayEntry = null;
                   }
                   await showGradientDialog(
@@ -246,7 +243,7 @@ class __NextTurnFABState extends State<_NextTurnFAB>
                           Expanded(
                             flex: 2,
                             child: Image.asset(
-                              'assets/img/ruler/${describeEnum(oncomingAttack['ruler']).toLowerCase()}.png',
+                              'assets/img/ruler/${describeEnum(oncomingAttack['ruler']!)}.png',
                             ),
                           ),
                           Expanded(child: Container()),
@@ -265,15 +262,15 @@ class __NextTurnFABState extends State<_NextTurnFAB>
                   await Navigator.of(context)
                       .pushNamed(AttackScreen.route, arguments: {
                     'planet': oncomingAttack['planet'],
-                    'attacker': _gameData.playerFromRuler(
-                        oncomingAttack['ruler']), // TODO : Remove the CLutter
+                    'attacker': _game
+                        .playerFromRuler(oncomingAttack['ruler']! as Ruler),
                   });
                 } else {
-                  if (_gameData.galacticNews.isNotEmpty) {
+                  if (_game.galacticNews.isNotEmpty) {
                     await showGlobalNews(context);
-                    _gameData.resetGalacticNews();
+                    _game.resetGalacticNews();
                   }
-                  showOverlay('+${_gameData.currentPlayer.income}\$');
+                  showOverlay('+${_game.currentPlayer.income}\$');
                 }
               }
             },

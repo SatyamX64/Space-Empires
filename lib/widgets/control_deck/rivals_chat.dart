@@ -66,7 +66,7 @@ class _RivalResponseProvider extends ChangeNotifier {
 }
 
 class RivalsInfo extends StatelessWidget {
-  RivalsInfo({this.rival});
+  RivalsInfo({required this.rival});
 
   final Ruler rival;
   final _RivalResponseProvider _rivalResponse = _RivalResponseProvider();
@@ -91,7 +91,7 @@ class RivalsInfo extends StatelessWidget {
 }
 
 class _ChatOptions extends StatelessWidget {
-  const _ChatOptions({Key key, @required this.rival}) : super(key: key);
+  const _ChatOptions({Key? key, required this.rival}) : super(key: key);
 
   final Ruler rival;
 
@@ -106,9 +106,9 @@ class _ChatOptions extends StatelessWidget {
       ChatOptions.war: 'Declare War',
     };
     final Game _gameData = Provider.of<Game>(context);
-    final Player _currentPlayer = Provider.of<Player>(context);
+    final Player _currentPlayer = Provider.of<Player?>(context)!;
     final _possibleActions = _gameData.possibleActions(
-        _gameData.relationBetweenRulers(_currentPlayer.ruler, rival));
+        _gameData.relationBetweenRulers(_currentPlayer.ruler, rival)!);
     return Expanded(
       flex: 2,
       child: Container(
@@ -132,13 +132,13 @@ class _ChatOptions extends StatelessWidget {
                           width: double.maxFinite,
                           margin: const EdgeInsets.all(4),
                           child: Image.asset(
-                            'assets/img/ruler/${describeEnum(_currentPlayer.ruler).toLowerCase()}.png',
+                            'assets/img/ruler/${describeEnum(_currentPlayer.ruler)}.png',
                           ),
                         ),
                       ),
                       _RelationStatusBox(
                         relation: _gameData.relationBetweenRulers(
-                            _currentPlayer.ruler, rival),
+                            _currentPlayer.ruler, rival)!,
                       ),
                     ]),
                   ),
@@ -168,7 +168,7 @@ class _ChatOptions extends StatelessWidget {
                                       .updateResponse(_response);
                                 },
                                 child: Text(
-                                  _actionDesc[_possibleActions[index]],
+                                  _actionDesc[_possibleActions[index]]!,
                                   style: const TextStyle(
                                       fontWeight: FontWeight.w600,
                                       color: Colors.white70),
@@ -191,7 +191,7 @@ class _ChatOptions extends StatelessWidget {
 }
 
 class _RivalsOpinion extends StatelessWidget {
-  const _RivalsOpinion({Key key, this.rival}) : super(key: key);
+  const _RivalsOpinion({Key? key, required this.rival}) : super(key: key);
 
   final Ruler rival;
   @override
@@ -221,7 +221,7 @@ class _RivalsOpinion extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.all(4),
             child: Image.asset(
-              'assets/img/ruler/${describeEnum(rival).toLowerCase()}.png',
+              'assets/img/ruler/${describeEnum(rival)}.png',
             ),
           ),
         ),
@@ -231,11 +231,12 @@ class _RivalsOpinion extends StatelessWidget {
 }
 
 class _RelationStatusBox extends StatelessWidget {
-  const _RelationStatusBox({Key key, this.relation}) : super(key: key);
+  const _RelationStatusBox({Key? key, required this.relation})
+      : super(key: key);
 
   final Relation relation;
 
-  Color _getColor() {
+  Color? _getColor() {
     switch (relation) {
       case Relation.trade:
         return Colors.blue;
@@ -252,7 +253,7 @@ class _RelationStatusBox extends StatelessWidget {
   Widget build(BuildContext context) {
     final _textStyle = Theme.of(context)
         .textTheme
-        .headline6
+        .headline6!
         .copyWith(fontWeight: FontWeight.bold, color: _getColor());
 
     return Expanded(

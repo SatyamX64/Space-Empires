@@ -15,7 +15,7 @@ mixin PlanetUpgrade {
   }
 
   bool upgradePresent(UpgradeType type) {
-    return _upgrades[type];
+    return _upgrades[type]!;
   }
 
   void upgradeAdd(UpgradeType type) {

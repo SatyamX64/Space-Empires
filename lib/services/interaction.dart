@@ -9,8 +9,7 @@ const int godlyDifferenceMilitary = 200;
 const int goodDifferenceMilitary = 100;
 const int almostEqualsMilitary = 50;
 
-Map yesEffectOfAction(
-    {Relation relation, ChatOptions interactions}) {
+Map yesEffectOfAction({Relation? relation, ChatOptions? interactions}) {
   // ignore: prefer_final_locals
   Map map = {
     'relation': relation,
@@ -19,8 +18,7 @@ Map yesEffectOfAction(
 
   switch (interactions) {
     case ChatOptions.cancelTrade:
-      map['response'] =
-          "If that's what you want..The Peace shall still remain";
+      map['response'] = "If that's what you want..The Peace shall still remain";
       map['relation'] = Relation.peace;
       break;
     case ChatOptions.extortForPeace:
@@ -43,11 +41,13 @@ Map yesEffectOfAction(
       map['relation'] = Relation.war;
       map['response'] = 'Haha Fool, Prepare to DIE  ';
       break;
+    default:
+      break;
   }
   return map;
 }
 
-Map noEffectOfAction({Relation relation, ChatOptions interactions}) {
+Map noEffectOfAction({Relation? relation, ChatOptions? interactions}) {
   // ignore: prefer_final_locals
   Map map = {
     'relation': relation,
@@ -77,10 +77,9 @@ Map noEffectOfAction({Relation relation, ChatOptions interactions}) {
   return map;
 }
 
-
 // TODO : Calculates chance on weather a interaction will Succeed or not
 double calculateChance(
-    {Relation relation, ChatOptions interactions, int diffGPI}) {
+    {Relation? relation, ChatOptions? interactions, int? diffGPI}) {
   switch (interactions) {
     case ChatOptions.war: // Declare War only available in Peace
       return 0.9;
@@ -88,12 +87,11 @@ double calculateChance(
       return 1;
     case ChatOptions
         .extortForPeace: // Takes money for Peace, can only happen in War
-    case ChatOptions
-        .help: // Ask for money polietly only available in trade
+    case ChatOptions.help: // Ask for money polietly only available in trade
     case ChatOptions.peace: // Consider Peace only available in War
     case ChatOptions.trade: // Consider Trade only available in Peace
     default:
-      if (diffGPI > godlyDifference) {
+      if (diffGPI! > godlyDifference) {
         return 0.8;
       } else if (diffGPI > goodDifference) {
         return 0.6;

@@ -12,7 +12,7 @@ import '/utility/utility.dart';
 import '/widgets/gradient_dialog.dart';
 
 Future<void> showMilitaryMenu(BuildContext context) {
-  final Player _player = Provider.of<Player>(context, listen: false);
+  final Player _player = Provider.of<Player?>(context, listen: false)!;
   return showGradientDialog(
       context: context,
       padding: 8,
@@ -26,7 +26,7 @@ Future<void> showMilitaryMenu(BuildContext context) {
                   _player.ships.length,
                   (index) => AttackShipInfo(
                     attackShip:
-                        kAttackShipsData[List.from(_player.ships.keys)[index]],
+                        kAttackShipsData[List.from(_player.ships.keys)[index]]!,
                   ),
                 ),
               ),
@@ -38,8 +38,8 @@ Future<void> showMilitaryMenu(BuildContext context) {
                 tabs: List.generate(
                     _player.ships.length,
                     (index) => Tab(
-                          text: describeEnum(
-                              List.from(_player.ships.keys)[index]),
+                          text:
+                              describeEnum(_player.ships.keys.toList()[index]),
                         ))),
           ],
         ),
@@ -47,14 +47,14 @@ Future<void> showMilitaryMenu(BuildContext context) {
 }
 
 class AttackShipInfo extends StatelessWidget {
-  const AttackShipInfo({Key key, this.attackShip}) : super(key: key);
+  const AttackShipInfo({Key? key, required this.attackShip}) : super(key: key);
 
   final AttackShip attackShip;
 
   @override
   Widget build(BuildContext context) {
     final Orientation orientation = MediaQuery.of(context).orientation;
-    final Player player = Provider.of<Player>(context, listen: false);
+    final Player player = Provider.of<Player?>(context, listen: false)!;
     final List<_TransactionButton> transactionButtons = [
       _TransactionButton(
         text: 'Buy',
@@ -84,7 +84,7 @@ class AttackShipInfo extends StatelessWidget {
                 describeEnum(attackShip.type),
                 style: Theme.of(context)
                     .textTheme
-                    .headline5
+                    .headline5!
                     .copyWith(fontWeight: FontWeight.bold),
               ),
               _ShipOverview(
@@ -112,7 +112,7 @@ class AttackShipInfo extends StatelessWidget {
                 describeEnum(attackShip.type),
                 style: Theme.of(context)
                     .textTheme
-                    .headline5
+                    .headline5!
                     .copyWith(fontWeight: FontWeight.bold),
               ),
               _ShipOverview(
@@ -133,7 +133,8 @@ class AttackShipInfo extends StatelessWidget {
 }
 
 class _TransactionButton extends StatelessWidget {
-  const _TransactionButton({Key key, this.text, this.onTap}) : super(key: key);
+  const _TransactionButton({Key? key, required this.text, required this.onTap})
+      : super(key: key);
 
   final String text;
   final void Function() onTap;
@@ -151,7 +152,7 @@ class _TransactionButton extends StatelessWidget {
         child: Text(text,
             style: Theme.of(context)
                 .textTheme
-                .headline6
+                .headline6!
                 .copyWith(fontWeight: FontWeight.bold)),
       ),
     ));
@@ -160,9 +161,9 @@ class _TransactionButton extends StatelessWidget {
 
 class _ShipStats extends StatelessWidget {
   const _ShipStats({
-    Key key,
-    this.attackShip,
-    this.flex,
+    Key? key,
+    required this.attackShip,
+    required this.flex,
   }) : super(key: key);
 
   final AttackShip attackShip;
@@ -225,7 +226,7 @@ class _ShipStats extends StatelessWidget {
 }
 
 class _ShipOverview extends StatelessWidget {
-  const _ShipOverview({Key key, @required this.attackShip}) : super(key: key);
+  const _ShipOverview({Key? key, required this.attackShip}) : super(key: key);
 
   final AttackShip attackShip;
   @override
@@ -249,18 +250,18 @@ class _ShipOverview extends StatelessWidget {
                     width: double.maxFinite,
                     margin: const EdgeInsets.all(4),
                     child: Image.asset(
-                        'assets/img/ships/attack/${describeEnum(attackShip.type).toLowerCase()}.png'),
+                        'assets/img/ships/attack/${describeEnum(attackShip.type)}.png'),
                   ),
                 ),
                 Expanded(
                   flex: 3,
                   child: Row(
                     children: [
-                      Consumer<Player>(
+                      Consumer<Player?>(
                         builder: (_, player, __) {
                           return _MilitaryDialogStatsBox(
                             header: 'You have',
-                            value: player
+                            value: player!
                                 .militaryShipCount(attackShip.type)
                                 .toString(),
                           );
@@ -280,7 +281,7 @@ class _ShipOverview extends StatelessWidget {
                 child: Container(
                     alignment: Alignment.center,
                     child: Text(attackShip.description,
-                        style: Theme.of(context).textTheme.headline6.copyWith(
+                        style: Theme.of(context).textTheme.headline6!.copyWith(
                               fontWeight: FontWeight.w600,
                               fontFamily: 'Italianno',
                             )))),
@@ -292,7 +293,8 @@ class _ShipOverview extends StatelessWidget {
 }
 
 class _MilitaryDialogStatsBox extends StatelessWidget {
-  const _MilitaryDialogStatsBox({Key key, this.header, this.value})
+  const _MilitaryDialogStatsBox(
+      {Key? key, required this.header, required this.value})
       : super(key: key);
 
   final String header;
@@ -321,7 +323,7 @@ class _MilitaryDialogStatsBox extends StatelessWidget {
                             value,
                             style: Theme.of(context)
                                 .textTheme
-                                .headline6
+                                .headline6!
                                 .copyWith(fontWeight: FontWeight.bold),
                           ),
                         ),
@@ -333,7 +335,7 @@ class _MilitaryDialogStatsBox extends StatelessWidget {
                       value,
                       style: Theme.of(context)
                           .textTheme
-                          .headline6
+                          .headline6!
                           .copyWith(fontWeight: FontWeight.bold),
                     ),
                   );

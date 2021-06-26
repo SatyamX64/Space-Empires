@@ -3,10 +3,12 @@ import 'dart:math';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:space_empires/models/attack_ships_model.dart';
+import 'package:space_empires/models/upgrade_model.dart';
 
-import 'package:space_empires/models/planet_model.dart';
-
+import '../models/defense_ships_model.dart';
 import '../models/interaction_model.dart';
+import '../models/planet_model.dart';
 import '../models/ruler_model.dart';
 import 'interaction.dart';
 import 'planet/planet.dart';
@@ -15,10 +17,10 @@ import 'player/player.dart';
 const int kGameDays = 365;
 
 class Game extends ChangeNotifier {
-  int days;
-  List<Player> players;
-  List<String> galacticNews;
-  Map<Ruler, Map<Ruler, Relation>> galacticRelations;
+  late int days;
+  late List<Player> players;
+  late List<String> galacticNews;
+  late Map<Ruler, Map<Ruler, Relation>> galacticRelations;
 
   void initGame(Ruler selectedRuler) {
     initPlayers(selectedRuler);
@@ -26,6 +28,11 @@ class Game extends ChangeNotifier {
     resetGalacticNews();
     days = kGameDays;
     notifyListeners();
+    assert(kDefenseShipsData.length == DefenseShipType.values.length);
+    assert(kAttackShipsData.length == AttackShipType.values.length);
+    assert(kPlanetsDescriptionData.length == PlanetName.values.length);
+    assert(kUpgradesData.length == UpgradeType.values.length);
+    assert(kRulerDescriptionData.length == Ruler.values.length);
   }
 
   bool get lostGame => !(currentPlayer.planets.isNotEmpty && days > 0);
@@ -59,8 +66,8 @@ class Game extends ChangeNotifier {
             Planet(PlanetName.jupinot),
             Planet(PlanetName.ocorix)
           ],
-          ruler: Ruler.ndNd,
-          playerType: selectedRuler != Ruler.ndNd
+          ruler: Ruler.ndnd,
+          playerType: selectedRuler != Ruler.ndnd
               ? PlayerType.computer
               : PlayerType.human),
     );
@@ -82,7 +89,7 @@ class Game extends ChangeNotifier {
     for (final _firstRuler in Ruler.values) {
       for (final _secondRuler in Ruler.values) {
         if (_firstRuler != _secondRuler) {
-          galacticRelations[_firstRuler][_secondRuler] = Relation.peace;
+          galacticRelations[_firstRuler]![_secondRuler] = Relation.peace;
         }
       }
     }
@@ -132,7 +139,8 @@ class Game extends ChangeNotifier {
     });
   }
 
-  void changeOwnerOfPlanet({Ruler newRuler, PlanetName planetName}) {
+  void changeOwnerOfPlanet(
+      {required Ruler newRuler, required PlanetName planetName}) {
     galacticNews.add(
         '${describeEnum(newRuler)} took over the Planet ${describeEnum(planetName)}');
     playerForPlanet(planetName).removePlanet(planetName);
@@ -140,10 +148,11 @@ class Game extends ChangeNotifier {
     notifyListeners();
   }
 
-  Map nextTurn() {
+  Map<String, Object?>? nextTurn() {
     // TODO : The Function that runs on Each Turn, basically the game loop
     days--;
     giveTradeBenefits();
+    
     for (final player in players) {
       // Each Player gets their income from all their planets
       // They get their Attack ability back
@@ -167,6 +176,7 @@ class Game extends ChangeNotifier {
     computerAttacksComputer();
     notifyListeners();
     // Computer Attacks current player and info is passed back to game Screen
+    
     return computerAttacksCurrentPlayer();
   }
 
@@ -185,7 +195,7 @@ class Game extends ChangeNotifier {
     }
   }
 
-  autoUpdateRelation() {
+  void autoUpdateRelation() {
     //TODO : Auto Update Relation Strategy
 
     // Update Relation among different Rulers based on GPI difference
@@ -225,6 +235,7 @@ class Game extends ChangeNotifier {
                       computerPlayer.ruler, rivalPlayer.ruler, Relation.peace);
                 }
                 break;
+              default:
             }
           } else if (diff > goodDifference) {
             // Player A is doing a lot better
@@ -247,6 +258,7 @@ class Game extends ChangeNotifier {
                       computerPlayer.ruler, rivalPlayer.ruler, Relation.peace);
                 }
                 break;
+              default:
             }
           } else if (diff > almostEquals) {
             // Both Players are almost at equal Footing, with A being slightly better
@@ -269,6 +281,7 @@ class Game extends ChangeNotifier {
                       computerPlayer.ruler, rivalPlayer.ruler, Relation.peace);
                 }
                 break;
+              default:
             }
           } else {
             // Player A is not in lead
@@ -291,6 +304,7 @@ class Game extends ChangeNotifier {
                       computerPlayer.ruler, rivalPlayer.ruler, Relation.peace);
                 }
                 break;
+              default:
             }
           }
         }
@@ -298,7 +312,7 @@ class Game extends ChangeNotifier {
     }
   }
 
-  double calculateChanceForAutoAttack({Player A, Player B}) {
+  double calculateChanceForAutoAttack({required Player A, required Player B}) {
     //TODO : Calculates Chances for Attack from Computer here
 
     final diff = A.galacticPowerIndex - B.galacticPowerIndex;
@@ -367,7 +381,7 @@ class Game extends ChangeNotifier {
     }
   }
 
-  Map computerAttacksCurrentPlayer() {
+  Map<String, Object>? computerAttacksCurrentPlayer() {
     for (final attacker in computerPlayers) {
       final defender = currentPlayer;
       if (relationBetweenRulers(attacker.ruler, defender.ruler) ==
@@ -404,20 +418,21 @@ class Game extends ChangeNotifier {
     return planets.firstWhere((planet) => planet.name == name).description;
   }
 
-  Relation relationBetweenRulers(Ruler A, Ruler B) {
-    return galacticRelations[A][B];
+  Relation? relationBetweenRulers(Ruler A, Ruler B) {
+    return galacticRelations[A]![B];
   }
 
   void updateRelation(Ruler A, Ruler B, Relation relation) {
-    galacticRelations[A][B] = relation;
-    galacticRelations[B][A] = relation;
+    galacticRelations[A]![B] = relation;
+    galacticRelations[B]![A] = relation;
     galacticNews.add(
         '${describeEnum(A)} started ${describeEnum(relation).toLowerCase()} with ${describeEnum(B)}');
   }
 
   // Each Player can perform only one Action with each player per turn
   // So you can't ask for war if started trading/peace etc
-  String interactWithRival({ChatOptions action, Ruler A, Ruler B}) {
+  String interactWithRival(
+      {required ChatOptions action, required Ruler A, required Ruler B}) {
     final _initialRelation = relationBetweenRulers(A, B);
     final chance = calculateChance(
         relation: _initialRelation,
@@ -463,6 +478,7 @@ class Game extends ChangeNotifier {
         _list.add(ChatOptions.trade);
         _list.add(ChatOptions.war);
         break;
+      default:
     }
     return _list;
   }
@@ -487,7 +503,7 @@ class Game extends ChangeNotifier {
     if (avgRivalGPI - rulerGPI > godlyDifference) {
       return "Your are nothing more then a insect for others";
     } else if (avgRivalGPI - rulerGPI > goodDifference) {
-      return "They all are far advanced then you, and won\'t hesitate to kill you if need arises";
+      return "They all are far advanced then you, and won't hesitate to kill you if need arises";
     } else if (avgRivalGPI - rulerGPI > almostEquals) {
       return "You stand on equal footing, Others rulers respect you";
     } else if (avgRivalGPI - rulerGPI > -almostEquals) {
