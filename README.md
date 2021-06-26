@@ -1,6 +1,6 @@
 # Space Empires 🛸
 
-A Turn Based Strategy Game, developed using Flutter
+A Turn Based Strategy Game, developed using Flutter. Try it out [here](https://play.google.com/store/apps/details?id=com.satyamx64.space_empires)
 
 ## Overview ✨
 
@@ -44,6 +44,8 @@ All the assets used in this product belong to their rightful owners and were ava
 - The AI is too aggressive
 - A better chat and relations strategy for Computer AI
 - A more balanced Stats allocation and reward system
+- Audio Effects 
+- Refactoring and Optimization
 - Your health and happiness :)
 
 Most of these can be fixed by just tweaking the constant values and numbers. All it requires is good maths and luck.
