@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
@@ -12,6 +13,10 @@ import '/utility/utility.dart';
 import '/widgets/static_stars_bg.dart';
 
 class SolarSystem extends StatelessWidget {
+  Widget get _animatedStars {
+    return Lottie.asset('assets/animations/stars.json');
+  }
+
   @override
   Widget build(BuildContext context) {
     const _planets = PlanetName.values;
@@ -62,6 +67,7 @@ class SolarSystem extends StatelessWidget {
         child: Stack(
           children: [
             StaticStarsBackGround(),
+            _animatedStars,
             StaggeredGridView.count(
               crossAxisCount: 4,
               physics: const NeverScrollableScrollPhysics(),

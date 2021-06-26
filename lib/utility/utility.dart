@@ -34,7 +34,6 @@ class Utility {
         msg: text,
         toastLength: Toast.LENGTH_SHORT,
         gravity: ToastGravity.BOTTOM,
-        timeInSecForIosWeb: 1,
         backgroundColor: Palette.deepBlue,
         textColor: Colors.white);
   }

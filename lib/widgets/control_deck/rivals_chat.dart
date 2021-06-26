@@ -274,7 +274,8 @@ class _RelationStatusBox extends StatelessWidget {
                       Expanded(
                           child: Center(
                               child: FittedBox(
-                        child: Text(describeEnum(relation), style: _textStyle),
+                        child: Text(describeEnum(relation).inCaps,
+                            style: _textStyle),
                       ))),
                     ],
                   )

@@ -109,8 +109,8 @@ class AttackShipInfo extends StatelessWidget {
             ]
           : [
               Text(
-                describeEnum(attackShip.type),
-                style: Theme.of(context)
+                describeEnum(attackShip.type).inCaps,
+                  style: Theme.of(context)
                     .textTheme
                     .headline5!
                     .copyWith(fontWeight: FontWeight.bold),
