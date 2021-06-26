@@ -28,7 +28,6 @@ dependencies:
   fluttertoast: ^8.0.7
   in_app_review: ^2.0.2
   font_awesome_flutter: ^9.1.0
-  just_audio: ^0.8.0
   
   
 
@@ -44,7 +43,6 @@ flutter:
   assets:
       - assets/animations/
       - assets/img/
-      - assets/audio/
       - assets/img/planets/
       - assets/img/buildings/
       - assets/img/ships/attack/
