@@ -33,11 +33,21 @@ class MyApp extends StatefulWidget {
   _MyAppState createState() => _MyAppState();
 }
 
-class _MyAppState extends State<MyApp> {
+class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
   late AudioPlayer player;
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.paused) {
+      player.pause();
+    } else {
+      player.play();
+    }
+  }
+
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance!.addObserver(this);
     player = AudioPlayer();
     player.setAsset('assets/audio/bgm.mp3');
     player.setLoopMode(LoopMode.one);

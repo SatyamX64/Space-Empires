@@ -50,6 +50,6 @@ const Map<UpgradeType, Upgrade> kUpgradesData = {
       type: UpgradeType.colosseum,
       cost: 7000,
       description: "The Ultimate Proof of a Specie's Advancement",
-      effect: 'Respecc',
+      effect: 'GPI',
       effectValue: '++'),
 };

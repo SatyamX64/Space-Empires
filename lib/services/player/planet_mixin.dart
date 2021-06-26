@@ -70,10 +70,10 @@ mixin Planets {
     return result;
   }
 
-  int planetsRespecc() {
+  int planetsGPIBonus() {
     int result = 0;
     for (final planet in _planets) {
-      result += planet.planetRespecc;
+      result += planet.planetGPIBonus;
     }
     return result;
   }

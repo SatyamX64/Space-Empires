@@ -39,7 +39,7 @@ mixin PlanetUpgrade {
     return 1 + electricity;
   }
 
-  int get planetRespecc {
+  int get planetGPIBonus {
     final boost = upgradePresent(UpgradeType.colosseum) ? 10 : 0;
     return boost;
   }

@@ -61,7 +61,7 @@ class Player extends ChangeNotifier with Stats, Military, Planets {
     return statValue(StatsType.culture) * 5 +
         militaryMight +
         planets.length * 50 +
-        planetsRespecc() * 30;
+        planetsGPIBonus() * 30;
   }
 
   void nextTurn() {
