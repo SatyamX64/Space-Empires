@@ -2,6 +2,8 @@
 
 A Turn Based Strategy Game, developed using Flutter. Try it out [here](https://play.google.com/store/apps/details?id=com.satyamx64.space_empires)
 
+[![style: lint](https://img.shields.io/badge/style-lint-4BC0F5.svg)](https://pub.dev/packages/lint)
+
 ## Overview ✨
 
 This is a space themed strategy game, where you battle against 3 Computer Players to take over the all the Planets.
@@ -37,11 +39,12 @@ All the assets used in this product belong to their rightful owners and were ava
 - The game follows all the defined rules
 - The Computer AI makes always makes the best decision for attack
 - Computer AI can take all the actions, just like a regular player
+- Null-Safe and follows Lint Guidlines
 
 ## Things that need attention 🔧
 
 - A better budget allocation strategy for computer AI
-- The AI is too aggressive
+- The AI can be too aggressive sometimes
 - A better chat and relations strategy for Computer AI
 - A more balanced Stats allocation and reward system
 - Audio Effects 
@@ -52,7 +55,7 @@ Most of these can be fixed by just tweaking the constant values and numbers. All
 Associated TODO tags can be found over the Project, so feel free to play around with the values.
 The Project will remain open-source and any contribution or feedback will be highly appreciated
 
-# Some shots from the Game
+# Some shots from the Game (old)
 
 ![welcome_screen_landscape](https://user-images.githubusercontent.com/62766656/120899766-f11eac00-c64e-11eb-912b-f7983dfbf73d.jpg)
 
