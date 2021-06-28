@@ -1,25 +1,53 @@
-# Space Empires 🛸
-
-A Turn Based Strategy Game, developed using Flutter. Try it out [here](https://play.google.com/store/apps/details?id=com.satyamx64.space_empires)
-
+[![Dart](https://img.shields.io/badge/Dart-0175C2?logo=dart&logoColor=white)](https://pub.dev/packages/fancy_text_reveal)  ![Flutter](https://img.shields.io/badge/Flutter-02569B?logo=flutter&logoColor=white)
 [![style: lint](https://img.shields.io/badge/style-lint-4BC0F5.svg)](https://pub.dev/packages/lint)
 
-## Overview ✨
+# Space Empires 🛸
 
-This is a space themed strategy game, where you battle against 3 Computer Players to take over the all the Planets.
+
+![](https://user-images.githubusercontent.com/62766656/123627533-c11e8f00-d82f-11eb-87c3-4aef12d03b1c.png)
+
+<a href="https://play.google.com/store/apps/details?id=com.satyamx64.space_empires">
+<img src = "https://user-images.githubusercontent.com/62766656/123628002-47d36c00-d830-11eb-930f-877afaca2b54.png" width = "200">
+</a>
+
+
+### Introduction 🚀
+
+> Space Empires
+A 4X Space themed Strategy Game made with Flutter
+
 Complete Rules and Instruction can be accessed from the game or [here](https://docs.google.com/document/d/1LX5RmtJPIekRA4S_pJsYIj4z-AL53fuXrVM-1CW9X1M/edit?usp=sharing)
 
-## Tech Used 🐱‍💻
+Before we start, you can take a look at the app:
 
-- Flutter SDK for closs platform development
-- Provider Package for State Management
-- Rive and Lottie for animations
+![Output sample](images/demo.gif)
 
-## Attributions 🙏
+
+### Attributions 🙏
 
 All the assets used in this product belong to their rightful owners and were available for Non-Commercial Use
 
 - [Link to the resources](https://docs.google.com/document/d/1t160rPKv3MEou_8PcyNJRNWqaIAATsgcdPjZVuQFy90/edit?usp=sharing)
+
+
+### Usage 🎨
+
+To clone and run this application, you'll need [git](https://git-scm.com) and [flutter](https://flutter.dev/docs/get-started/install) installed on your computer. From your command line:
+
+```bash
+# Clone this repository
+$ git clone https://github.com/SatyamX64/space_empires
+
+# Go into the repository
+$ cd space_empires
+
+# Install dependencies
+$ flutter packages get
+
+# Run the app
+$ flutter run
+```
+
 
 ## Features ⚡ 
 
@@ -37,7 +65,6 @@ All the assets used in this product belong to their rightful owners and were ava
 - All the required actions for Player and Computer are defined and working
 - All the Buildings/Stats/Upgrades/Ships have the desired effect
 - The game follows all the defined rules
-- The Computer AI makes always makes the best decision for attack
 - Computer AI can take all the actions, just like a regular player
 - Null-Safe and follows Lint Guidlines
 
@@ -51,9 +78,64 @@ All the assets used in this product belong to their rightful owners and were ava
 - Refactoring and Optimization
 - Your health and happiness :)
 
-Most of these can be fixed by just tweaking the constant values and numbers. All it requires is good maths and luck.
+Most of these can be fixed by just tweaking the constant values and numbers. (services>game.dart)
 Associated TODO tags can be found over the Project, so feel free to play around with the values.
 The Project will remain open-source and any contribution or feedback will be highly appreciated
+
+
+
+### Packages 📦
+
+
+These are the packages used in this Project
+
+
+
+Package | Description
+---|---
+[after_layout](https://pub.dev/packages/after_layout) | Helps execute code after the first layout of a widget has been performed
+[animated_text_kit](https://pub.dev/packages/animated_text_kit) | Provides Cool and Beautiful Text Animations
+[carousel_slider](https://pub.dev/packages/carousel_slider) | For Slidable Cards
+[flutter_animated_dialog](https://pub.dev/packages/flutter_animated_dialog) | For Animated Dialogs
+[flutter_staggered_grid_view](https://pub.dev/packages/flutter_staggered_grid_view) | For Planets Alignment
+[flutter_svg](https://pub.dev/packages/flutter_svg) | To render SVG
+[provider](https://pub.flutter-io.cn/packages/provider) | Provider State Management
+[lottie](https://pub.dev/packages/lottie) | For Lottie Animations
+[sizer](https://pub.dev/packages/sizer) | Helps with Responsiveness
+[rive](https://pub.dev/packages/rive) | For Rive Animations
+[shared_preferences](https://pub.dev/packages/shared_preferences) | For Data Persistance
+[lint](https://pub.flutter-io.cn/packages/lint) | Rules handler for Dart
+
+
+
+### Directory Structure 🏢
+
+The project directory structure is as follows:
+
+```
+├── android
+├── asset
+├── build
+├── ios
+├── lib
+├── analysis_options.yaml
+├── pubspec.lock
+├── pubspec.yaml
+
+```
+
+![image](https://user-images.githubusercontent.com/62766656/123632625-c8489b80-d835-11eb-80e2-d19e17c15cec.png)
+
+
+
+
+Directory | Description
+---|---
+models | Contains Model Class for Ships, Planets, Rulers
+screens | Contains the UI class for all the Screens
+services | Contains the Game Service, Player Service and all Core Logic
+utility | Contains app-wide constants, common functions
+widgets | Contains UI Blocks and Other Functional Elements
 
 # Some shots from the Game (old)
 
