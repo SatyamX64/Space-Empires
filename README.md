@@ -20,7 +20,7 @@ Complete Rules and Instruction can be accessed from the game or [here](https://d
 
 Before we start, you can take a look at the app:
 
-![Output sample](images/demo.gif)
+- [Demo Video](https://www.youtube.com/watch?v=5eod02si8Vo&ab_channel=satyamsharma)
 
 
 ### Attributions 🙏
